@@ -1,1 +1,1 @@
-# SCot-pwa
+# SCoT PWA
