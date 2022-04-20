@@ -4,7 +4,7 @@ import SQLiteDatabaseConfigData from '../config/database.config';
 
 export default function database() {
     let db: SQLiteObject; //
-
+    //
     // @ts-ignore
     const initialDatabase = async (): Promise<void> => {
 
