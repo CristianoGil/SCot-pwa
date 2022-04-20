@@ -5,8 +5,10 @@
   "dependencies": {
     "@awesome-cordova-plugins/core": "^5.41.0",
     "@awesome-cordova-plugins/sqlite": "^5.41.0",
+    "@awesome-cordova-plugins/sqlite-porter": "^5.41.0",
+    "@capacitor/android": "3.4.3",
     "@capacitor/app": "1.1.1",
-    "@capacitor/core": "3.4.3",
+    "@capacitor/core": "^3.4.3",
     "@capacitor/electron": "2.5.0",
     "@capacitor/haptics": "1.1.4",
     "@capacitor/keyboard": "1.2.2",
@@ -20,10 +22,11 @@
     "@testing-library/user-event": "^12.6.3",
     "@types/jest": "^26.0.20",
     "@types/node": "^12.19.15",
-    "@types/react": "^16.14.3",
-    "@types/react-dom": "^16.9.10",
+    "@types/react": "^18.0.5",
+    "@types/react-dom": "^18.0.1",
     "@types/react-router": "^5.1.11",
     "@types/react-router-dom": "^5.1.7",
+    "cordova-sqlite-ext": "^6.0.0",
     "cordova-sqlite-storage": "^6.0.0",
     "ionicons": "^5.4.0",
     "react": "^18.0.0",
@@ -71,7 +74,7 @@
     ]
   },
   "devDependencies": {
-    "@capacitor/cli": "3.4.3"
+    "@capacitor/cli": "^3.4.3"
   },
   "description": "An Ionic project"
 }
