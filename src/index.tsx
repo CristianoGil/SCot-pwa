@@ -14,29 +14,10 @@ root.render(
 );
 
 
-// Initialization local database - SQLite (only for mobile environment)
 document.addEventListener('deviceready', async function () {
-    const {initialDatabase, insertOne, fetch} = database();
-
-    // if (process.env.NODE_ENV !== 'production') {
-    //     self._selfTest();
-    // self._echoTest();
-    // }
-    console.log('test 10')
+    /**Initialization local database - SQLite (only for mobile environment)**/
+    const {initialDatabase} = database();
     await initialDatabase();
-
-    await insertOne('test', 2, ["2", "name2"], ["id", "name"])
-
-    setTimeout(async function () {
-        try {
-            console.log("starting fetch")
-            const va = await fetch('SELECT * FROM test');
-            console.log("fetch values: ", va)
-        } catch (e) {
-            console.log("fetch error: ", e)
-        }
-    }, 15000)
-
 
 });
 

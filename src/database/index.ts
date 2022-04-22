@@ -3,94 +3,142 @@ import SQLiteDatabaseConfigData from '../config/database.config';
 
 
 export default function database() {
-    let db: SQLiteObject; //
-    //
     // @ts-ignore
-    const initialDatabase = async (): Promise<void> => {
+    const sqlitePlugin = window?.sqlitePlugin;
+    let db: any;
 
-            if (!db) { // If the db is already created, just ignore this👽
-                try {
-                    db = await SQLite.create(SQLiteDatabaseConfigData);
-                    console.info("[SQLite: Success - Create] \n The database has been " + SQLiteDatabaseConfigData.name + " successfully create");
-                } catch (e) {
-                    console.error("[SQLite: Error - Create] \n", JSON.stringify(e));
+    /**
+     * Open a database access handle object.
+     */
+    const initialDatabase = (): Promise<void> => {
+            return new Promise((resolve, reject): void => {
+                if (sqlitePlugin) {
+                    if (!db) { // If the db is already created, just ignore this👽
+                        db = sqlitePlugin.openDatabase(SQLiteDatabaseConfigData, () => {
+                            console.info(`[SQLite: opened database] - ${SQLiteDatabaseConfigData.name} `)
+                            resolve()
+                        }, (e: any) => {
+                            console.error(`[SQLite: open database error] - ${SQLiteDatabaseConfigData.name} \n`, JSON.stringify(e))
+                            reject(e)
+                        })
+                    } else {
+                        console.warn(`[SQLite: Info - Create] \n The database '${SQLiteDatabaseConfigData.name} is aleady existe'`)
+                        resolve()
+                    }
+                } else {
+                    reject('Plugin sqliteplugin not found')
                 }
-            } else {
-                console.warn(`[SQLite: Info - Create] \n The database '${SQLiteDatabaseConfigData.name} is aleady existe'`)
-            }
-        },
 
-        createTable = async (table: string, fields: string[]): Promise<void> => {
-            const query = `CREATE TABLE IF NOT EXISTS
-                           (
-                               ${table} ${fields.join(',')}
-                           )`;
-            try {
-                await db.addTransaction((tx: SQLiteTransaction) => {
-                    tx.addStatement(query)
-                })
-                console.info("[SQLite: Success - createTable (" + table + ")] \n", query);
-            } catch (e) {
-                console.error("[SQLite: Error - createTable (" + table + ")] \n", JSON.stringify(e));
-            }
+            })
 
         },
 
-        insertOne = async (table: string, valuesRefQty: number, values: any[], fields?: string[]): Promise<void> => {
-            if (fields?.length) {
-                await createTable(table, fields);
-            }
+        createTable = (table: string, fields: string[]): Promise<void> => {
 
-            const valuesRef = ('?,'.repeat(valuesRefQty)).slice(0, -1);
-            const statement = `INSERT INTO ${table}
-                               VALUES (${valuesRef})`;
+            return new Promise(async (resolve, reject): Promise<void> => {
+                try {
 
-            try {
-                await db.addTransaction((tx: SQLiteTransaction) => {
-                    tx.executeSql(statement, values);
-                })
-                console.info("[SQLite: Success - insertOne (" + table + ")] - statement: " + statement + " - values:", values);
-            } catch (e) {
-                console.error("[SQLite: Error - insertOne (" + table + ")] \n", JSON.stringify(e));
-            }
+                    if (!db) {
+                        await initialDatabase();
+                    }
+
+                    const query = `CREATE TABLE IF NOT EXISTS ${table}
+                                   (
+                                       ${fields.join(',')}
+                                   )`;
+
+                    db.transaction((tx: any): void => {
+                        tx.executeSql(query);
+                    }, (error: any) => {
+                        console.error("SQLite: Transaction create table error (" + table + ")\n", error.message);
+                        reject(error)
+                    }, () => {
+                        console.info("SQLite: Transaction create table success (" + table + ")");
+                        resolve()
+                    });
+
+                } catch (e) {
+                    console.error("[SQLite: create table error (" + table + ")] \n", JSON.stringify(e));
+                    reject(e)
+                }
+
+            })
+
+        },
+
+        insertOne = (table: string, valuesRefQty: number, values: any[], fields?: string[]): Promise<void> => {
+            return new Promise(async (resolve, reject) => {
+                try {
+                    if (fields?.length) {
+                        await createTable(table, fields);
+                    }
+
+                    const valuesRef = ('?,'.repeat(valuesRefQty)).slice(0, -1);
+                    const statement = `INSERT INTO ${table}
+                                       VALUES (${valuesRef})`;
+
+                    db.transaction((tx: any): void => {
+                        tx.executeSql(statement, values);
+                    }, (error: any) => {
+                        console.error("SQLite: Transaction populate table error (" + table + ")\n", error.message);
+                        reject(error)
+                    }, () => {
+                        console.info("SQLite: Transaction populate table success (" + table + ")");
+                        resolve()
+                    });
+                } catch (e) {
+                    console.error("SQLite: populate table (" + table + ") error \n", JSON.stringify(e));
+                    reject(e)
+                }
+            })
+
         },
 
         fetch = async (query: string): Promise<any> => {
             return new Promise(async (resolve, reject) => {
                 try {
-                    const result = await db.addTransaction((tx: SQLiteTransaction) => {
-                        console.log("Inside off tr")
-                        tx.executeSql(query)
-                        // tx.executeSql(query, undefined, function (_tx: any, rs: any) {
-                        //     console.log(rs);
-                        //     console.log('Record count (expected to be 2): ' + rs.rows.item);
-                        //     resolve(rs);
-                        // }, function (_tx: any, error: any) {
-                        //     console.error('SELECT error: ', error.message);
-                        //     reject(error.message);
-                        // });
-                    })
-                    console.log("result: ", result)
-                    resolve('Done out')
+                    if (!db) {
+                        reject('Instance database is empty')
+                    }
+
+                    db.transaction((tx: any): void => {
+                        tx.executeSql(query, [], (tx: any, rs:any) => {
+                            console.log(rs.rows.item(0))
+                            resolve(rs)
+                        }, (tx:any, error:any) => {
+                            console.log('SQLite: Transaction SELECT error: ' + error.message);
+                            reject(error)
+                        });
+                    });
+
+
                 } catch (e) {
                     reject(e)
                 }
             })
         },
 
+        /**
+         * Verify that both the Javascript and native part of this plugin are installed in your application.
+         */
         _echoTest = async (): Promise<void> => {
-            try {
-                await SQLite.echoTest();
-            } catch (e) {
-                console.error("[SQLite: Error - self._echoTest] \n", JSON.stringify(e));
-            }
+            sqlitePlugin.echoTest(() => {
+                console.info('[SQLite: Success - self.echoTest]')
+            }, (error: any) => {
+                console.error("[SQLite: Error - self.echoTest] \n", JSON.stringify(error));
+            });
         },
-        _selfTest = async (): Promise<void> => {
-            try {
-                await SQLite.selfTest();
-            } catch (e) {
-                console.error("[SQLite: Error - self._selfTest] \n", JSON.stringify(e));
-            }
+        /**
+         * Verify that this plugin is able to open a database, execute the CRUD (create, read, update, and delete) operations, and clean it up properly.
+         */
+        _selfTest = (): void => {
+
+            sqlitePlugin.selfTest(() => {
+                console.info('[SQLite: Success - self._selfTest]')
+            }, (error: any) => {
+                console.error("[SQLite: Error - self._selfTest] \n", JSON.stringify(error));
+            });
+
         }
 
     return {

@@ -1,6 +1,7 @@
-import {SQLiteDatabaseConfig} from '@awesome-cordova-plugins/sqlite';
+import type {SQLiteDatabaseConfigGlobal} from '../model/index';
 
-const config = {
+
+const config: SQLiteDatabaseConfigGlobal = {
     /**
      * Name of the database. Example: 'my.db'
      */
@@ -16,7 +17,8 @@ const config = {
     /**
      * support arbitrary database location on android with https://github.com/litehelpers/cordova-sqlite-evcore-extbuild-free
      */
-    // androidDatabaseLocation: 'system', // Optional
+    // androidDatabaseLocation: 'default', // Optional
+    androidDatabaseProvider: 'system',
     /**
      * support opening pre-filled databases with https://github.com/litehelpers/cordova-sqlite-ext
      */
@@ -27,4 +29,4 @@ const config = {
     // key: string // Optional
 }
 
-export default config as unknown as SQLiteDatabaseConfig;
+export default config;
