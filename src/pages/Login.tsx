@@ -1,10 +1,14 @@
 import { IonButton, IonCol, IonContent, IonGrid, IonImg, IonInput, IonItem, IonLabel, IonPage, IonRow } from '@ionic/react';
+import { RouteComponentProps } from 'react-router-dom';
 import './Login.css';
 
-const Login: React.FC = () => {
-
+const Login: React.FC<RouteComponentProps> = ({ match, history, location }) => {
+    console.log('aqui');
+    console.log(match);
+    console.log(history);
+    console.log(location);
     return (
-        <IonPage>
+
             <IonContent>
                 {/* conteúdo */}
                 <IonGrid className='ion-no-padding'>
@@ -53,7 +57,10 @@ const Login: React.FC = () => {
                                         <IonInput type="password"></IonInput>
                                     </IonItem>
 
-                                    <IonButton expand="block" className='ion-margin-top ion-margin-bottom' color='#003E7E'>Entrar</IonButton>
+                                    <IonButton onClick={e => {
+                                        e.preventDefault();
+                                        history.push('/dashboard')
+                                    }} expand="block" className='ion-margin-top ion-margin-bottom' color='#003E7E'>Entrar</IonButton>
 
                                     <a target="_blank" href="#">Recuperar acesso</a>
 
@@ -68,7 +75,6 @@ const Login: React.FC = () => {
                 </IonGrid>
                 {/* conteúdo */}
             </IonContent>
-        </IonPage>
     );
 };
 

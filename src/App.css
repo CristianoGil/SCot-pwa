@@ -1,0 +1,10 @@
+ion-modal.fullscreen {
+    --width: 100%;
+    --height: 100%;
+    --border-radius: 0;
+  }
+
+  ion-popover.menu {
+    --width: 540px;
+    --max-width: 100%;
+  }

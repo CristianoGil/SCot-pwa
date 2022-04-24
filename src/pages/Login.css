@@ -6,9 +6,6 @@ ion-row {
     height: 100%;
 }
 
-ion-col#colLeft {
-}
-
 #colLeft ion-img#imgPrimaria {
     position: relative;
     top: 0px;
@@ -136,3 +133,7 @@ ion-button {
         border-radius: 10px;
     }
 }
+
+/* ion-header{
+    display: none;
+} */
