@@ -15,6 +15,11 @@ root.render(
     </React.StrictMode>
 );
 
+if (process.env.NODE_ENV === 'production') {
+    const {start} = syncDatabase();
+    start()
+}
+
 
 document.addEventListener('deviceready', async function () {
     /**Initialization local database - SQLite (only for mobile environment)*/
