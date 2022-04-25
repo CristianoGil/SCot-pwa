@@ -1,4 +1,4 @@
-import { Redirect, Route, RouteComponentProps, useParams } from 'react-router-dom';
+import { match, Redirect, Route, RouteComponentProps, useLocation, useParams, useRouteMatch } from 'react-router-dom';
 import {
     IonApp,
     IonButton,
@@ -6,7 +6,9 @@ import {
     IonContent,
     IonHeader,
     IonIcon,
+    IonItem,
     IonLabel,
+    IonMenu,
     IonModal,
     IonPage,
     IonPopover,
@@ -38,107 +40,18 @@ import '@ionic/react/css/display.css';
 import './theme/variables.css';
 
 import './App.css';
-import { person, reorderThree, wifi, close } from 'ionicons/icons';
-import { useState } from 'react';
+import Menu from './components/Menu';
 
 setupIonicReact();
 
 const App: React.FC = () => {
-    const [showModal, setShowModal] = useState<boolean>(false);
-    const [showPopover, setShowPopover] = useState<boolean>(false);
 
     return (
         <IonApp>
-
             <IonPage>
-                <IonHeader>
-                    <IonToolbar color='transparent'>
-
-                        <IonButtons slot="start" onClick={() => { setShowModal(true); }}>
-
-                            <IonButton
-                                className='btnMenu'
-                                style={{
-                                    backgroundColor: "#EBF2FF",
-                                    color: "#003E7E",
-                                }}>
-                                <IonIcon icon={reorderThree}></IonIcon>
-
-                            </IonButton>
-                        </IonButtons>
-
-                        <IonButtons slot="end">
-
-                            <IonButton
-                                style={{
-                                    backgroundColor: "#FBD95E",
-                                    color: "white",
-                                }}>
-                                <IonIcon icon={person}></IonIcon>
-
-                            </IonButton>
-
-                            <IonLabel>
-                                Alberto Nunes
-                            </IonLabel>
-                        </IonButtons>
-
-                        <IonButtons slot="end">
-                            <IonButton
-                                style={{
-                                    backgroundColor: "#6EAF43",
-                                    color: "white",
-                                }}>
-                                <IonIcon icon={wifi}></IonIcon>
-
-                            </IonButton>
-
-                            <IonLabel>
-                                online
-                            </IonLabel>
-                        </IonButtons>
-
-                    </IonToolbar>
-                </IonHeader>
-                <IonContent>
-                    <IonModal
-                        animated={true}
-                        isOpen={showModal}
-                        onDidDismiss={() => setShowModal(false)}
-                        className="fullscreen">
-
-                        <IonPage>
-                            <IonHeader>
-                                <IonToolbar color='transparent'>
-                                <IonButtons slot="start" onClick={() => { setShowModal(false); }}>
-                            <IonButton
-                                className='btnMenu'
-                                style={{
-                                    backgroundColor: "#EBF2FF",
-                                    color: "#003E7E",
-                                }}>
-                                <IonIcon icon={close}></IonIcon>
-                            </IonButton>
-                            </IonButtons>
-
-                                </IonToolbar>
-                            </IonHeader>
-                            <IonContent>
-
-                            </IonContent>
-                        </IonPage>
-                    </IonModal>
-
-                    <IonPopover
-                        isOpen={showPopover}
-                        className="menu"
-                        mode="md"
-                        showBackdrop={false}>
-                        <IonContent>Popover Content</IonContent>
-                    </IonPopover>
-                </IonContent>
 
                 <IonReactRouter>
+                    <Menu />
                     <IonRouterOutlet>
                         <Route path={"/login"} component={Login} />
                         <Route path={"/dashboard"} component={Dashboard} />

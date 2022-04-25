@@ -2,11 +2,8 @@ import { IonButton, IonCol, IonContent, IonGrid, IonImg, IonInput, IonItem, IonL
 import { RouteComponentProps } from 'react-router-dom';
 import './Login.css';
 
-const Login: React.FC<RouteComponentProps> = ({ match, history, location }) => {
-    console.log('aqui');
-    console.log(match);
-    console.log(history);
-    console.log(location);
+const Login: React.FC<RouteComponentProps> = ({ history }) => {
+
     return (
 
             <IonContent>
