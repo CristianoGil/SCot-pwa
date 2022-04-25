@@ -1,4 +1,4 @@
-import type {SQLiteDatabaseConfigGlobal} from '../model/index';
+import type {SQLiteDatabaseConfigGlobal} from '../model/database';
 
 
 const config: SQLiteDatabaseConfigGlobal = {

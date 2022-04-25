@@ -1,4 +1,3 @@
-import {SQLite, SQLiteObject, SQLiteTransaction, DbTransaction} from '@awesome-cordova-plugins/sqlite';
 import SQLiteDatabaseConfigData from '../config/database.config';
 
 

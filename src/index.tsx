@@ -6,6 +6,8 @@ import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 import database from './database';
 
+import syncDatabase from './scripts/sync_database'
+
 const root: any = createRoot(document.getElementById('root')!)
 root.render(
     <React.StrictMode>
@@ -15,9 +17,15 @@ root.render(
 
 
 document.addEventListener('deviceready', async function () {
-    /**Initialization local database - SQLite (only for mobile environment)**/
+    /**Initialization local database - SQLite (only for mobile environment)*/
     const {initialDatabase} = database();
     await initialDatabase();
+
+    /**
+     *  Start sync database
+     */
+    const {start} = syncDatabase();
+    start()
 
 });
 
