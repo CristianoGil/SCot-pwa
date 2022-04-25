@@ -1,5 +1,5 @@
-import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonLabel, IonModal, IonPage, IonPopover, IonToolbar } from '@ionic/react';
-import { list, person, wifi, apps, close } from 'ionicons/icons';
+import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonItem, IonLabel, IonList, IonModal, IonPage, IonPopover, IonToggle, IonToolbar } from '@ionic/react';
+import { list, person, wifi, apps, close, moon } from 'ionicons/icons';
 import { useEffect, useState } from 'react';
 import { useHistory, useLocation, useRouteMatch } from 'react-router';
 
@@ -8,24 +8,28 @@ const Menu: React.FC = (props) => {
     const [showModal, setShowModal] = useState<boolean>(false);
     const [showPopover, setShowPopover] = useState<boolean>(false);
     const [menuIsVisible, setMenuIsVisible] = useState<any>({ display: "none" });
-
     const history = useHistory()
+    const [checked, setChecked] = useState(false);
+    const toggleDarkModeHandler = () => {
+        
+        document.body.classList.toggle("dark");
+    };
 
     useEffect(() => {
-        console.log(history.location);
+
         if (history.location.pathname == '/login')
-        setMenuIsVisible({ display: "none" });
+            setMenuIsVisible({ display: "none" });
+        else
+            setMenuIsVisible({});
 
         return history.listen((location) => {
-            console.log(`You changed the page to: ${location.pathname}`);
 
             if (location.pathname == '/login') {
-                console.log('asdasd');
                 setMenuIsVisible({ display: "none" });
             }
-            else {
+            else
                 setMenuIsVisible({});
-            }
+
         });
     }, [history])
 
@@ -150,7 +154,22 @@ const Menu: React.FC = (props) => {
                             </IonToolbar>
                         </IonHeader>
                         <IonContent>
-
+                            <IonList className="ion-margin-top">
+                                <IonItem>
+                                    <IonIcon slot="start" icon={moon} />
+                                    <IonLabel>Modo escuro</IonLabel>
+                                    <small>Reduzir exposição à luz e poupança de bateria</small>
+                                    <IonToggle
+                                        slot="end"
+                                        name="darkMode"
+                                        checked={checked} 
+                                        onIonChange={e => {
+                                            setChecked(e.detail.checked)
+                                            toggleDarkModeHandler();
+                                        }}
+                                    />
+                                </IonItem>
+                            </IonList>
                         </IonContent>
                     </IonPage>
                 </IonPopover>
