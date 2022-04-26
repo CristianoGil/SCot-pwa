@@ -29,14 +29,14 @@ export default function syncDatabase() {
         };
 
     const _sync = (): void => {
-        const instance_loadOfflineData = new LoadOfflineData()
-        if (_canSync()) {
+        const instance_loadOfflineData = new LoadOfflineData();
+        // if (_canSync()) {
 
             instance_loadOfflineData.loadAll_combos().then((data: any[]) => {
 
-                console.log(data)
+                console.log("data: ", data)
             })
-        }
+        // }
     }
 
     const _canSync = (): boolean => {
