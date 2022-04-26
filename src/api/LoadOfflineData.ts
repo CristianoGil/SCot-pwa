@@ -4,6 +4,13 @@ import {URL_API_SCOT, LOAD_COMBOS_PATH} from '../utils/const';
 import type {AxiosResponse} from 'axios';
 import {IteratorArray} from '../common/iterator';
 
+
+interface IResponseDataLoad_Combos {
+    key: string
+    value?: any
+    isFailedLoad?: any
+}
+
 export class LoadOfflineData {
     protected url_api: string
     protected combos_path: string[]
@@ -26,7 +33,10 @@ export class LoadOfflineData {
         })
     }
 
-    public loadAll_combosd(): Promise<any> {
+    public loadAll_combos(): Promise<any[]> {
+
+        const loaded_combos: IResponseDataLoad_Combos[] | PromiseLike<IResponseDataLoad_Combos[]> = [];
+
         return new Promise((resolve, reject) => {
             const iteratorCombosArray: any = new IteratorArray(this.combos_path);
 
@@ -37,18 +47,16 @@ export class LoadOfflineData {
                 const service_url: string = dataValue.value;
 
                 if (!isDone) {
-                    axios
-                        .get(`${this.url_api}/${service_url}`)
-                        .then((response: AxiosResponse<any>) => {
-                            // resolve(response.data)
-                        })
-                        .catch((error: any) => {
-                            reject(error)
-                        }).finally(() => {
-                        _funcIterable();
+
+                    await this.load_combos(service_url).then((data: any) => {
+                        loaded_combos.push({key: service_url, value: data})
+                    }).catch((error: any) => {
+                        loaded_combos.push({key: service_url, isFailedLoad: error})
                     })
+
+                    _funcIterable();
                 } else {
-                    resolve('')
+                    resolve(loaded_combos)
                 }
 
             }
