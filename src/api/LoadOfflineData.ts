@@ -3,13 +3,8 @@ import {URL_API_SCOT, LOAD_COMBOS_PATH} from '../utils/const';
 
 import type {AxiosError, AxiosResponse} from 'axios';
 import {IteratorArray} from '../common/iterator';
+import {IResponseDataLoad_Combos} from '../model/loadOfflineData';
 
-
-interface IResponseDataLoad_Combos {
-    key: string
-    value?: any
-    isFailedLoad?: AxiosError
-}
 
 export class LoadOfflineData {
     protected url_api: string
@@ -50,19 +45,19 @@ export class LoadOfflineData {
                 if (!isDone) {
 
                     await this.load_combos(service_url).then((data: any) => {
-                        loaded_combos.push({key: service_url, value: data})
+                        loaded_combos.push({key: service_url, value: data});
                     }).catch((error: AxiosError) => {
-                        loaded_combos.push({key: service_url, isFailedLoad: error})
+                        loaded_combos.push({key: service_url, isFailedLoad: error});
                     })
 
                     _funcIterable();
 
                 } else {
-                    resolve(loaded_combos)
+                    resolve(loaded_combos);
                 }
             }
 
-            _funcIterable()
+            _funcIterable();
         })
     }
 }

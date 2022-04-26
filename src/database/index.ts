@@ -70,6 +70,10 @@ export default function database() {
                 try {
                     if (fields?.length) {
                         await createTable(table, fields);
+                    } else {
+                        if (!db) {
+                            await initialDatabase();
+                        }
                     }
 
                     const valuesRef = ('?,'.repeat(valuesRefQty)).slice(0, -1);
@@ -86,11 +90,43 @@ export default function database() {
                         resolve()
                     });
                 } catch (e) {
-                    console.error("SQLite: populate table (" + table + ") error \n", JSON.stringify(e));
+                    console.error("SQLite: Transaction populate table (" + table + ") error \n", JSON.stringify(e));
                     reject(e)
                 }
             })
 
+        },
+
+        insertUpdate = async (table: string, valuesRefQty: number, values: any[], fields?: string[]): Promise<void> => {
+
+            await dropTable(table);
+            await insertOne(table, valuesRefQty, values, fields);
+
+        },
+
+        dropTable = (table: string): Promise<void> => {
+            return new Promise(async (resolve, reject) => {
+                try {
+                    const statement = `DROP TABLE IF EXISTS ${table}`;
+
+                    if (!db) {
+                        await initialDatabase();
+                    }
+
+                    db.transaction((tx: any): void => {
+                        tx.executeSql(statement);
+                    }, (error: any) => {
+                        console.warn("SQLite: Transaction drop table error (" + table + ")\n", error.message);
+                        reject(error)
+                    }, () => {
+                        console.info("SQLite: Transaction drop table success (" + table + ")");
+                        resolve();
+                    });
+                } catch (e) {
+                    console.error("SQLite: Transaction drop table (" + table + ") error \n", JSON.stringify(e));
+                    reject(e)
+                }
+            })
         },
 
         fetch = async (query: string): Promise<any> => {
@@ -101,10 +137,10 @@ export default function database() {
                     }
 
                     db.transaction((tx: any): void => {
-                        tx.executeSql(query, [], (tx: any, rs:any) => {
+                        tx.executeSql(query, [], (tx: any, rs: any) => {
                             console.log(rs.rows.item(0))
                             resolve(rs)
-                        }, (tx:any, error:any) => {
+                        }, (tx: any, error: any) => {
                             console.log('SQLite: Transaction SELECT error: ' + error.message);
                             reject(error)
                         });
@@ -144,6 +180,8 @@ export default function database() {
         initialDatabase,
         createTable,
         insertOne,
+        dropTable,
+        insertUpdate,
         fetch,
         self: {
             _echoTest,
