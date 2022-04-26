@@ -1,4 +1,4 @@
-import {getNetworkState} from '../utils/capacitor_global';
+import {getNetworkState} from '../common/capacitor_global';
 import _ from 'underscore';
 import {Connection} from '@awesome-cordova-plugins/network';
 import {LoadOfflineData} from '../api/LoadOfflineData'
@@ -9,13 +9,13 @@ export default function syncDatabase() {
 
     /**
      *
-     * @param timeInterval in minutes
+     * @param timeInterval in minutes > 30
      */
     const start = (timeInterval?: number): void => {
             if (timeInterval) {
                 _sync();
 
-                const timeout = timeInterval * 60;
+                const timeout = Math.min(timeInterval * 60, 30) ;
                 ID_TIME_INTERVAL = setInterval(_sync, timeout);
                 console.info("Run database sync every " + timeout + "minutes")
             } else {
@@ -32,6 +32,10 @@ export default function syncDatabase() {
         const instance_loadOfflineData = new LoadOfflineData()
         if (_canSync()) {
 
+            instance_loadOfflineData.loadAll_combos().then((data: any[]) => {
+
+                console.log(data)
+            })
         }
     }
 

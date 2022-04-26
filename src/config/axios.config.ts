@@ -1,7 +1,7 @@
 import axios from 'axios'
 import type {AxiosRequestConfig} from 'axios'
 import {AUTH_TOKEN, AXIOS_TIMEOUT, URL_AUTH_AUTHENTICATION_TOKEN} from "../utils/const";
-import _ from 'underscore';
+
 
 
 axios.interceptors.request.use(async (config: AxiosRequestConfig | any) => {

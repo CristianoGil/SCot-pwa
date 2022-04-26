@@ -33,12 +33,13 @@ export class LoadOfflineData {
         })
     }
 
-    public loadAll_combos(): Promise<any[]> {
+    public loadAll_combos(combos_path_override?: any[]): Promise<any[]> {
 
         const loaded_combos: IResponseDataLoad_Combos[] | PromiseLike<IResponseDataLoad_Combos[]> = [];
 
-        return new Promise((resolve, reject) => {
-            const iteratorCombosArray: any = new IteratorArray(this.combos_path);
+        return new Promise((resolve) => {
+
+            const iteratorCombosArray: any = new IteratorArray(combos_path_override || this.combos_path);
 
             const _funcIterable = async (): Promise<void> => {
 
@@ -55,15 +56,13 @@ export class LoadOfflineData {
                     })
 
                     _funcIterable();
+
                 } else {
                     resolve(loaded_combos)
                 }
-
             }
 
             _funcIterable()
-
-
         })
     }
 }
