@@ -1,27 +1,83 @@
+import {IID_DESCRICAO} from "./extendable";
+
 export interface IPerson {
     id: number
     nif: number
-    dt_nascimento: Date
+    nome: string
+    dataNascimento: Date
+    tipoPessoa: string
+    isCoimasEmAtraso: boolean
+    coimasEmAtraso: ICoimasEmAtraso[]
+    documentos: IDocumentoPessoa[]
+    historicoDocumentos: IDocumentoPessoa[]
+    moradas: IMoradaPessoa[]
+    historicoMoradas: IMoradaPessoa[]
+    representanteLegal: string
 }
 
-interface IDocument {
+export interface IPessoaResponse {
+    msgQuantidaDeRegistro: string
+    pessoas: IPerson[]
+}
+
+export interface ICoimasEmAtraso {
     id: number
-    id_pessoa: number
-    tipo: string
-    numero: number
-    entidade: string
-    local_emissao: string
-    dt_emissao: string
-    dt_validade: Date
+    idVeiculo: number
+    idPessoa: number
+    data: Date
+    numeroAuto: number
+    codInfracao: number
+    valor: number
+    valorChecado: boolean
+    custas: number
+    custasChecada: boolean
+    total: number
+}
+
+export interface IDocumentoPessoa {
+    id: number
+    idPessoa: number
+    idOrganizacao: number
+    tipoDocumento: ITipoDocumento
+    isTituloConducao: boolean
+    numero: string
+    entidadeEmissao: IEntidade
+    paisEmissao: IPais
+    localEmissao: IDestrito
     categoria: string
-    visualizado: number
-    principal: number
-    dt_eliminacao: Date
+    visualizado: boolean
+    principal: boolean
+    dataEmissao: Date
+    dataValidade: Date
+    dataEliminacao: Date
 }
 
-interface IMorada {
-    id: number
-    id_pessoa: number
-    principal: number
-    dt_eliminacao: Date
+
+export interface IDestrito extends IID_DESCRICAO {
 }
+
+export interface IPais extends IID_DESCRICAO {
+}
+
+export interface ITipoDocumento extends IID_DESCRICAO {
+}
+
+export interface IEntidade extends IID_DESCRICAO {
+}
+
+export interface IMoradaPessoa {
+    id: number
+    idPessoa: number
+    idOrganizacao: number
+    morada: string
+    domicilioSede: string
+    numeroPolicia: number
+    local: IDestrito
+    pais: IPais
+    fracao: string
+    localidade: string
+    codigoPostal: number
+    principal: boolean
+    dataEliminacao: Date
+}
+

@@ -1,6 +1,6 @@
 import { IPerson } from "../model/person";
 
-export class Person implements IPerson{
+export class Pessoa implements IPerson{
     id: number
     nif: number
     dt_nascimento: Date
