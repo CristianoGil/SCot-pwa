@@ -8,9 +8,10 @@ import database from './database';
 import syncDatabase from './database/sync_database'
 
 const root: any = createRoot(document.getElementById('root')!)
+
 root.render(
     <React.StrictMode>
-        <App/>
+        <App />
     </React.StrictMode>
 );
 

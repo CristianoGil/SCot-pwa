@@ -1,0 +1,33 @@
+ion-footer::part(native) .input-wrapper{
+    justify-content: center;
+}
+
+ion-content#modelContent ion-img#imgModal {
+    position: relative;
+    top: 0px;
+    left: 0px;
+    filter: blur(4px);
+    height: 100%;
+    width: max-content;
+}
+
+#imgModal-fx {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background-color: #003E7E;
+    height: 100%;
+    width: 100%;
+    filter: opacity(55%);
+}
+
+#modelContent_Interno {
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    width: 100%;
+    color: white;
+}
