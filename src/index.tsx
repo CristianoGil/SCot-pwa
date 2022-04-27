@@ -6,7 +6,7 @@ import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 import database from './database';
 
-import syncDatabase from './scripts/sync_database'
+import syncDatabase from './database/sync_database'
 
 const root: any = createRoot(document.getElementById('root')!)
 root.render(
@@ -14,11 +14,6 @@ root.render(
         <App/>
     </React.StrictMode>
 );
-
-if (process.env.NODE_ENV === 'production') {
-    const {start} = syncDatabase();
-    start()
-}
 
 
 document.addEventListener('deviceready', async function () {

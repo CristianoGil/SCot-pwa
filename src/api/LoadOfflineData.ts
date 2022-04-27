@@ -1,8 +1,10 @@
 import axios from '../config/axios.config';
 import {URL_API_SCOT, LOAD_COMBOS_PATH} from '../utils/const';
 
-import type {AxiosResponse} from 'axios';
+import type {AxiosError, AxiosResponse} from 'axios';
 import {IteratorArray} from '../common/iterator';
+import {IResponseDataLoad_Combos} from '../model/loadOfflineData';
+
 
 export class LoadOfflineData {
     protected url_api: string
@@ -26,9 +28,13 @@ export class LoadOfflineData {
         })
     }
 
-    public loadAll_combosd(): Promise<any> {
-        return new Promise((resolve, reject) => {
-            const iteratorCombosArray: any = new IteratorArray(this.combos_path);
+    public loadAll_combos(combos_path_override?: any[]): Promise<any[]> {
+
+        const loaded_combos: IResponseDataLoad_Combos[] | PromiseLike<IResponseDataLoad_Combos[]> = [];
+
+        return new Promise((resolve) => {
+
+            const iteratorCombosArray: any = new IteratorArray(combos_path_override || this.combos_path);
 
             const _funcIterable = async (): Promise<void> => {
 
@@ -37,25 +43,21 @@ export class LoadOfflineData {
                 const service_url: string = dataValue.value;
 
                 if (!isDone) {
-                    axios
-                        .get(`${this.url_api}/${service_url}`)
-                        .then((response: AxiosResponse<any>) => {
-                            // resolve(response.data)
-                        })
-                        .catch((error: any) => {
-                            reject(error)
-                        }).finally(() => {
-                        _funcIterable();
-                    })
-                } else {
-                    resolve('')
-                }
 
+                    await this.load_combos(service_url).then((data: any) => {
+                        loaded_combos.push({key: service_url, value: data});
+                    }).catch((error: AxiosError) => {
+                        loaded_combos.push({key: service_url, isFailedLoad: error});
+                    })
+
+                    _funcIterable();
+
+                } else {
+                    resolve(loaded_combos);
+                }
             }
 
-            _funcIterable()
-
-
+            _funcIterable();
         })
     }
 }
