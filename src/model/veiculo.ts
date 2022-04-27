@@ -81,4 +81,18 @@ export interface IVeiculoRequest {
     pais: number
 }
 
-export interface IVeiculoResponse extends IVeiculo {}
+export interface IVeiculoResponse {
+    msgQuantidadeRegistro: string
+    veiculos: IVeiculo[]
+}
+
+export interface ICombosVeiculoResponse {
+    categorias: ICategoriaVeiculo[]
+    classes: IClasseVeiculo[]
+    subclasses: ISubclasseVeiculo[]
+    tipos: ITipoVeiculo[]
+    marcas: IMarcaVeiculo[]
+    modelos: IModeloVeiculo[]
+    cores: ICorVeiculo[]
+    paises: IPais[]
+}

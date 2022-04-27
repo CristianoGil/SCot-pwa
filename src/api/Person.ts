@@ -11,6 +11,4 @@ export class Person implements IPerson{
         this.dt_nascimento = person.dt_nascimento
     }
     
-    
-    
 }

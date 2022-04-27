@@ -5,6 +5,7 @@ import type {AxiosError, AxiosResponse} from 'axios';
 import {IteratorArray} from '../common/iterator';
 import {IResponseDataLoad_Combos} from '../model/loadOfflineData';
 
+import database from '../database';
 
 export class LoadOfflineData {
     protected url_api: string
@@ -13,6 +14,21 @@ export class LoadOfflineData {
     constructor() {
         this.url_api = URL_API_SCOT
         this.combos_path = LOAD_COMBOS_PATH
+    }
+
+    public fetch_combos(tableName: string): Promise<any> {
+        return new Promise((resolve, reject) => {
+            const query = `SELECT *
+                           FROM ${tableName}`;
+            const {fetch} = database();
+
+            fetch(query).then((data) => {
+                resolve(data)
+            }).catch((error) => {
+                reject(error)
+            })
+
+        })
     }
 
     public load_combos(service_url: string): Promise<any> {
