@@ -1,19 +1,8 @@
-import { match, Redirect, Route, RouteComponentProps, useLocation, useParams, useRouteMatch } from 'react-router-dom';
+import { Redirect, Route } from 'react-router-dom';
 import {
     IonApp,
-    IonButton,
-    IonButtons,
-    IonContent,
-    IonHeader,
-    IonIcon,
-    IonItem,
-    IonLabel,
-    IonMenu,
-    IonModal,
     IonPage,
-    IonPopover,
     IonRouterOutlet,
-    IonToolbar,
     setupIonicReact
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
@@ -48,17 +37,18 @@ const App: React.FC = () => {
 
     return (
         <IonApp>
-            <IonPage>
 
-                <IonReactRouter>
+            <IonReactRouter>
+                <IonPage>
                     <Menu />
                     <IonRouterOutlet>
                         <Route path={"/login"} component={Login} />
                         <Route path={"/dashboard"} component={Dashboard} />
                         <Redirect exact from="/" to="/login" />
                     </IonRouterOutlet>
-                </IonReactRouter>
-            </IonPage>
+                </IonPage>
+            </IonReactRouter>
+
 
         </IonApp>
 
