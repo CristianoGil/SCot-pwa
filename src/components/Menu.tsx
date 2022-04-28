@@ -118,7 +118,7 @@ const Menu: React.FC = () => {
                     </IonHeader>
                     <IonContent id='modelContent'>
 
-                        <IonImg id='imgModal' src={'assets/images/login-img.png'} />
+                        <div id='imgModal' />
 
                         <div id='imgModal-fx'></div>
 
@@ -143,6 +143,7 @@ const Menu: React.FC = () => {
             </IonModal>
 
             <IonPopover
+                id='popoverMenu'
                 isOpen={showPopover}
                 className="menu"
                 mode="md"

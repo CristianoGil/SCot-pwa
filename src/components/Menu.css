@@ -2,13 +2,15 @@ ion-footer::part(native) .input-wrapper{
     justify-content: center;
 }
 
-ion-content#modelContent ion-img#imgModal {
+ion-content#modelContent #imgModal{
     position: relative;
     top: 0px;
     left: 0px;
-    filter: blur(4px);
+    background-size: cover !important;
+    background: lightblue url("../../public/assets/images/img.png") center;
+    filter: blur(4px);  
     height: 100%;
-    width: max-content;
+    width: 100%;
 }
 
 #imgModal-fx {

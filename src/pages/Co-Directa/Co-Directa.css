@@ -138,20 +138,35 @@ ion-grid#gridGeral {
     background-color: #F6F6F6;
 }
 
-ion-grid{
-    /* border: 1px solid red; */
+@media only screen and (max-width: 575px) {
+
+    ion-grid#gridGeral {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+}
+
+ion-grid {
+    border: 1px solid red;
 }
 
 ion-row {
     height: max-content;
-    /* border: 1px solid black; */
+    border: 1px solid black;
 }
 
 ion-col {
-    /* border: 1px solid green; */
+    border: 1px solid green;
 }
 
 ion-content {
     padding: 130px;
-    /* border: 1px solid blue; */
+    border: 1px solid blue;
 }
+
+
+ion-popover.menu#popoverIdentVeiculo {
+    --width: 840px;
+    --max-width: 100%;
+  }

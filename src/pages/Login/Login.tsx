@@ -13,14 +13,14 @@ const Login: React.FC<RouteComponentProps> = ({ history }) => {
 
                     <IonCol sizeSm='7' id='colLeft' className='ion-hide-sm-down'>
 
-                        <IonImg id='imgPrimaria' src={'assets/images/img.png'} />
+                        <div id='imgPrimaria' />
 
                         <div id='imgPrimaria-fx'></div>
 
                         <div id='colLeft_Interno' className='ion-align-items-center'>
 
                             <div id='formDadosDoSistema'>
-                                <IonImg id='imgSecundaria' src={'assets/images/img.png'} />
+                                <div id='imgSecundaria' />
 
                                 <div id='imgSecundaria-fx'></div>
 
@@ -61,7 +61,11 @@ const Login: React.FC<RouteComponentProps> = ({ history }) => {
 
                                 <a target="_blank" href="#">Recuperar acesso</a>
                                 <IonItem lines='none'>
+                                <div className="ion-text-center">
+                                    
                                     <IonImg className='ion-margin-top' src={'assets/images/Modelos-Barras-FUNDOS-v04_3logos-FEEI.png'} />
+                                 
+                               </div>
                                 </IonItem>
                             </div>
                         </div>
