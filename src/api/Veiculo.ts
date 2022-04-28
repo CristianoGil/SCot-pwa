@@ -12,31 +12,31 @@ import _ from "underscore";
 
 export class Veiculo implements IVeiculoRequest {
     matricula: string;
-    chassi: string;
-    ano: string;
-    categoria: number;
-    classe: number;
-    subclasse: number;
-    tipo: number;
-    marca: number;
-    modelo: number;
-    cor: number;
-    pais: number;
+    chassi: string | undefined;
+    ano: string | undefined;
+    categoria: number | undefined;
+    classe: number | undefined;
+    subclasse: number | undefined;
+    tipo: number | undefined;
+    marca: number | undefined;
+    modelo: number | undefined;
+    cor: number | undefined;
+    pais: number | undefined;
 
     prefix_url: string = 'v1/veiculos'
 
     constructor(veiculo: IVeiculoRequest) {
         this.matricula = veiculo.matricula;
-        this.chassi = veiculo.chassi;
-        this.ano = veiculo.ano;
-        this.categoria = veiculo.categoria;
-        this.classe = veiculo.classe;
-        this.tipo = veiculo.tipo;
-        this.subclasse = veiculo.subclasse;
-        this.pais = veiculo.pais;
-        this.marca = veiculo.marca;
-        this.modelo = veiculo.modelo;
-        this.cor = veiculo.cor;
+        this.chassi = veiculo?.chassi;
+        this.ano = veiculo?.ano;
+        this.categoria = veiculo?.categoria;
+        this.classe = veiculo?.classe;
+        this.tipo = veiculo?.tipo;
+        this.subclasse = veiculo?.subclasse;
+        this.pais = veiculo?.pais;
+        this.marca = veiculo?.marca;
+        this.modelo = veiculo?.modelo;
+        this.cor = veiculo?.cor;
     }
 
     private getRequestData(): IVeiculoRequest {

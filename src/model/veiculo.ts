@@ -2,21 +2,21 @@ import type {IID_DESCRICAO} from "./extendable";
 
 export interface IVeiculo {
     id: number
-    matricula: string
-    chassi: string
-    ano: number
-    categoria: ICategoriaVeiculo
-    classe: IClasseVeiculo
-    tipo: ITipoVeiculo
-    subclasse: ISubclasseVeiculo
-    pais: IPais
-    marca: IMarcaVeiculo
-    modelo: IModeloVeiculo
-    cor: ICorVeiculo
-    estadoPolicial: IEstadoPolicial
-    isCoimasEmAtraso: boolean
-    coimasEmAtraso: ICoimaVeiculo
-    ipo: boolean
+    matricula?: string
+    chassi?: string
+    ano?: number
+    categoria?: ICategoriaVeiculo
+    classe?: IClasseVeiculo
+    tipo?: ITipoVeiculo
+    subclasse?: ISubclasseVeiculo
+    pais?: IPais
+    marca?: IMarcaVeiculo
+    modelo?: IModeloVeiculo
+    cor?: ICorVeiculo
+    estadoPolicial?: IEstadoPolicial
+    isCoimasEmAtraso?: boolean
+    coimasEmAtraso?: ICoimaVeiculo
+    ipo?: boolean
 }
 
 export interface ICategoriaVeiculo extends IID_DESCRICAO {
@@ -54,31 +54,31 @@ export interface ICoimaVeiculo {
     id: number
     idVeiculo: number
     idPessoa: number
-    data: Date
-    dataPrazo: Date
-    numeroAuto: number
-    codigoInfracao: number
-    valor: number
-    custas: number
-    valorChecado: boolean
-    custasChecada: boolean
-    isPago: boolean
-    sancaoAcessoria: string
+    data?: Date
+    dataPrazo?: Date
+    numeroAuto?: number
+    codigoInfracao?: number
+    valor?: number
+    custas?: number
+    valorChecado?: boolean
+    custasChecada?: boolean
+    isPago?: boolean
+    sancaoAcessoria?: string
 
 }
 
 export interface IVeiculoRequest {
     matricula: string
-    chassi: string
-    ano: string
-    categoria: number
-    classe: number
-    subclasse: number
-    tipo: number
-    marca: number
-    modelo: number
-    cor: number
-    pais: number
+    chassi?: string
+    ano?: string
+    categoria?: number
+    classe?: number
+    subclasse?: number
+    tipo?: number
+    marca?: number
+    modelo?: number
+    cor?: number
+    pais?: number
 }
 
 export interface IVeiculoResponse {
@@ -87,12 +87,12 @@ export interface IVeiculoResponse {
 }
 
 export interface ICombosVeiculoResponse {
-    categorias: ICategoriaVeiculo[]
-    classes: IClasseVeiculo[]
-    subclasses: ISubclasseVeiculo[]
-    tipos: ITipoVeiculo[]
-    marcas: IMarcaVeiculo[]
-    modelos: IModeloVeiculo[]
-    cores: ICorVeiculo[]
-    paises: IPais[]
+    categorias?: ICategoriaVeiculo[]
+    classes?: IClasseVeiculo[]
+    subclasses?: ISubclasseVeiculo[]
+    tipos?: ITipoVeiculo[]
+    marcas?: IMarcaVeiculo[]
+    modelos?: IModeloVeiculo[]
+    cores?: ICorVeiculo[]
+    paises?: IPais[]
 }

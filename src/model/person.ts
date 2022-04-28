@@ -20,6 +20,23 @@ export interface IPessoaResponse {
     pessoas: IPerson[]
 }
 
+export interface IPessoaNIFResponse {
+    pessoa: IPerson
+}
+
+export interface IPessoaRequest {
+    nif: number
+    nome?: string
+    dataNascimento?: Date
+    idTipoDocumento?: number
+    numeroDocumento?: string
+    arruamento?: string
+    moradaZonaBairro?: string
+    loteNPolicia?: string
+    fraccao?: string
+    consultarWebService?: boolean
+}
+
 export interface ICoimasEmAtraso {
     id: number
     idVeiculo: number
