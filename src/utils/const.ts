@@ -1,4 +1,4 @@
-export const URL_API_SCOT = 'https://09db0a8b-e06c-41b8-a8c6-a50040bb0271.mock.pstmn.io'; // http://localhost:8081/scot-plus-bff/v1/alcoolemia/carregarCombosAlcool
+export const URL_API_SCOT = "http://localhost:8081/scot-plus-bff";
 export const URL_API_SCOT_SIGNATURE = 'https://e2d5dbff-3214-48af-8723-08f30182335c.mock.pstmn.io/signpdf';
 export const AUTH_TOKEN = 'token'; // NB: You must not include word 'bearer'
 export const AXIOS_TIMEOUT = 3000;
