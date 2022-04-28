@@ -6,13 +6,15 @@ ion-row#rowLogin {
     height: 100%;
 }
 
-#colLeft ion-img#imgPrimaria {
+#colLeft #imgPrimaria {
     position: relative;
     top: 0px;
     left: 0px;
+    background-size: cover !important;
+    background: lightblue url("../../../public/assets/images/img.png") center;
     filter: blur(15px);
     height: 100%;
-    width: max-content;
+    width: 100%;
 }
 
 #imgPrimaria-fx {
@@ -44,13 +46,15 @@ ion-row#rowLogin {
     height: 520px;
 }
 
-#colLeft ion-img#imgSecundaria {
+#colLeft #imgSecundaria {
     position: relative;
     top: 0px;
     left: 0px;
+    background-size: cover !important;
+    background: lightblue url("../../../public/assets/images/img.png") center;
     filter: blur(4px);
     height: 100%;
-    width: max-content;
+    width: 100%;
 }
 
 #imgSecundaria-fx {
