@@ -6,9 +6,6 @@ import {
     setupIonicReact
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import Login from './pages/Login';
-import Dashboard from './pages/Dashboard';
-
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
 
@@ -27,9 +24,12 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
-
 import './App.css';
+
 import Menu from './components/Menu';
+import Login from './pages/Login/Login';
+import Dashboard from './pages/Dashboard/Dashboard';
+import CoDirecta from './pages/Co-Directa/Co-Directa';
 
 setupIonicReact();
 
@@ -44,6 +44,7 @@ const App: React.FC = () => {
                     <IonRouterOutlet>
                         <Route path={"/login"} component={Login} />
                         <Route path={"/dashboard"} component={Dashboard} />
+                        <Route path={"/coDirecta"} component={CoDirecta} />
                         <Redirect exact from="/" to="/login" />
                     </IonRouterOutlet>
                 </IonPage>

@@ -4,7 +4,7 @@ ion-modal.fullscreen {
     --border-radius: 0;
   }
 
-  ion-popover.menu {
+  ion-popover.menu#popoverMenu {
     --width: 540px;
     --max-width: 100%;
   }
