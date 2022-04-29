@@ -54,18 +54,21 @@ const Login: React.FC<RouteComponentProps> = ({ history }) => {
                                     <IonInput type="password"></IonInput>
                                 </IonItem>
 
-                                <IonButton onClick={e => {
+                                <IonButton
+                                style={{backgroundColor:'#003E7E'}}
+                                color='#003E7E'
+                                onClick={e => {
                                     e.preventDefault();
                                     history.push('/dashboard')
-                                }} expand="block" className='ion-margin-top ion-margin-bottom' color='#003E7E'>Entrar</IonButton>
+                                }} expand="block" className='ion-margin-top ion-margin-bottom'>
+                                    Entrar
+                                </IonButton>
 
                                 <a target="_blank" href="#">Recuperar acesso</a>
                                 <IonItem lines='none'>
-                                <div className="ion-text-center">
-                                    
-                                    <IonImg className='ion-margin-top' src={'assets/images/Modelos-Barras-FUNDOS-v04_3logos-FEEI.png'} />
-                                 
-                               </div>
+                                    <div id='imgModelosBarras' className='ion-text-center'>
+                                        <IonImg className='ion-margin-top' src={'assets/images/Modelos-Barras-FUNDOS-v04_3logos-FEEI.png'} />
+                                    </div>
                                 </IonItem>
                             </div>
                         </div>

@@ -33,3 +33,24 @@ ion-content#modelContent #imgModal{
     width: 100%;
     color: white;
 }
+
+ion-toolbar {
+    padding: 20px;
+    background-color: #FCFCFC;
+}
+
+ion-toolbar ion-buttons {
+    margin-right: 20px;
+    margin-left: 20px;
+    margin-top: 20px;
+}
+
+ion-toolbar ion-button.btnRound {
+    border-radius: 100%;
+    width: 32px;
+    margin: 10px;
+}
+
+ion-toolbar ion-label {
+    margin-left: 10px;
+}

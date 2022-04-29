@@ -41,6 +41,7 @@ const Menu: React.FC = () => {
                 <IonButtons slot="start" onClick={() => { setShowModal(true); }}>
 
                     <IonButton
+                        className='btnRound'
                         style={{
                             backgroundColor: "#EBF2FF",
                             color: "#003E7E",
@@ -53,6 +54,7 @@ const Menu: React.FC = () => {
                 <IonButtons slot="end">
 
                     <IonButton
+                        className='btnRound'
                         style={{
                             backgroundColor: "#FBD95E",
                             color: "white",
@@ -68,6 +70,7 @@ const Menu: React.FC = () => {
 
                 <IonButtons slot="end">
                     <IonButton
+                        className='btnRound'
                         style={{
                             backgroundColor: "#6EAF43",
                             color: "white",
@@ -84,6 +87,7 @@ const Menu: React.FC = () => {
                 <IonButtons slot="end" onClick={() => { setShowPopover(true); }}>
 
                     <IonButton
+                        className='btnRound'
                         style={{
                             backgroundColor: "#EBF2FF",
                             color: "#003E7E",
@@ -105,6 +109,7 @@ const Menu: React.FC = () => {
                             <IonButtons slot="start" onClick={() => { setShowModal(false); }}>
 
                                 <IonButton
+                                    className='btnRound'
                                     style={{
                                         backgroundColor: "#EBF2FF",
                                         color: "#003E7E",
@@ -153,50 +158,46 @@ const Menu: React.FC = () => {
                     <IonHeader className="ion-no-border">
                         <IonToolbar color='transparent'>
                             <IonLabel slot='start'>
+
                                 <h1>
-                                    Aplicação
+                                    <IonItem lines='none'>
+                                        Aplicação
+                                    </IonItem>
                                 </h1>
+
                             </IonLabel>
-                            <IonButtons slot="end" onClick={() => { setShowPopover(false); }}>
-
-                                <IonButton
-                                    style={{
-                                        backgroundColor: "#EBF2FF",
-                                        color: "#003E7E",
-                                    }}>
-                                    <IonIcon icon={close}></IonIcon>
-
-                                </IonButton>
-
-                            </IonButtons>
+                            <IonButton slot="end" color="light" onClick={() => { setShowPopover(false); }}>
+                                Fechar
+                            </IonButton>
 
                         </IonToolbar>
                     </IonHeader>
                     <IonContent>
-                        <IonList className="ion-margin-top">
-                            <IonItem>
-                                <IonIcon slot="start" icon={moon} />
-                                <IonLabel>Modo escuro</IonLabel>
-                                <small>Reduzir exposição à luz e poupança de bateria</small>
-                                <IonToggle
-                                    slot="end"
-                                    name="darkMode"
-                                    checked={checked}
-                                    onIonChange={e => {
-                                        setChecked(e.detail.checked)
-                                        toggleDarkModeHandler();
-                                    }}
-                                />
-                            </IonItem>
-                        </IonList>
+
+                        <IonItem className="ion-margin-top" style={{ margin: 24 }}>
+                            <IonIcon slot="start" icon={moon} />
+                            <IonLabel>Modo escuro</IonLabel>
+                            <small>Reduzir exposição à luz e poupança de bateria</small>
+                            <IonToggle
+                                slot="end"
+                                name="darkMode"
+                                checked={checked}
+                                onIonChange={e => {
+                                    setChecked(e.detail.checked)
+                                    toggleDarkModeHandler();
+                                }}
+                            />
+                        </IonItem>
+
                     </IonContent>
                     <IonFooter>
                         <IonItem lines='none'>
-                            <small>Copyright @ 2021 SCOT+. Todos os direitos reservados.</small>
+                            <div id='imgModelosBarras' className='ion-text-center' style={{ padding: 12 }}>
+                                <small>Copyright @ 2021 SCOT+. Todos os direitos reservados.</small><br />
+                                <IonImg className='ion-margin-top ion-margin-bottom' src={'assets/images/Group 4529.png'} style={{ height: 40, marginTop: 36 }} />
+                            </div>
                         </IonItem>
-                        <IonItem lines='none'>
-                            <IonImg src={'assets/images/Modelos-Barras-FUNDOS-v04_3logos-FEEI.png'} />
-                        </IonItem>
+
                     </IonFooter>
                 </IonPage>
             </IonPopover>

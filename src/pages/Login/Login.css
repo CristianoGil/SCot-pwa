@@ -1,4 +1,4 @@
-ion-grid#gridLogin{
+ion-grid#gridLogin {
     height: 100%;
 }
 
@@ -110,23 +110,19 @@ ion-col#colRight {
     margin-top: 44px;
 }
 
-h4, h6 {
+h4,
+h6 {
     color: black;
-}
-
-
-ion-button {
-    background-color: #003E7E;
 }
 
 #inputs {
     text-align: center;
 }
 
-    #inputs a {
-        color: #003E7E;
-        font-weight: 500;
-    }
+#inputs a {
+    color: #003E7E;
+    font-weight: 500;
+}
 
 @media only screen and (max-width: 575px) {
     #colRight {
@@ -135,5 +131,19 @@ ion-button {
 
     #formLogin {
         border-radius: 10px;
+    }
+}
+
+ion-item::part(native) .item-native {
+    color: red;
+}
+
+ion-item #imgModelosBarras {
+    width: 100%;
+}
+
+@media only screen and (max-width: 941px) {
+    #colLeft_Interno {
+        width: max-content;
     }
 }
