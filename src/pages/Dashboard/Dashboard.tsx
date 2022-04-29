@@ -19,10 +19,51 @@ import './Dashboard.scss';
 import Menu from '../../components/Menu';
 import _ from 'underscore';
 
-import LoggedUser from '../../components/Dashboard/logged-user';
+import LoggedUser from '../../components/Dashboard/LoggedUser';
+import Cards from '../../components/Dashboard/Cards';
+
 
 const Dashboard: React.FC = () => {
+    const listOfCards = [
+        {
+            type: "big",
+            bgClassName: "card-big-img-background-1",
+            goTo: "#",
+            title: "Pesquisar Pessoa"
+        }, {
+            type: "big",
+            bgClassName: "card-big-img-background-2",
+            goTo: "#",
+            title: "Pesquisar Veículo"
+        },
+        {
+            goTo: "/coDirecta",
+            title: "Emissão CO Directa"
+        }, {
+            goTo: "#",
+            title: "Registo Simplicado de CO Indirecta"
+        }, {
+            goTo: "#",
+            title: "Emissão de Apreensão de Documentos"
+        }, {
+            goTo: "#",
+            title: "Emissão de Apresentação de Documentos"
+        },
+        {
+            goTo: "#",
+            title: "Emissão de Apreensão de Veículo"
+        }, {
+            goTo: "#",
+            title: "Emissão de Teste de Alcoolémia"
+        },
+        {
+            goTo: "#",
+            title: "Fecho de Turno"
+        },
 
+
+    ]
+    // @ts-ignore
     return (
         <IonPage>
 
@@ -38,67 +79,8 @@ const Dashboard: React.FC = () => {
                     </IonRow>
 
                     <IonRow class="ion-justify-content-start dashboard-grid-row dashboard-grid-row-card ">
-                        <IonCol size-xs="12" size-sm="6" size-md="5" size-lg="4" size-xl="4">
-                            <IonCard className="card-dashboard card-big-img-background-1" color="primary">
-                                <span className="background-blur"></span>
-                                <IonImg className="card-fixed-icon-top-left"
-                                        src={"assets/images/dashboard/card-icon-1.png"}> </IonImg>
-
-                                <IonImg className="card-fixed-img-bottom-right"
-                                        src={"assets/images/background/ref-logo-yellow.png"}> </IonImg>
-
-                                <IonCardTitle className="card-dashboard-title">Card Title</IonCardTitle>
-                            </IonCard>
-
-                        </IonCol>
-
-                        <IonCol size-xs="12" size-sm="6" size-md="5" size-lg="4" size-xl="4">
-                            <IonCard className="card-dashboard card-big-img-background-2" color="primary">
-                                <span className="background-blur"></span>
-
-                                <IonImg className="card-fixed-icon-top-left"
-                                        src={"assets/images/dashboard/card-icon-1.png"}> </IonImg>
-
-                                <IonImg className="card-fixed-img-bottom-right"
-                                        src={"assets/images/background/ref-logo-yellow.png"}> </IonImg>
-
-                                <IonCardTitle className="card-dashboard-title">Card Title</IonCardTitle>
-                            </IonCard>
-
-                        </IonCol>
-
-                        <IonCol size-xs="12" size-sm="6" size-md="3" size-lg="3" size-xl="3">
-                            <IonCard className="card-dashboard" color="primary">
-
-                                <IonImg className="card-fixed-icon-top-left"
-                                        src={"assets/images/dashboard/card-icon-1.png"}> </IonImg>
-
-                                <IonCardTitle className="card-dashboard-title">Card Title</IonCardTitle>
-                            </IonCard>
-
-                        </IonCol>
-
-                        <IonCol size-xs="12" size-sm="6" size-md="4" size-lg="3" size-xl="3">
-                            <IonCard className="card-dashboard" color="primary">
-
-                                <IonImg className="card-fixed-icon-top-left"
-                                        src={"assets/images/dashboard/card-icon-1.png"}> </IonImg>
-
-                                <IonCardTitle className="card-dashboard-title">Card Title</IonCardTitle>
-                            </IonCard>
-
-                        </IonCol>
-
-                        <IonCol size-xs="12" size-sm="6" size-md="4" size-lg="3" size-xl="3">
-                            <IonCard className="card-dashboard" color="primary">
-
-                                <IonImg className="card-fixed-icon-top-left"
-                                        src={"assets/images/dashboard/card-icon-1.png"}> </IonImg>
-
-                                <IonCardTitle className="card-dashboard-title">Card Title</IonCardTitle>
-                            </IonCard>
-
-                        </IonCol>
+                        {listOfCards.map((card) => <Cards key={card.title} type={card.type} title={card.title}
+                                                          goTo={card.goTo} bgClassName={card.bgClassName}></Cards>)}
                     </IonRow>
 
                 </IonGrid>

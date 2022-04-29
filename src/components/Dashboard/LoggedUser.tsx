@@ -1,5 +1,5 @@
 import {IonContent, IonPage, IonTitle, getPlatforms, IonText} from '@ionic/react';
-import './logged-user.scss';
+import './LoggedUser.scss';
 import Menu from '../../components/Menu';
 import _ from 'underscore';
 
