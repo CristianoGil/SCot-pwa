@@ -36,6 +36,7 @@
     "cordova-sqlite-storage": "^6.0.0",
     "dayjs": "^1.11.1",
     "ionicons": "^5.4.0",
+    "jwt-decode": "^3.1.2",
     "moment": "^2.29.3",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",

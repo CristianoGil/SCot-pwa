@@ -15,6 +15,7 @@ root.render(
     </React.StrictMode>
 );
 
+
 document.addEventListener('deviceready', async function () {
     /**Initialization local database - SQLite (only for mobile environment)*/
     const {initialDatabase} = database();
@@ -27,6 +28,7 @@ document.addEventListener('deviceready', async function () {
     start()
 
 });
+
 
 
 // If you want your app to work offline and load faster, you can change
