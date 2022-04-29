@@ -54,8 +54,8 @@ const Menu: React.FC = () => {
     }, [history])
 
     return (
-        <IonHeader className={`ion-no-border ${isVisible}`}>
-            <IonToolbar color='transparent'>
+        <IonHeader collapse="fade" className={`ion-no-border ${isVisible}`} >
+            <IonToolbar >
 
                 <IonButtons slot="start" onClick={() => {
                     setShowModal(true);

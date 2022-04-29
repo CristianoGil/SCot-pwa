@@ -14,8 +14,9 @@ import {Link} from 'react-router-dom';
 const BigCard = (props: any) => {
     return (
         <IonCol size-xs="12" size-sm="6" size-md="5" size-lg="4" size-xl="4">
-            <IonCard className={"card-dashboard " + props.bgClassName} color="primary">
-                <Link to={props.goTo} className="card-anchor">
+            <Link to={props.goTo} className="card-anchor">
+                <IonCard className={"card-dashboard " + props.bgClassName} color="primary">
+
                     <span className="background-blur"></span>
                     <IonImg className="card-fixed-icon-top-left"
                             src={"assets/images/dashboard/card-icon-1.png"}> </IonImg>
@@ -24,8 +25,9 @@ const BigCard = (props: any) => {
                             src={"assets/images/background/ref-logo-yellow.png"}> </IonImg>
 
                     <IonCardTitle className="card-dashboard-title">{props.title}</IonCardTitle>
-                </Link>
-            </IonCard>
+
+                </IonCard>
+            </Link>
         </IonCol>
 
     )
@@ -34,15 +36,16 @@ const BigCard = (props: any) => {
 const NormalCard = (props: any) => {
     return (
         <IonCol size-xs="12" size-sm="6" size-md="4" size-lg="3" size-xl="3">
-            <IonCard className="card-dashboard" color="primary">
-                <Link to={props.goTo} className="card-anchor">
+            <Link to={props.goTo} className="card-anchor">
+                <IonCard className="card-dashboard" color="primary">
+
                     <IonImg className="card-fixed-icon-top-left"
                             src={"assets/images/dashboard/card-icon-1.png"}> </IonImg>
 
                     <IonCardTitle className="card-dashboard-title">{props.title}</IonCardTitle>
-                </Link>
-            </IonCard>
 
+                </IonCard>
+            </Link>
         </IonCol>
     )
 

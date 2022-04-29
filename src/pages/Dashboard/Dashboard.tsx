@@ -79,7 +79,7 @@ const Dashboard: React.FC = () => {
                     </IonRow>
 
                     <IonRow class="ion-justify-content-start dashboard-grid-row dashboard-grid-row-card ">
-                        {listOfCards.map((card) => <Cards key={card.title} type={card.type} title={card.title}
+                        {listOfCards.map((card, index) => <Cards key={card.title + "-" + index} type={card.type} title={card.title}
                                                           goTo={card.goTo} bgClassName={card.bgClassName}></Cards>)}
                     </IonRow>
 
