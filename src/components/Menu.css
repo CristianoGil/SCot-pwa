@@ -1,16 +1,24 @@
-ion-footer::part(native) .input-wrapper{
+ion-footer::part(native) .input-wrapper {
     justify-content: center;
 }
 
-ion-content#modelContent #imgModal{
+ion-content#modelContent #imgModal {
     position: relative;
     top: 0px;
     left: 0px;
     background-size: cover !important;
     background: lightblue url("../../public/assets/images/img.png") center;
-    filter: blur(4px);  
+    filter: blur(4px);
     height: 100%;
     width: 100%;
+}
+
+ion-toolBar {
+    --background: var(--ion-toolbar-background, var(--ion-background-color, rgb(255 255 255 / 80%)));
+}
+
+body.dark ion-toolBar {
+    --background:  rgb(18 18 18 / 80%);;
 }
 
 #imgModal-fx {

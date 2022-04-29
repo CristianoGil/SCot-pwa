@@ -1,7 +1,27 @@
-import { IonButton, IonButtons, IonCol, IonContent, IonFooter, IonGrid, IonHeader, IonIcon, IonImg, IonItem, IonLabel, IonList, IonModal, IonPage, IonPopover, IonRow, IonToggle, IonToolbar } from '@ionic/react';
-import { list, person, wifi, apps, close, moon } from 'ionicons/icons';
-import { useEffect, useState } from 'react';
-import { useHistory } from 'react-router';
+import {
+    IonMenu,
+    IonButton,
+    IonButtons,
+    IonCol,
+    IonContent,
+    IonFooter,
+    IonGrid,
+    IonHeader,
+    IonIcon,
+    IonImg,
+    IonItem,
+    IonLabel,
+    IonList,
+    IonModal,
+    IonPage,
+    IonPopover,
+    IonRow,
+    IonToggle,
+    IonToolbar
+} from '@ionic/react';
+import {list, person, wifi, apps, close, moon} from 'ionicons/icons';
+import {useEffect, useState} from 'react';
+import {useHistory} from 'react-router';
 import './Menu.css'
 
 const Menu: React.FC = () => {
@@ -27,18 +47,19 @@ const Menu: React.FC = () => {
 
             if (location.pathname == '/login') {
                 setIsVisible("ion-hide");
-            }
-            else
+            } else
                 setIsVisible("");
 
         });
     }, [history])
 
     return (
-        <IonHeader className={`ion-no-border ${isVisible}`}>
-            <IonToolbar color='transparent'>
+        <IonHeader collapse="fade" className={`ion-no-border ${isVisible}`} >
+            <IonToolbar >
 
-                <IonButtons slot="start" onClick={() => { setShowModal(true); }}>
+                <IonButtons slot="start" onClick={() => {
+                    setShowModal(true);
+                }}>
 
                     <IonButton
                         style={{
@@ -81,7 +102,9 @@ const Menu: React.FC = () => {
                     </IonLabel>
                 </IonButtons>
 
-                <IonButtons slot="end" onClick={() => { setShowPopover(true); }}>
+                <IonButtons slot="end" onClick={() => {
+                    setShowPopover(true);
+                }}>
 
                     <IonButton
                         style={{
@@ -102,7 +125,9 @@ const Menu: React.FC = () => {
                 <IonPage>
                     <IonHeader className="ion-no-border">
                         <IonToolbar color='transparent'>
-                            <IonButtons slot="start" onClick={() => { setShowModal(false); }}>
+                            <IonButtons slot="start" onClick={() => {
+                                setShowModal(false);
+                            }}>
 
                                 <IonButton
                                     style={{
@@ -118,13 +143,13 @@ const Menu: React.FC = () => {
                     </IonHeader>
                     <IonContent id='modelContent'>
 
-                        <div id='imgModal' />
+                        <div id='imgModal'/>
 
                         <div id='imgModal-fx'></div>
 
                         <div id='modelContent_Interno' className='ion-align-items-center'>
                             <IonGrid>
-                                <IonRow style={{ padding: 100 }}>
+                                <IonRow style={{padding: 100}}>
                                     <IonCol>
                                         <h1>Dashboard</h1>
                                     </IonCol>
@@ -148,7 +173,9 @@ const Menu: React.FC = () => {
                 className="menu"
                 mode="md"
                 showBackdrop={true}
-                onDidDismiss={() => { setShowPopover(false); }}>
+                onDidDismiss={() => {
+                    setShowPopover(false);
+                }}>
                 <IonPage>
                     <IonHeader className="ion-no-border">
                         <IonToolbar color='transparent'>
@@ -157,7 +184,9 @@ const Menu: React.FC = () => {
                                     Aplicação
                                 </h1>
                             </IonLabel>
-                            <IonButtons slot="end" onClick={() => { setShowPopover(false); }}>
+                            <IonButtons slot="end" onClick={() => {
+                                setShowPopover(false);
+                            }}>
 
                                 <IonButton
                                     style={{
@@ -175,7 +204,7 @@ const Menu: React.FC = () => {
                     <IonContent>
                         <IonList className="ion-margin-top">
                             <IonItem>
-                                <IonIcon slot="start" icon={moon} />
+                                <IonIcon slot="start" icon={moon}/>
                                 <IonLabel>Modo escuro</IonLabel>
                                 <small>Reduzir exposição à luz e poupança de bateria</small>
                                 <IonToggle
@@ -195,7 +224,7 @@ const Menu: React.FC = () => {
                             <small>Copyright @ 2021 SCOT+. Todos os direitos reservados.</small>
                         </IonItem>
                         <IonItem lines='none'>
-                            <IonImg src={'assets/images/Modelos-Barras-FUNDOS-v04_3logos-FEEI.png'} />
+                            <IonImg src={'assets/images/Modelos-Barras-FUNDOS-v04_3logos-FEEI.png'}/>
                         </IonItem>
                     </IonFooter>
                 </IonPage>

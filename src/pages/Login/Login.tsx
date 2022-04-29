@@ -5,7 +5,7 @@ import './Login.css';
 const Login: React.FC<RouteComponentProps> = ({ history }) => {
 
     return (
-
+<IonPage>
         <IonContent>
             {/* conteúdo */}
             <IonGrid className='ion-no-padding' id='gridLogin'>
@@ -77,6 +77,7 @@ const Login: React.FC<RouteComponentProps> = ({ history }) => {
             </IonGrid>
             {/* conteúdo */}
         </IonContent>
+</IonPage>
     );
 };
 

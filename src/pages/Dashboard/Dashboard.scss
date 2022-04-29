@@ -1,0 +1,22 @@
+.content-dashboard {
+  --padding-bottom: 15px;
+  --padding-end: 15px;
+  --padding-start: 15px;
+  --padding-top: 15px;
+  --background: "#FFFFFF";
+
+  .dashboard-grid {
+    --ion-grid-padding-md: 15px;
+    --ion-grid-padding-lg: 15px;
+    --ion-grid-padding-xl: 15px;
+
+
+    .dashboard-grid-row {
+      padding-left: 50px;
+    }
+
+    .dashboard-grid-row-card {
+      padding-top: 40px;
+    }
+  }
+}
