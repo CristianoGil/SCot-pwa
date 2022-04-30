@@ -9,37 +9,73 @@ import {
     IonLabel,
     IonPage,
     IonRow,
-    IonIcon
+    IonIcon,
+    useIonLoading,
+    useIonAlert
 } from '@ionic/react';
 
-import {useContext, useState } from "react";
+import {useContext, useState} from "react";
 
 import {RouteComponentProps} from 'react-router-dom';
+import _ from 'underscore';
+import {UserContext} from '../../Context/UserContext';
 import './Login.scss';
-import { UserContext } from '../../Context/UserContext';
 
 const Login: React.FC<RouteComponentProps> = ({history}) => {
 
-    //User Context
+    const [present, dismiss] = useIonLoading();
+    const [presentLoad] = useIonAlert();
+
     const userContext = useContext<any>(UserContext);
 
     //State variables definition
     const [username, setUsername] = useState<any>('')
     const [password, setPassword] = useState<any>('')
 
+    const login = (e: { preventDefault: () => void; }) => {
+        e.preventDefault();
 
-    const handlerForm = (e: any) => {
+        if ((_.isString(username) && !_.isEmpty(username)) && (_.isString(password) && !_.isEmpty(password))) {
 
-        let temp = e.target.value;
+            present({
+                message: 'A entrar...',
+            })
 
-        if (e.target.id === 'idusername') {
-            setUsername(temp);
+            userContext.login(username, password, () => {
+                dismiss()
+                history.push('/dashboard')
+            }, () => {
+                dismiss()
+                // Open alert to login faild
+                presentLoad({
+                    header: 'Erro!',
+                    message: 'Palavra-passe ou utilizador incorrecto.',
+                    buttons: [
+                        'Cancel',
+                        {text: 'Ok'},
+                    ]
+                })
+
+            });
+
+        } else {
+            presentLoad({
+                header: 'Erro!',
+                message: 'Por favor! preencha os campos correctamente.',
+                buttons: [
+                    {text: 'Compreendi'},
+                ]
+            })
         }
 
-        if (e.target.id === 'idpassword') {
-            setPassword(temp);
-        }
 
+    }
+
+    const handlerkeyUpInputForm_username = (e: any) => {
+        setUsername(e.target.value);
+    }
+    const handlerkeyUpInputForm_password = (e:any) => {
+        setPassword(e.target.value);
     }
 
     //Password
@@ -94,32 +130,40 @@ const Login: React.FC<RouteComponentProps> = ({history}) => {
                                 <h6>Inicie a sua sessão.</h6>
 
                                 <div id='inputs'>
-                                    <form action="none" id="loginForm">
-                                    <IonItem id='inputUtilizador'>
-                                        <IonLabel position="floating">Utilizador</IonLabel>
-                                        <IonInput id="idusername" className="login-input-username" type="text"></IonInput>
-                                    </IonItem>
+                                    <form action="none" id="loginFormUser">
+                                        <IonItem id='inputUtilizador'>
+                                            <IonLabel position="floating">Utilizador</IonLabel>
+                                            <IonInput id="idusername"
+                                                      className="login-input-username"
+                                                      type="text"
+                                                      value={username}
+                                                      onKeyUp={handlerkeyUpInputForm_username}
+                                            ></IonInput>
+                                        </IonItem>
 
-                                    <IonItem className='ion-margin-top'>
-                                        <IonLabel  position="floating">Palavra-passe</IonLabel>
-                                        <IonInput className="login-input-password" type={showPassword ? 'text' : 'password'}>
-                                        </IonInput>
-                                        <IonButton
-                                            id="idpassword"
-                                            className="btn-icon-password"
-                                            size="small"
-                                            aria-label="toggle password visibility"
-                                            onClick={handleClickShowPassword}
-                                            onMouseDown={handleMouseDownPassword}
-                                        >
-                                            <IonIcon slot="end" src={showPassword ? "assets/icon/login/eye-off.svg" : "assets/icon/login/eye-outline.svg"}></IonIcon>
-                                        </IonButton>
-                                    </IonItem>
+                                        <IonItem className='ion-margin-top'>
+                                            <IonLabel position="floating">Palavra-passe</IonLabel>
+                                            <IonInput className="login-input-password"
+                                                      type={showPassword ? 'text' : 'password'}
+                                                      value={password}
+                                                      onKeyUp={handlerkeyUpInputForm_password}
+                                            >
+                                            </IonInput>
+                                            <IonButton
+                                                id="idpassword"
+                                                className="btn-icon-password"
+                                                size="small"
+                                                aria-label="toggle password visibility"
+                                                onClick={handleClickShowPassword}
+                                                onMouseDown={handleMouseDownPassword}
+                                            >
+                                                <IonIcon slot="end"
+                                                         src={showPassword ? "assets/icon/login/eye-off.svg" : "assets/icon/login/eye-outline.svg"}></IonIcon>
+                                            </IonButton>
+                                        </IonItem>
                                     </form>
-                                    <IonButton onClick={e => {
-                                        e.preventDefault();
-                                        history.push('/dashboard')
-                                    }} expand="block" className='ion-margin-top ion-margin-bottom'
+                                    <IonButton onClick={login} expand="block"
+                                               className='ion-margin-top ion-margin-bottom'
                                                color='#003E7E'>Entrar</IonButton>
 
                                     <a target="_blank" className="recoverPasswordAnchor" href="#">Recuperar acesso</a>

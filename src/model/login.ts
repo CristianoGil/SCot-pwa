@@ -1,11 +1,12 @@
 export interface IResponseLogin {
-    userName: string | null
-    nomeUsuario: string | null
-    entidade: IEntidadeLogin | null
-    email: string | null
-    token: string | null
-    menu: ImenuLogin[] | null
+    userName?: string
+    nomeUsuario?: string
+    email?: string
+    token?: string
+    entidade?: IEntidadeLogin
+    menu?: ImenuLogin[]
     isMobilidade?: boolean
+    loggeDate?: Date
 }
 
 interface IEntidadeLogin {
@@ -23,5 +24,4 @@ interface ImenuLogin {
 export interface IRequestLogin {
     username?: string
     password?: string
-    email?: string
 }

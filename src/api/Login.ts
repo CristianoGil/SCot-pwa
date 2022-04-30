@@ -5,33 +5,18 @@ import type {IRequestLogin, IResponseLogin} from "../model/login";
 import _ from "underscore";
 
 
-export class Login implements IRequestLogin {
-    username?: string;
-    password?: string;
-    email?: string | undefined;
-
+export default class Login {
     prefix_url: string = 'v1/login';
 
-    constructor(username?: string, password?: string, email?: string) {
-        this.username = username;
-        this.password = password;
-        this.email = email;
-    }
-
-    public auth(): Promise<void> {
+    public authenticate(request: IRequestLogin): Promise<IResponseLogin | null> {
 
         return new Promise((resolve, reject) => {
 
-            const request: IRequestLogin = {
-                username: this.username,
-                password: this.password,
-                email: this.email
-            };
-
             axios.post(`${URL_API_SCOT}/${this.prefix_url}`, request).then((response: AxiosResponse) => {
                 const dataUser: IResponseLogin = response.data;
-                localStorage.setItem('AUTH_LOCALSTORAGE', JSON.stringify(dataUser));
-                resolve();
+                dataUser.loggeDate = new Date();
+                localStorage.setItem(AUTH_LOCALSTORAGE, JSON.stringify(dataUser));
+                resolve(dataUser);
             }).catch((error) => {
                 if (process.env.NODE_ENV !== 'production') {
                     console.error("Login error: ", error)
@@ -42,13 +27,30 @@ export class Login implements IRequestLogin {
 
     }
 
+    public logout(): void{
+        localStorage.setItem(AUTH_LOCALSTORAGE, '{}');
+        localStorage.removeItem(AUTH_LOCALSTORAGE);
+    }
+
     public isAuthenticated(): boolean {
-        const dataUser = localStorage.getItem('AUTH_LOCALSTORAGE');
+        const dataUser = localStorage.getItem(AUTH_LOCALSTORAGE);
         if (dataUser) {
             const parse_dataUser: IResponseLogin = JSON.parse(dataUser);
-            return _.has(parse_dataUser, 'token') && _.has(parse_dataUser, 'userName')
+            return _.has(parse_dataUser, 'token')
         }
 
         return false
+    }
+
+    public getUserData(): IResponseLogin | null {
+
+        const dataUser = localStorage.getItem(AUTH_LOCALSTORAGE);
+
+        if (dataUser) {
+            const parse_dataUser: IResponseLogin = JSON.parse(dataUser);
+            return parse_dataUser
+        }
+
+        return null
     }
 }

@@ -6,12 +6,15 @@ import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 import database from './database';
 import syncDatabase from './database/sync_database'
+import {UserProvider} from './Context/UserContext';
 
 const root: any = createRoot(document.getElementById('root')!)
 
 root.render(
     <React.StrictMode>
-        <App />
+        <UserProvider>
+            <App/>
+        </UserProvider>
     </React.StrictMode>
 );
 
@@ -28,7 +31,6 @@ document.addEventListener('deviceready', async function () {
     start()
 
 });
-
 
 
 // If you want your app to work offline and load faster, you can change
