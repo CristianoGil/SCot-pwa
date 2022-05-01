@@ -7,7 +7,7 @@ ion-content#modelContent #imgModal{
     top: 0px;
     left: 0px;
     background-size: cover !important;
-    background: lightblue url("../../public/assets/images/img.png") center;
+    background: url("../../../public/assets/images/img.png") center;
     filter: blur(4px);  
     height: 100%;
     width: 100%;

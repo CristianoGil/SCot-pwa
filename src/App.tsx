@@ -26,7 +26,7 @@ import '@ionic/react/css/display.css';
 import './theme/variables.css';
 import './App.css';
 
-import Menu from './components/Menu';
+import Menu from './components/Menu/Menu';
 import Login from './pages/Login/Login';
 import Dashboard from './pages/Dashboard/Dashboard';
 import CoDirecta from './pages/Co-Directa/Co-Directa';

@@ -11,7 +11,7 @@ ion-row#rowLogin {
     top: 0px;
     left: 0px;
     background-size: cover !important;
-    background: lightblue url("../../../public/assets/images/img.png") center;
+    background: url("../../../public/assets/images/img.png") center;
     filter: blur(15px);
     height: 100%;
     width: 100%;
@@ -51,7 +51,7 @@ ion-row#rowLogin {
     top: 0px;
     left: 0px;
     background-size: cover !important;
-    background: lightblue url("../../../public/assets/images/img.png") center;
+    background: url("../../../public/assets/images/img.png") center;
     filter: blur(4px);
     height: 100%;
     width: 100%;
