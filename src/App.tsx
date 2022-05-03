@@ -1,8 +1,9 @@
-import {Redirect, Route} from 'react-router-dom';
+import { Redirect, Route} from 'react-router-dom';
 import {
     IonApp,
     IonRouterOutlet,
-    setupIonicReact
+    setupIonicReact,
+
 } from '@ionic/react';
 import {IonReactRouter} from '@ionic/react-router';
 /* Core CSS required for Ionic components to work properly */
@@ -28,19 +29,47 @@ import './App.css';
 import Login from './pages/Login/Login';
 import Dashboard from './pages/Dashboard/Dashboard';
 import CoDirecta from './pages/Co-Directa/Co-Directa';
+import {useContext, useEffect, useState} from 'react';
+import {IResponseLogin} from './model/login';
+import {UserContext} from './Context/UserContext';
+
+
+interface IProtectedProps {
+    isAllowed: boolean
+    redirectPath?: string
+    children: any
+}
+
+const ProtectedRoute: React.FC<IProtectedProps> = ({isAllowed = false, redirectPath = '/login', children}) => {
+    if (!isAllowed) {
+        return <Redirect exact  to={redirectPath}/>;
+    }
+    console.log(children)
+    return  children
+};
+
 
 setupIonicReact();
 
 const App: React.FC = () => {
 
+    const userContext = useContext<any>(UserContext);
+    console.log(userContext.isAuthenticated())
     return (
         <IonApp>
             <IonReactRouter>
                 <IonRouterOutlet>
+
+                    {/*<ProtectedRoute isAllowed={userContext.isAuthenticated()}>*/}
+                        <Route path={"/dashboard"} component={Dashboard}/>
+                    {/*</ProtectedRoute>*/}
+
+                    {/*<ProtectedRoute isAllowed={userContext.isAuthenticated()}>*/}
+                        <Route path={"/coDirecta"} component={CoDirecta}/>
+                    {/*</ProtectedRoute>*/}
+
                     <Route path={"/login"} component={Login}/>
-                    <Route path={"/dashboard"} component={Dashboard}/>
-                    <Route path={"/coDirecta"} component={CoDirecta}/>
-                    <Redirect exact from="/" to="/login"/>
+                    <Redirect exact from="/" to="/dashboard" />
                 </IonRouterOutlet>
             </IonReactRouter>
         </IonApp>
