@@ -17,6 +17,7 @@ import {
     IonSelect,
     IonSelectOption,
     IonToggle,
+    useIonAlert,
 } from '@ionic/react';
 import {useState} from 'react';
 import {search} from 'ionicons/icons';
@@ -24,12 +25,61 @@ import React from 'react';
 import {useAppSelector} from '../../../app/hooks';
 import {setVisiblePopoverIndentVeiculo} from '../../Menu/popoverIndentVeiculoSlice';
 import './Arguido.scss';
+import Pais from '../../Combos/Pais';
 
 const Arguido: React.FC = () => {
 
+    const [presentAlert, dismissAlert] = useIonAlert();
+
     const [paisDeEmissao, setPaisDeEmissao] = useState<string>();
-    const [isProprietarioDoVeiculo, setIsProprietarioDoVeiculo] = useState(false);
-    const [selectedSingularColetivo, setSelectedSingularColetivo] = useState<string>('');
+    const [isProprietarioVeiculo, setIsProprietarioVeiculo] = useState(false);
+    const [arguidoVeiculoSingularColetivo, setArguidoVeiculoSingularColetivo] = useState<string>('singular');
+
+    //START:  INPUT NIF
+    const [arguidoNif, setArguidoNif] = useState('');
+    const keyup_arguidoNif = (e: any) => {
+        setArguidoNif(e.target.value);
+    }
+
+    const [inputNif_color, setInputNif_color] = useState<string>();
+    const inputNif_canSearch = () => {
+        const chartsLength = arguidoNif.length;
+        let inputColor: string;
+
+        if (chartsLength > 0 && (chartsLength > 9 || 9 > chartsLength)) {
+            inputColor = 'danger';
+        } else if (chartsLength === 9) {
+            inputColor = 'success';
+        }
+
+        setTimeout(() => {
+            setInputNif_color(inputColor)
+        });
+
+        return chartsLength !== 9;
+    }
+
+    const handler_arguidoSearchByNif = (e: any) => {
+
+        // dispatch(setVisiblePopoverIndentVeiculo(true));
+
+        if (inputNif_canSearch()) {
+            presentAlert({
+                header: 'Atenção!',
+                message: 'NIF inválido.',
+                buttons: [
+                    {text: 'Fechar'},
+                ]
+            })
+            return;
+        }
+
+        e.preventDefault();
+    }
+
+    // END: INPUT NIF
+
+
 
     return (
         <IonCard className={'co-arguido'}>
@@ -46,47 +96,46 @@ const Arguido: React.FC = () => {
                                 <IonLabel>O arguido é proprietário do veículo?</IonLabel>
                                 <IonToggle
                                     slot="end"
-                                    name="darkMode"
-                                    checked={isProprietarioDoVeiculo}
+                                    name="arguido-proprietarioVeiculo"
+                                    checked={isProprietarioVeiculo}
                                     onIonChange={e => {
-                                        setIsProprietarioDoVeiculo(e.detail.checked)
-
+                                        setIsProprietarioVeiculo(e.detail.checked)
                                     }}
                                 />
                             </IonItem>
                         </IonCol>
                     </IonRow>
                     <IonRow>
-                        <IonCol size='5'>
+                        <IonCol size='4'>
                             <IonItem>
                                 <IonButton color='medium' fill="clear" id="open-search-input-1">
                                     <IonIcon icon={search}/>
                                 </IonButton>
-                                <IonInput placeholder='NIF'/>
-
+                                <IonInput maxlength={9} minlength={9} color={inputNif_color} required={true}
+                                          clearInput={true}
+                                          name='arguido-nif' value={arguidoNif} onKeyUp={keyup_arguidoNif}
+                                          placeholder='NIF'/>
                             </IonItem>
                         </IonCol>
-                        <IonCol size='3'>
+                        <IonCol size='2'>
                             <IonItem lines='none'>
-
                                 <IonButton style={{background: '#084F87', borderRadius: 4}} color="#084F87" slot="start"
-                                           size='default' onClick={() => {
-                                    dispatch(setVisiblePopoverIndentVeiculo(true));
-                                }}>
+                                           disabled={inputNif_canSearch()}
+                                           size='default' onClick={handler_arguidoSearchByNif}>
                                     Pesquisar
                                 </IonButton>
 
                             </IonItem>
                         </IonCol>
 
-                        <IonCol size='4'>
+                        <IonCol size='6'>
 
                             <div style={{
                                 display: 'inline-flex',
                                 borderRadius: 10,
                                 background: '#FEF7EA',
                                 width: '100%',
-                                border: 'groove'
+                                border: 'none'
                             }}>
                                 <IonImg src={'assets/images/Group 4529_icon.png'}
                                         style={{width: 'fit-content'}}></IonImg>
@@ -98,37 +147,30 @@ const Arguido: React.FC = () => {
                     </IonRow>
 
                     <IonRow>
-                        <IonCol size='4' >
+                        <IonCol size='4'>
 
-                            <IonRadioGroup value={selectedSingularColetivo}
-                                           onIonChange={e => setSelectedSingularColetivo(e.detail.value)}>
-
+                            <IonRadioGroup value={arguidoVeiculoSingularColetivo} onIonChange={e => setArguidoVeiculoSingularColetivo(e.detail.value)}>
                                 <IonRow>
                                     <IonCol size='6'>
                                         <IonItem lines='none' className="veiculo-proprietario-radio radio-item">
-                                            <IonRadio  value="biff"/>
-                                            <IonLabel  >Singular</IonLabel>
+                                            <IonRadio value="singular"/>
+                                            <IonLabel>Singular</IonLabel>
                                         </IonItem>
                                     </IonCol>
                                     <IonCol size='6'>
                                         <IonItem lines='none' className="veiculo-proprietario-radio radio-Item">
-                                            <IonRadio  value="griff"/>
-                                            <IonLabel  >Coletivo</IonLabel>
+                                            <IonRadio value="colection"/>
+                                            <IonLabel>Coletivo</IonLabel>
                                         </IonItem>
                                     </IonCol>
                                 </IonRow>
-
                             </IonRadioGroup>
                         </IonCol>
-                        <IonCol size='4' offset={'2'}>
-                            <IonItem>
-                                <IonLabel>País de emissão</IonLabel>
-                                <IonSelect value={paisDeEmissao} interface="popover"
-                                           onIonChange={e => setPaisDeEmissao(e.detail.value)}>
-                                    <IonSelectOption value="female">Female</IonSelectOption>
-                                    <IonSelectOption value="male">Male</IonSelectOption>
-                                </IonSelect>
-                            </IonItem>
+                        <IonCol size='4'>
+                            
+                                <Pais inputName={'arguido-paisEmissao'} textLabel={'País de emissão'}/>
+                          
+                          
                         </IonCol>
                     </IonRow>
 

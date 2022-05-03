@@ -22,4 +22,9 @@ ion-popover.menu::part(content) {
 
 ion-card-header {
     border-bottom: 1px solid #ddd;
+    font-weight: bold !important;
+}
+
+ion-card-title {
+    font-weight: bold !important;
 }

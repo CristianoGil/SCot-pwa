@@ -18,4 +18,4 @@ export const LOAD_COMBOS_PATH = [
     'locais/carregarCombosLocal',
     'organizacoes/carregarCombosOrganizacoes',
     'veiculos/carregarCombosVeiculo'
-];
+];  
