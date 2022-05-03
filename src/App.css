@@ -2,14 +2,14 @@ ion-modal.fullscreen {
     --width: 100%;
     --height: 100%;
     --border-radius: 0;
-  }
+}
 
-  ion-popover.menu#popoverMenu {
+ion-popover.menu#popoverMenu {
     --width: 540px;
     --max-width: 100%;
-  }
+}
 
-  ion-popover.menu::part(content) {
+ion-popover.menu::part(content) {
     top: 0 !important;
     left: inherit !important;
     right: 0;
@@ -18,4 +18,4 @@ ion-modal.fullscreen {
     background: white;
     box-shadow: -8px 0 16px rgba(0, 0, 0, 0.12);
     border-radius: 0;
-  }
+}

@@ -121,35 +121,26 @@ ion-grid#gridGeral {
 
 }
 
-/* ion-grid {
-    border: 1px solid red;
-}
+/*ion-grid {*/
+/*    border: 1px solid red;*/
+/*}*/
 
-ion-row {
-    height: max-content;
-    border: 1px solid black;
-}
+/*ion-row {*/
+/*    height: max-content;*/
+/*    border: 1px solid black;*/
+/*}*/
 
-ion-col {
-    border: 1px solid green;
-}
+/*ion-col {*/
+/*    border: 1px solid green;*/
+/*}*/
 
-ion-content {
-    padding: 130px;
-    border: 1px solid blue;
-} */
+/*ion-content {*/
+/*    padding: 130px;*/
+/*    border: 1px solid blue;*/
+/*}*/
 
 
-ion-popover.menu#popoverIdentVeiculo {
-    --width: 940px;
-    --max-width: 100%;
-}
-
-.cardfooter{
-    margin-left: 22px;
-    margin-right: 22px;
-}
-
-ion-content::part(background) {
-    background-color: #FCFCFC;
-}
+/*ion-popover.menu#popoverIdentVeiculo {*/
+/*    --width: 840px;*/
+/*    --max-width: 100%;*/
+/*  }*/
