@@ -1,14 +1,14 @@
-ion-footer::part(native) .input-wrapper{
+ion-footer::part(native) .input-wrapper {
     justify-content: center;
 }
 
-ion-content#modelContent #imgModal{
+ion-content#modelContent #imgModal {
     position: relative;
     top: 0px;
     left: 0px;
     background-size: cover !important;
     background: url("../../../public/assets/images/img.png") center;
-    filter: blur(4px);  
+    filter: blur(4px);
     height: 100%;
     width: 100%;
 }
@@ -53,4 +53,13 @@ ion-toolbar ion-button.btnRound {
 
 ion-toolbar ion-label {
     margin-left: 10px;
+}
+
+ion-toolbar {
+    --background: transparent;
+}
+
+ion-content #modelContent_Interno a {
+    text-decoration: none;
+    color: white;
 }

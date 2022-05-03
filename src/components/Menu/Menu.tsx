@@ -6,6 +6,7 @@ import CardListItem from '../CardListItem';
 import './Menu.css'
 import { setVisiblePopoverIndentVeiculo } from './popoverIndentVeiculoSlice';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
+import { Link } from 'react-router-dom';
 
 const Menu: React.FC = () => {
 
@@ -110,8 +111,8 @@ const Menu: React.FC = () => {
                 className="fullscreen">
 
                 <IonPage>
-                    <IonHeader className="ion-no-border">
-                        <IonToolbar color='transparent'>
+                    <IonHeader className="ion-no-border" style={{ position: 'absolute' }}>
+                        <IonToolbar style={{ background: 'transparent' }}>
                             <IonButtons slot="start" onClick={() => { setShowModal(false); }}>
 
                                 <IonButton
@@ -135,55 +136,195 @@ const Menu: React.FC = () => {
 
                         <div id='modelContent_Interno' className='ion-align-items-center'>
                             <IonGrid style={{ padding: 180 }}>
+                                {/* Header */}
                                 <IonRow>
-                                    <IonCol sizeSm='4'>
+                                    <IonCol sizeLg='4'>
                                         <div style={{ display: 'inline-flex' }}>
                                             <IonImg src={'assets/images/Icon Dashboard.png'} style={{ width: 'fit-content' }}></IonImg>
                                             <h1 style={{ marginTop: 14, marginLeft: 10 }}>Dashboard</h1>
                                         </div>
                                     </IonCol>
-                                    <IonCol sizeSm='4'>
+                                    <IonCol sizeLg='4'>
                                         <div style={{ display: 'inline-flex' }}>
                                             <IonImg src={'assets/images/Icon Catálogo.png'} style={{ width: 'fit-content' }}></IonImg>
                                             <h1 style={{ marginTop: 14, marginLeft: 10 }}>RI/Catálogo</h1>
                                         </div>
                                     </IonCol>
-                                    <IonCol sizeSm='4'>
+                                    <IonCol sizeLg='4'>
                                         <div style={{ display: 'inline-flex' }}>
                                             <IonImg src={'assets/images/Icon Contraordenações.png'} style={{ width: 'fit-content' }}></IonImg>
                                             <h1 style={{ marginTop: 14, marginLeft: 10 }}>Contraordenações</h1>
                                         </div>
                                     </IonCol>
                                 </IonRow>
+                                {/* Header */}
 
-
+                                {/* Linha 1 */}
                                 <IonRow>
-                                    <IonCol sizeSm='4'>
-                                        <div style={{ display: 'inline-flex' }}>
-                                            <IonImg src={'assets/images/temp.png'} style={{ width: 'fit-content' }}></IonImg>
-                                            <h1 style={{ marginTop: 14, marginLeft: 10 }}>Gestão de cobraças</h1>
-                                        </div>
+
+                                    <IonCol sizeLg='4' style={{ alignSelf: 'center' }}>
+                                        <Link to={'#'} onClick={() => {
+                                            setShowModal(false);
+                                        }}>
+                                            <div style={{ display: 'inline-flex' }}>
+                                                <IonImg src={'assets/images/temp.png'} style={{ width: 'fit-content' }}></IonImg>
+                                                <h1 style={{ marginTop: 14, marginLeft: 10 }}>Gestão de cobraças</h1>
+                                            </div>
+                                        </Link>
+                                    </IonCol>
+
+                                    <IonCol sizeLg='4' style={{ alignSelf: 'center' }}>
+                                        <IonGrid>
+                                            <IonRow>
+                                                <IonCol>
+                                                    <Link to={'#'} onClick={() => {
+                                                        setShowModal(false);
+                                                    }}>
+                                                        <div style={{ display: 'inline-flex' }}>
+                                                            <IonImg className='ion-hide' src={'assets/images/temp.png'} style={{ width: 'fit-content' }}></IonImg>
+                                                            <h5 style={{ marginTop: 14, marginLeft: 10 }}>Pessoa</h5>
+                                                        </div>
+                                                    </Link>
+                                                </IonCol>
+                                            </IonRow>
+
+                                            <IonRow>
+                                                <IonCol>
+                                                    <Link to={'#'} onClick={() => {
+                                                        setShowModal(false);
+                                                    }}>
+                                                        <div style={{ display: 'inline-flex' }}>
+                                                            <IonImg className='ion-hide' src={'assets/images/temp.png'} style={{ width: 'fit-content' }}></IonImg>
+                                                            <h5 style={{ marginTop: 14, marginLeft: 10 }}>Veículo</h5>
+                                                        </div>
+                                                    </Link>
+                                                </IonCol>
+                                            </IonRow>
+                                        </IonGrid>
+                                    </IonCol>
+
+                                    <IonCol sizeLg='4'>
+                                        <IonGrid>
+                                            <IonRow>
+                                                <IonCol>
+                                                    <Link to={'/coDirecta'} onClick={() => {
+                                                        setShowModal(false);
+                                                    }}>
+                                                        <div style={{ display: 'inline-flex' }}>
+                                                            <IonImg className='ion-hide' src={'assets/images/temp.png'} style={{ width: 'fit-content' }}></IonImg>
+                                                            <h5 style={{ marginTop: 14, marginLeft: 10 }}>Registrar contraordenação direta</h5>
+                                                        </div>
+                                                    </Link>
+                                                </IonCol>
+                                            </IonRow>
+
+                                            <IonRow>
+                                                <IonCol>
+                                                    <Link to={'#'} onClick={() => {
+                                                        setShowModal(false);
+                                                    }}>
+                                                        <div style={{ display: 'inline-flex' }}>
+                                                            <IonImg className='ion-hide' src={'assets/images/temp.png'} style={{ width: 'fit-content' }}></IonImg>
+                                                            <h5 style={{ marginTop: 14, marginLeft: 10 }}>Registrar contraordenação indireta</h5>
+                                                        </div>
+                                                    </Link>
+                                                </IonCol>
+                                            </IonRow>
+                                        </IonGrid>
                                     </IonCol>
 
                                 </IonRow>
+                                {/* Linha 1 */}
 
+                                {/* Linha 2 */}
                                 <IonRow>
-                                    <IonCol sizeSm='4'>
-                                        <div style={{ display: 'inline-flex' }}>
-                                            <IonImg src={'assets/images/temp.png'} style={{ width: 'fit-content' }}></IonImg>
-                                            <h1 style={{ marginTop: 14, marginLeft: 10 }}>Estatísticas e listagens</h1>
-                                        </div>
+                                    <IonCol sizeLg='4' style={{ alignSelf: 'center' }}>
+                                        <Link to={'#'} onClick={() => {
+                                            setShowModal(false);
+                                        }}>
+                                            <div style={{ display: 'inline-flex' }}>
+                                                <IonImg src={'assets/images/temp.png'} style={{ width: 'fit-content' }}></IonImg>
+                                                <h1 style={{ marginTop: 14, marginLeft: 10 }}>Estatísticas e listagens</h1>
+                                            </div>
+                                        </Link>
+                                    </IonCol>
+                                    <IonCol sizeLg='4'>
+                                        <IonGrid>
+                                            <IonRow>
+                                                <IonCol>
+                                                    <Link to={'#'} onClick={() => {
+                                                        setShowModal(false);
+                                                    }}>
+                                                        <div style={{ display: 'inline-flex' }}>
+                                                            <IonImg className='ion-hide' src={'assets/images/temp.png'} style={{ width: 'fit-content' }}></IonImg>
+                                                            <h5 style={{ marginTop: 14, marginLeft: 10 }}>Organização</h5>
+                                                        </div>
+                                                    </Link>
+                                                </IonCol>
+                                            </IonRow>
+
+                                            <IonRow>
+                                                <IonCol>
+                                                    <Link to={'#'} onClick={() => {
+                                                        setShowModal(false);
+                                                    }}>
+                                                        <div style={{ display: 'inline-flex' }}>
+                                                            <IonImg className='ion-hide' src={'assets/images/temp.png'} style={{ width: 'fit-content' }}></IonImg>
+                                                            <h5 style={{ marginTop: 14, marginLeft: 10 }}>Local</h5>
+                                                        </div>
+                                                    </Link>
+                                                </IonCol>
+                                            </IonRow>
+                                        </IonGrid>
                                     </IonCol>
                                 </IonRow>
+                                {/* Linha 2 */}
 
+                                {/* Linha 3 */}
                                 <IonRow>
-                                    <IonCol sizeSm='4'>
-                                        <div style={{ display: 'inline-flex' }}>
-                                            <IonImg src={'assets/images/temp.png'} style={{ width: 'fit-content' }}></IonImg>
-                                            <h1 style={{ marginTop: 14, marginLeft: 10 }}>Ofícios gerais</h1>
-                                        </div>
+                                    <IonCol sizeLg='4' style={{ alignSelf: 'center' }}>
+                                        <Link to={'#'} onClick={() => {
+                                            setShowModal(false);
+                                        }}>
+                                            <div style={{ display: 'inline-flex' }}>
+                                                <IonImg src={'assets/images/temp.png'} style={{ width: 'fit-content' }}></IonImg>
+                                                <h1 style={{ marginTop: 14, marginLeft: 10 }}>Ofícios gerais</h1>
+                                            </div>
+                                        </Link>
+                                    </IonCol>
+
+                                    <IonCol sizeLg='4'>
+
+                                        <IonGrid>
+                                            <IonRow>
+                                                <IonCol>
+                                                    <Link to={'#'} onClick={() => {
+                                                        setShowModal(false);
+                                                    }}>
+                                                        <div style={{ display: 'inline-flex' }}>
+                                                            <IonImg className='ion-hide' src={'assets/images/temp.png'} style={{ width: 'fit-content' }}></IonImg>
+                                                            <h5 style={{ marginTop: 44, marginLeft: 10 }}>Documentos</h5>
+                                                        </div>
+                                                    </Link>
+                                                </IonCol>
+                                            </IonRow>
+
+                                            <IonRow>
+                                                <IonCol>
+                                                    <Link to={'#'} onClick={() => {
+                                                        setShowModal(false);
+                                                    }}>
+                                                        <div style={{ display: 'inline-flex' }}>
+                                                            <IonImg className='ion-hide' src={'assets/images/temp.png'} style={{ width: 'fit-content' }}></IonImg>
+                                                            <h5 style={{ marginTop: 14, marginLeft: 10 }}></h5>
+                                                        </div>
+                                                    </Link>
+                                                </IonCol>
+                                            </IonRow>
+                                        </IonGrid>
                                     </IonCol>
                                 </IonRow>
+                                {/* Linha 3 */}
                             </IonGrid>
                         </div>
 

@@ -7,6 +7,7 @@ import { setVisiblePopoverIndentVeiculo } from '../../components/Menu/popoverInd
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { Network } from '@capacitor/network';
 import AlertNetwork from '../../components/AlertNetwork/AlertNetwork';
+import { Link } from 'react-router-dom';
 
 const CoDirecta: React.FC = () => {
 
@@ -27,15 +28,15 @@ const CoDirecta: React.FC = () => {
   Network.addListener('networkStatusChange', status => {
     console.log('Network status changed', status);
   });
-  
+
   const logCurrentNetworkStatus = async () => {
     const status = await Network.getStatus();
-  
+
     console.log('Network status:', status);
   };
 
   logCurrentNetworkStatus();
-  
+
   return (
     <>
 
@@ -53,8 +54,10 @@ const CoDirecta: React.FC = () => {
             <IonRow>
               <IonCol>
                 time-line
-                
-              <AlertNetwork />
+                <Link to={'#teste'}>
+                  Arguido
+                </Link>
+                <AlertNetwork />
               </IonCol>
               <IonCol sizeSm='10'>
                 {/* Arguido */}
@@ -491,16 +494,184 @@ const CoDirecta: React.FC = () => {
               </IonCol>
             </IonRow>
 
-            <IonRow>
+            <IonRow id='teste'>
               <IonCol color='secondary'>
                 <IonItem lines='none'>
-                  <IonButton slot='end' color='medium' onClick={e => {
+                  <IonButton slot='end' color='light' onClick={e => {
 
                   }}>Seguinte: Veículo</IonButton>
 
                 </IonItem>
               </IonCol>
             </IonRow>
+
+            <IonRow>
+              <IonCol>
+                time-line
+                <Link to={'#teste'}>
+                  Veículo
+                </Link>
+              </IonCol>
+              <IonCol sizeSm='10'>
+                {/* Veículo */}
+                <IonCard>
+
+                  <IonCardHeader>
+                    <IonCardTitle>Veículo</IonCardTitle>
+                  </IonCardHeader>
+
+                  <IonCardContent>
+                    <IonGrid>
+                      <IonRow>
+                        <IonCol sizeSm='6'>
+                          <IonItem>
+                            <IonLabel>O veículo é conduzido pelo Arguido?</IonLabel>
+                            <IonToggle
+                              slot="end"
+                              name="darkMode"
+                              checked={isProprietarioDoVeiculo}
+                              onIonChange={e => {
+                                setIsProprietarioDoVeiculo(e.detail.checked)
+
+                              }}
+                            />
+                          </IonItem>
+                        </IonCol>
+                      </IonRow>
+                      <IonRow>
+                        <IonCol sizeSm='3'>
+                          <IonItem>
+                            <IonButton color='medium' fill="clear" id="open-search-input-1">
+                              <IonIcon icon={search} />
+                            </IonButton>
+                            <IonInput placeholder='Matricula' />
+
+                          </IonItem>
+                        </IonCol>
+                        <IonCol sizeSm='3'>
+                          <IonItem lines='none'>
+
+                            <IonButton style={{ background: '#084F87', borderRadius: 4 }} color="#084F87" slot="start" size='default' onClick={() => { dispatch(setVisiblePopoverIndentVeiculo(true)); }}>
+                              Pesquisar
+                            </IonButton>
+
+                          </IonItem>
+                        </IonCol>
+                        <IonCol>
+
+                          <div style={{ display: 'inline-flex', borderRadius: 10, background: '#FEF7EA', width: '100%', border: 'groove' }}>
+                            <IonImg src={'assets/images/Group 4529_icon.png'} style={{ width: 'fit-content' }}></IonImg>
+                            <strong style={{ marginTop: 12, marginLeft: 2, color: 'black' }}>Dados sujeitos a validação</strong>
+                          </div>
+
+                        </IonCol>
+                      </IonRow>
+
+                      <IonRow>
+                        <IonCol sizeSm='3'>
+
+                          <IonItem>
+                            <IonLabel>País</IonLabel>
+                            <IonSelect value={paisDeEmissao} interface="popover" onIonChange={e => setPaisDeEmissao(e.detail.value)}>
+                              <IonSelectOption value="female">Female</IonSelectOption>
+                              <IonSelectOption value="male">Male</IonSelectOption>
+                            </IonSelect>
+                          </IonItem>
+                        </IonCol>
+                        <IonCol sizeSm='3'>
+                          <IonItem>
+                            <IonLabel>Marca</IonLabel>
+                            <IonSelect value={paisDeEmissao} interface="popover" onIonChange={e => setPaisDeEmissao(e.detail.value)}>
+                              <IonSelectOption value="female">Female</IonSelectOption>
+                              <IonSelectOption value="male">Male</IonSelectOption>
+                            </IonSelect>
+                          </IonItem>
+                        </IonCol>
+
+                        <IonCol sizeSm='3'>
+                          <IonItem>
+                            <IonLabel>Modelo</IonLabel>
+                            <IonSelect value={paisDeEmissao} interface="popover" onIonChange={e => setPaisDeEmissao(e.detail.value)}>
+                              <IonSelectOption value="female">Female</IonSelectOption>
+                              <IonSelectOption value="male">Male</IonSelectOption>
+                            </IonSelect>
+                          </IonItem>
+                        </IonCol>
+
+                        <IonCol sizeSm='3'>
+                          <IonItem>
+                            <IonLabel>Cor</IonLabel>
+                            <IonSelect value={paisDeEmissao} interface="popover" onIonChange={e => setPaisDeEmissao(e.detail.value)}>
+                              <IonSelectOption value="female">Female</IonSelectOption>
+                              <IonSelectOption value="male">Male</IonSelectOption>
+                            </IonSelect>
+                          </IonItem>
+                        </IonCol>
+                      </IonRow>
+
+                      <IonRow>
+                        <IonCol sizeSm='3'>
+
+                          <IonItem>
+                            <IonLabel>Categoria</IonLabel>
+                            <IonSelect value={paisDeEmissao} interface="popover" onIonChange={e => setPaisDeEmissao(e.detail.value)}>
+                              <IonSelectOption value="female">Female</IonSelectOption>
+                              <IonSelectOption value="male">Male</IonSelectOption>
+                            </IonSelect>
+                          </IonItem>
+                        </IonCol>
+                        <IonCol sizeSm='3'>
+                          <IonItem>
+                            <IonLabel>Classe</IonLabel>
+                            <IonSelect value={paisDeEmissao} interface="popover" onIonChange={e => setPaisDeEmissao(e.detail.value)}>
+                              <IonSelectOption value="female">Female</IonSelectOption>
+                              <IonSelectOption value="male">Male</IonSelectOption>
+                            </IonSelect>
+                          </IonItem>
+                        </IonCol>
+
+                        <IonCol sizeSm='3'>
+                          <IonItem>
+                            <IonLabel>Tipo</IonLabel>
+                            <IonSelect value={paisDeEmissao} interface="popover" onIonChange={e => setPaisDeEmissao(e.detail.value)}>
+                              <IonSelectOption value="female">Female</IonSelectOption>
+                              <IonSelectOption value="male">Male</IonSelectOption>
+                            </IonSelect>
+                          </IonItem>
+                        </IonCol>
+
+                        <IonCol sizeSm='3'>
+                          <IonItem>
+                            <IonLabel>Subclasse</IonLabel>
+                            <IonSelect value={paisDeEmissao} interface="popover" onIonChange={e => setPaisDeEmissao(e.detail.value)}>
+                              <IonSelectOption value="female">Female</IonSelectOption>
+                              <IonSelectOption value="male">Male</IonSelectOption>
+                            </IonSelect>
+                          </IonItem>
+                        </IonCol>
+                      </IonRow>
+                    </IonGrid>
+
+                  </IonCardContent>
+                </IonCard>
+                {/* Veículo */}
+              </IonCol>
+            </IonRow>
+
+            <IonRow>
+              <IonCol color='secondary'>
+                <IonItem lines='none'>
+                  <IonButton slot='end' color='light' onClick={e => {
+
+                  }}>Arguido</IonButton>
+                  <IonButton slot='end' color='light' onClick={e => {
+
+                  }}>Condutor</IonButton>
+
+                </IonItem>
+              </IonCol>
+            </IonRow>
+
           </IonGrid>
 
           {/* 
