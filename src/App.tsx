@@ -60,16 +60,16 @@ const App: React.FC = () => {
             <IonReactRouter>
                 <IonRouterOutlet>
 
-                    <ProtectedRoute isAllowed={userContext.isAuthenticated()}>
+                    {/*<ProtectedRoute isAllowed={userContext.isAuthenticated()}>*/}
                         <Route path={"/dashboard"} component={Dashboard}/>
-                    </ProtectedRoute>
+                    {/*</ProtectedRoute>*/}
 
-                    <ProtectedRoute isAllowed={userContext.isAuthenticated()}>
+                    {/*<ProtectedRoute isAllowed={userContext.isAuthenticated()}>*/}
                         <Route path={"/coDirecta"} component={CoDirecta}/>
-                    </ProtectedRoute>
+                    {/*</ProtectedRoute>*/}
 
                     <Route path={"/login"} component={Login}/>
-                    <Redirect exact from="/" to="/login" />
+                    <Redirect exact from="/" to="/dashboard" />
                 </IonRouterOutlet>
             </IonReactRouter>
         </IonApp>

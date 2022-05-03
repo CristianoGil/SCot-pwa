@@ -35,8 +35,8 @@ ion-row#rowLogin {
 
 #colLeft #imgPrimaria {
   position: relative;
-  top: 0px;
-  left: 0px;
+  top: 0;
+  left: 0;
   background-size: cover !important;
   background: lightblue url("../../../public/assets/images/img.png") center;
   filter: blur(15px);
@@ -46,8 +46,8 @@ ion-row#rowLogin {
 
 #imgPrimaria-fx {
   position: absolute;
-  top: 0px;
-  left: 0px;
+  top: 0;
+  left: 0;
   background-color: #003E7E;
   height: 100%;
   width: 100%;
@@ -58,8 +58,8 @@ ion-row#rowLogin {
   display: flex;
   justify-content: end;
   position: absolute;
-  top: 0px;
-  left: 0px;
+  top: 0;
+  left: 0;
   height: 100%;
   width: 100%;
 }
@@ -75,8 +75,8 @@ ion-row#rowLogin {
 
 #colLeft #imgSecundaria {
   position: relative;
-  top: 0px;
-  left: 0px;
+  top: 0;
+  left: 0;
   background-size: cover !important;
   background: lightblue url("../../../public/assets/images/img.png") center;
   filter: blur(4px);
@@ -87,7 +87,7 @@ ion-row#rowLogin {
 #imgSecundaria-fx {
   position: relative;
   top: -520px;
-  left: 0px;
+  left: 0;
   border-end-start-radius: 10px;
   border-start-start-radius: 10px;
   background-color: #003E7E;
@@ -113,7 +113,7 @@ ion-row#rowLogin {
 #imgFX {
   position: relative;
   top: -1220px;
-  left: 0px;
+  left: 0;
   width: 100%;
 }
 

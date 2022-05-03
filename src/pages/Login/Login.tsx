@@ -42,8 +42,8 @@ const Login: React.FC<RouteComponentProps> = ({history}) => {
             })
 
             userContext.login(username, password, () => {
-                dismiss()
-                history.push('/dashboard')
+                dismiss();
+                history.push('/dashboard');
             }, () => {
                 dismiss()
                 // Open alert to login faild

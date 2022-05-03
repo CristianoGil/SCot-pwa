@@ -2,7 +2,6 @@ import {
     IonCol,
     IonCard,
     IonCardTitle,
-    IonCardContent,
     IonImg
 } from '@ionic/react';
 import './Cards.scss';
@@ -10,6 +9,12 @@ import {Link} from 'react-router-dom';
 
 
 // card-big-img-background-1
+const YellowLogo = () =>
+    (
+        <IonImg className="card-fixed-img-bottom-right"
+                src={"assets/images/background/ref-logo-yellow.png"}> </IonImg>
+    )
+
 
 const BigCard = (props: any) => {
     return (
@@ -21,8 +26,7 @@ const BigCard = (props: any) => {
                     <IonImg className="card-fixed-icon-top-left"
                             src={"assets/images/dashboard/card-icon-1.png"}> </IonImg>
 
-                    <IonImg className="card-fixed-img-bottom-right"
-                            src={"assets/images/background/ref-logo-yellow.png"}> </IonImg>
+                    {props.noYellow === true ?  <YellowLogo />: null}
 
                     <IonCardTitle className="card-dashboard-title">{props.title}</IonCardTitle>
 
@@ -53,7 +57,8 @@ const NormalCard = (props: any) => {
 
 const RenderCard = (props: any) => {
     if (props.type === 'big') {
-        return <BigCard title={props.title} goTo={props.goTo} bgClassName={props.bgClassName}/>;
+        return <BigCard title={props.title} goTo={props.goTo} bgClassName={props.bgClassName}
+                        noYellow={props.noYellow}/>;
     }
 
     return <NormalCard title={props.title} goTo={props.goTo}/>;
@@ -65,13 +70,13 @@ interface ICardProps {
     title: string
     goTo: string
     bgClassName: string | undefined
-
+    noYellow: boolean | undefined
 }
 
 const Cards: React.FC<ICardProps> = (props: ICardProps) => {
 
     return (
-        <RenderCard type={props.type} title={props.title} goTo={props.goTo} bgClassName={props.bgClassName}/>
+        <RenderCard type={props.type} title={props.title} goTo={props.goTo} bgClassName={props.bgClassName} noYellow={props.noYellow}/>
     )
 
 }
