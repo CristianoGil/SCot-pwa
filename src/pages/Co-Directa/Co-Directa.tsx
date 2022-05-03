@@ -91,7 +91,7 @@ const CoDirecta: React.FC = () => {
                             <IonButton color='medium' fill="clear" id="open-search-input-1">
                               <IonIcon icon={search} />
                             </IonButton>
-                            <IonInput placeholder='NFI' />
+                            <IonInput placeholder='NIF' />
 
                           </IonItem>
                         </IonCol>
