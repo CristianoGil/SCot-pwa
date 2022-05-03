@@ -187,7 +187,7 @@ const Menu: React.FC = () => {
 
                 <IonPage>
                     <IonHeader className="ion-no-border" style={{ position: 'absolute' }}>
-                        <IonToolbar style={{ background: 'transparent' }}>
+                        <IonToolbar style={{ background: 'transparent' }} id='toolbarModal'>
                             <IonButtons slot="start" onClick={() => { setShowModal(false); }}>
 
                                 <IonButton

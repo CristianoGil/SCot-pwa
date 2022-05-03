@@ -5,9 +5,9 @@ import { calendar, search } from 'ionicons/icons';
 import { format, parseISO } from 'date-fns';
 import { setVisiblePopoverIndentVeiculo } from '../../components/Menu/popoverIndentVeiculoSlice';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import { Network } from '@capacitor/network';
 import AlertNetwork from '../../components/AlertNetwork/AlertNetwork';
 import { Link } from 'react-router-dom';
+import Menu from '../../components/Menu/Menu';
 
 const CoDirecta: React.FC = () => {
 
@@ -25,23 +25,12 @@ const CoDirecta: React.FC = () => {
   const formatDate = (value: string) => {
     return format(parseISO(value), 'MMM dd yyyy');
   };
-  Network.addListener('networkStatusChange', status => {
-    console.log('Network status changed', status);
-  });
-
-  const logCurrentNetworkStatus = async () => {
-    const status = await Network.getStatus();
-
-    console.log('Network status:', status);
-  };
-
-  logCurrentNetworkStatus();
 
   return (
-    <>
-
+    <IonPage>
+      <Menu />
       <IonContent>
-        <div style={{ marginTop: 100 }}>
+        <div>
           <IonGrid id="gridGeral" style={{ marginBottom: 40 }}>
             <IonRow style={{ marginBottom: 40 }}>
               <IonCol>
@@ -57,7 +46,7 @@ const CoDirecta: React.FC = () => {
                 <Link to={'#teste'}>
                   Arguido
                 </Link>
-                <AlertNetwork />
+                {/* <AlertNetwork /> */}
               </IonCol>
               <IonCol sizeSm='10'>
                 {/* Arguido */}
@@ -697,7 +686,7 @@ const CoDirecta: React.FC = () => {
         </div>
       </IonContent>
 
-    </>
+    </IonPage>
   );
 };
 

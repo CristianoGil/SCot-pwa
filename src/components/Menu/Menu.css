@@ -55,11 +55,19 @@ ion-toolbar ion-label {
     margin-left: 10px;
 }
 
-ion-toolbar {
+ion-toolbar#toolbarModal{
     --background: transparent;
 }
 
 ion-content #modelContent_Interno a {
     text-decoration: none;
     color: white;
+}
+
+ion-toolBar {
+    --background: var(--ion-toolbar-background, var(--ion-background-color, rgb(255 255 255 / 80%)));
+}
+
+body.dark ion-toolBar {
+    --background:  rgb(18 18 18 / 80%);;
 }
