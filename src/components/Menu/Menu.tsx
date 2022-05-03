@@ -91,7 +91,6 @@ const Menu: React.FC = () => {
     const history = useHistory()
     const [checked, setChecked] = useState(false);
     const toggleDarkModeHandler = () => {
-
         document.body.classList.toggle("dark");
     };
 

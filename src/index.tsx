@@ -8,8 +8,8 @@ import database from './database';
 import syncDatabase from './database/sync_database'
 import { UserProvider } from './Context/UserContext';
 
-import store from './app/store'
-import { Provider } from 'react-redux'
+import store from './app/store';
+import { Provider } from 'react-redux';
 
 const root: any = createRoot(document.getElementById('root')!)
 
