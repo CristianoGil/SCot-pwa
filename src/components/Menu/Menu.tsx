@@ -7,6 +7,81 @@ import './Menu.css'
 import { setVisiblePopoverIndentVeiculo } from './popoverIndentVeiculoSlice';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { Link } from 'react-router-dom';
+import DataTable from 'react-data-table-component';
+
+const paginationComponentOptions = {
+    rowsPerPageText: 'Linhas por página',
+    rangeSeparatorText: 'de',
+    selectAllRowsItem: true,
+    selectAllRowsItemText: 'Todos',
+};
+
+const columns = [
+    {
+        name: 'Categoria',
+        selector: (row: { categoria: any; }) => row.categoria,
+    },
+    {
+        name: 'Classe',
+        selector: (row: { classe: any; }) => row.classe,
+    },
+    {
+        name: 'Tipo',
+        selector: (row: { tipo: any; }) => row.tipo,
+    },
+    {
+        name: 'Matrícula',
+        selector: (row: { matricula: any; }) => row.matricula,
+    },
+    {
+        name: 'Nº de chassis',
+        selector: (row: { nChassis: any; }) => row.nChassis,
+    },
+    {
+        name: 'Ano origem',
+        selector: (row: { anoOrigem: any; }) => row.anoOrigem,
+    },
+];
+
+const data = [
+    {
+        id: 1,
+        categoria: 'Automóveis',
+        classe: 'Ligeiros',
+        tipo: 'Passageiros',
+        matricula: '00-XX-01',
+        nChassis: 'ABCDE20201',
+        anoOrigem: '2020',
+    },
+    {
+        id: 2,
+        categoria: 'Automóveis',
+        classe: 'Ligeiros',
+        tipo: 'Passageiros',
+        matricula: '00-XX-01',
+        nChassis: 'ABCDE20201',
+        anoOrigem: '2020',
+    },
+    {
+        id: 3,
+        categoria: 'Automóveis',
+        classe: 'Ligeiros',
+        tipo: 'Passageiros',
+        matricula: '00-XX-01',
+        nChassis: 'ABCDE20201',
+        anoOrigem: '2020',
+    },
+    {
+        id: 4,
+        categoria: 'Automóveis',
+        classe: 'Ligeiros',
+        tipo: 'Passageiros',
+        matricula: '00-XX-01',
+        nChassis: 'ABCDE20201',
+        anoOrigem: '2020',
+    },
+
+]
 
 const Menu: React.FC = () => {
 
@@ -539,7 +614,6 @@ const Menu: React.FC = () => {
                                         c4={{ titulo: 'Potêncial rpm', valor: '5250' }}
                                     />
 
-
                                     <CardListItem
                                         c1={{ titulo: 'Fração pot. efetiva de tara total', valor: 'n/d' }}
                                         c2={{ titulo: 'Nº de lugares', valor: '005' }}
@@ -635,11 +709,14 @@ const Menu: React.FC = () => {
 
                             <IonCardContent>
 
-                                <IonGrid>
+                                <DataTable
+                                    columns={columns}
+                                    data={data}
+                                    pagination
+                                    paginationComponentOptions={paginationComponentOptions}
+                                    paginationRowsPerPageOptions={[5, 25, 50, 100]}
+                                />
 
-
-
-                                </IonGrid>
 
                             </IonCardContent>
                         </IonCard>
