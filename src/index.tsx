@@ -1,19 +1,25 @@
 import React from 'react';
 // import ReactDOM from 'react-dom';
-import {createRoot} from 'react-dom/client';
+import { createRoot } from 'react-dom/client';
 import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 import database from './database';
 import syncDatabase from './database/sync_database'
-import {UserProvider} from './Context/UserContext';
+import { UserProvider } from './Context/UserContext';
+
+import store from './app/store';
+import { Provider } from 'react-redux';
 
 const root: any = createRoot(document.getElementById('root')!)
 
 root.render(
+
     <React.StrictMode>
         <UserProvider>
-            <App/>
+            <Provider store={store}>
+                <App />
+            </Provider>
         </UserProvider>
     </React.StrictMode>
 );
@@ -21,13 +27,13 @@ root.render(
 
 document.addEventListener('deviceready', async function () {
     /**Initialization local database - SQLite (only for mobile environment)*/
-    const {initialDatabase} = database();
+    const { initialDatabase } = database();
     await initialDatabase();
 
     /**
      *  Start sync database
      */
-    const {start} = syncDatabase();
+    const { start } = syncDatabase();
     start()
 
 });

@@ -7,7 +7,7 @@ import {
 } from '@ionic/react';
 
 import './Dashboard.scss';
-import Menu from '../../components/Menu';
+import Menu from '../../components/Menu/Menu';
 
 import LoggedUser from '../../components/Dashboard/LoggedUser';
 import Cards from '../../components/Dashboard/Cards';

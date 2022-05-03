@@ -151,7 +151,7 @@ const Login: React.FC<RouteComponentProps> = ({history}) => {
                                             </IonInput>
                                             <IonButton
                                                 id="idpassword"
-                                                className="btn-icon-password"
+                                                className="btn-icon-password login-Btn"
                                                 size="small"
                                                 aria-label="toggle password visibility"
                                                 onClick={handleClickShowPassword}
@@ -163,7 +163,7 @@ const Login: React.FC<RouteComponentProps> = ({history}) => {
                                         </IonItem>
                                     </form>
                                     <IonButton onClick={login} expand="block"
-                                               className='ion-margin-top ion-margin-bottom'
+                                               className='ion-margin-top ion-margin-bottom login-Btn'
                                                color='#003E7E'>Entrar</IonButton>
 
                                     <a target="_blank" className="recoverPasswordAnchor" href="#">Recuperar acesso</a>
