@@ -5,32 +5,21 @@ import {
     IonCardHeader,
     IonCardTitle,
     IonCol,
-    IonContent,
-    IonDatetime,
     IonGrid,
-    IonHeader,
     IonIcon,
     IonImg,
     IonInput,
     IonItem,
     IonLabel,
-    IonListHeader,
-    IonModal,
-    IonPage,
-    IonPopover,
     IonRadio,
     IonRadioGroup,
     IonRow,
-    IonSearchbar,
     IonSelect,
     IonSelectOption,
     IonToggle,
-    IonToolbar
 } from '@ionic/react';
-import {Dispatch, SetStateAction, useState} from 'react';
-import {calendar, search} from 'ionicons/icons';
-import {format, parseISO} from 'date-fns';
-import {Link} from 'react-router-dom';
+import {useState} from 'react';
+import {search} from 'ionicons/icons';
 import React from 'react';
 import {useAppSelector} from '../../../app/hooks';
 import {setVisiblePopoverIndentVeiculo} from '../../Menu/popoverIndentVeiculoSlice';
@@ -41,13 +30,9 @@ const Arguido: React.FC = () => {
     const [paisDeEmissao, setPaisDeEmissao] = useState<string>();
     const [isProprietarioDoVeiculo, setIsProprietarioDoVeiculo] = useState(false);
     const [selectedSingularColetivo, setSelectedSingularColetivo] = useState<string>('');
-    const [number, setNumber] = useState<number>();
-    const [popoverDate1, setPopoverDate1] = useState('');
-    const [popoverDate2, setPopoverDate2] = useState('');
-    const [popoverDate3, setPopoverDate3] = useState('');
-    const popoverIndentVeiculoIsOpen = useAppSelector((state: { popoverIndentVeiculo: { isOpen: any; }; }) => state.popoverIndentVeiculo.isOpen)
+
     return (
-        <IonCard>
+        <IonCard className={'co-arguido'}>
 
             <IonCardHeader>
                 <IonCardTitle>Arguido</IonCardTitle>
@@ -56,8 +41,8 @@ const Arguido: React.FC = () => {
             <IonCardContent>
                 <IonGrid>
                     <IonRow>
-                        <IonCol sizeSm='6'>
-                            <IonItem>
+                        <IonCol size='4'>
+                            <IonItem lines={'none'}>
                                 <IonLabel>O arguido é proprietário do veículo?</IonLabel>
                                 <IonToggle
                                     slot="end"
@@ -72,7 +57,7 @@ const Arguido: React.FC = () => {
                         </IonCol>
                     </IonRow>
                     <IonRow>
-                        <IonCol sizeSm='3'>
+                        <IonCol size='5'>
                             <IonItem>
                                 <IonButton color='medium' fill="clear" id="open-search-input-1">
                                     <IonIcon icon={search}/>
@@ -81,7 +66,7 @@ const Arguido: React.FC = () => {
 
                             </IonItem>
                         </IonCol>
-                        <IonCol sizeSm='3'>
+                        <IonCol size='3'>
                             <IonItem lines='none'>
 
                                 <IonButton style={{background: '#084F87', borderRadius: 4}} color="#084F87" slot="start"
@@ -93,7 +78,8 @@ const Arguido: React.FC = () => {
 
                             </IonItem>
                         </IonCol>
-                        <IonCol>
+
+                        <IonCol size='4'>
 
                             <div style={{
                                 display: 'inline-flex',
@@ -112,24 +98,29 @@ const Arguido: React.FC = () => {
                     </IonRow>
 
                     <IonRow>
-                        <IonCol sizeSm='3'>
+                        <IonCol size='4' >
 
                             <IonRadioGroup value={selectedSingularColetivo}
                                            onIonChange={e => setSelectedSingularColetivo(e.detail.value)}>
 
-                                <IonItem lines='none'>
-                                    <IonLabel>Singular</IonLabel>
-                                    <IonRadio slot="start" value="biff"/>
-                                </IonItem>
-
-                                <IonItem lines='none'>
-                                    <IonLabel>Coletivo</IonLabel>
-                                    <IonRadio slot="start" value="griff"/>
-                                </IonItem>
+                                <IonRow>
+                                    <IonCol size='6'>
+                                        <IonItem lines='none' className="veiculo-proprietario-radio radio-item">
+                                            <IonRadio  value="biff"/>
+                                            <IonLabel  >Singular</IonLabel>
+                                        </IonItem>
+                                    </IonCol>
+                                    <IonCol size='6'>
+                                        <IonItem lines='none' className="veiculo-proprietario-radio radio-Item">
+                                            <IonRadio  value="griff"/>
+                                            <IonLabel  >Coletivo</IonLabel>
+                                        </IonItem>
+                                    </IonCol>
+                                </IonRow>
 
                             </IonRadioGroup>
                         </IonCol>
-                        <IonCol sizeSm='3'>
+                        <IonCol size='4' offset={'2'}>
                             <IonItem>
                                 <IonLabel>País de emissão</IonLabel>
                                 <IonSelect value={paisDeEmissao} interface="popover"

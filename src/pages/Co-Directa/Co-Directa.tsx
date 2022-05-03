@@ -50,7 +50,7 @@ const CoDirecta: React.FC = () => {
                 <Link to={'#teste'}>
                   Arguido
                 </Link>
-                <AlertNetwork />
+                {/*<AlertNetwork />*/}
               </IonCol>
               <IonCol sizeSm='10'>
                 {/*// @ts-ignore*/}

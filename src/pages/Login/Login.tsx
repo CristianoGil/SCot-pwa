@@ -16,7 +16,7 @@ import {
 
 import {useContext, useState} from "react";
 
-import {RouteComponentProps, useHistory} from 'react-router-dom';
+import {useHistory} from 'react-router-dom';
 import _ from 'underscore';
 import {UserContext} from '../../Context/UserContext';
 import './Login.scss';
