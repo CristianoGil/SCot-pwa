@@ -1,13 +1,13 @@
 import { IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCol, IonContent, IonFooter, IonGrid, IonHeader, IonIcon, IonImg, IonItem, IonLabel, IonList, IonModal, IonPage, IonPopover, IonRow, IonToggle, IonToolbar } from '@ionic/react';
 import { list, person, wifi, apps, close, moon } from 'ionicons/icons';
-import { useEffect, useState } from 'react';
-import { useHistory } from 'react-router';
+import { useState } from 'react';
 import CardListItem from '../CardListItem';
 import './Menu.css'
 import { setVisiblePopoverIndentVeiculo } from './popoverIndentVeiculoSlice';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { Link } from 'react-router-dom';
 import DataTable from 'react-data-table-component';
+import React from 'react';
 
 const paginationComponentOptions = {
     rowsPerPageText: 'Linhas por página',
@@ -84,11 +84,9 @@ const data = [
 ]
 
 const Menu: React.FC = () => {
-
+console.log('teste');
     const [showModal, setShowModal] = useState<boolean>(false);
     const [showPopover, setShowPopover] = useState<boolean>(false);
-    const [isVisible, setIsVisible] = useState<any>("ion-hide");
-    const history = useHistory()
     const [checked, setChecked] = useState(false);
     const toggleDarkModeHandler = () => {
         document.body.classList.toggle("dark");
@@ -97,26 +95,8 @@ const Menu: React.FC = () => {
     const popoverIndentVeiculoIsOpen = useAppSelector((state) => state.popoverIndentVeiculo.isOpen)
     const dispatch = useAppDispatch()
 
-    useEffect(() => {
-
-        if (history.location.pathname == '/login')
-            setIsVisible("ion-hide");
-        else
-            setIsVisible("");
-
-        return history.listen((location) => {
-
-            if (location.pathname == '/login') {
-                setIsVisible("ion-hide");
-            }
-            else
-                setIsVisible("");
-
-        });
-    }, [history])
-
     return (
-        <IonHeader className={`ion-no-border ${isVisible}`}>
+        <IonHeader className='ion-no-border'>
             <IonToolbar color='transparent'>
 
                 <IonButtons slot="start" onClick={() => { setShowModal(true); }}>
@@ -768,4 +748,4 @@ const Menu: React.FC = () => {
     );
 };
 
-export default Menu;
+export default React.memo(Menu);

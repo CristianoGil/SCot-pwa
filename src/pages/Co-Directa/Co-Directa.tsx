@@ -8,6 +8,7 @@ import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import AlertNetwork from '../../components/AlertNetwork/AlertNetwork';
 import { Link } from 'react-router-dom';
 import Menu from '../../components/Menu/Menu';
+import React from 'react';
 
 const CoDirecta: React.FC = () => {
 
@@ -690,4 +691,4 @@ const CoDirecta: React.FC = () => {
   );
 };
 
-export default CoDirecta;
+export default React.memo(CoDirecta);
