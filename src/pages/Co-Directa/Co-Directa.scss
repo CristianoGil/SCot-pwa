@@ -106,7 +106,7 @@
 
  */
 
-ion-grid#gridGeral {
+ion-grid#gridGeral, ion-grid.intervenientes {
     padding: 0px;
     padding-left: 100px;
     padding-right: 100px;
@@ -114,7 +114,7 @@ ion-grid#gridGeral {
 
 @media only screen and (max-width: 575px) {
 
-    ion-grid#gridGeral {
+    ion-grid#gridGeral, ion-grid.intervenientes  {
         padding-left: 10px;
         padding-right: 10px;
     }
@@ -143,4 +143,17 @@ ion-content {
 ion-popover.menu#popoverIdentVeiculo {
     --width: 840px;
     --max-width: 100%;
+}
+
+
+.contraordenacao {
+    ion-toolbar {
+        padding: 0 !important;
+    }
+
+
+}
+
+body.dark .contraordenacao ion-toolBar {
+    --background: rgb(18 18 18 / 80%);
 }

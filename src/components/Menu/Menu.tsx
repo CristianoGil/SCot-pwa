@@ -14,9 +14,7 @@ import {
     IonImg,
     IonItem,
     IonLabel,
-    IonList,
     IonModal,
-    IonPage,
     IonPopover,
     IonRow,
     IonToggle,
@@ -446,7 +444,7 @@ const Menu: React.FC = () => {
                     </div>
 
                 </IonContent>
-               
+
             </IonModal>
             {/*END: MENU LATERAL ESQUERDA*/}
 

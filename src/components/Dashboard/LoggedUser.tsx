@@ -1,6 +1,5 @@
-import {IonContent, IonPage, IonTitle, getPlatforms, IonText} from '@ionic/react';
+import { IonTitle,  IonText} from '@ionic/react';
 import './LoggedUser.scss';
-import _ from 'underscore';
 import { UserContext } from '../../Context/UserContext';
 import { useContext } from 'react';
 import { dateFormat } from '../../utils/apex-formatters';
