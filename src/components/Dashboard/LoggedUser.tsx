@@ -1,13 +1,18 @@
 import {IonContent, IonPage, IonTitle, getPlatforms, IonText} from '@ionic/react';
 import './LoggedUser.scss';
 import _ from 'underscore';
+import { UserContext } from '../../Context/UserContext';
+import { useContext } from 'react';
+import { dateFormat } from '../../utils/apex-formatters';
+
 
 const LoggedUser: React.FC = () => {
-
+    const userContext = useContext<any>(UserContext);
+    const dateFormated = dateFormat(userContext.user.loggeDate, 'LLLL' )
     return (
         <div className="logged-user">
-            <IonTitle color="dark" size="large">Boa tarde, Alberto Nunes</IonTitle>
-            <IonText color="medium"> Quinta feira, 26 de janeiro de 2022 </IonText>
+            <IonTitle color="dark" size="large"> {userContext.user.nomeUsuario || userContext.user.userName }</IonTitle>
+            <IonText color="medium"> {dateFormated} </IonText>
         </div>
     );
 };

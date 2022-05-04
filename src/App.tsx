@@ -43,7 +43,7 @@ const ProtectedRoute: React.FC<IProtectedProps> = ({ isAllowed = false, redirect
     if (!isAllowed) {
         return <Redirect exact to={redirectPath} />;
     }
-    console.log(children)
+
     return children
 };
 
