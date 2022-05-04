@@ -31,7 +31,6 @@ import {useAppSelector, useAppDispatch} from '../../app/hooks';
 import {Link} from 'react-router-dom';
 import DataTable from 'react-data-table-component';
 import React from 'react';
-import {NetworkInterfaceContext} from '../../Context/NetworkInterfaceContext';
 
 const paginationComponentOptions = {
     rowsPerPageText: 'Linhas por página',
@@ -112,7 +111,15 @@ const Menu: React.FC = () => {
     const [showModal, setShowModal] = useState<boolean>(false);
     const [showPopover, setShowPopover] = useState<boolean>(false);
     const [checked, setChecked] = useState(false);
-    const networkInterfaceContext = useContext<any>(NetworkInterfaceContext);
+
+    const [networkState, setNetworkState] = useState<string>(navigator.onLine ? 'online' : 'offline');
+    window.addEventListener('offline', function () {
+        setNetworkState('offline')
+    });
+
+    window.addEventListener('online', function () {
+        setNetworkState('online')
+    });
 
     const toggleDarkModeHandler = () => {
         document.body.classList.toggle("dark");
@@ -159,16 +166,13 @@ const Menu: React.FC = () => {
                 <IonButtons slot="end">
                     <IonButton
                         className='btnRound'
-                        style={{
-                            backgroundColor: "#6EAF43",
-                            color: "white",
-                        }}>
+                        style={networkState === 'online' ? {backgroundColor: "#6EAF43", color: "white"} : {backgroundColor: "#eb445a", color: "white"}}>
                         <IonIcon icon={wifi}></IonIcon>
 
                     </IonButton>
 
                     <IonLabel>
-                        {networkInterfaceContext.stateNetwork()}
+                        {networkState}
                     </IonLabel>
                 </IonButtons>
 

@@ -18,6 +18,7 @@ import {
     IonSelectOption,
     IonToggle,
     useIonAlert,
+    useIonLoading,
 } from '@ionic/react';
 import {useContext, useState} from 'react';
 import {search} from 'ionicons/icons';
@@ -27,16 +28,17 @@ import {setVisiblePopoverIndentVeiculo} from '../../Menu/popoverIndentVeiculoSli
 import './Arguido.scss';
 import Pais from '../../Combos/Pais';
 import {AlertNetworkOfflineContext} from '../../../Context/AlertNetworkOfflineContext';
-import { getNetworkState } from '../../../common/capacitor_global';
-import { NetworkInterfaceContext } from '../../../Context/NetworkInterfaceContext';
+import {getNetworkState} from '../../../common/capacitor_global';
+import _ from 'underscore';
+import { Contraordenacao } from '../../../api/Contraordenacao';
+import { IPesquisarPessoaResponse } from '../../../model/contraordenacao';
 
 const Arguido: React.FC = () => {
 
     const alertOfflineContext = useContext<any>(AlertNetworkOfflineContext)
-    const networkInterfaceContext = useContext<any>(NetworkInterfaceContext);
-    
-    const [presentAlert, dismissAlert] = useIonAlert();
 
+    const [presentAlert, dismissAlert] = useIonAlert();
+    const [presentOnLoanding, dismissOnLoanding] = useIonLoading();
     const [paisDeEmissao, setPaisDeEmissao] = useState<string>();
     const [isProprietarioVeiculo, setIsProprietarioVeiculo] = useState(false);
     const [arguidoVeiculoSingularColetivo, setArguidoVeiculoSingularColetivo] = useState<string>('singular');
@@ -66,10 +68,11 @@ const Arguido: React.FC = () => {
     }
 
     const handler_arguidoSearchByNif = (e: any) => {
-
+        e.preventDefault();
+        dismissOnLoanding();
         // dispatch(setVisiblePopoverIndentVeiculo(true));
 
-        if (inputNif_canSearch()) {
+        if (inputNif_canSearch() || _.isEmpty(arguidoNif)) {
             presentAlert({
                 header: 'Atenção!',
                 message: 'NIF inválido.',
@@ -80,12 +83,36 @@ const Arguido: React.FC = () => {
             return;
         }
 
-        if(networkInterfaceContext.stateNetwork() === 'offline') {
+        if (!navigator.onLine) {
             alertOfflineContext.openModal();
             return;
         }
 
-        e.preventDefault();
+
+        presentOnLoanding({
+            message: 'A pesquisar...'
+        });
+
+        searchPersonByNif();
+        
+    }
+    
+    const searchPersonByNif = async () => {
+
+        const instanceContraordenacao = new Contraordenacao();
+        await instanceContraordenacao.pesquisarPessoa({nif: +arguidoNif}).then((arguidoData: IPesquisarPessoaResponse) => {
+            console.log('arguidoData: ', arguidoData)
+        }).catch((e:any) => {
+            presentAlert({
+                header: 'Error!',
+                message: 'Operação sem sucesso!\n' + e.message,
+                buttons: [
+                    {text: 'Fechar'},
+                ]
+            })
+        }).finally(() => {
+            dismissOnLoanding();
+        })
     }
     // END: INPUT NIF
 
@@ -143,7 +170,7 @@ const Arguido: React.FC = () => {
                             </IonItem>
                         </IonCol>
 
-                        <IonCol size-sm='12' size-md='8' size-lg='6' >
+                        <IonCol size-sm='12' size-md='8' size-lg='6'>
                             <div style={{
                                 display: 'inline-flex',
                                 borderRadius: 10,
