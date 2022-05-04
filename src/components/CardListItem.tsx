@@ -8,8 +8,8 @@ interface Props {
 }
 
 interface Coluna {
-    titulo?: string;
-    valor?: string;
+    titulo?: string ;
+    valor?: any;
     tamCol?: string
 }
 
@@ -21,7 +21,7 @@ const CardListItem: React.FC<Props> = ({ c1, c2, c3, c4 }) => {
                 <IonItem lines='none'>
                     <div>
                         <small>{c1?.titulo}</small><br />
-                        <strong>{c1?.valor}</strong>
+                        <strong>{c1 ? c1.valor : "N/A" }</strong>
                     </div>
                 </IonItem>
             </IonCol>
@@ -29,7 +29,7 @@ const CardListItem: React.FC<Props> = ({ c1, c2, c3, c4 }) => {
                 <IonItem lines='none'>
                     <div>
                         <small>{c2?.titulo}</small><br />
-                        <strong>{c2?.valor}</strong>
+                        <strong>{c2 ? c2.valor : "N/A"}</strong>
                     </div>
                 </IonItem>
             </IonCol>
@@ -37,7 +37,7 @@ const CardListItem: React.FC<Props> = ({ c1, c2, c3, c4 }) => {
                 <IonItem lines='none'>
                     <div>
                         <small>{c3?.titulo}</small><br />
-                        <strong>{c3?.valor}</strong>
+                        <strong>{c3 ? c3.valor : "N/A"}</strong>
                     </div>
                 </IonItem>
             </IonCol>
@@ -46,7 +46,7 @@ const CardListItem: React.FC<Props> = ({ c1, c2, c3, c4 }) => {
                 <IonItem lines='none'>
                     <div>
                         <small>{c4?.titulo}</small><br />
-                        <strong>{c4?.valor}</strong>
+                        <strong>{c4 ? c4.valor : "N/A"}</strong>
                     </div>
                 </IonItem>
             </IonCol>

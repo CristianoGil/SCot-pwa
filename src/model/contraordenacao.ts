@@ -14,5 +14,5 @@ export interface IPesquisarPessoaRequest {
 }
 
 export interface IPesquisarPessoaResponse {
-    pessoas: IPerson
+    pessoa: IPerson
 }

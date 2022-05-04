@@ -10,7 +10,7 @@ import Intervenientes from '../../components/Contra-Ordenacoes/Intervenientes/In
 
 
 const RenderSegment = (props: { segment: string }) => {
-    if (props.segment === 'intervenientes' || props.segment === 'default') {
+    if (props.segment === 'intervenientes') {
         return (<Intervenientes/>)
     } else if (props.segment === 'dados_da_infracao') {
         return (<div>dados_da_infracao</div>)
@@ -24,7 +24,7 @@ const RenderSegment = (props: { segment: string }) => {
 
 const CoDirecta: React.FC = () => {
 
-    const [activeSegment, setActiveSegment] = useState('default');
+    const [activeSegment, setActiveSegment] = useState('intervenientes');
 
     const handlerSegment = (e: any) => {
         setActiveSegment(e.detail.value)

@@ -479,6 +479,7 @@ const Menu: React.FC = () => {
 
                     </IonToolbar>
                 </IonHeader>
+
                 <IonContent>
 
                     <IonItem className="ion-margin-top" style={{margin: 24}}>
