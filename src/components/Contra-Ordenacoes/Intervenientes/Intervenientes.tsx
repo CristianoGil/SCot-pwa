@@ -32,6 +32,7 @@ import {Link} from 'react-router-dom';
 import React from 'react';
 
 import Arguido from '../../../components/Contra-Ordenacoes/Arguido/Arguido';
+import { IPerson } from '../../../model/person';
 
 
 const Intervenientes: React.FC = () => {
@@ -50,590 +51,594 @@ const Intervenientes: React.FC = () => {
     const formatDate = (value: string) => {
         return format(parseISO(value), 'MMM dd yyyy');
     };
-    
-    // @ts-ignore
+
+
+    // START: ARGUIDO
+    const [arguidoData, setArguidoData] = useState<IPerson>();
+   // END: ARGUIDO
     return (
-        <IonGrid  className="intervenientes">
-        <IonRow>
-            <IonCol>
-                time-line
-                <Link to={'#teste'}>
-                    Arguido
-                </Link>
-                {/*<AlertNetwork />*/}
-            </IonCol>
-            <IonCol sizeSm='10'>
-                {/*// @ts-ignore*/}
-                <Arguido/>
-            </IonCol>
-        </IonRow>
+        <IonGrid className="intervenientes">
+            <IonRow>
+                <IonCol>
+                    time-line
+                    <Link to={'#teste'}>
+                        Arguido
+                    </Link>
+                </IonCol>
+
+                <IonCol sizeSm='10'>
+                    {/*START: ARGUIDO*/}
+                    <Arguido setParentArguidoData={setArguidoData}/>
+                    {/*END: ARGUIDO*/}
+                </IonCol>
+            </IonRow>
 
 
-    <IonRow>
-        <IonCol>
+            <IonRow>
+                <IonCol>
 
-        </IonCol>
-        <IonCol sizeSm='10'>
-            {/* Título de condução */}
-            <IonCard>
+                </IonCol>
+                <IonCol sizeSm='10'>
+                    {/* Título de condução */}
+                    <IonCard>
 
-                <IonCardHeader>
-                    <IonCardTitle>Título de condução</IonCardTitle>
-                </IonCardHeader>
+                        <IonCardHeader>
+                            <IonCardTitle>Título de condução</IonCardTitle>
+                        </IonCardHeader>
 
-                <IonCardContent>
-                    <IonGrid>
-                        <IonRow>
-                            <IonCol sizeSm='6'>
-                                <IonItem>
-                                    <IonLabel>O arguido apresentou o título de condução?</IonLabel>
-                                    <IonToggle
-                                        slot="end"
-                                        name="darkMode"
-                                        checked={isProprietarioDoVeiculo}
-                                        onIonChange={e => {
-                                            setIsProprietarioDoVeiculo(e.detail.checked)
+                        <IonCardContent>
+                            <IonGrid>
+                                <IonRow>
+                                    <IonCol sizeSm='6'>
+                                        <IonItem>
+                                            <IonLabel>O arguido apresentou o título de condução?</IonLabel>
+                                            <IonToggle
+                                                slot="end"
+                                                name="darkMode"
+                                                checked={isProprietarioDoVeiculo}
+                                                onIonChange={e => {
+                                                    setIsProprietarioDoVeiculo(e.detail.checked)
 
-                                        }}
-                                    />
-                                </IonItem>
-                            </IonCol>
-                        </IonRow>
-                        <IonRow>
-                            <IonCol sizeSm='3'>
-                                <IonItem>
-                                    <IonLabel>Título de condução</IonLabel>
-                                    <IonSelect value={paisDeEmissao} interface="popover"
-                                               onIonChange={e => setPaisDeEmissao(e.detail.value)}>
-                                        <IonSelectOption value="female">Female</IonSelectOption>
-                                        <IonSelectOption value="male">Male</IonSelectOption>
-                                    </IonSelect>
-                                </IonItem>
-                            </IonCol>
-                            <IonCol sizeSm='3'>
-                                <IonItem style={{marginTop: -16}}>
-                                    <IonLabel position="floating" itemType="number"
-                                              defaultValue={number}
-                                              placeholder="Enter Number">Número</IonLabel>
-                                    <IonInput></IonInput>
-                                </IonItem>
-                            </IonCol>
-                        </IonRow>
+                                                }}
+                                            />
+                                        </IonItem>
+                                    </IonCol>
+                                </IonRow>
+                                <IonRow>
+                                    <IonCol sizeSm='3'>
+                                        <IonItem>
+                                            <IonLabel>Título de condução</IonLabel>
+                                            <IonSelect value={paisDeEmissao} interface="popover"
+                                                       onIonChange={e => setPaisDeEmissao(e.detail.value)}>
+                                                <IonSelectOption value="female">Female</IonSelectOption>
+                                                <IonSelectOption value="male">Male</IonSelectOption>
+                                            </IonSelect>
+                                        </IonItem>
+                                    </IonCol>
+                                    <IonCol sizeSm='3'>
+                                        <IonItem style={{marginTop: -16}}>
+                                            <IonLabel position="floating" itemType="number"
+                                                      defaultValue={number}
+                                                      placeholder="Enter Number">Número</IonLabel>
+                                            <IonInput></IonInput>
+                                        </IonItem>
+                                    </IonCol>
+                                </IonRow>
 
-                        <IonRow>
-                            <IonCol sizeSm='3'>
-                                <IonItem>
-                                    <IonLabel>País de emissão</IonLabel>
-                                    <IonSelect value={paisDeEmissao} interface="popover"
-                                               onIonChange={e => setPaisDeEmissao(e.detail.value)}>
-                                        <IonSelectOption value="female">Female</IonSelectOption>
-                                        <IonSelectOption value="male">Male</IonSelectOption>
-                                    </IonSelect>
-                                </IonItem>
-                            </IonCol>
-                            <IonCol sizeSm='3'>
-                                <IonItem>
-                                    <IonLabel>Entidade de emissora</IonLabel>
-                                    <IonSelect value={paisDeEmissao} interface="popover"
-                                               onIonChange={e => setPaisDeEmissao(e.detail.value)}>
-                                        <IonSelectOption value="female">Female</IonSelectOption>
-                                        <IonSelectOption value="male">Male</IonSelectOption>
-                                    </IonSelect>
-                                </IonItem>
-                            </IonCol>
-                            <IonCol sizeSm='3'>
-                                <IonItem>
-                                    <IonLabel>Local de emissão</IonLabel>
-                                    <IonSelect value={paisDeEmissao} interface="popover"
-                                               onIonChange={e => setPaisDeEmissao(e.detail.value)}>
-                                        <IonSelectOption value="female">Female</IonSelectOption>
-                                        <IonSelectOption value="male">Male</IonSelectOption>
-                                    </IonSelect>
-                                </IonItem>
-                            </IonCol>
+                                <IonRow>
+                                    <IonCol sizeSm='3'>
+                                        <IonItem>
+                                            <IonLabel>País de emissão</IonLabel>
+                                            <IonSelect value={paisDeEmissao} interface="popover"
+                                                       onIonChange={e => setPaisDeEmissao(e.detail.value)}>
+                                                <IonSelectOption value="female">Female</IonSelectOption>
+                                                <IonSelectOption value="male">Male</IonSelectOption>
+                                            </IonSelect>
+                                        </IonItem>
+                                    </IonCol>
+                                    <IonCol sizeSm='3'>
+                                        <IonItem>
+                                            <IonLabel>Entidade de emissora</IonLabel>
+                                            <IonSelect value={paisDeEmissao} interface="popover"
+                                                       onIonChange={e => setPaisDeEmissao(e.detail.value)}>
+                                                <IonSelectOption value="female">Female</IonSelectOption>
+                                                <IonSelectOption value="male">Male</IonSelectOption>
+                                            </IonSelect>
+                                        </IonItem>
+                                    </IonCol>
+                                    <IonCol sizeSm='3'>
+                                        <IonItem>
+                                            <IonLabel>Local de emissão</IonLabel>
+                                            <IonSelect value={paisDeEmissao} interface="popover"
+                                                       onIonChange={e => setPaisDeEmissao(e.detail.value)}>
+                                                <IonSelectOption value="female">Female</IonSelectOption>
+                                                <IonSelectOption value="male">Male</IonSelectOption>
+                                            </IonSelect>
+                                        </IonItem>
+                                    </IonCol>
 
-                            <IonCol sizeSm='3'>
-                                <IonItem>
-                                    <IonInput id="date-input-1" value={popoverDate1}
-                                              placeholder='Data de emissão'/>
-                                    <IonButton color='medium' fill="clear" id="open-date-input-1">
-                                        <IonIcon icon={calendar}/>
-                                    </IonButton>
-                                    <IonPopover trigger="open-date-input-1" showBackdrop={false}>
-                                        <IonDatetime
-                                            presentation="date"
-                                            onIonChange={ev => setPopoverDate1(formatDate(ev.detail.value!))}
-                                        />
-                                    </IonPopover>
-                                </IonItem>
-                            </IonCol>
-                        </IonRow>
+                                    <IonCol sizeSm='3'>
+                                        <IonItem>
+                                            <IonInput id="date-input-1" value={popoverDate1}
+                                                      placeholder='Data de emissão'/>
+                                            <IonButton color='medium' fill="clear" id="open-date-input-1">
+                                                <IonIcon icon={calendar}/>
+                                            </IonButton>
+                                            <IonPopover trigger="open-date-input-1" showBackdrop={false}>
+                                                <IonDatetime
+                                                    presentation="date"
+                                                    onIonChange={ev => setPopoverDate1(formatDate(ev.detail.value!))}
+                                                />
+                                            </IonPopover>
+                                        </IonItem>
+                                    </IonCol>
+                                </IonRow>
 
-                    </IonGrid>
+                            </IonGrid>
 
-                </IonCardContent>
-            </IonCard>
-            {/* Título de condução */}
-        </IonCol>
-    </IonRow>
-
-
-    <IonRow>
-        <IonCol>
-
-        </IonCol>
-        <IonCol sizeSm='10'>
-            {/* Documento de identificação */}
-            <IonCard>
-
-                <IonCardHeader>
-                    <IonCardTitle>Documento de identificação</IonCardTitle>
-                </IonCardHeader>
-
-                <IonCardContent>
-                    <IonGrid>
-                        <IonRow>
-                            <IonCol sizeSm='6'>
-                                <IonItem>
-                                    <IonLabel>O arguido apresentou o documento de
-                                        identificação?</IonLabel>
-                                    <IonToggle
-                                        slot="end"
-                                        name="darkMode"
-                                        checked={isProprietarioDoVeiculo}
-                                        onIonChange={e => {
-                                            setIsProprietarioDoVeiculo(e.detail.checked)
-
-                                        }}
-                                    />
-                                </IonItem>
-                            </IonCol>
-                        </IonRow>
-                        <IonRow>
-                            <IonCol sizeSm='3'>
-                                <IonItem>
-                                    <IonLabel>Doc. de Identificação</IonLabel>
-                                    <IonSelect value={paisDeEmissao} interface="popover"
-                                               onIonChange={e => setPaisDeEmissao(e.detail.value)}>
-                                        <IonSelectOption value="female">Female</IonSelectOption>
-                                        <IonSelectOption value="male">Male</IonSelectOption>
-                                    </IonSelect>
-                                </IonItem>
-                            </IonCol>
-                            <IonCol sizeSm='3'>
-                                <IonItem style={{marginTop: -16}}>
-                                    <IonLabel position="floating" itemType="number"
-                                              defaultValue={number}
-                                              placeholder="Enter Number">Número</IonLabel>
-                                    <IonInput></IonInput>
-                                </IonItem>
-                            </IonCol>
-                        </IonRow>
-
-                        <IonRow>
-                            <IonCol sizeSm='3'>
-                                <IonItem>
-                                    <IonLabel>País de emissão</IonLabel>
-                                    <IonSelect value={paisDeEmissao} interface="popover"
-                                               onIonChange={e => setPaisDeEmissao(e.detail.value)}>
-                                        <IonSelectOption value="female">Female</IonSelectOption>
-                                        <IonSelectOption value="male">Male</IonSelectOption>
-                                    </IonSelect>
-                                </IonItem>
-                            </IonCol>
-                            <IonCol sizeSm='3'>
-                                <IonItem>
-                                    <IonLabel>Entidade de emissora</IonLabel>
-                                    <IonSelect value={paisDeEmissao} interface="popover"
-                                               onIonChange={e => setPaisDeEmissao(e.detail.value)}>
-                                        <IonSelectOption value="female">Female</IonSelectOption>
-                                        <IonSelectOption value="male">Male</IonSelectOption>
-                                    </IonSelect>
-                                </IonItem>
-                            </IonCol>
-                            <IonCol sizeSm='3'>
-                                <IonItem>
-                                    <IonLabel>Local de emissão</IonLabel>
-                                    <IonSelect value={paisDeEmissao} interface="popover"
-                                               onIonChange={e => setPaisDeEmissao(e.detail.value)}>
-                                        <IonSelectOption value="female">Female</IonSelectOption>
-                                        <IonSelectOption value="male">Male</IonSelectOption>
-                                    </IonSelect>
-                                </IonItem>
-                            </IonCol>
-
-                            <IonCol sizeSm='3'>
-                                <IonItem>
-                                    <IonInput id="date-input-2" value={popoverDate2}
-                                              placeholder='Data de emissão'/>
-                                    <IonButton color='medium' fill="clear" id="open-date-input-2">
-                                        <IonIcon icon={calendar}/>
-                                    </IonButton>
-                                    <IonPopover trigger="open-date-input-2" showBackdrop={false}>
-                                        <IonDatetime
-                                            presentation="date"
-                                            onIonChange={ev => setPopoverDate2(formatDate(ev.detail.value!))}
-                                        />
-                                    </IonPopover>
-                                </IonItem>
-                            </IonCol>
-                        </IonRow>
-
-                    </IonGrid>
-
-                </IonCardContent>
-            </IonCard>
-            {/* Documento de identificação */}
-        </IonCol>
-    </IonRow>
+                        </IonCardContent>
+                    </IonCard>
+                    {/* Título de condução */}
+                </IonCol>
+            </IonRow>
 
 
-    <IonRow>
-        <IonCol>
+            <IonRow>
+                <IonCol>
 
-        </IonCol>
-        <IonCol sizeSm='10'>
-            {/* Informações adicionais */}
-            <IonCard>
+                </IonCol>
+                <IonCol sizeSm='10'>
+                    {/* Documento de identificação */}
+                    <IonCard>
 
-                <IonCardHeader>
-                    <IonCardTitle>Informações adicionais</IonCardTitle>
-                </IonCardHeader>
+                        <IonCardHeader>
+                            <IonCardTitle>Documento de identificação</IonCardTitle>
+                        </IonCardHeader>
 
-                <IonCardContent>
-                    <IonGrid>
-                        <IonRow>
-                            <IonCol sizeSm='6'>
-                                <IonItem>
-                                    <IonLabel>O arguido apresentou o documento de
-                                        identificação?</IonLabel>
-                                    <IonToggle
-                                        slot="end"
-                                        name="darkMode"
-                                        checked={isProprietarioDoVeiculo}
-                                        onIonChange={e => {
-                                            setIsProprietarioDoVeiculo(e.detail.checked)
+                        <IonCardContent>
+                            <IonGrid>
+                                <IonRow>
+                                    <IonCol sizeSm='6'>
+                                        <IonItem>
+                                            <IonLabel>O arguido apresentou o documento de
+                                                identificação?</IonLabel>
+                                            <IonToggle
+                                                slot="end"
+                                                name="darkMode"
+                                                checked={isProprietarioDoVeiculo}
+                                                onIonChange={e => {
+                                                    setIsProprietarioDoVeiculo(e.detail.checked)
 
-                                        }}
-                                    />
-                                </IonItem>
-                            </IonCol>
-                        </IonRow>
-                        <IonRow>
-                            <IonCol sizeSm='9'>
-                                <IonItem style={{marginTop: -16}}>
-                                    <IonLabel position="floating" placeholder="Nome / Firma">Nome /
-                                        Firma</IonLabel>
-                                    <IonInput></IonInput>
-                                </IonItem>
-                            </IonCol>
-                            <IonCol sizeSm='3'>
-                                <IonItem>
-                                    <IonInput id="date-input-3" value={popoverDate3}
-                                              placeholder='Data de nascimento'/>
-                                    <IonButton color='medium' fill="clear" id="open-date-input-3">
-                                        <IonIcon icon={calendar}/>
-                                    </IonButton>
-                                    <IonPopover trigger="open-date-input-3" showBackdrop={false}>
-                                        <IonDatetime
-                                            presentation="date"
-                                            onIonChange={ev => setPopoverDate3(formatDate(ev.detail.value!))}
-                                        />
-                                    </IonPopover>
-                                </IonItem>
-                            </IonCol>
-                        </IonRow>
+                                                }}
+                                            />
+                                        </IonItem>
+                                    </IonCol>
+                                </IonRow>
+                                <IonRow>
+                                    <IonCol sizeSm='3'>
+                                        <IonItem>
+                                            <IonLabel>Doc. de Identificação</IonLabel>
+                                            <IonSelect value={paisDeEmissao} interface="popover"
+                                                       onIonChange={e => setPaisDeEmissao(e.detail.value)}>
+                                                <IonSelectOption value="female">Female</IonSelectOption>
+                                                <IonSelectOption value="male">Male</IonSelectOption>
+                                            </IonSelect>
+                                        </IonItem>
+                                    </IonCol>
+                                    <IonCol sizeSm='3'>
+                                        <IonItem style={{marginTop: -16}}>
+                                            <IonLabel position="floating" itemType="number"
+                                                      defaultValue={number}
+                                                      placeholder="Enter Number">Número</IonLabel>
+                                            <IonInput></IonInput>
+                                        </IonItem>
+                                    </IonCol>
+                                </IonRow>
 
-                        <IonRow>
-                            <IonCol sizeSm='3'>
-                                <IonRadioGroup value={selectedSingularColetivo}
-                                               onIonChange={e => setSelectedSingularColetivo(e.detail.value)}>
-                                    <IonListHeader>
-                                        <IonLabel>
-                                            Domicílio / Sede
-                                        </IonLabel>
-                                    </IonListHeader>
-                                    <IonItem lines='none'>
-                                        <IonLabel>Singular</IonLabel>
-                                        <IonRadio slot="start" value="biff"/>
-                                    </IonItem>
+                                <IonRow>
+                                    <IonCol sizeSm='3'>
+                                        <IonItem>
+                                            <IonLabel>País de emissão</IonLabel>
+                                            <IonSelect value={paisDeEmissao} interface="popover"
+                                                       onIonChange={e => setPaisDeEmissao(e.detail.value)}>
+                                                <IonSelectOption value="female">Female</IonSelectOption>
+                                                <IonSelectOption value="male">Male</IonSelectOption>
+                                            </IonSelect>
+                                        </IonItem>
+                                    </IonCol>
+                                    <IonCol sizeSm='3'>
+                                        <IonItem>
+                                            <IonLabel>Entidade de emissora</IonLabel>
+                                            <IonSelect value={paisDeEmissao} interface="popover"
+                                                       onIonChange={e => setPaisDeEmissao(e.detail.value)}>
+                                                <IonSelectOption value="female">Female</IonSelectOption>
+                                                <IonSelectOption value="male">Male</IonSelectOption>
+                                            </IonSelect>
+                                        </IonItem>
+                                    </IonCol>
+                                    <IonCol sizeSm='3'>
+                                        <IonItem>
+                                            <IonLabel>Local de emissão</IonLabel>
+                                            <IonSelect value={paisDeEmissao} interface="popover"
+                                                       onIonChange={e => setPaisDeEmissao(e.detail.value)}>
+                                                <IonSelectOption value="female">Female</IonSelectOption>
+                                                <IonSelectOption value="male">Male</IonSelectOption>
+                                            </IonSelect>
+                                        </IonItem>
+                                    </IonCol>
 
-                                    <IonItem lines='none'>
-                                        <IonLabel>Coletivo</IonLabel>
-                                        <IonRadio slot="start" value="griff"/>
-                                    </IonItem>
+                                    <IonCol sizeSm='3'>
+                                        <IonItem>
+                                            <IonInput id="date-input-2" value={popoverDate2}
+                                                      placeholder='Data de emissão'/>
+                                            <IonButton color='medium' fill="clear" id="open-date-input-2">
+                                                <IonIcon icon={calendar}/>
+                                            </IonButton>
+                                            <IonPopover trigger="open-date-input-2" showBackdrop={false}>
+                                                <IonDatetime
+                                                    presentation="date"
+                                                    onIonChange={ev => setPopoverDate2(formatDate(ev.detail.value!))}
+                                                />
+                                            </IonPopover>
+                                        </IonItem>
+                                    </IonCol>
+                                </IonRow>
 
-                                </IonRadioGroup>
-                            </IonCol>
-                            <IonCol sizeSm='6'>
-                                <IonItem>
-                                    <IonLabel position="floating" placeholder="Morada">Morada</IonLabel>
-                                    <IonInput></IonInput>
-                                </IonItem>
-                            </IonCol>
+                            </IonGrid>
 
-                            <IonCol sizeSm='3'>
-                                <IonItem>
-                                    <IonLabel position="floating" itemType="number"
-                                              defaultValue={number} placeholder="Enter Number">Nº
-                                        Polícia</IonLabel>
-                                    <IonInput></IonInput>
-                                </IonItem>
-                            </IonCol>
-                        </IonRow>
+                        </IonCardContent>
+                    </IonCard>
+                    {/* Documento de identificação */}
+                </IonCol>
+            </IonRow>
 
-                        <IonRow>
-                            <IonCol sizeSm='3'>
-                                <IonItem>
-                                    <IonLabel position="floating"
-                                              placeholder="Fracção">Fracção</IonLabel>
-                                    <IonInput></IonInput>
-                                </IonItem>
-                            </IonCol>
-                            <IonCol sizeSm='3'>
-                                <IonItem>
-                                    <IonLabel position="floating"
-                                              placeholder="Localidade">Localidade</IonLabel>
-                                    <IonInput></IonInput>
-                                </IonItem>
-                            </IonCol>
 
-                            <IonCol sizeSm='3'>
-                                <IonItem>
-                                    <IonLabel position="floating" itemType="number"
-                                              defaultValue={number} placeholder="Enter Number">Código
-                                        Postal</IonLabel>
-                                    <IonInput></IonInput>
-                                </IonItem>
-                            </IonCol>
+            <IonRow>
+                <IonCol>
 
-                            <IonCol sizeSm='3'>
-                                <IonItem style={{marginTop: 16}}>
-                                    <IonLabel>País de emissão</IonLabel>
-                                    <IonSelect value={paisDeEmissao} interface="popover"
-                                               onIonChange={e => setPaisDeEmissao(e.detail.value)}>
-                                        <IonSelectOption value="female">Female</IonSelectOption>
-                                        <IonSelectOption value="male">Male</IonSelectOption>
-                                    </IonSelect>
-                                </IonItem>
-                            </IonCol>
-                        </IonRow>
+                </IonCol>
+                <IonCol sizeSm='10'>
+                    {/* Informações adicionais */}
+                    <IonCard>
 
-                        <IonRow>
-                            <IonCol sizeSm='6'>
-                                <IonItem>
-                                    <IonLabel position="floating" placeholder="Representante legal">Representante
-                                        legal</IonLabel>
-                                    <IonInput></IonInput>
-                                </IonItem>
-                            </IonCol>
+                        <IonCardHeader>
+                            <IonCardTitle>Informações adicionais</IonCardTitle>
+                        </IonCardHeader>
 
-                        </IonRow>
-                    </IonGrid>
+                        <IonCardContent>
+                            <IonGrid>
+                                <IonRow>
+                                    <IonCol sizeSm='6'>
+                                        <IonItem>
+                                            <IonLabel>O arguido apresentou o documento de
+                                                identificação?</IonLabel>
+                                            <IonToggle
+                                                slot="end"
+                                                name="darkMode"
+                                                checked={isProprietarioDoVeiculo}
+                                                onIonChange={e => {
+                                                    setIsProprietarioDoVeiculo(e.detail.checked)
 
-                </IonCardContent>
-            </IonCard>
-            {/* Informações adicionais */}
-        </IonCol>
-    </IonRow>
+                                                }}
+                                            />
+                                        </IonItem>
+                                    </IonCol>
+                                </IonRow>
+                                <IonRow>
+                                    <IonCol sizeSm='9'>
+                                        <IonItem style={{marginTop: -16}}>
+                                            <IonLabel position="floating" placeholder="Nome / Firma">Nome /
+                                                Firma</IonLabel>
+                                            <IonInput></IonInput>
+                                        </IonItem>
+                                    </IonCol>
+                                    <IonCol sizeSm='3'>
+                                        <IonItem>
+                                            <IonInput id="date-input-3" value={popoverDate3}
+                                                      placeholder='Data de nascimento'/>
+                                            <IonButton color='medium' fill="clear" id="open-date-input-3">
+                                                <IonIcon icon={calendar}/>
+                                            </IonButton>
+                                            <IonPopover trigger="open-date-input-3" showBackdrop={false}>
+                                                <IonDatetime
+                                                    presentation="date"
+                                                    onIonChange={ev => setPopoverDate3(formatDate(ev.detail.value!))}
+                                                />
+                                            </IonPopover>
+                                        </IonItem>
+                                    </IonCol>
+                                </IonRow>
 
-    <IonRow id='teste'>
-        <IonCol color='secondary'>
-            <IonItem lines='none'>
-                <IonButton slot='end' color='light' onClick={e => {
+                                <IonRow>
+                                    <IonCol sizeSm='3'>
+                                        <IonRadioGroup value={selectedSingularColetivo}
+                                                       onIonChange={e => setSelectedSingularColetivo(e.detail.value)}>
+                                            <IonListHeader>
+                                                <IonLabel>
+                                                    Domicílio / Sede
+                                                </IonLabel>
+                                            </IonListHeader>
+                                            <IonItem lines='none'>
+                                                <IonLabel>Singular</IonLabel>
+                                                <IonRadio slot="start" value="biff"/>
+                                            </IonItem>
 
-                }}>Seguinte: Veículo</IonButton>
+                                            <IonItem lines='none'>
+                                                <IonLabel>Coletivo</IonLabel>
+                                                <IonRadio slot="start" value="griff"/>
+                                            </IonItem>
 
-            </IonItem>
-        </IonCol>
-    </IonRow>
+                                        </IonRadioGroup>
+                                    </IonCol>
+                                    <IonCol sizeSm='6'>
+                                        <IonItem>
+                                            <IonLabel position="floating" placeholder="Morada">Morada</IonLabel>
+                                            <IonInput></IonInput>
+                                        </IonItem>
+                                    </IonCol>
 
-    <IonRow>
-        <IonCol>
-            time-line
-            <Link to={'#teste'}>
-                Veículo
-            </Link>
-        </IonCol>
-        <IonCol sizeSm='10'>
-            {/* Veículo */}
-            <IonCard>
+                                    <IonCol sizeSm='3'>
+                                        <IonItem>
+                                            <IonLabel position="floating" itemType="number"
+                                                      defaultValue={number} placeholder="Enter Number">Nº
+                                                Polícia</IonLabel>
+                                            <IonInput></IonInput>
+                                        </IonItem>
+                                    </IonCol>
+                                </IonRow>
 
-                <IonCardHeader>
-                    <IonCardTitle>Veículo</IonCardTitle>
-                </IonCardHeader>
+                                <IonRow>
+                                    <IonCol sizeSm='3'>
+                                        <IonItem>
+                                            <IonLabel position="floating"
+                                                      placeholder="Fracção">Fracção</IonLabel>
+                                            <IonInput></IonInput>
+                                        </IonItem>
+                                    </IonCol>
+                                    <IonCol sizeSm='3'>
+                                        <IonItem>
+                                            <IonLabel position="floating"
+                                                      placeholder="Localidade">Localidade</IonLabel>
+                                            <IonInput></IonInput>
+                                        </IonItem>
+                                    </IonCol>
 
-                <IonCardContent>
-                    <IonGrid>
-                        <IonRow>
-                            <IonCol sizeSm='6'>
-                                <IonItem>
-                                    <IonLabel>O veículo é conduzido pelo Arguido?</IonLabel>
-                                    <IonToggle
-                                        slot="end"
-                                        name="darkMode"
-                                        checked={isProprietarioDoVeiculo}
-                                        onIonChange={e => {
-                                            setIsProprietarioDoVeiculo(e.detail.checked)
+                                    <IonCol sizeSm='3'>
+                                        <IonItem>
+                                            <IonLabel position="floating" itemType="number"
+                                                      defaultValue={number} placeholder="Enter Number">Código
+                                                Postal</IonLabel>
+                                            <IonInput></IonInput>
+                                        </IonItem>
+                                    </IonCol>
 
-                                        }}
-                                    />
-                                </IonItem>
-                            </IonCol>
-                        </IonRow>
-                        <IonRow>
-                            <IonCol sizeSm='3'>
-                                <IonItem>
-                                    <IonButton color='medium' fill="clear" id="open-search-input-1">
-                                        <IonIcon icon={search}/>
-                                    </IonButton>
-                                    <IonInput placeholder='Matricula'/>
+                                    <IonCol sizeSm='3'>
+                                        <IonItem style={{marginTop: 16}}>
+                                            <IonLabel>País de emissão</IonLabel>
+                                            <IonSelect value={paisDeEmissao} interface="popover"
+                                                       onIonChange={e => setPaisDeEmissao(e.detail.value)}>
+                                                <IonSelectOption value="female">Female</IonSelectOption>
+                                                <IonSelectOption value="male">Male</IonSelectOption>
+                                            </IonSelect>
+                                        </IonItem>
+                                    </IonCol>
+                                </IonRow>
 
-                                </IonItem>
-                            </IonCol>
-                            <IonCol sizeSm='3'>
-                                <IonItem lines='none'>
+                                <IonRow>
+                                    <IonCol sizeSm='6'>
+                                        <IonItem>
+                                            <IonLabel position="floating" placeholder="Representante legal">Representante
+                                                legal</IonLabel>
+                                            <IonInput></IonInput>
+                                        </IonItem>
+                                    </IonCol>
 
-                                    <IonButton style={{background: '#084F87', borderRadius: 4}}
-                                               color="#084F87" slot="start" size='default'
-                                               onClick={() => {
-                                                   dispatch(setVisiblePopoverIndentVeiculo(true));
-                                               }}>
-                                        Pesquisar
-                                    </IonButton>
+                                </IonRow>
+                            </IonGrid>
 
-                                </IonItem>
-                            </IonCol>
-                            <IonCol>
+                        </IonCardContent>
+                    </IonCard>
+                    {/* Informações adicionais */}
+                </IonCol>
+            </IonRow>
 
-                                <div style={{
-                                    display: 'inline-flex',
-                                    borderRadius: 10,
-                                    background: '#FEF7EA',
-                                    width: '100%',
-                                    border: 'groove'
-                                }}>
-                                    <IonImg src={'assets/images/Group 4529_icon.png'}
-                                            style={{width: 'fit-content'}}></IonImg>
-                                    <strong style={{marginTop: 12, marginLeft: 2, color: 'black'}}>Dados
-                                        sujeitos a validação</strong>
-                                </div>
+            <IonRow id='teste'>
+                <IonCol color='secondary'>
+                    <IonItem lines='none'>
+                        <IonButton slot='end' color='light' onClick={e => {
 
-                            </IonCol>
-                        </IonRow>
+                        }}>Seguinte: Veículo</IonButton>
 
-                        <IonRow>
-                            <IonCol sizeSm='3'>
+                    </IonItem>
+                </IonCol>
+            </IonRow>
 
-                                <IonItem>
-                                    <IonLabel>País</IonLabel>
-                                    <IonSelect value={paisDeEmissao} interface="popover"
-                                               onIonChange={e => setPaisDeEmissao(e.detail.value)}>
-                                        <IonSelectOption value="female">Female</IonSelectOption>
-                                        <IonSelectOption value="male">Male</IonSelectOption>
-                                    </IonSelect>
-                                </IonItem>
-                            </IonCol>
-                            <IonCol sizeSm='3'>
-                                <IonItem>
-                                    <IonLabel>Marca</IonLabel>
-                                    <IonSelect value={paisDeEmissao} interface="popover"
-                                               onIonChange={e => setPaisDeEmissao(e.detail.value)}>
-                                        <IonSelectOption value="female">Female</IonSelectOption>
-                                        <IonSelectOption value="male">Male</IonSelectOption>
-                                    </IonSelect>
-                                </IonItem>
-                            </IonCol>
+            <IonRow>
+                <IonCol>
+                    time-line
+                    <Link to={'#teste'}>
+                        Veículo
+                    </Link>
+                </IonCol>
+                <IonCol sizeSm='10'>
+                    {/* Veículo */}
+                    <IonCard>
 
-                            <IonCol sizeSm='3'>
-                                <IonItem>
-                                    <IonLabel>Modelo</IonLabel>
-                                    <IonSelect value={paisDeEmissao} interface="popover"
-                                               onIonChange={e => setPaisDeEmissao(e.detail.value)}>
-                                        <IonSelectOption value="female">Female</IonSelectOption>
-                                        <IonSelectOption value="male">Male</IonSelectOption>
-                                    </IonSelect>
-                                </IonItem>
-                            </IonCol>
+                        <IonCardHeader>
+                            <IonCardTitle>Veículo</IonCardTitle>
+                        </IonCardHeader>
 
-                            <IonCol sizeSm='3'>
-                                <IonItem>
-                                    <IonLabel>Cor</IonLabel>
-                                    <IonSelect value={paisDeEmissao} interface="popover"
-                                               onIonChange={e => setPaisDeEmissao(e.detail.value)}>
-                                        <IonSelectOption value="female">Female</IonSelectOption>
-                                        <IonSelectOption value="male">Male</IonSelectOption>
-                                    </IonSelect>
-                                </IonItem>
-                            </IonCol>
-                        </IonRow>
+                        <IonCardContent>
+                            <IonGrid>
+                                <IonRow>
+                                    <IonCol sizeSm='6'>
+                                        <IonItem>
+                                            <IonLabel>O veículo é conduzido pelo Arguido?</IonLabel>
+                                            <IonToggle
+                                                slot="end"
+                                                name="darkMode"
+                                                checked={isProprietarioDoVeiculo}
+                                                onIonChange={e => {
+                                                    setIsProprietarioDoVeiculo(e.detail.checked)
 
-                        <IonRow>
-                            <IonCol sizeSm='3'>
+                                                }}
+                                            />
+                                        </IonItem>
+                                    </IonCol>
+                                </IonRow>
+                                <IonRow>
+                                    <IonCol sizeSm='3'>
+                                        <IonItem>
+                                            <IonButton color='medium' fill="clear" id="open-search-input-1">
+                                                <IonIcon icon={search}/>
+                                            </IonButton>
+                                            <IonInput placeholder='Matricula'/>
 
-                                <IonItem>
-                                    <IonLabel>Categoria</IonLabel>
-                                    <IonSelect value={paisDeEmissao} interface="popover"
-                                               onIonChange={e => setPaisDeEmissao(e.detail.value)}>
-                                        <IonSelectOption value="female">Female</IonSelectOption>
-                                        <IonSelectOption value="male">Male</IonSelectOption>
-                                    </IonSelect>
-                                </IonItem>
-                            </IonCol>
-                            <IonCol sizeSm='3'>
-                                <IonItem>
-                                    <IonLabel>Classe</IonLabel>
-                                    <IonSelect value={paisDeEmissao} interface="popover"
-                                               onIonChange={e => setPaisDeEmissao(e.detail.value)}>
-                                        <IonSelectOption value="female">Female</IonSelectOption>
-                                        <IonSelectOption value="male">Male</IonSelectOption>
-                                    </IonSelect>
-                                </IonItem>
-                            </IonCol>
+                                        </IonItem>
+                                    </IonCol>
+                                    <IonCol sizeSm='3'>
+                                        <IonItem lines='none'>
 
-                            <IonCol sizeSm='3'>
-                                <IonItem>
-                                    <IonLabel>Tipo</IonLabel>
-                                    <IonSelect value={paisDeEmissao} interface="popover"
-                                               onIonChange={e => setPaisDeEmissao(e.detail.value)}>
-                                        <IonSelectOption value="female">Female</IonSelectOption>
-                                        <IonSelectOption value="male">Male</IonSelectOption>
-                                    </IonSelect>
-                                </IonItem>
-                            </IonCol>
+                                            <IonButton style={{background: '#084F87', borderRadius: 4}}
+                                                       color="#084F87" slot="start" size='default'
+                                                       onClick={() => {
+                                                           dispatch(setVisiblePopoverIndentVeiculo(true));
+                                                       }}>
+                                                Pesquisar
+                                            </IonButton>
 
-                            <IonCol sizeSm='3'>
-                                <IonItem>
-                                    <IonLabel>Subclasse</IonLabel>
-                                    <IonSelect value={paisDeEmissao} interface="popover"
-                                               onIonChange={e => setPaisDeEmissao(e.detail.value)}>
-                                        <IonSelectOption value="female">Female</IonSelectOption>
-                                        <IonSelectOption value="male">Male</IonSelectOption>
-                                    </IonSelect>
-                                </IonItem>
-                            </IonCol>
-                        </IonRow>
-                    </IonGrid>
+                                        </IonItem>
+                                    </IonCol>
+                                    <IonCol>
 
-                </IonCardContent>
-            </IonCard>
-            {/* Veículo */}
-        </IonCol>
-    </IonRow>
+                                        <div style={{
+                                            display: 'inline-flex',
+                                            borderRadius: 10,
+                                            background: '#FEF7EA',
+                                            width: '100%',
+                                            border: 'groove'
+                                        }}>
+                                            <IonImg src={'assets/images/Group 4529_icon.png'}
+                                                    style={{width: 'fit-content'}}></IonImg>
+                                            <strong style={{marginTop: 12, marginLeft: 2, color: 'black'}}>Dados
+                                                sujeitos a validação</strong>
+                                        </div>
 
-    <IonRow>
-        <IonCol color='secondary'>
-            <IonItem lines='none'>
-                <IonButton slot='end' color='light' onClick={e => {
+                                    </IonCol>
+                                </IonRow>
 
-                }}>Arguido</IonButton>
-                <IonButton slot='end' color='light' onClick={e => {
+                                <IonRow>
+                                    <IonCol sizeSm='3'>
 
-                }}>Condutor</IonButton>
+                                        <IonItem>
+                                            <IonLabel>País</IonLabel>
+                                            <IonSelect value={paisDeEmissao} interface="popover"
+                                                       onIonChange={e => setPaisDeEmissao(e.detail.value)}>
+                                                <IonSelectOption value="female">Female</IonSelectOption>
+                                                <IonSelectOption value="male">Male</IonSelectOption>
+                                            </IonSelect>
+                                        </IonItem>
+                                    </IonCol>
+                                    <IonCol sizeSm='3'>
+                                        <IonItem>
+                                            <IonLabel>Marca</IonLabel>
+                                            <IonSelect value={paisDeEmissao} interface="popover"
+                                                       onIonChange={e => setPaisDeEmissao(e.detail.value)}>
+                                                <IonSelectOption value="female">Female</IonSelectOption>
+                                                <IonSelectOption value="male">Male</IonSelectOption>
+                                            </IonSelect>
+                                        </IonItem>
+                                    </IonCol>
 
-            </IonItem>
-        </IonCol>
-    </IonRow>
+                                    <IonCol sizeSm='3'>
+                                        <IonItem>
+                                            <IonLabel>Modelo</IonLabel>
+                                            <IonSelect value={paisDeEmissao} interface="popover"
+                                                       onIonChange={e => setPaisDeEmissao(e.detail.value)}>
+                                                <IonSelectOption value="female">Female</IonSelectOption>
+                                                <IonSelectOption value="male">Male</IonSelectOption>
+                                            </IonSelect>
+                                        </IonItem>
+                                    </IonCol>
+
+                                    <IonCol sizeSm='3'>
+                                        <IonItem>
+                                            <IonLabel>Cor</IonLabel>
+                                            <IonSelect value={paisDeEmissao} interface="popover"
+                                                       onIonChange={e => setPaisDeEmissao(e.detail.value)}>
+                                                <IonSelectOption value="female">Female</IonSelectOption>
+                                                <IonSelectOption value="male">Male</IonSelectOption>
+                                            </IonSelect>
+                                        </IonItem>
+                                    </IonCol>
+                                </IonRow>
+
+                                <IonRow>
+                                    <IonCol sizeSm='3'>
+
+                                        <IonItem>
+                                            <IonLabel>Categoria</IonLabel>
+                                            <IonSelect value={paisDeEmissao} interface="popover"
+                                                       onIonChange={e => setPaisDeEmissao(e.detail.value)}>
+                                                <IonSelectOption value="female">Female</IonSelectOption>
+                                                <IonSelectOption value="male">Male</IonSelectOption>
+                                            </IonSelect>
+                                        </IonItem>
+                                    </IonCol>
+                                    <IonCol sizeSm='3'>
+                                        <IonItem>
+                                            <IonLabel>Classe</IonLabel>
+                                            <IonSelect value={paisDeEmissao} interface="popover"
+                                                       onIonChange={e => setPaisDeEmissao(e.detail.value)}>
+                                                <IonSelectOption value="female">Female</IonSelectOption>
+                                                <IonSelectOption value="male">Male</IonSelectOption>
+                                            </IonSelect>
+                                        </IonItem>
+                                    </IonCol>
+
+                                    <IonCol sizeSm='3'>
+                                        <IonItem>
+                                            <IonLabel>Tipo</IonLabel>
+                                            <IonSelect value={paisDeEmissao} interface="popover"
+                                                       onIonChange={e => setPaisDeEmissao(e.detail.value)}>
+                                                <IonSelectOption value="female">Female</IonSelectOption>
+                                                <IonSelectOption value="male">Male</IonSelectOption>
+                                            </IonSelect>
+                                        </IonItem>
+                                    </IonCol>
+
+                                    <IonCol sizeSm='3'>
+                                        <IonItem>
+                                            <IonLabel>Subclasse</IonLabel>
+                                            <IonSelect value={paisDeEmissao} interface="popover"
+                                                       onIonChange={e => setPaisDeEmissao(e.detail.value)}>
+                                                <IonSelectOption value="female">Female</IonSelectOption>
+                                                <IonSelectOption value="male">Male</IonSelectOption>
+                                            </IonSelect>
+                                        </IonItem>
+                                    </IonCol>
+                                </IonRow>
+                            </IonGrid>
+
+                        </IonCardContent>
+                    </IonCard>
+                    {/* Veículo */}
+                </IonCol>
+            </IonRow>
+
+            <IonRow>
+                <IonCol color='secondary'>
+                    <IonItem lines='none'>
+                        <IonButton slot='end' color='light' onClick={e => {
+
+                        }}>Arguido</IonButton>
+                        <IonButton slot='end' color='light' onClick={e => {
+
+                        }}>Condutor</IonButton>
+
+                    </IonItem>
+                </IonCol>
+            </IonRow>
         </IonGrid>
     )
 }
