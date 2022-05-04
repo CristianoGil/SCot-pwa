@@ -6,7 +6,5 @@
 
 #modalAlert #colImagem{
     background-size: cover !important;
-    background: url("../../../public/assets/images/semInternet.png") center;       
-    background-position:right; 
-    
+    background: url("../../../public/assets/images/semInternet.png") right;
 }

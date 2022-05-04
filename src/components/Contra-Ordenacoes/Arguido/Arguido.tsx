@@ -19,15 +19,18 @@ import {
     IonToggle,
     useIonAlert,
 } from '@ionic/react';
-import {useState} from 'react';
+import {useContext, useState} from 'react';
 import {search} from 'ionicons/icons';
 import React from 'react';
 import {useAppSelector} from '../../../app/hooks';
 import {setVisiblePopoverIndentVeiculo} from '../../Menu/popoverIndentVeiculoSlice';
 import './Arguido.scss';
 import Pais from '../../Combos/Pais';
+import {AlertNetworkOfflineContext} from '../../../Context/AlertNetworkOfflineContext';
 
 const Arguido: React.FC = () => {
+
+    const AlertOfflineContext = useContext<any>(AlertNetworkOfflineContext)
 
     const [presentAlert, dismissAlert] = useIonAlert();
 
@@ -74,11 +77,11 @@ const Arguido: React.FC = () => {
             return;
         }
 
+        AlertOfflineContext.openModal();
+
         e.preventDefault();
     }
-
     // END: INPUT NIF
-
 
 
     return (
@@ -91,7 +94,7 @@ const Arguido: React.FC = () => {
             <IonCardContent>
                 <IonGrid>
                     <IonRow>
-                        <IonCol size='4'>
+                        <IonCol size-sm='12' size-md='10' size-lg='4'>
                             <IonItem lines={'none'}>
                                 <IonLabel>O arguido é proprietário do veículo?</IonLabel>
                                 <IonToggle
@@ -106,30 +109,35 @@ const Arguido: React.FC = () => {
                         </IonCol>
                     </IonRow>
                     <IonRow>
-                        <IonCol size='4'>
+                        <IonCol size-sm='8' size-md='6' size-lg='4'>
                             <IonItem>
                                 <IonButton color='medium' fill="clear" id="open-search-input-1">
                                     <IonIcon icon={search}/>
                                 </IonButton>
-                                <IonInput maxlength={9} minlength={9} color={inputNif_color} required={true}
+                                <IonInput maxlength={9}
+                                          minlength={9}
+                                          color={inputNif_color}
+                                          required={true}
                                           clearInput={true}
-                                          name='arguido-nif' value={arguidoNif} onKeyUp={keyup_arguidoNif}
+                                          name='arguido-nif'
+                                          value={arguidoNif}
+                                          onKeyUp={keyup_arguidoNif}
                                           placeholder='NIF'/>
                             </IonItem>
                         </IonCol>
-                        <IonCol size='2'>
+                        <IonCol size-sm='4' size-md='6' size-lg='2'>
                             <IonItem lines='none'>
-                                <IonButton style={{background: '#084F87', borderRadius: 4}} color="#084F87" slot="start"
+                                <IonButton style={{background: '#084F87', borderRadius: 4}}
+                                           color="#084F87"
+                                           slot="start"
                                            disabled={inputNif_canSearch()}
-                                           size='default' onClick={handler_arguidoSearchByNif}>
-                                    Pesquisar
-                                </IonButton>
+                                           size='default'
+                                           onClick={handler_arguidoSearchByNif}> Pesquisar </IonButton>
 
                             </IonItem>
                         </IonCol>
 
-                        <IonCol size='6'>
-
+                        <IonCol size-sm='12' size-md='8' size-lg='6' >
                             <div style={{
                                 display: 'inline-flex',
                                 borderRadius: 10,
@@ -142,14 +150,14 @@ const Arguido: React.FC = () => {
                                 <strong style={{marginTop: 12, marginLeft: 2, color: 'black'}}>Dados sujeitos a
                                     validação</strong>
                             </div>
-
                         </IonCol>
                     </IonRow>
 
                     <IonRow>
-                        <IonCol size='4'>
+                        <IonCol size-sm='12' size-md='8' size-lg='4'>
 
-                            <IonRadioGroup value={arguidoVeiculoSingularColetivo} onIonChange={e => setArguidoVeiculoSingularColetivo(e.detail.value)}>
+                            <IonRadioGroup value={arguidoVeiculoSingularColetivo}
+                                           onIonChange={e => setArguidoVeiculoSingularColetivo(e.detail.value)}>
                                 <IonRow>
                                     <IonCol size='6'>
                                         <IonItem lines='none' className="veiculo-proprietario-radio radio-item">
@@ -166,11 +174,11 @@ const Arguido: React.FC = () => {
                                 </IonRow>
                             </IonRadioGroup>
                         </IonCol>
-                        <IonCol size='4'>
-                            
-                                <Pais inputName={'arguido-paisEmissao'} textLabel={'País de emissão'}/>
-                          
-                          
+                        <IonCol size-sm='12' size-md='10' size-lg='4'>
+
+                            <Pais inputName={'arguido-paisEmissao'} textLabel={'País de emissão'}/>
+
+
                         </IonCol>
                     </IonRow>
 
