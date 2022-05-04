@@ -32,6 +32,7 @@ import CoDirecta from './pages/Co-Directa/Co-Directa';
 import { useContext, useEffect, useState } from 'react';
 import { IResponseLogin } from './model/login';
 import { UserContext } from './Context/UserContext';
+import { NetworkInterfaceContext } from './Context/NetworkInterfaceContext';
 
 
 interface IProtectedProps {
@@ -54,7 +55,16 @@ setupIonicReact();
 const App: React.FC = () => {
 
     const userContext = useContext<any>(UserContext);
-    console.log(userContext.isAuthenticated())
+    const networkInterfaceContext = useContext<any>(NetworkInterfaceContext);
+
+    window.addEventListener('offline', function () {
+        networkInterfaceContext.onOffline();
+    });
+
+    window.addEventListener('online', function () {
+        networkInterfaceContext.onOnline();
+    });
+
     return (
         <IonApp>
             <IonReactRouter>

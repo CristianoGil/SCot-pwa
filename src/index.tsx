@@ -11,18 +11,21 @@ import {UserProvider} from './Context/UserContext';
 import store from './app/store';
 import {Provider} from 'react-redux';
 import {AlertNetworkOfflineProvider} from './Context/AlertNetworkOfflineContext';
+import {NetworkInterfaceProvider} from './Context/NetworkInterfaceContext';
 
 const root: any = createRoot(document.getElementById('root')!)
 
 root.render(
     <React.StrictMode>
-        <AlertNetworkOfflineProvider>
-            <UserProvider>
-                <Provider store={store}>
-                    <App/>
-                </Provider>
-            </UserProvider>
-        </AlertNetworkOfflineProvider>
+        <NetworkInterfaceProvider>
+            <AlertNetworkOfflineProvider>
+                <UserProvider>
+                    <Provider store={store}>
+                        <App/>
+                    </Provider>
+                </UserProvider>
+            </AlertNetworkOfflineProvider>
+        </NetworkInterfaceProvider>
     </React.StrictMode>
 );
 

@@ -27,11 +27,14 @@ import {setVisiblePopoverIndentVeiculo} from '../../Menu/popoverIndentVeiculoSli
 import './Arguido.scss';
 import Pais from '../../Combos/Pais';
 import {AlertNetworkOfflineContext} from '../../../Context/AlertNetworkOfflineContext';
+import { getNetworkState } from '../../../common/capacitor_global';
+import { NetworkInterfaceContext } from '../../../Context/NetworkInterfaceContext';
 
 const Arguido: React.FC = () => {
 
-    const AlertOfflineContext = useContext<any>(AlertNetworkOfflineContext)
-
+    const alertOfflineContext = useContext<any>(AlertNetworkOfflineContext)
+    const networkInterfaceContext = useContext<any>(NetworkInterfaceContext);
+    
     const [presentAlert, dismissAlert] = useIonAlert();
 
     const [paisDeEmissao, setPaisDeEmissao] = useState<string>();
@@ -77,7 +80,10 @@ const Arguido: React.FC = () => {
             return;
         }
 
-        AlertOfflineContext.openModal();
+        if(networkInterfaceContext.stateNetwork() === 'offline') {
+            alertOfflineContext.openModal();
+            return;
+        }
 
         e.preventDefault();
     }
@@ -175,9 +181,7 @@ const Arguido: React.FC = () => {
                             </IonRadioGroup>
                         </IonCol>
                         <IonCol size-sm='12' size-md='10' size-lg='4'>
-
                             <Pais inputName={'arguido-paisEmissao'} textLabel={'País de emissão'}/>
-
 
                         </IonCol>
                     </IonRow>
