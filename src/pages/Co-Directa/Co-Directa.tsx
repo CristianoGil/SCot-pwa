@@ -26,6 +26,9 @@ const CoDirecta: React.FC = () => {
 
     const [activeSegment, setActiveSegment] = useState('default');
 
+    const handlerSegment = (e: any) => {
+        setActiveSegment(e.detail.value)
+    }
 
     return (
         <IonPage>
@@ -41,14 +44,10 @@ const CoDirecta: React.FC = () => {
                         </IonCol>
                         <IonCol size-sm="12" size-md="12" size-lg="6">
                             <IonToolbar>
-                                <IonSegment slot="primary"
-                                            value="intervenientes">
-                                    <IonSegmentButton onClick={(e: any) => setActiveSegment('intervenientes')}
-                                                      value="intervenientes">Intervenientes</IonSegmentButton>
-                                    <IonSegmentButton onClick={(e: any) => setActiveSegment('dados_da_infracao')}
-                                                      value="dados_da_infracao">Dados da Infração</IonSegmentButton>
-                                    <IonSegmentButton onClick={(e: any) => setActiveSegment('dados_complemenatares')}
-                                                      value="dados_complemenatares">Dados
+                                <IonSegment slot="primary" onIonChange={handlerSegment} value={activeSegment}>
+                                    <IonSegmentButton value="intervenientes">Intervenientes</IonSegmentButton>
+                                    <IonSegmentButton value="dados_da_infracao">Dados da Infração</IonSegmentButton>
+                                    <IonSegmentButton value="dados_complemenatares">Dados
                                         Complementares</IonSegmentButton>
                                 </IonSegment>
                             </IonToolbar>
