@@ -113,14 +113,15 @@ export class Veiculo implements IVeiculoRequest {
         })
     }
 
-    public carregarCombosVeiculo(): Promise<ICombosVeiculoResponse> {
+    public carregarCombosVeiculo(entity: string): Promise<ICombosVeiculoResponse> {
         return new Promise((resolve, reject) => {
 
             if (!_.contains(getPlatforms(), 'desktop')) { // Load offline data
 
                 const instanceOfflineData = new LoadOfflineData();
                 instanceOfflineData.fetch_combos('veiculos_carregarCombosVeiculo'.toLowerCase()).then((data) => {
-                    resolve(data);
+                    const combos = _.isObject(data) ? _.has(data, entity) ? data[entity] : null : data;
+                    resolve(combos);
                 }).catch((error) => {
                     reject(error);
                 })
@@ -129,7 +130,9 @@ export class Veiculo implements IVeiculoRequest {
 
                 const service_url = 'carregarCombosVeiculo';
                 this.connectGetAPI(`${this.prefix_url}/${service_url}`).then((response) => {
-                    resolve(response.data);
+                    const data = response.data;
+                    const combos = _.isObject(data) ? _.has(data, entity) ? data[entity] : null : data;
+                    resolve(combos);
                 }).catch((error: AxiosError) => {
                     console.error(`${service_url}:`, error);
                     reject(error);

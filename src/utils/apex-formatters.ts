@@ -1,5 +1,7 @@
 import dayjs from 'dayjs'
 import moment from 'moment'
+import 'moment/locale/pt-br';
+moment.locale('pt-br');
 
 export function toString(val: number): string {
   return `${val}`

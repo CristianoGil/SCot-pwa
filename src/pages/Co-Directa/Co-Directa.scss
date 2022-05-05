@@ -106,41 +106,61 @@
 
  */
 
-ion-grid#gridGeral {
+ion-grid#gridGeral, ion-grid.intervenientes {
     padding: 0px;
     padding-left: 100px;
     padding-right: 100px;
+
+}
+
+ion-grid.intervenientes {
+    padding-bottom: 200px !important;
 }
 
 @media only screen and (max-width: 575px) {
 
-    ion-grid#gridGeral {
+    ion-grid#gridGeral, ion-grid.intervenientes  {
         padding-left: 10px;
         padding-right: 10px;
     }
 
 }
 
-/*ion-grid {*/
-/*    border: 1px solid red;*/
-/*}*/
+ion-grid {
+   /* border: 1px solid red; */
+}
 
-/*ion-row {*/
-/*    height: max-content;*/
-/*    border: 1px solid black;*/
-/*}*/
+ion-row {
+   height: max-content;
+   /* border: 1px solid black; */
+}
 
-/*ion-col {*/
-/*    border: 1px solid green;*/
-/*}*/
+ion-col {
+    /* border: 1px solid green; */
+}
 
-/*ion-content {*/
-/*    padding: 130px;*/
-/*    border: 1px solid blue;*/
-/*}*/
+ion-content {
+    padding: 130px;
+    /* border: 1px solid blue; */
+}
 
 
-/*ion-popover.menu#popoverIdentVeiculo {*/
-/*    --width: 840px;*/
-/*    --max-width: 100%;*/
-/*  }*/
+ion-popover.menu#popoverIdentVeiculo {
+    --width: 840px;
+    --max-width: 100%;
+}
+
+
+.contraordenacao {
+    ion-toolbar {
+        padding: 0 !important;
+    }
+
+
+
+
+}
+
+body.dark .contraordenacao ion-toolBar {
+    --background: rgb(18 18 18 / 80%);
+}

@@ -1,0 +1,18 @@
+.co-arguido {
+
+  ion-item {
+    ion-label.radioBox {
+      padding-left: 10px;
+    }
+  }
+
+}
+
+ion-popover.popoverArguido {
+  --width: 840px;
+  --max-width: 100%;
+
+  .btn-catalogo, .btn-use-data {
+    margin-right: 15px;
+  }
+}

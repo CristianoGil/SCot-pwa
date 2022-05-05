@@ -16,15 +16,16 @@ import {
 
 import {useContext, useState} from "react";
 
-import {RouteComponentProps} from 'react-router-dom';
+import {useHistory} from 'react-router-dom';
 import _ from 'underscore';
 import {UserContext} from '../../Context/UserContext';
 import './Login.scss';
 
-const Login: React.FC<RouteComponentProps> = ({history}) => {
+const Login: React.FC = () => {
 
     const [present, dismiss] = useIonLoading();
     const [presentLoad] = useIonAlert();
+    const history = useHistory();
 
     const userContext = useContext<any>(UserContext);
 

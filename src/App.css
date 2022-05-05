@@ -19,3 +19,12 @@ ion-popover.menu::part(content) {
     box-shadow: -8px 0 16px rgba(0, 0, 0, 0.12);
     border-radius: 0;
 }
+
+ion-card-header {
+    border-bottom: 1px solid #ddd;
+    font-weight: bold !important;
+}
+
+ion-card-title {
+    font-weight: bold !important;
+}

@@ -19,7 +19,7 @@ export class LoadOfflineData {
     public fetch_combos(tableName: string): Promise<any> {
         return new Promise((resolve, reject) => {
             const query = `SELECT *
-                           FROM ${tableName}`;
+                           FROM ${tableName.toLowerCase().trim()}`;
             const {fetch} = database();
 
             fetch(query).then((data) => {

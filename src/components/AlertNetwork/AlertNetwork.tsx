@@ -1,17 +1,28 @@
-import { IonButton, IonCol, IonContent, IonGrid, IonItem, IonModal, IonRow } from '@ionic/react';
+import {IonButton, IonCol, IonContent, IonGrid, IonItem, IonModal, IonRow} from '@ionic/react';
+import {AlertNetworkOfflineContext} from '../../Context/AlertNetworkOfflineContext';
 import './AlertNetwork.css';
+import {useContext, useState} from 'react';
 
-const AlertNetwork: React.FC = () => {
+interface IAlertNetwork {
+    isOpen: boolean
+}
 
+const AlertNetwork: React.FC<IAlertNetwork> = (props: IAlertNetwork) => {
+    const AlertOfflineContext = useContext<any>(AlertNetworkOfflineContext)
+
+    const handleClose = (e: any) => {
+        e.preventDefault();
+        AlertOfflineContext.closeModal()
+    }
     return (
-        <IonModal id='modalAlert' isOpen={true}>
+        <IonModal id='modalAlert' isOpen={props.isOpen} showBackdrop={true} backdropDismiss={false}>
             <IonContent>
 
-                <IonGrid style={{ height: '-webkit-fill-available', padding: 0 }}>
-                    <IonRow style={{ height: '-webkit-fill-available' }}>
+                <IonGrid style={{height: '-webkit-fill-available', padding: 0}}>
+                    <IonRow style={{height: '-webkit-fill-available'}}>
                         <IonCol sizeSm='4' id='colImagem'>
                         </IonCol>
-                        <IonCol style={{ alignSelf: 'center' }}>
+                        <IonCol style={{alignSelf: 'center'}}>
 
                             <IonGrid>
                                 <IonRow>
@@ -19,7 +30,7 @@ const AlertNetwork: React.FC = () => {
                                         <h1>
                                             Sem ligação
                                         </h1>
-                                        <p style={{ marginTop: 40 }}>Não é possível realizar esta operação.</p>
+                                        <p style={{marginTop: 40}}>Não é possível realizar esta operação.</p>
                                         <p>Está a trabalhar em modo offline, por favor verifique a sua conexão.</p>
                                     </IonCol>
                                 </IonRow>
@@ -27,9 +38,8 @@ const AlertNetwork: React.FC = () => {
                                     <IonCol color='secondary'>
                                         <IonItem lines='none'>
 
-                                            <IonButton style={{ background: '#084F87', borderRadius: 4 }} color="#084F87" slot="end" size='default' onClick={() => {
-                                                // logCurrentNetworkStatus();
-                                            }}>
+                                            <IonButton style={{background: '#084F87', borderRadius: 4}} color="#084F87"
+                                                       slot="end" size='default' onClick={handleClose}>
                                                 Compreendi
                                             </IonButton>
 

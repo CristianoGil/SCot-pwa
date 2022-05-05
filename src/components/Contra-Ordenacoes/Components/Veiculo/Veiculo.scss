@@ -1,0 +1,25 @@
+.co-veiculo {
+
+  ion-item {
+    ion-label.radioBox {
+      padding-left: 10px;
+    }
+  }
+
+}
+
+ion-popover.popoverVeiculo{
+  --width: 840px;
+  --max-width: 100%;
+
+  .btn-catalogo, .btn-use-data {
+    margin-right: 15px;
+  }
+
+  .btn-apply-info {
+    position: absolute;
+    top: -50px;
+    right: 30px;
+
+  }
+}
