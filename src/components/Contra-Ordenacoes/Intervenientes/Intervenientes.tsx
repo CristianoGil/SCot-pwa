@@ -33,7 +33,7 @@ import React from 'react';
 
 import Arguido from '../../../components/Contra-Ordenacoes/Components/Arguido/Arguido';
 import {IDocumentoPessoa, IPerson} from '../../../model/person';
-import TipoConducao from '../Components/TipoConducao/TipoConducao';
+import TituloConducao from '../Components/TituloConducao/TituloConducao';
 import DocumentoIdentificacao from '../Components/DocumentoIdentificacao/DocumentoIdentificacao';
 import InformacoesAdicionais from '../Components/InformacoesAdicionais/InformacoesAdicionais';
 import Veiculo from '../Components/Veiculo/Veiculo';
@@ -61,9 +61,9 @@ const Intervenientes: React.FC = () => {
     const [arguidoData, setArguidoData] = useState<IPerson>();
     // END: ARGUIDO
 
-    // START: TIPO CONDUCAO
-    const [tipoDocumento, setTipoDocumentoData] = useState();
-    // END: TIPO CONDUCAO
+    // START: TITULO CONDUCAO
+    const [tituloDocumento, setTituloDocumentoData] = useState();
+    // END: TITULO CONDUCAO
 
     // START:  DOCUMENTO IDENTIFICACAO
     const [docIdentificacao, setDocIdentificacaoData] = useState();
@@ -91,7 +91,7 @@ const Intervenientes: React.FC = () => {
             <IonRow>
                 <IonCol size-sm='12' size-md="12" size-lg="11">
                     {/* Título de condução */}
-                    <TipoConducao setParentTipoConducaoData={setTipoDocumentoData}/>
+                    <TituloConducao currentDocumentosData={arguidoData?.documentos} setParentTituloConducaoData={setTituloDocumentoData}/>
                     {/* Título de condução */}
                 </IonCol>
             </IonRow>
@@ -109,7 +109,7 @@ const Intervenientes: React.FC = () => {
             <IonRow>
                 <IonCol size-sm='12' size-md="12" size-lg="11">
                     {/* Informações adicionais */}
-                    <InformacoesAdicionais setParentInformacoesAdicionaisData={setInformacoesAdicionaisData}/>
+                    <InformacoesAdicionais currentData={arguidoData?.moradas} representanteLegal={arguidoData?.representanteLegal}  setParentInformacoesAdicionaisData={setInformacoesAdicionaisData}/>
                     {/* Informações adicionais */}
                 </IonCol>
             </IonRow>

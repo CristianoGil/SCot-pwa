@@ -24,9 +24,8 @@ import {list, person, wifi, apps, close, moon} from 'ionicons/icons';
 import {useContext, useState} from 'react';
 import CardListItem from '../CardListItem';
 import './Menu.css'
-import {setVisiblePopoverIndentVeiculo} from './popoverIndentVeiculoSlice';
 import {useAppSelector, useAppDispatch} from '../../app/hooks';
-import {Link} from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
 import DataTable from 'react-data-table-component';
 import React from 'react';
 import {UserContext} from '../../Context/UserContext';
@@ -105,8 +104,12 @@ const data = [
 
 ]
 
-const Menu: React.FC = () => {
+interface IProps {
+    actionsCOBtn?: any
+}
 
+const Menu: React.FC<IProps> = (props) => {
+    const history = useHistory();
     const [showModal, setShowModal] = useState<boolean>(false);
     const [showPopover, setShowPopover] = useState<boolean>(false);
     const [checked, setChecked] = useState(false);
@@ -114,6 +117,7 @@ const Menu: React.FC = () => {
     const userContext = useContext<any>(UserContext);
 
     const [networkState, setNetworkState] = useState<string>(navigator.onLine ? 'online' : 'offline');
+
     window.addEventListener('offline', function () {
         setNetworkState('offline')
     });
@@ -126,7 +130,6 @@ const Menu: React.FC = () => {
         document.body.classList.toggle("dark");
     };
 
-    const popoverIndentVeiculoIsOpen = useAppSelector((state) => state.popoverIndentVeiculo.isOpen)
     const dispatch = useAppDispatch()
 
     return (
@@ -148,13 +151,14 @@ const Menu: React.FC = () => {
                     </IonButton>
 
                 </IonButtons>
+                
+                {props.actionsCOBtn}
 
                 <IonButtons slot="end">
 
                     <IonLabel>
                         {userContext.user.nomeUsuario || userContext.user.userName}
                     </IonLabel>
-
                     <IonButton
                         className='btnRound'
                         style={{
@@ -164,7 +168,6 @@ const Menu: React.FC = () => {
                         <IonIcon icon={person}></IonIcon>
 
                     </IonButton>
-
 
                 </IonButtons>
 

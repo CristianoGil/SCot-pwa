@@ -9,6 +9,7 @@ interface IPais {
     interface?: any,
     selectedText?: string,
     textLabel?: string
+    preValue?: any
 }
 
 interface IPROPSPais{
@@ -29,6 +30,10 @@ const getFlag = (countryName: string) => {
 const Pais: React.FC<IPais> = (props: IPais) => {
     const [paisDeEmissao, setPaisDeEmissao] = useState();
     const [combos, setCombos] = useState<IPROPSPais[] | null>([]);
+
+    if (props.preValue) {
+        setPaisDeEmissao(props.preValue)
+    }
 
     React.useEffect(() => {
         getCombos().then((combos) => {

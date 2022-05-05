@@ -3,32 +3,31 @@ import React from "react";
 import {useState} from "react";
 import {Contraordenacao} from "../../../api/Contraordenacao";
 
-interface IPROPSEntidadeEmissora {
+interface IProps {
     inputName: string
     interface?: any
-    selected?:any
-    setSelected?:any
+    selected?: any
+    setSelected?: any
+    onSelected?: any
     textLabel?: string
 }
 
-interface IEntidadeEmissora {
+interface ITituloConducao {
     id: string | null
     descricao: string
 }
 
+const getCombos = async (): Promise<ITituloConducao[] | null> => await new Contraordenacao().carregarCombosPessoa("titulosConducoes");
 
-const getCombos = async (): Promise<IEntidadeEmissora[] | null> => await new Contraordenacao().carregarCombosPessoa("entidadesEmissoras");
-
-
-const EntidadeEmissora: React.FC<IPROPSEntidadeEmissora> = (props: IPROPSEntidadeEmissora) => {
-    const [combos, setCombos] = useState<IEntidadeEmissora[] | null>([]);
+const TituloConducaoCombo: React.FC<IProps> = (props) => {
+    const [combos, setCombos] = useState<ITituloConducao[] | null>([]);
 
     React.useEffect(() => {
         getCombos().then((combos) => {
             setCombos(combos);
         }).catch((error) => {
             setCombos([{id: null, descricao: "Erro ao carregar dados"}])
-            console.error("Load Entidade emissora combos: \n", error);
+            console.error("Titulo Conducoes combos: \n", error);
         })
     }, []);
 
@@ -36,12 +35,14 @@ const EntidadeEmissora: React.FC<IPROPSEntidadeEmissora> = (props: IPROPSEntidad
         <IonItem>
             <IonLabel>{props.textLabel}</IonLabel>
             <IonSelect name={props.inputName} value={props.selected} interface={props.interface}
-                       onIonChange={e => props.setSelected(e.detail.value)}>
+                       onIonChange={e => {
+                           props.setSelected(e.detail.value);
+                       }}>
 
-                {combos?.map((entidade: any) => {
+                {combos?.map((local: any) => {
                     return (
-                        <IonSelectOption key={`${entidade.id}`}
-                                         value={entidade.id}>{`${entidade.descricao}`}</IonSelectOption>
+                        <IonSelectOption key={`${local.id}`}
+                                         value={local.id}>{`${local.descricao}`}</IonSelectOption>
                     )
                 })}
             </IonSelect>
@@ -49,4 +50,4 @@ const EntidadeEmissora: React.FC<IPROPSEntidadeEmissora> = (props: IPROPSEntidad
     )
 }
 
-export default EntidadeEmissora;
+export default TituloConducaoCombo;

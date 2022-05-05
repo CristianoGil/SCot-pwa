@@ -4,8 +4,11 @@ import {
     IonSelect, IonSelectOption, IonToggle
 } from "@ionic/react"
 import {calendar} from "ionicons/icons"
+import React from "react";
 import {useState} from "react";
-import {IDocumentoPessoa} from "../../../../model/person"
+import _ from "underscore";
+import {IDocumentoPessoa, IMoradaPessoa} from "../../../../model/person"
+import {dateFormat} from "../../../../utils/apex-formatters";
 import DatePicker from "../../../Combos/DatePicker";
 import DocIdentificacao from "../../../Combos/Pessoa/DocIdentificacao";
 import EntidadeEmissora from "../../../Combos/Pessoa/EntidadeEmissora";
@@ -15,12 +18,69 @@ import "./InformacoesAdicionais.scss";
 
 interface IInformacoesAdicionais {
     setParentInformacoesAdicionaisData?: any
+    currentData?: any
+    representanteLegal?: any
+}
+
+
+const getMoradaPrincipal = (moradas: any) => {
+    return _.find(moradas, (t: any) => {
+        return t.principal
+    })
 }
 
 const InformacoesAdicionais: React.FC<IInformacoesAdicionais> = (props) => {
 
     const [isPresentedInformacoesAdicionais, setIsPresentedInformacoesAdicionais] = useState(false);
+
+    // FiscalOutro
     const [selectedFiscalOutro, setSelectedFiscalOutro] = useState<string>('fiscal');
+
+    // FirmaNome
+    const [firmaNome, setFirmaNome] = useState<string>();
+
+    // Date
+    const [dataEmissao, setDataEmissao] = useState<string>();
+
+    // Morada
+    const [morada, setMorada] = useState<string>();
+
+    // Numero policial
+    const [numeroPolicia, setNumeroPolicia] = useState<string | number>();
+
+    // Fraccao
+    const [fraccao, setFraccao] = useState<string | number>();
+
+    // Localidade
+    const [localidade, setLocalidade] = useState<string | number>();
+
+    // Codigo Postal
+    const [codigoPostal, setCodigoPostal] = useState<string | number>();
+
+    // Pais Emissao
+    const [paisEmissao, setPaisEmissao] = useState<string | number>();
+
+    // Pais Emissao
+    const [representanteLegal, setRepresentanteLegal] = useState<string | number>();
+
+    React.useEffect(() => {
+        if (props.currentData) {
+            const moradaPrincipal: IMoradaPessoa = getMoradaPrincipal(props.currentData);
+            if (moradaPrincipal) {
+                setMorada(moradaPrincipal?.morada)
+                setNumeroPolicia(moradaPrincipal?.numeroPolicia)
+                setFraccao(moradaPrincipal?.fracao)
+                setLocalidade(moradaPrincipal?.localidade)
+                setCodigoPostal(moradaPrincipal?.codigoPostal)
+            }
+        }
+    }, [props.currentData])
+    
+    React.useEffect(() => {
+        if (props.representanteLegal) {
+            setRepresentanteLegal(props.representanteLegal)
+        }
+    }, [props.representanteLegal])
 
     return (
         <IonCard className="infoAdicionais">
@@ -36,14 +96,21 @@ const InformacoesAdicionais: React.FC<IInformacoesAdicionais> = (props) => {
 
                         <IonCol size-sm='12' size-md="9" size-lg="8">
                             <IonItem>
-                                <IonLabel position="floating" placeholder="Nome / Firma">Nome /
+                                <IonLabel
+                                    position="floating"
+                                    placeholder="Nome / Firma">Nome /
                                     Firma</IonLabel>
-                                <IonInput></IonInput>
+                                <IonInput value={firmaNome}
+                                          onIonChange={(e) => setFirmaNome(e.detail.value!)}></IonInput>
                             </IonItem>
                         </IonCol>
 
                         <IonCol style={{marginTop: 16}} size-sm='12' size-md="3" size-lg="4">
-                            <DatePicker inputName={'infoAdicionais-dataEmissao'} textLabel="Data de Emissão"/>
+                            <DatePicker
+                                selected={dataEmissao}
+                                setSelected={setDataEmissao}
+                                inputName={'infoAdicionais-dataEmissao'}
+                                textLabel="Data de Emissão"/>
                         </IonCol>
 
                     </IonRow>
@@ -63,13 +130,17 @@ const InformacoesAdicionais: React.FC<IInformacoesAdicionais> = (props) => {
                                         </IonListHeader>
                                     </IonCol>
                                     <IonCol size='6'>
-                                        <IonItem lines='none' className="infoAdicionais-domicilio-radio radio-item">
+                                        <IonItem
+                                            lines='none'
+                                            className="infoAdicionais-domicilio-radio radio-item">
                                             <IonRadio value="fiscal"/>
                                             <IonLabel className="radioBox">Fiscal</IonLabel>
                                         </IonItem>
                                     </IonCol>
                                     <IonCol size='6'>
-                                        <IonItem lines='none' className="infoAdicionais-domicilio-radio radio-item">
+                                        <IonItem
+                                            lines='none'
+                                            className="infoAdicionais-domicilio-radio radio-item">
                                             <IonRadio value="outro"/>
                                             <IonLabel className="radioBox">Outro</IonLabel>
                                         </IonItem>
@@ -88,7 +159,7 @@ const InformacoesAdicionais: React.FC<IInformacoesAdicionais> = (props) => {
 
                             <IonItem>
                                 <IonLabel position="floating" placeholder="Morada">Morada</IonLabel>
-                                <IonInput></IonInput>
+                                <IonInput value={morada} onIonChange={(e) => setMorada(e.detail.value!)}></IonInput>
                             </IonItem>
                         </IonCol>
 
@@ -100,9 +171,14 @@ const InformacoesAdicionais: React.FC<IInformacoesAdicionais> = (props) => {
                             </IonListHeader>
 
                             <IonItem>
-                                <IonLabel position="floating" itemType="number" placeholder="Nº Polícia">Nº
+                                <IonLabel
+                                    position="floating"
+                                    itemType="number"
+                                    placeholder="Nº Polícia">Nº
                                     Polícia</IonLabel>
-                                <IonInput></IonInput>
+                                <IonInput
+                                    value={numeroPolicia}
+                                    onIonChange={(e) => setNumeroPolicia(e.detail.value!)}></IonInput>
                             </IonItem>
                         </IonCol>
                     </IonRow>
@@ -111,14 +187,16 @@ const InformacoesAdicionais: React.FC<IInformacoesAdicionais> = (props) => {
                         <IonCol size-sm='12' size-md="4" size-lg="2">
                             <IonItem>
                                 <IonLabel position="floating" placeholder="Fracção">Fracção</IonLabel>
-                                <IonInput></IonInput>
+                                <IonInput value={fraccao}
+                                          onIonChange={(e) => setFraccao(e.detail.value!)}></IonInput>
                             </IonItem>
                         </IonCol>
 
                         <IonCol size-sm='12' size-md="4" size-lg="4">
                             <IonItem>
                                 <IonLabel position="floating" placeholder="Localidade">Localidade</IonLabel>
-                                <IonInput></IonInput>
+                                <IonInput value={localidade}
+                                          onIonChange={(e) => setLocalidade(e.detail.value!)}></IonInput>
                             </IonItem>
                         </IonCol>
 
@@ -126,13 +204,18 @@ const InformacoesAdicionais: React.FC<IInformacoesAdicionais> = (props) => {
                             <IonItem>
                                 <IonLabel position="floating" itemType="number" placeholder="Código Postal">Código
                                     Postal</IonLabel>
-                                <IonInput></IonInput>
+                                <IonInput value={codigoPostal}
+                                          onIonChange={(e) => setCodigoPostal(e.detail.value!)}></IonInput>
                             </IonItem>
                         </IonCol>
 
                         <IonCol size-sm='12' size-md="4" size-lg="3" style={{marginTop: 16}}>
-                            <Pais inputName={'infoAdicionais-paisEmissao'} textLabel={'País de emissão'}
-                                  interface="popover"/>
+                            <Pais
+                                selected={paisEmissao}
+                                setSelected={setPaisEmissao}
+                                inputName={'infoAdicionais-paisEmissao'}
+                                textLabel={'País de emissão'}
+                                interface="popover"/>
                         </IonCol>
                     </IonRow>
 
@@ -141,7 +224,8 @@ const InformacoesAdicionais: React.FC<IInformacoesAdicionais> = (props) => {
                             <IonItem>
                                 <IonLabel position="floating" placeholder="Representante legal">Representante
                                     legal</IonLabel>
-                                <IonInput></IonInput>
+                                <IonInput value={representanteLegal}
+                                          onIonChange={(e) => setRepresentanteLegal(e.detail.value!)}></IonInput>
                             </IonItem>
                         </IonCol>
 

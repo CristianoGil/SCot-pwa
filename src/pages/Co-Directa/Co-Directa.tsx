@@ -7,7 +7,7 @@ import Menu from '../../components/Menu/Menu';
 import React from 'react';
 
 import Intervenientes from '../../components/Contra-Ordenacoes/Intervenientes/Intervenientes';
-
+import MenuActionsBtb from '../../components/Contra-Ordenacoes/MenuActionsBtb';
 
 const RenderSegment = (props: { segment: string }) => {
     if (props.segment === 'intervenientes') {
@@ -32,8 +32,8 @@ const CoDirecta: React.FC = () => {
 
     return (
         <IonPage>
-            <Menu/>
-            <IonContent className="contraordenacao">
+            <Menu actionsCOBtn={<MenuActionsBtb/>}/>
+            <IonContent className="contraordenacao" fullscreen={true}>
 
                 <IonGrid id="gridGeral" style={{marginBottom: 40}}>
 

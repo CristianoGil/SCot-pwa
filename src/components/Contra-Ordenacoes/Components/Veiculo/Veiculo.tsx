@@ -197,10 +197,9 @@ const Veiculo: React.FC<IPROPS> = (props) => {
                         </IonCol>
 
                         <IonCol size-sm='12' size-md='8' size-lg='6'>
-                            <div style={{
+                            <div className="info-content-label" style={{
                                 display: 'inline-flex',
                                 borderRadius: 10,
-                                background: '#FEF7EA',
                                 width: '100%',
                                 border: 'none'
                             }}>
