@@ -7,21 +7,23 @@ import { dateFormat } from "../../utils/apex-formatters";
 interface IPROPSLocalEmissao {
     inputName: string
     textLabel?: string
+    selected?: any
+    setSelected?: any
 }
 
 const formatDate = (value: string) => {
     return format(parseISO(value), 'MMM dd yyyy');
 };
-const DatePicker =  (props: IPROPSLocalEmissao) => {
-const [popoverDate, setPopoverDate] = useState<string>();
+const DatePicker: React.FC<IPROPSLocalEmissao> =  (props) => {
+
     return (
         <IonItem>
-            <IonInput id={props.inputName} name={props.inputName} value={popoverDate} placeholder={props.textLabel}/>
+            <IonInput id={props.inputName} name={props.inputName} value={props.selected} placeholder={props.textLabel}/>
             <IonButton color='medium' fill="clear" id={`open-${props.inputName}`}>
                 <IonIcon icon={calendar}/>
             </IonButton>
             <IonPopover trigger={`open-${props.inputName}`} showBackdrop={false}>
-                <IonDatetime presentation="date" onIonChange={ev => setPopoverDate(dateFormat(`${ev.detail.value}`, 'YYYY/MM/DD'))}
+                <IonDatetime presentation="date" onIonChange={ev => props.setSelected(dateFormat(`${ev.detail.value}`, 'YYYY/MM/DD'))}
                 />
             </IonPopover>
         </IonItem>

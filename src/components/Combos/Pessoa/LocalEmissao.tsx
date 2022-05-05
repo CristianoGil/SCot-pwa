@@ -6,7 +6,8 @@ import {Contraordenacao} from "../../../api/Contraordenacao";
 interface IPROPSLocalEmissao {
     inputName: string
     interface?: any
-    selectedText?: string
+    selected?: any
+    setSelected?: any
     textLabel?: string
 }
 
@@ -18,7 +19,7 @@ interface ILocalEmissao {
 const getCombos = async (): Promise<ILocalEmissao[] | null> => await new Contraordenacao().carregarCombosPessoa("locaisEmissoes");
 
 const LocalEmissao: React.FC<IPROPSLocalEmissao> = (props: IPROPSLocalEmissao) => {
-    const [localEmissoa, setLocalEmissao] = useState('');
+
     const [combos, setCombos] = useState<ILocalEmissao[] | null>([]);
 
     React.useEffect(() => {
@@ -33,8 +34,8 @@ const LocalEmissao: React.FC<IPROPSLocalEmissao> = (props: IPROPSLocalEmissao) =
     return (
         <IonItem>
             <IonLabel>{props.textLabel}</IonLabel>
-            <IonSelect name={props.inputName} value={localEmissoa} interface={props.interface}
-                       onIonChange={e => setLocalEmissao(e.detail.value)}>
+            <IonSelect name={props.inputName} value={props.selected} interface={props.interface}
+                       onIonChange={e => props.setSelected(e.detail.value)}>
 
                 {combos?.map((local: any) => {
                     return (

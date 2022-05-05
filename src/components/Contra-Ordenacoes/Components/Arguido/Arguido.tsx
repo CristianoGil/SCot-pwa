@@ -144,6 +144,11 @@ const Arguido: React.FC<IArguido> = (props) => {
 
     const handlerFullfillForm = () => {
         props.setParentArguidoData(arguidoData);
+
+        const _data = arguidoData || ({} as unknown as IPerson);
+
+        setArguidoVeiculoSingularColetivo(_data.tipoPessoa);
+
         setOpenPopoverArguidoData(false);
     }
 
@@ -228,27 +233,28 @@ const Arguido: React.FC<IArguido> = (props) => {
                     <IonRow>
                         <IonCol size-sm='12' size-md='8' size-lg='4'>
 
-                            <IonRadioGroup value={arguidoVeiculoSingularColetivo}
-                                           onIonChange={e => setArguidoVeiculoSingularColetivo(e.detail.value)}>
+                            <IonRadioGroup value={arguidoVeiculoSingularColetivo} onIonChange={e => setArguidoVeiculoSingularColetivo(e.detail.value)}>
                                 <IonRow>
+
                                     <IonCol size='6'>
                                         <IonItem lines='none' className="veiculo-proprietario-radio radio-item">
                                             <IonRadio value="singular"/>
                                             <IonLabel className="radioBox">Singular</IonLabel>
                                         </IonItem>
                                     </IonCol>
+
                                     <IonCol size='6'>
                                         <IonItem lines='none' className="veiculo-proprietario-radio radio-Item">
-                                            <IonRadio value="colection"/>
+                                            <IonRadio value="coletivo"/>
                                             <IonLabel className="radioBox">Coletivo</IonLabel>
                                         </IonItem>
                                     </IonCol>
+
                                 </IonRow>
                             </IonRadioGroup>
                         </IonCol>
                         <IonCol size-sm='12' size-md='10' size-lg='4'>
-                            <Pais inputName={'arguido-paisEmissao'} textLabel={'País de emissão'} interface="popover"/>
-
+                            <Pais inputName={'arguido-paisEmissao'}  textLabel={'País de emissão'} interface="popover"/>
                         </IonCol>
                     </IonRow>
 
