@@ -19,8 +19,10 @@ import {dateFormat} from "../../../utils/apex-formatters";
 import {colorPaletteOutline} from "ionicons/icons";
 
 interface ICor {
-    inputName: string,
+    inputName: string
     textLabel?: string
+    selected?:any
+    setSelected?:any
 }
 
 interface IPROS {
@@ -32,7 +34,6 @@ const getCombos = async (): Promise<IPROS[] | null> => await new Contraordenacao
 
 
 const Cor: React.FC<ICor> = (props: ICor) => {
-    const [cor, setCor] = useState<string>();
     const [combos, setCombos] = useState<IPROS[] | null>([]);
 
     React.useEffect(() => {
@@ -46,14 +47,14 @@ const Cor: React.FC<ICor> = (props: ICor) => {
     return (
 
         <IonItem>
-            <IonInput readonly={true} clearInput={true} id={props.inputName} color={cor} style={{color: `${cor}`}}
-                      name={props.inputName} value={cor} placeholder={props.textLabel}/>
+            <IonInput readonly={true} clearInput={true} id={props.inputName} color={props.selected} style={{color: `${props.selected}`}}
+                      name={props.inputName} value={props.selected} placeholder={props.textLabel}/>
             <IonButton color='medium' fill="clear" id={`open-${props.inputName}`}>
                 <IonIcon icon={colorPaletteOutline}/>
             </IonButton>
             <IonPopover trigger={`open-${props.inputName}`} showBackdrop={false}>
                 <CompactPicker colors={(combos?.map((e) => e.descricao))}
-                               onSwatchHover={(color: any) => setCor(color.hex)}/>
+                               onSwatchHover={(color: any) => props.setSelected(color.hex)}/>
             </IonPopover>
         </IonItem>
     )

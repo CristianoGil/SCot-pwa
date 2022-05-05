@@ -7,7 +7,8 @@ import {Contraordenacao} from "../../../api/Contraordenacao";
 interface ICategoria {
     inputName: string,
     interface?: any,
-    selectedText?: string,
+    selected?:any
+    setSelected?:any
     textLabel?: string
 }
 
@@ -20,7 +21,7 @@ const getCombos = async (): Promise<IPROS[] | null> => await new Contraordenacao
 
 
 const Categoria: React.FC<ICategoria> = (props: ICategoria) => {
-    const [categoria, setCategoria] = useState();
+
     const [combos, setCombos] = useState<IPROS[] | null>([]);
 
     React.useEffect(() => {
@@ -34,8 +35,8 @@ const Categoria: React.FC<ICategoria> = (props: ICategoria) => {
     return (
         <IonItem>
             <IonLabel>{props.textLabel}</IonLabel>
-            <IonSelect value={categoria} interface={props.interface} name={props.inputName}
-                       onIonChange={e => setCategoria(e.detail.value)}>
+            <IonSelect value={props.selected} interface={props.interface} name={props.inputName}
+                       onIonChange={e => props.setSelected(e.detail.value)}>
                 {combos?.map((categoria: any) => {
                     return (
                         <IonSelectOption key={`${categoria.id}`} value={categoria.id}>{categoria.descricao}</IonSelectOption>

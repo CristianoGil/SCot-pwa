@@ -7,7 +7,8 @@ import {Contraordenacao} from "../../../api/Contraordenacao";
 interface IMarca {
     inputName: string,
     interface?: any,
-    selectedText?: string,
+    selected?:any
+    setSelected?:any
     textLabel?: string
 }
 
@@ -19,7 +20,6 @@ interface IDocIdentificacao {
 const getCombos = async (): Promise<IDocIdentificacao[] | null> => await new Contraordenacao().carregarCombosVeiculo("marcas");
 
 const Marca: React.FC<IMarca> = (props: IMarca) => {
-    const [marca, setMarca] = useState();
     const [combos, setCombos] = useState<IDocIdentificacao[] | null>([]);
 
     React.useEffect(() => {
@@ -33,8 +33,8 @@ const Marca: React.FC<IMarca> = (props: IMarca) => {
     return (
         <IonItem>
             <IonLabel>{props.textLabel}</IonLabel>
-            <IonSelect value={marca} interface={props.interface} name={props.inputName}
-                       onIonChange={e => setMarca(e.detail.value)}>
+            <IonSelect value={props.selected} interface={props.interface} name={props.inputName}
+                       onIonChange={e => props.setSelected(e.detail.value)}>
                 {combos?.map((marca: any) => {
                     return (
                         <IonSelectOption key={`${marca.id}`}
