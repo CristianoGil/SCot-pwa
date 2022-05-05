@@ -33,7 +33,7 @@ import React from 'react';
 import {useAppSelector} from '../../../../app/hooks';
 import {setVisiblePopoverIndentVeiculo} from '../../../Menu/popoverIndentVeiculoSlice';
 import './Arguido.scss';
-import Pais from '../../../Combos/Pais';
+import Pais from '../../../Combos/Pessoa/Pais';
 import {AlertNetworkOfflineContext} from '../../../../Context/AlertNetworkOfflineContext';
 import {getNetworkState} from '../../../../common/capacitor_global';
 import _ from 'underscore';
@@ -248,7 +248,7 @@ const Arguido: React.FC<IArguido> = (props) => {
                             </IonRadioGroup>
                         </IonCol>
                         <IonCol size-sm='12' size-md='10' size-lg='4'>
-                            <Pais inputName={'arguido-paisEmissao'} textLabel={'País de emissão'}/>
+                            <Pais inputName={'arguido-paisEmissao'} textLabel={'País de emissão'} interface="popover"/>
 
                         </IonCol>
                     </IonRow>

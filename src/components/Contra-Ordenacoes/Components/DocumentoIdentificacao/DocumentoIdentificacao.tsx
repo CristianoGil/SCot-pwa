@@ -7,10 +7,10 @@ import {calendar} from "ionicons/icons"
 import {useState} from "react";
 import {IDocumentoPessoa} from "../../../../model/person"
 import DatePicker from "../../../Combos/DatePicker";
-import DocIdentificacao from "../../../Combos/DocIdentificacao";
-import EntidadeEmissora from "../../../Combos/EntidadeEmissora";
-import LocalEmissao from "../../../Combos/LocalEmissao";
-import Pais from "../../../Combos/Pais";
+import DocIdentificacao from "../../../Combos/Pessoa/DocIdentificacao";
+import EntidadeEmissora from "../../../Combos/Pessoa/EntidadeEmissora";
+import LocalEmissao from "../../../Combos/Pessoa/LocalEmissao";
+import Pais from "../../../Combos/Pessoa/Pais";
 
 interface IDocumentoIdentificacao {
     setParentDocumentoIdentificacaoData?: any

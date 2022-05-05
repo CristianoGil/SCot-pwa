@@ -36,6 +36,7 @@ import {IDocumentoPessoa, IPerson} from '../../../model/person';
 import TipoConducao from '../Components/TipoConducao/TipoConducao';
 import DocumentoIdentificacao from '../Components/DocumentoIdentificacao/DocumentoIdentificacao';
 import InformacoesAdicionais from '../Components/InformacoesAdicionais/InformacoesAdicionais';
+import Veiculo from '../Components/Veiculo/Veiculo';
 
 
 const Intervenientes: React.FC = () => {
@@ -71,6 +72,11 @@ const Intervenientes: React.FC = () => {
     // START:  INFORMACOES ADICIONAIS
     const [informacoesAdicionaisData, setInformacoesAdicionaisData] = useState();
     // END:   INFORMACOES ADICIONAIS
+
+    // START: VEICULO
+    const [veiculoData, setVeiculoData] = useState();
+    // END: VEICULO
+
     return (
         <IonGrid className="intervenientes">
             <IonRow>
@@ -109,168 +115,9 @@ const Intervenientes: React.FC = () => {
             </IonRow>
 
             <IonRow>
-                <IonCol sizeSm='10'>
+                <IonCol size-sm='12' size-md="12" size-lg="11">
                     {/* Veículo */}
-                    <IonCard>
-
-                        <IonCardHeader>
-                            <IonCardTitle>Veículo</IonCardTitle>
-                        </IonCardHeader>
-
-                        <IonCardContent>
-                            <IonGrid>
-                                <IonRow>
-                                    <IonCol sizeSm='6'>
-                                        <IonItem>
-                                            <IonLabel>O veículo é conduzido pelo Arguido?</IonLabel>
-                                            <IonToggle
-                                                slot="end"
-                                                name="darkMode"
-                                                checked={isProprietarioDoVeiculo}
-                                                onIonChange={e => {
-                                                    setIsProprietarioDoVeiculo(e.detail.checked)
-
-                                                }}
-                                            />
-                                        </IonItem>
-                                    </IonCol>
-                                </IonRow>
-                                <IonRow>
-                                    <IonCol sizeSm='3'>
-                                        <IonItem>
-                                            <IonButton color='medium' fill="clear" id="open-search-input-1">
-                                                <IonIcon icon={search}/>
-                                            </IonButton>
-                                            <IonInput placeholder='Matricula'/>
-
-                                        </IonItem>
-                                    </IonCol>
-                                    <IonCol sizeSm='3'>
-                                        <IonItem lines='none'>
-
-                                            <IonButton style={{background: '#084F87', borderRadius: 4}}
-                                                       color="#084F87" slot="start" size='default'
-                                                       onClick={() => {
-                                                           dispatch(setVisiblePopoverIndentVeiculo(true));
-                                                       }}>
-                                                Pesquisar
-                                            </IonButton>
-
-                                        </IonItem>
-                                    </IonCol>
-                                    <IonCol>
-
-                                        <div style={{
-                                            display: 'inline-flex',
-                                            borderRadius: 10,
-                                            background: '#FEF7EA',
-                                            width: '100%',
-                                            border: 'groove'
-                                        }}>
-                                            <IonImg src={'assets/images/Group 4529_icon.png'}
-                                                    style={{width: 'fit-content'}}></IonImg>
-                                            <strong style={{marginTop: 12, marginLeft: 2, color: 'black'}}>Dados
-                                                sujeitos a validação</strong>
-                                        </div>
-
-                                    </IonCol>
-                                </IonRow>
-
-                                <IonRow>
-                                    <IonCol sizeSm='3'>
-
-                                        <IonItem>
-                                            <IonLabel>País</IonLabel>
-                                            <IonSelect value={paisDeEmissao} interface="popover"
-                                                       onIonChange={e => setPaisDeEmissao(e.detail.value)}>
-                                                <IonSelectOption value="female">Female</IonSelectOption>
-                                                <IonSelectOption value="male">Male</IonSelectOption>
-                                            </IonSelect>
-                                        </IonItem>
-                                    </IonCol>
-                                    <IonCol sizeSm='3'>
-                                        <IonItem>
-                                            <IonLabel>Marca</IonLabel>
-                                            <IonSelect value={paisDeEmissao} interface="popover"
-                                                       onIonChange={e => setPaisDeEmissao(e.detail.value)}>
-                                                <IonSelectOption value="female">Female</IonSelectOption>
-                                                <IonSelectOption value="male">Male</IonSelectOption>
-                                            </IonSelect>
-                                        </IonItem>
-                                    </IonCol>
-
-                                    <IonCol sizeSm='3'>
-                                        <IonItem>
-                                            <IonLabel>Modelo</IonLabel>
-                                            <IonSelect value={paisDeEmissao} interface="popover"
-                                                       onIonChange={e => setPaisDeEmissao(e.detail.value)}>
-                                                <IonSelectOption value="female">Female</IonSelectOption>
-                                                <IonSelectOption value="male">Male</IonSelectOption>
-                                            </IonSelect>
-                                        </IonItem>
-                                    </IonCol>
-
-                                    <IonCol sizeSm='3'>
-                                        <IonItem>
-                                            <IonLabel>Cor</IonLabel>
-                                            <IonSelect value={paisDeEmissao} interface="popover"
-                                                       onIonChange={e => setPaisDeEmissao(e.detail.value)}>
-                                                <IonSelectOption value="female">Female</IonSelectOption>
-                                                <IonSelectOption value="male">Male</IonSelectOption>
-                                            </IonSelect>
-                                        </IonItem>
-                                    </IonCol>
-                                </IonRow>
-
-                                <IonRow>
-                                    <IonCol sizeSm='3'>
-
-                                        <IonItem>
-                                            <IonLabel>Categoria</IonLabel>
-                                            <IonSelect value={paisDeEmissao} interface="popover"
-                                                       onIonChange={e => setPaisDeEmissao(e.detail.value)}>
-                                                <IonSelectOption value="female">Female</IonSelectOption>
-                                                <IonSelectOption value="male">Male</IonSelectOption>
-                                            </IonSelect>
-                                        </IonItem>
-                                    </IonCol>
-                                    <IonCol sizeSm='3'>
-                                        <IonItem>
-                                            <IonLabel>Classe</IonLabel>
-                                            <IonSelect value={paisDeEmissao} interface="popover"
-                                                       onIonChange={e => setPaisDeEmissao(e.detail.value)}>
-                                                <IonSelectOption value="female">Female</IonSelectOption>
-                                                <IonSelectOption value="male">Male</IonSelectOption>
-                                            </IonSelect>
-                                        </IonItem>
-                                    </IonCol>
-
-                                    <IonCol sizeSm='3'>
-                                        <IonItem>
-                                            <IonLabel>Tipo</IonLabel>
-                                            <IonSelect value={paisDeEmissao} interface="popover"
-                                                       onIonChange={e => setPaisDeEmissao(e.detail.value)}>
-                                                <IonSelectOption value="female">Female</IonSelectOption>
-                                                <IonSelectOption value="male">Male</IonSelectOption>
-                                            </IonSelect>
-                                        </IonItem>
-                                    </IonCol>
-
-                                    <IonCol sizeSm='3'>
-                                        <IonItem>
-                                            <IonLabel>Subclasse</IonLabel>
-                                            <IonSelect value={paisDeEmissao} interface="popover"
-                                                       onIonChange={e => setPaisDeEmissao(e.detail.value)}>
-                                                <IonSelectOption value="female">Female</IonSelectOption>
-                                                <IonSelectOption value="male">Male</IonSelectOption>
-                                            </IonSelect>
-                                        </IonItem>
-                                    </IonCol>
-                                </IonRow>
-                            </IonGrid>
-
-                        </IonCardContent>
-                    </IonCard>
+                    <Veiculo setParentVeiculoData={setVeiculoData}/>
                     {/* Veículo */}
                 </IonCol>
             </IonRow>
@@ -280,3 +127,4 @@ const Intervenientes: React.FC = () => {
 }
 
 export default React.memo(Intervenientes);
+

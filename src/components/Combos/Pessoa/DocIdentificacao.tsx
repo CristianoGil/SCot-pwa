@@ -1,7 +1,7 @@
 import {IonItem, IonLabel, IonSelect, IonSelectOption} from "@ionic/react";
 import React from "react";
 import {useState} from "react";
-import {Contraordenacao} from "../../api/Contraordenacao";
+import {Contraordenacao} from "../../../api/Contraordenacao";
 
 interface IPROPSDocIdentificacao {
     inputName: string

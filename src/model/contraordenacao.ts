@@ -1,5 +1,6 @@
 import {IID_DESCRICAO} from "./extendable";
 import {IPerson} from "./person";
+import { IVeiculo } from "./veiculo";
 
 export interface IPesquisarPessoaRequest {
     "nif": number,
@@ -24,4 +25,9 @@ export interface ICombosContraOrdenacaoPessoa {
     paises: IID_DESCRICAO[]
     titulosConducoes: IID_DESCRICAO[]
     entidadesEmissoras: IID_DESCRICAO[]
+}
+
+
+export interface IPesquisarVeiculoResponse {
+    veiculo: IVeiculo
 }

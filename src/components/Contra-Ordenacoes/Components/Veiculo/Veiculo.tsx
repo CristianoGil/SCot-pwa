@@ -33,15 +33,14 @@ import React from 'react';
 import {useAppSelector} from '../../../../app/hooks';
 import {setVisiblePopoverIndentVeiculo} from '../../../Menu/popoverIndentVeiculoSlice';
 import './Veiculo.scss';
-import Pais from '../../../Combos/Pais';
+import Pais from '../../../Combos/Veiculo/Pais';
 import {AlertNetworkOfflineContext} from '../../../../Context/AlertNetworkOfflineContext';
 import {getNetworkState} from '../../../../common/capacitor_global';
 import _ from 'underscore';
 import {Contraordenacao} from '../../../../api/Contraordenacao';
-import {IPesquisarPessoaResponse} from '../../../../model/contraordenacao';
+import {IPesquisarPessoaResponse, IPesquisarVeiculoResponse} from '../../../../model/contraordenacao';
 import CardListItem from '../../../CardListItem';
 import DataTable from 'react-data-table-component';
-import {ICoimasEmAtraso, IDocumentoPessoa, IMoradaPessoa, IPerson} from '../../../../model/person';
 import {dateFormat} from '../../../../utils/apex-formatters';
 
 interface IVeiculo {
@@ -55,42 +54,24 @@ const Veiculo: React.FC<IVeiculo> = (props) => {
     const [presentAlert, dismissAlert] = useIonAlert();
     const [presentOnLoanding, dismissOnLoanding] = useIonLoading();
     const [paisDeEmissao, setPaisDeEmissao] = useState<string>();
-    const [isProprietarioVeiculo, setIsProprietarioVeiculo] = useState(false);
+    const [isConduzidoVeiculo, setIsConduzidoVeiculo] = useState(false);
     const [VeiculoVeiculoSingularColetivo, setVeiculoVeiculoSingularColetivo] = useState<string>('singular');
     const [openPopoverVeiculoData, setOpenPopoverVeiculoData] = useState(false);
 
-    //START:  INPUT NIF
-    const [VeiculoNif, setVeiculoNif] = useState('');
-    const keyup_VeiculoNif = (e: any) => {
-        setVeiculoNif(e.target.value);
+    //START:  INPUT Matricula
+    const [veiculoMatricula, setVeiculoMatricula] = useState('');
+    const keyup_VeiculoMatricula = (e: any) => {
+        setVeiculoMatricula(e.target.value);
     }
 
-    const [inputNif_color, setInputNif_color] = useState<string>();
-    const inputNif_canSearch = () => {
-        const chartsLength = VeiculoNif.length;
-        let inputColor: string;
-
-        if (chartsLength > 0 && (chartsLength > 9 || 9 > chartsLength)) {
-            inputColor = 'danger';
-        } else if (chartsLength === 9) {
-            inputColor = 'success';
-        }
-
-        setTimeout(() => {
-            setInputNif_color(inputColor)
-        });
-
-        return chartsLength !== 9;
-    }
-
-    const handler_VeiculoSearchByNif = (e: any) => {
+    const handler_VeiculoSearchByMatricula = (e: any) => {
         e.preventDefault();
         dismissOnLoanding();
 
-        if (inputNif_canSearch() || _.isEmpty(VeiculoNif)) {
+        if (_.isEmpty(veiculoMatricula)) {
             presentAlert({
                 header: 'Atenção!',
-                message: 'NIF inválido.',
+                message: 'Matricula inválido.',
                 buttons: [
                     {text: 'Fechar'},
                 ]
@@ -108,22 +89,23 @@ const Veiculo: React.FC<IVeiculo> = (props) => {
             message: 'A pesquisar...'
         });
 
-        searchPersonByNif();
+        searchVeiculoByMatricula();
 
     }
 
-    const [VeiculoData, setVeiculoData] = useState<IPerson>();
-    const searchPersonByNif = async () => {
+    const [VeiculoData, setVeiculoData] = useState<IVeiculo>();
+    const searchVeiculoByMatricula = async () => {
 
         const instanceContraordenacao = new Contraordenacao();
-        await instanceContraordenacao.pesquisarPessoa({nif: +VeiculoNif}).then((_VeiculoData: IPesquisarPessoaResponse) => {
-            console.log('VeiculoData: ', _VeiculoData);
+        await instanceContraordenacao.pesquisarVeiculo({matricula: veiculoMatricula}).then((_veiculoData: IPesquisarVeiculoResponse) => {
+            console.log('VeiculoData: ', _veiculoData);
 
 
             setTimeout(() => {
                 setOpenPopoverVeiculoData(true);
                 setTimeout(() => {
-                    setVeiculoData(_VeiculoData.pessoa);
+                    // @ts-ignore
+                    setVeiculoData(_veiculoData.veiculo);
                 })
                 dismissOnLoanding();
             }, 100)
@@ -140,7 +122,7 @@ const Veiculo: React.FC<IVeiculo> = (props) => {
             dismissOnLoanding();
         })
     }
-    // END: INPUT NIF
+    // END: INPUT Matricula
 
     const handlerFullfillForm = () => {
         props.setParentVeiculoData(VeiculoData);
@@ -169,13 +151,13 @@ const Veiculo: React.FC<IVeiculo> = (props) => {
                     <IonRow>
                         <IonCol size-sm='12' size-md='10' size-lg='4'>
                             <IonItem lines={'none'}>
-                                <IonLabel>O Veiculo é proprietário do veículo?</IonLabel>
+                                <IonLabel>O Veiculo é conduzido pelo arguido?</IonLabel>
                                 <IonToggle
                                     slot="end"
-                                    name="Veiculo-proprietarioVeiculo"
-                                    checked={isProprietarioVeiculo}
+                                    name="veiculo-conduzidoVeiculo"
+                                    checked={isConduzidoVeiculo}
                                     onIonChange={e => {
-                                        setIsProprietarioVeiculo(e.detail.checked)
+                                        setIsConduzidoVeiculo(e.detail.checked)
                                     }}
                                 />
                             </IonItem>
@@ -187,15 +169,13 @@ const Veiculo: React.FC<IVeiculo> = (props) => {
                                 <IonButton color='medium' fill="clear" id="open-search-input-1">
                                     <IonIcon icon={search}/>
                                 </IonButton>
-                                <IonInput maxlength={9}
-                                          minlength={9}
-                                          color={inputNif_color}
+                                <IonInput
                                           required={true}
                                           clearInput={true}
-                                          name='Veiculo-nif'
-                                          value={VeiculoNif}
-                                          onKeyUp={keyup_VeiculoNif}
-                                          placeholder='NIF'/>
+                                          name='Veiculo-matricula'
+                                          value={veiculoMatricula}
+                                          onKeyUp={keyup_VeiculoMatricula}
+                                          placeholder='Matrícula'/>
                             </IonItem>
                         </IonCol>
                         <IonCol size-sm='4' size-md='6' size-lg='2'>
@@ -203,9 +183,8 @@ const Veiculo: React.FC<IVeiculo> = (props) => {
                                 <IonButton style={{background: '#084F87', borderRadius: 4}}
                                            color="#084F87"
                                            slot="start"
-                                           disabled={inputNif_canSearch()}
                                            size='default'
-                                           onClick={handler_VeiculoSearchByNif}> Pesquisar </IonButton>
+                                           onClick={handler_VeiculoSearchByMatricula}> Pesquisar </IonButton>
 
                             </IonItem>
                         </IonCol>
@@ -226,30 +205,10 @@ const Veiculo: React.FC<IVeiculo> = (props) => {
                         </IonCol>
                     </IonRow>
 
+
                     <IonRow>
-                        <IonCol size-sm='12' size-md='8' size-lg='4'>
-
-                            <IonRadioGroup value={VeiculoVeiculoSingularColetivo}
-                                           onIonChange={e => setVeiculoVeiculoSingularColetivo(e.detail.value)}>
-                                <IonRow>
-                                    <IonCol size='6'>
-                                        <IonItem lines='none' className="veiculo-proprietario-radio radio-item">
-                                            <IonRadio value="singular"/>
-                                            <IonLabel className="radioBox">Singular</IonLabel>
-                                        </IonItem>
-                                    </IonCol>
-                                    <IonCol size='6'>
-                                        <IonItem lines='none' className="veiculo-proprietario-radio radio-Item">
-                                            <IonRadio value="colection"/>
-                                            <IonLabel className="radioBox">Coletivo</IonLabel>
-                                        </IonItem>
-                                    </IonCol>
-                                </IonRow>
-                            </IonRadioGroup>
-                        </IonCol>
                         <IonCol size-sm='12' size-md='10' size-lg='4'>
-                            <Pais inputName={'Veiculo-paisEmissao'} textLabel={'País de emissão'}/>
-
+                            <Pais inputName={'veiculo-pais'} textLabel={'País'} interface="popover"/>
                         </IonCol>
                     </IonRow>
 
@@ -258,6 +217,8 @@ const Veiculo: React.FC<IVeiculo> = (props) => {
             </IonCardContent>
 
 
+
+            {/*START: POPOVER*/}
             <IonPopover
                 isOpen={openPopoverVeiculoData}
                 className="menu popoverVeiculo"
@@ -294,7 +255,7 @@ const Veiculo: React.FC<IVeiculo> = (props) => {
                 </IonHeader>
 
             </IonPopover>
-
+            {/*END: POPOVER*/}
         </IonCard>
 
 
@@ -303,3 +264,165 @@ const Veiculo: React.FC<IVeiculo> = (props) => {
 
 export default Veiculo
 
+
+//
+// <IonCard>
+//
+// <IonCardHeader>
+// <IonCardTitle>Veículo</IonCardTitle>
+// </IonCardHeader>
+//
+// <IonCardContent>
+//     <IonGrid>
+//         <IonRow>
+//             <IonCol sizeSm='6'>
+//                 <IonItem>
+//                     <IonLabel>O veículo é conduzido pelo Arguido?</IonLabel>
+//                     <IonToggle
+//                         slot="end"
+//                         name="darkMode"
+//                         checked={isProprietarioDoVeiculo}
+//                         onIonChange={e => {
+//                             setIsProprietarioDoVeiculo(e.detail.checked)
+//
+//                         }}
+//                     />
+//                 </IonItem>
+//             </IonCol>
+//         </IonRow>
+//         <IonRow>
+//             <IonCol sizeSm='3'>
+//                 <IonItem>
+//                     <IonButton color='medium' fill="clear" id="open-search-input-1">
+//                         <IonIcon icon={search}/>
+//                     </IonButton>
+//                     <IonInput placeholder='Matricula'/>
+//
+//                 </IonItem>
+//             </IonCol>
+//             <IonCol sizeSm='3'>
+//                 <IonItem lines='none'>
+//
+//                     <IonButton style={{background: '#084F87', borderRadius: 4}}
+//                                color="#084F87" slot="start" size='default'
+//                                onClick={() => {
+//                                    dispatch(setVisiblePopoverIndentVeiculo(true));
+//                                }}>
+//                         Pesquisar
+//                     </IonButton>
+//
+//                 </IonItem>
+//             </IonCol>
+//             <IonCol>
+//
+//                 <div style={{
+//                     display: 'inline-flex',
+//                     borderRadius: 10,
+//                     background: '#FEF7EA',
+//                     width: '100%',
+//                     border: 'groove'
+//                 }}>
+//                     <IonImg src={'assets/images/Group 4529_icon.png'}
+//                             style={{width: 'fit-content'}}></IonImg>
+//                     <strong style={{marginTop: 12, marginLeft: 2, color: 'black'}}>Dados
+//                         sujeitos a validação</strong>
+//                 </div>
+//
+//             </IonCol>
+//         </IonRow>
+//
+//         <IonRow>
+//             <IonCol sizeSm='3'>
+//
+//                 <IonItem>
+//                     <IonLabel>País</IonLabel>
+//                     <IonSelect value={paisDeEmissao} interface="popover"
+//                                onIonChange={e => setPaisDeEmissao(e.detail.value)}>
+//                         <IonSelectOption value="female">Female</IonSelectOption>
+//                         <IonSelectOption value="male">Male</IonSelectOption>
+//                     </IonSelect>
+//                 </IonItem>
+//             </IonCol>
+//             <IonCol sizeSm='3'>
+//                 <IonItem>
+//                     <IonLabel>Marca</IonLabel>
+//                     <IonSelect value={paisDeEmissao} interface="popover"
+//                                onIonChange={e => setPaisDeEmissao(e.detail.value)}>
+//                         <IonSelectOption value="female">Female</IonSelectOption>
+//                         <IonSelectOption value="male">Male</IonSelectOption>
+//                     </IonSelect>
+//                 </IonItem>
+//             </IonCol>
+//
+//             <IonCol sizeSm='3'>
+//                 <IonItem>
+//                     <IonLabel>Modelo</IonLabel>
+//                     <IonSelect value={paisDeEmissao} interface="popover"
+//                                onIonChange={e => setPaisDeEmissao(e.detail.value)}>
+//                         <IonSelectOption value="female">Female</IonSelectOption>
+//                         <IonSelectOption value="male">Male</IonSelectOption>
+//                     </IonSelect>
+//                 </IonItem>
+//             </IonCol>
+//
+//             <IonCol sizeSm='3'>
+//                 <IonItem>
+//                     <IonLabel>Cor</IonLabel>
+//                     <IonSelect value={paisDeEmissao} interface="popover"
+//                                onIonChange={e => setPaisDeEmissao(e.detail.value)}>
+//                         <IonSelectOption value="female">Female</IonSelectOption>
+//                         <IonSelectOption value="male">Male</IonSelectOption>
+//                     </IonSelect>
+//                 </IonItem>
+//             </IonCol>
+//         </IonRow>
+//
+//         <IonRow>
+//             <IonCol sizeSm='3'>
+//
+//                 <IonItem>
+//                     <IonLabel>Categoria</IonLabel>
+//                     <IonSelect value={paisDeEmissao} interface="popover"
+//                                onIonChange={e => setPaisDeEmissao(e.detail.value)}>
+//                         <IonSelectOption value="female">Female</IonSelectOption>
+//                         <IonSelectOption value="male">Male</IonSelectOption>
+//                     </IonSelect>
+//                 </IonItem>
+//             </IonCol>
+//             <IonCol sizeSm='3'>
+//                 <IonItem>
+//                     <IonLabel>Classe</IonLabel>
+//                     <IonSelect value={paisDeEmissao} interface="popover"
+//                                onIonChange={e => setPaisDeEmissao(e.detail.value)}>
+//                         <IonSelectOption value="female">Female</IonSelectOption>
+//                         <IonSelectOption value="male">Male</IonSelectOption>
+//                     </IonSelect>
+//                 </IonItem>
+//             </IonCol>
+//
+//             <IonCol sizeSm='3'>
+//                 <IonItem>
+//                     <IonLabel>Tipo</IonLabel>
+//                     <IonSelect value={paisDeEmissao} interface="popover"
+//                                onIonChange={e => setPaisDeEmissao(e.detail.value)}>
+//                         <IonSelectOption value="female">Female</IonSelectOption>
+//                         <IonSelectOption value="male">Male</IonSelectOption>
+//                     </IonSelect>
+//                 </IonItem>
+//             </IonCol>
+//
+//             <IonCol sizeSm='3'>
+//                 <IonItem>
+//                     <IonLabel>Subclasse</IonLabel>
+//                     <IonSelect value={paisDeEmissao} interface="popover"
+//                                onIonChange={e => setPaisDeEmissao(e.detail.value)}>
+//                         <IonSelectOption value="female">Female</IonSelectOption>
+//                         <IonSelectOption value="male">Male</IonSelectOption>
+//                     </IonSelect>
+//                 </IonItem>
+//             </IonCol>
+//         </IonRow>
+//     </IonGrid>
+//
+// </IonCardContent>
+// </IonCard>

@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import {IonLabel, IonItem, IonSelect, IonSelectOption} from '@ionic/react';
 import country from 'country-list-js';
 import {getEmojiFlag} from 'countries-list';
-import {Contraordenacao} from "../../api/Contraordenacao";
+import {Contraordenacao} from "../../../api/Contraordenacao";
 
 interface IPais {
     inputName: string,
