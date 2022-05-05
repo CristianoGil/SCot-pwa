@@ -37,7 +37,6 @@ const LocalEmissao: React.FC<IPROPSLocalEmissao> = (props: IPROPSLocalEmissao) =
                        onIonChange={e => setLocalEmissao(e.detail.value)}>
 
                 {combos?.map((local: any) => {
-                    console.log(local)
                     return (
                         <IonSelectOption key={`${local.id}`}
                                          value={local.id}>{`${local.descricao}`}</IonSelectOption>

@@ -7,25 +7,25 @@ import {calendar} from "ionicons/icons"
 import {useState} from "react";
 import {IDocumentoPessoa} from "../../../model/person"
 import DatePicker from "../../Combos/DatePicker";
+import DocIdentificacao from "../../Combos/DocIdentificacao";
 import EntidadeEmissora from "../../Combos/EntidadeEmissora";
 import LocalEmissao from "../../Combos/LocalEmissao";
 import Pais from "../../Combos/Pais";
 
-interface ITipoConducao {
-    setParentTipoConducaoData?: any
-
+interface IDocumentoIdentificacao {
+    setParentDocumentoIdentificacaoData?: any
 }
 
-const TipoConducao: React.FC<ITipoConducao> = (props) => {
+const DocumentoIdentificacao: React.FC<IDocumentoIdentificacao> = (props) => {
 
-    const [isPresentedTipoConducao, setIsPresentedTipoCOnducao] = useState(false);
+    const [isPresentedDocumentoIdentificacao, setIsPresentedDocumentoIdentificacao] = useState(false);
     const [paisDeEmissao, setPaisDeEmissao] = useState<string>();
 
     return (
         <IonCard>
 
             <IonCardHeader>
-                <IonCardTitle>Título de condução</IonCardTitle>
+                <IonCardTitle>Documento de Identificação</IonCardTitle>
             </IonCardHeader>
 
             <IonCardContent>
@@ -33,13 +33,13 @@ const TipoConducao: React.FC<ITipoConducao> = (props) => {
                     <IonRow>
                         <IonCol size-sm='12' size-md='9' size-lg='4'>
                             <IonItem lines={'none'}>
-                                <IonLabel>O arguido apresentou o título de condução?</IonLabel>
+                                <IonLabel>O arguido apresentou o documento de identificação?</IonLabel>
                                 <IonToggle
                                     slot="end"
-                                    name="presentTipoConducao"
-                                    checked={isPresentedTipoConducao}
+                                    name="presentDocIdentificacao"
+                                    checked={isPresentedDocumentoIdentificacao}
                                     onIonChange={e => {
-                                        setIsPresentedTipoCOnducao(e.detail.checked)
+                                        setIsPresentedDocumentoIdentificacao(e.detail.checked)
                                     }}
                                 />
                             </IonItem>
@@ -49,12 +49,8 @@ const TipoConducao: React.FC<ITipoConducao> = (props) => {
                     <IonRow>
 
                         <IonCol size-sm="9" size-md="8" size-lg="4" style={{marginTop: 16}}>
-                            <IonItem>
-                                <IonLabel>Título de condução</IonLabel>
-                                <IonSelect interface="popover">
-                                    <IonSelectOption value="cartaConducao">Carta de Condução</IonSelectOption>
-                                </IonSelect>
-                            </IonItem>
+                            <DocIdentificacao inputName="inputDocIdentificacao" interface="popover"
+                                              textLabel="Doc. de Identificação"/>
                         </IonCol>
 
                         <IonCol size-sm="3" size-md="3" size-lg="3">
@@ -68,20 +64,22 @@ const TipoConducao: React.FC<ITipoConducao> = (props) => {
 
                     <IonRow>
                         <IonCol size-sm='12' size-md='10' size-lg='4'>
-                            <Pais inputName={'tipoConducao-paisEmissao'} textLabel={'País de emissão'} interface="popover"/>
+                            <Pais inputName={'docIdentificacao-paisEmissao'} textLabel={'País de emissão'}
+                                  interface="popover"/>
                         </IonCol>
 
                         <IonCol size-sm='12' size-md='10' size-lg='4'>
-                            <EntidadeEmissora inputName={'tipoConducao-entidadeEmissora'}
+                            <EntidadeEmissora inputName={'docIdentificacao-entidadeEmissora'}
                                               textLabel={'Entidade de Emissora'} interface="popover"/>
                         </IonCol>
 
                         <IonCol size-sm='12' size-md='10' size-lg='4'>
-                            <LocalEmissao inputName={'tipoConducao-localEmissao'} textLabel={'Local de Emissão'} interface="popover"/>
+                            <LocalEmissao inputName={'docIdentificacao-localEmissao'} textLabel={'Local de Emissão'}
+                                          interface="popover"/>
                         </IonCol>
 
                         <IonCol size-sm='12' size-md='10' size-lg='4'>
-                            <DatePicker inputName={'tipoConducao-dataEmissao'} textLabel="Data de Emissão"/>
+                            <DatePicker inputName={'docIdentificacao-dataEmissao'} textLabel="Data de Emissão"/>
                         </IonCol>
 
                     </IonRow>
@@ -93,4 +91,4 @@ const TipoConducao: React.FC<ITipoConducao> = (props) => {
     )
 
 }
-export default TipoConducao
+export default DocumentoIdentificacao

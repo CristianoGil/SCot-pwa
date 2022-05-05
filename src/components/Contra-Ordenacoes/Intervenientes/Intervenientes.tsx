@@ -34,6 +34,7 @@ import React from 'react';
 import Arguido from '../../../components/Contra-Ordenacoes/Arguido/Arguido';
 import {IDocumentoPessoa, IPerson} from '../../../model/person';
 import TipoConducao from '../TipoConducao/TipoConducao';
+import DocumentoIdentificacao from '../DocumentoIdentificacao/DocumentoIdentificacao';
 
 
 const Intervenientes: React.FC = () => {
@@ -58,9 +59,13 @@ const Intervenientes: React.FC = () => {
     const [arguidoData, setArguidoData] = useState<IPerson>();
     // END: ARGUIDO
 
-    // START: TIPO DOCUMENTO
+    // START: TIPO CONDUCAO
     const [tipoDocumento, setTipoDocumentoData] = useState();
-    // END: TIPO DOCUMENTO
+    // END: TIPO CONDUCAO
+
+    // START:  DOCUMENTO IDENTIFICACAO
+    const [docIdentificacao, setDocIdentificacaoData] = useState();
+    // END:  DOCUMENTO IDENTIFICACAO
     return (
         <IonGrid className="intervenientes">
             <IonRow>
@@ -82,107 +87,9 @@ const Intervenientes: React.FC = () => {
 
 
             <IonRow>
-                <IonCol sizeSm='10'>
+                <IonCol size-sm='12' size-md="12" size-lg="11">
                     {/* Documento de identificação */}
-                    <IonCard>
-
-                        <IonCardHeader>
-                            <IonCardTitle>Documento de identificação</IonCardTitle>
-                        </IonCardHeader>
-
-                        <IonCardContent>
-                            <IonGrid>
-                                <IonRow>
-                                    <IonCol sizeSm='6'>
-                                        <IonItem>
-                                            <IonLabel>O arguido apresentou o documento de
-                                                identificação?</IonLabel>
-                                            <IonToggle
-                                                slot="end"
-                                                name="darkMode"
-                                                checked={isProprietarioDoVeiculo}
-                                                onIonChange={e => {
-                                                    setIsProprietarioDoVeiculo(e.detail.checked)
-
-                                                }}
-                                            />
-                                        </IonItem>
-                                    </IonCol>
-                                </IonRow>
-                                <IonRow>
-                                    <IonCol sizeSm='3'>
-                                        <IonItem>
-                                            <IonLabel>Doc. de Identificação</IonLabel>
-                                            <IonSelect value={paisDeEmissao} interface="popover"
-                                                       onIonChange={e => setPaisDeEmissao(e.detail.value)}>
-                                                <IonSelectOption value="female">Female</IonSelectOption>
-                                                <IonSelectOption value="male">Male</IonSelectOption>
-                                            </IonSelect>
-                                        </IonItem>
-                                    </IonCol>
-                                    <IonCol sizeSm='3'>
-                                        <IonItem style={{marginTop: -16}}>
-                                            <IonLabel position="floating" itemType="number"
-                                                      defaultValue={number}
-                                                      placeholder="Enter Number">Número</IonLabel>
-                                            <IonInput></IonInput>
-                                        </IonItem>
-                                    </IonCol>
-                                </IonRow>
-
-                                <IonRow>
-                                    <IonCol sizeSm='3'>
-                                        <IonItem>
-                                            <IonLabel>País de emissão</IonLabel>
-                                            <IonSelect value={paisDeEmissao} interface="popover"
-                                                       onIonChange={e => setPaisDeEmissao(e.detail.value)}>
-                                                <IonSelectOption value="female">Female</IonSelectOption>
-                                                <IonSelectOption value="male">Male</IonSelectOption>
-                                            </IonSelect>
-                                        </IonItem>
-                                    </IonCol>
-                                    <IonCol sizeSm='3'>
-                                        <IonItem>
-                                            <IonLabel>Entidade de emissora</IonLabel>
-                                            <IonSelect value={paisDeEmissao} interface="popover"
-                                                       onIonChange={e => setPaisDeEmissao(e.detail.value)}>
-                                                <IonSelectOption value="female">Female</IonSelectOption>
-                                                <IonSelectOption value="male">Male</IonSelectOption>
-                                            </IonSelect>
-                                        </IonItem>
-                                    </IonCol>
-                                    <IonCol sizeSm='3'>
-                                        <IonItem>
-                                            <IonLabel>Local de emissão</IonLabel>
-                                            <IonSelect value={paisDeEmissao} interface="popover"
-                                                       onIonChange={e => setPaisDeEmissao(e.detail.value)}>
-                                                <IonSelectOption value="female">Female</IonSelectOption>
-                                                <IonSelectOption value="male">Male</IonSelectOption>
-                                            </IonSelect>
-                                        </IonItem>
-                                    </IonCol>
-
-                                    <IonCol sizeSm='3'>
-                                        <IonItem>
-                                            <IonInput id="date-input-2" value={popoverDate2}
-                                                      placeholder='Data de emissão'/>
-                                            <IonButton color='medium' fill="clear" id="open-date-input-2">
-                                                <IonIcon icon={calendar}/>
-                                            </IonButton>
-                                            <IonPopover trigger="open-date-input-2" showBackdrop={false}>
-                                                <IonDatetime
-                                                    presentation="date"
-                                                    onIonChange={ev => setPopoverDate2(formatDate(ev.detail.value!))}
-                                                />
-                                            </IonPopover>
-                                        </IonItem>
-                                    </IonCol>
-                                </IonRow>
-
-                            </IonGrid>
-
-                        </IonCardContent>
-                    </IonCard>
+                    <DocumentoIdentificacao setParentDocumentoIdentificacaoData={setDocIdentificacaoData}/>
                     {/* Documento de identificação */}
                 </IonCol>
             </IonRow>
