@@ -6,7 +6,9 @@ import {
 import {calendar} from "ionicons/icons"
 import {useState} from "react";
 import {IDocumentoPessoa} from "../../../model/person"
+import DatePicker from "../../Combos/DatePicker";
 import EntidadeEmissora from "../../Combos/EntidadeEmissora";
+import LocalEmissao from "../../Combos/LocalEmissao";
 import Pais from "../../Combos/Pais";
 
 interface ITipoConducao {
@@ -66,39 +68,21 @@ const TipoConducao: React.FC<ITipoConducao> = (props) => {
 
                     <IonRow>
                         <IonCol size-sm='12' size-md='10' size-lg='4'>
-                            <Pais inputName={'tipoConducao-paisEmissao'} textLabel={'País de emissão'}/>
+                            <Pais inputName={'tipoConducao-paisEmissao'} textLabel={'País de emissão'} interface="popover"/>
                         </IonCol>
 
-                        <IonCol  size-sm='12' size-md='10' size-lg='4'>
-                            <EntidadeEmissora inputName={'tipoConducao-entidadeEmissora'} textLabel={'Entidade de Emissora'}/>
+                        <IonCol size-sm='12' size-md='10' size-lg='4'>
+                            <EntidadeEmissora inputName={'tipoConducao-entidadeEmissora'}
+                                              textLabel={'Entidade de Emissora'} interface="popover"/>
                         </IonCol>
 
-                        {/*<IonCol sizeSm='3'>*/}
-                        {/*    <IonItem>*/}
-                        {/*        <IonLabel>Local de emissão</IonLabel>*/}
-                        {/*        <IonSelect value={paisDeEmissao} interface="popover"*/}
-                        {/*                   onIonChange={e => setPaisDeEmissao(e.detail.value)}>*/}
-                        {/*            <IonSelectOption value="female">Female</IonSelectOption>*/}
-                        {/*            <IonSelectOption value="male">Male</IonSelectOption>*/}
-                        {/*        </IonSelect>*/}
-                        {/*    </IonItem>*/}
-                        {/*</IonCol>*/}
+                        <IonCol size-sm='12' size-md='10' size-lg='4'>
+                            <LocalEmissao inputName={'tipoConducao-localEmissao'} textLabel={'Local de Emissão'} interface="popover"/>
+                        </IonCol>
 
-                        {/*<IonCol sizeSm='3'>*/}
-                        {/*    <IonItem>*/}
-                        {/*        <IonInput id="date-input-1" value={popoverDate1}*/}
-                        {/*                  placeholder='Data de emissão'/>*/}
-                        {/*        <IonButton color='medium' fill="clear" id="open-date-input-1">*/}
-                        {/*            <IonIcon icon={calendar}/>*/}
-                        {/*        </IonButton>*/}
-                        {/*        <IonPopover trigger="open-date-input-1" showBackdrop={false}>*/}
-                        {/*            <IonDatetime*/}
-                        {/*                presentation="date"*/}
-                        {/*                onIonChange={ev => setPopoverDate1(formatDate(ev.detail.value!))}*/}
-                        {/*            />*/}
-                        {/*        </IonPopover>*/}
-                        {/*    </IonItem>*/}
-                        {/*</IonCol>*/}
+                        <IonCol size-sm='12' size-md='10' size-lg='4'>
+                            <DatePicker inputName={'tipoConducao-dataEmissao'} textLabel="Data de Emissão"/>
+                        </IonCol>
 
                     </IonRow>
 

@@ -22,7 +22,7 @@ const getFlag = (countryName: string) => {
     }
     return flag;
 }
-const Pais: React.FC<IPais> = (props: IPais = {inputName: 'pais', interface: 'popover', textLabel: 'País'}) => {
+const Pais: React.FC<IPais> = (props: IPais) => {
     const [paisDeEmissao, setPaisDeEmissao] = useState();
 
     return (

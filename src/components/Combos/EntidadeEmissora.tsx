@@ -19,10 +19,7 @@ interface IEntidadeEmissora {
 const getCombos = async (): Promise<IEntidadeEmissora[] | null> => await new Contraordenacao().carregarCombosPessoa("entidadesEmissoras");
 
 
-const EntidadeEmissora: React.FC<IPROPSEntidadeEmissora> = (props: IPROPSEntidadeEmissora = {
-    inputName: 'selectEntidadeEmissora',
-    interface: 'popover'
-}) => {
+const EntidadeEmissora: React.FC<IPROPSEntidadeEmissora> = (props: IPROPSEntidadeEmissora) => {
     const [entidadeEmissora, setEntidadeEmissora] = useState('');
     const [combos, setCombos] = useState<IEntidadeEmissora[] | null>([]);
 
@@ -42,7 +39,6 @@ const EntidadeEmissora: React.FC<IPROPSEntidadeEmissora> = (props: IPROPSEntidad
                        onIonChange={e => setEntidadeEmissora(e.detail.value)}>
 
                 {combos?.map((entidade: any) => {
-                    console.log(entidade)
                     return (
                         <IonSelectOption key={`${entidade.id}`}
                                          value={entidade.id}>{`${entidade.descricao}`}</IonSelectOption>
