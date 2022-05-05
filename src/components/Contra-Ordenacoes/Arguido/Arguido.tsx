@@ -572,7 +572,6 @@ const Arguido: React.FC<IArguido> = (props) => {
 
                         }
 
-
                     </IonCard>
                     {/* END: Documentos  */}
 
@@ -588,8 +587,4 @@ const Arguido: React.FC<IArguido> = (props) => {
 }
 
 export default Arguido
-
-function dispatch(arg0: any) {
-    throw new Error('Function not implemented.');
-}
 

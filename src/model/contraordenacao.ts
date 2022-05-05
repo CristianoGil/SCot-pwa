@@ -1,4 +1,5 @@
-import { IPerson } from "./person";
+import {IID_DESCRICAO} from "./extendable";
+import {IPerson} from "./person";
 
 export interface IPesquisarPessoaRequest {
     "nif": number,
@@ -15,4 +16,12 @@ export interface IPesquisarPessoaRequest {
 
 export interface IPesquisarPessoaResponse {
     pessoa: IPerson
+}
+
+export interface ICombosContraOrdenacaoPessoa {
+    locaisEmissoes: IID_DESCRICAO[]
+    documentosIdentificacoes: IID_DESCRICAO[]
+    paises: IID_DESCRICAO[]
+    titulosConducoes: IID_DESCRICAO[]
+    entidadesEmissoras: IID_DESCRICAO[]
 }
