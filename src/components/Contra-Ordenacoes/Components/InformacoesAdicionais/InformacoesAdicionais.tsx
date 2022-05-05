@@ -5,12 +5,12 @@ import {
 } from "@ionic/react"
 import {calendar} from "ionicons/icons"
 import {useState} from "react";
-import {IDocumentoPessoa} from "../../../model/person"
-import DatePicker from "../../Combos/DatePicker";
-import DocIdentificacao from "../../Combos/DocIdentificacao";
-import EntidadeEmissora from "../../Combos/EntidadeEmissora";
-import LocalEmissao from "../../Combos/LocalEmissao";
-import Pais from "../../Combos/Pais";
+import {IDocumentoPessoa} from "../../../../model/person"
+import DatePicker from "../../../Combos/DatePicker";
+import DocIdentificacao from "../../../Combos/DocIdentificacao";
+import EntidadeEmissora from "../../../Combos/EntidadeEmissora";
+import LocalEmissao from "../../../Combos/LocalEmissao";
+import Pais from "../../../Combos/Pais";
 import "./InformacoesAdicionais.scss";
 
 interface IInformacoesAdicionais {
@@ -20,7 +20,7 @@ interface IInformacoesAdicionais {
 const InformacoesAdicionais: React.FC<IInformacoesAdicionais> = (props) => {
 
     const [isPresentedInformacoesAdicionais, setIsPresentedInformacoesAdicionais] = useState(false);
-    const [selectedSingularColetivo, setSelectedSingularColetivo] = useState<string>();
+    const [selectedFiscalOutro, setSelectedFiscalOutro] = useState<string>('fiscal');
 
     return (
         <IonCard className="infoAdicionais">
@@ -51,8 +51,8 @@ const InformacoesAdicionais: React.FC<IInformacoesAdicionais> = (props) => {
                     <IonRow>
                         <IonCol size-sm='12' size-md="8" size-lg="4">
 
-                            <IonRadioGroup value={selectedSingularColetivo}
-                                           onIonChange={e => setSelectedSingularColetivo(e.detail.value)}>
+                            <IonRadioGroup value={selectedFiscalOutro}
+                                           onIonChange={e => setSelectedFiscalOutro(e.detail.value)}>
 
                                 <IonRow>
                                     <IonCol size='12'>
@@ -64,14 +64,14 @@ const InformacoesAdicionais: React.FC<IInformacoesAdicionais> = (props) => {
                                     </IonCol>
                                     <IonCol size='6'>
                                         <IonItem lines='none' className="infoAdicionais-domicilio-radio radio-item">
-                                            <IonRadio value="singular"/>
-                                            <IonLabel className="radioBox">Singular</IonLabel>
+                                            <IonRadio value="fiscal"/>
+                                            <IonLabel className="radioBox">Fiscal</IonLabel>
                                         </IonItem>
                                     </IonCol>
                                     <IonCol size='6'>
                                         <IonItem lines='none' className="infoAdicionais-domicilio-radio radio-item">
-                                            <IonRadio value="colection"/>
-                                            <IonLabel className="radioBox">Coletivo</IonLabel>
+                                            <IonRadio value="outro"/>
+                                            <IonLabel className="radioBox">Outro</IonLabel>
                                         </IonItem>
                                     </IonCol>
                                 </IonRow>

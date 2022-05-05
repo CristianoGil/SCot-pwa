@@ -31,11 +31,11 @@ import AlertNetwork from '../../../components/AlertNetwork/AlertNetwork';
 import {Link} from 'react-router-dom';
 import React from 'react';
 
-import Arguido from '../../../components/Contra-Ordenacoes/Arguido/Arguido';
+import Arguido from '../../../components/Contra-Ordenacoes/Components/Arguido/Arguido';
 import {IDocumentoPessoa, IPerson} from '../../../model/person';
-import TipoConducao from '../TipoConducao/TipoConducao';
-import DocumentoIdentificacao from '../DocumentoIdentificacao/DocumentoIdentificacao';
-import InformacoesAdicionais from '../InformacoesAdicionais/InformacoesAdicionais';
+import TipoConducao from '../Components/TipoConducao/TipoConducao';
+import DocumentoIdentificacao from '../Components/DocumentoIdentificacao/DocumentoIdentificacao';
+import InformacoesAdicionais from '../Components/InformacoesAdicionais/InformacoesAdicionais';
 
 
 const Intervenientes: React.FC = () => {

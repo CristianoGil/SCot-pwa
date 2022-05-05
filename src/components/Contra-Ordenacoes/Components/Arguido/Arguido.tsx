@@ -30,19 +30,19 @@ import {
 import {useContext, useState} from 'react';
 import {bookOutline, checkboxOutline, search, star} from 'ionicons/icons';
 import React from 'react';
-import {useAppSelector} from '../../../app/hooks';
-import {setVisiblePopoverIndentVeiculo} from '../../Menu/popoverIndentVeiculoSlice';
+import {useAppSelector} from '../../../../app/hooks';
+import {setVisiblePopoverIndentVeiculo} from '../../../Menu/popoverIndentVeiculoSlice';
 import './Arguido.scss';
-import Pais from '../../Combos/Pais';
-import {AlertNetworkOfflineContext} from '../../../Context/AlertNetworkOfflineContext';
-import {getNetworkState} from '../../../common/capacitor_global';
+import Pais from '../../../Combos/Pais';
+import {AlertNetworkOfflineContext} from '../../../../Context/AlertNetworkOfflineContext';
+import {getNetworkState} from '../../../../common/capacitor_global';
 import _ from 'underscore';
-import {Contraordenacao} from '../../../api/Contraordenacao';
-import {IPesquisarPessoaResponse} from '../../../model/contraordenacao';
-import CardListItem from '../../CardListItem';
+import {Contraordenacao} from '../../../../api/Contraordenacao';
+import {IPesquisarPessoaResponse} from '../../../../model/contraordenacao';
+import CardListItem from '../../../CardListItem';
 import DataTable from 'react-data-table-component';
-import {ICoimasEmAtraso, IDocumentoPessoa, IMoradaPessoa, IPerson} from '../../../model/person';
-import {dateFormat} from '../../../utils/apex-formatters';
+import {ICoimasEmAtraso, IDocumentoPessoa, IMoradaPessoa, IPerson} from '../../../../model/person';
+import {dateFormat} from '../../../../utils/apex-formatters';
 
 interface IArguido {
     setParentArguidoData?: any
