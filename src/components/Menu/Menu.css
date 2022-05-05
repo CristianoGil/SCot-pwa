@@ -64,10 +64,12 @@ ion-content #modelContent_Interno a {
     color: white;
 }
 
-ion-toolBar {
-    --background: var(--ion-toolbar-background, var(--ion-background-color, rgb(255 255 255 / 80%)));
+ion-toolBar, :host(.ion-color) .toolbar-background{
+    --background: rgb(255 255 255 / 80%);
+    background: rgb(255 255 255 / 80%);
 }
 
-body.dark ion-toolBar {
-    --background:  rgb(18 18 18 / 80%);;
+body.dark ion-toolBar, body.dark :host(.ion-color) .toolbar-background {
+    --background:  rgb(18 18 18 / 80%);
+    background:  rgb(18 18 18 / 80%);
 }
