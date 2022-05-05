@@ -110,6 +110,7 @@ ion-grid#gridGeral, ion-grid.intervenientes {
     padding: 0px;
     padding-left: 100px;
     padding-right: 100px;
+    padding-bottom: 200px !important;
 }
 
 @media only screen and (max-width: 575px) {
@@ -150,6 +151,8 @@ ion-popover.menu#popoverIdentVeiculo {
     ion-toolbar {
         padding: 0 !important;
     }
+
+
 
 
 }

@@ -42,6 +42,9 @@ import {IPesquisarPessoaResponse, IPesquisarVeiculoResponse} from '../../../../m
 import CardListItem from '../../../CardListItem';
 import DataTable from 'react-data-table-component';
 import {dateFormat} from '../../../../utils/apex-formatters';
+import Marca from '../../../Combos/Veiculo/Marca';
+import Modelo from '../../../Combos/Veiculo/Modelo';
+import Cor from '../../../Combos/Veiculo/Cor';
 
 interface IVeiculo {
     setParentVeiculoData?: any
@@ -164,7 +167,7 @@ const Veiculo: React.FC<IVeiculo> = (props) => {
                         </IonCol>
                     </IonRow>
                     <IonRow>
-                        <IonCol size-sm='8' size-md='6' size-lg='4'>
+                        <IonCol size-sm='8' size-md='5' size-lg='3'>
                             <IonItem>
                                 <IonButton color='medium' fill="clear" id="open-search-input-1">
                                     <IonIcon icon={search}/>
@@ -178,7 +181,7 @@ const Veiculo: React.FC<IVeiculo> = (props) => {
                                           placeholder='Matrícula'/>
                             </IonItem>
                         </IonCol>
-                        <IonCol size-sm='4' size-md='6' size-lg='2'>
+                        <IonCol size-sm='4' size-md='5' size-lg='2'>
                             <IonItem lines='none'>
                                 <IonButton style={{background: '#084F87', borderRadius: 4}}
                                            color="#084F87"
@@ -207,8 +210,19 @@ const Veiculo: React.FC<IVeiculo> = (props) => {
 
 
                     <IonRow>
-                        <IonCol size-sm='12' size-md='10' size-lg='4'>
+                        <IonCol size-sm='12' size-md='10' size-lg='3'>
                             <Pais inputName={'veiculo-pais'} textLabel={'País'} interface="popover"/>
+                        </IonCol>
+
+                        <IonCol size-sm='12' size-md='10' size-lg='3'>
+                            <Marca inputName={'veiculo-marca'} textLabel={'Marca'} interface="popover"/>
+                        </IonCol>
+
+                        <IonCol size-sm='12' size-md='10' size-lg='3'>
+                            <Modelo inputName={'veiculo-modelo'} textLabel={'Modelo'} interface="popover"/>
+                        </IonCol>
+                        <IonCol size-sm='12' size-md='10' size-lg='3'>
+                            <Cor inputName={'veiculo-cor'} textLabel={'Cor'} />
                         </IonCol>
                     </IonRow>
 

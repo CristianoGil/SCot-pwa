@@ -11,12 +11,12 @@ interface IPais {
     textLabel?: string
 }
 
-interface IDocIdentificacao {
+interface IPROPSPais {
     id: string | null
     descricao: string
 }
 
-const getCombos = async (): Promise<IDocIdentificacao[] | null> => await new Contraordenacao().carregarCombosPessoa("paises");
+const getCombos = async (): Promise<IPROPSPais[] | null> => await new Contraordenacao().carregarCombosPessoa("paises");
 
 const getFlag = (countryName: string) => {
     const countryData: any = country.findByName(countryName) || {};
@@ -28,7 +28,7 @@ const getFlag = (countryName: string) => {
 }
 const Pais: React.FC<IPais> = (props: IPais) => {
     const [paisDeEmissao, setPaisDeEmissao] = useState();
-    const [combos, setCombos] = useState<IDocIdentificacao[] | null>([]);
+    const [combos, setCombos] = useState<IPROPSPais[] | null>([]);
 
     React.useEffect(() => {
         getCombos().then((combos) => {
