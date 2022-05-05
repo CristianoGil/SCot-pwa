@@ -235,13 +235,13 @@ const Arguido: React.FC<IArguido> = (props) => {
                                     <IonCol size='6'>
                                         <IonItem lines='none' className="veiculo-proprietario-radio radio-item">
                                             <IonRadio value="singular"/>
-                                            <IonLabel>Singular</IonLabel>
+                                            <IonLabel className="radioBox">Singular</IonLabel>
                                         </IonItem>
                                     </IonCol>
                                     <IonCol size='6'>
                                         <IonItem lines='none' className="veiculo-proprietario-radio radio-Item">
                                             <IonRadio value="colection"/>
-                                            <IonLabel>Coletivo</IonLabel>
+                                            <IonLabel className="radioBox">Coletivo</IonLabel>
                                         </IonItem>
                                     </IonCol>
                                 </IonRow>

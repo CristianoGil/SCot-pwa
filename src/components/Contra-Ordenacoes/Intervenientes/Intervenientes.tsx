@@ -35,6 +35,7 @@ import Arguido from '../../../components/Contra-Ordenacoes/Arguido/Arguido';
 import {IDocumentoPessoa, IPerson} from '../../../model/person';
 import TipoConducao from '../TipoConducao/TipoConducao';
 import DocumentoIdentificacao from '../DocumentoIdentificacao/DocumentoIdentificacao';
+import InformacoesAdicionais from '../InformacoesAdicionais/InformacoesAdicionais';
 
 
 const Intervenientes: React.FC = () => {
@@ -66,6 +67,10 @@ const Intervenientes: React.FC = () => {
     // START:  DOCUMENTO IDENTIFICACAO
     const [docIdentificacao, setDocIdentificacaoData] = useState();
     // END:  DOCUMENTO IDENTIFICACAO
+
+    // START:  INFORMACOES ADICIONAIS
+    const [informacoesAdicionaisData, setInformacoesAdicionaisData] = useState();
+    // END:   INFORMACOES ADICIONAIS
     return (
         <IonGrid className="intervenientes">
             <IonRow>
@@ -96,147 +101,9 @@ const Intervenientes: React.FC = () => {
 
 
             <IonRow>
-                <IonCol sizeSm='10'>
+                <IonCol size-sm='12' size-md="12" size-lg="11">
                     {/* Informações adicionais */}
-                    <IonCard>
-
-                        <IonCardHeader>
-                            <IonCardTitle>Informações adicionais</IonCardTitle>
-                        </IonCardHeader>
-
-                        <IonCardContent>
-                            <IonGrid>
-                                <IonRow>
-                                    <IonCol sizeSm='6'>
-                                        <IonItem>
-                                            <IonLabel>O arguido apresentou o documento de
-                                                identificação?</IonLabel>
-                                            <IonToggle
-                                                slot="end"
-                                                name="darkMode"
-                                                checked={isProprietarioDoVeiculo}
-                                                onIonChange={e => {
-                                                    setIsProprietarioDoVeiculo(e.detail.checked)
-
-                                                }}
-                                            />
-                                        </IonItem>
-                                    </IonCol>
-                                </IonRow>
-                                <IonRow>
-                                    <IonCol sizeSm='9'>
-                                        <IonItem style={{marginTop: -16}}>
-                                            <IonLabel position="floating" placeholder="Nome / Firma">Nome /
-                                                Firma</IonLabel>
-                                            <IonInput></IonInput>
-                                        </IonItem>
-                                    </IonCol>
-                                    <IonCol sizeSm='3'>
-                                        <IonItem>
-                                            <IonInput id="date-input-3" value={popoverDate3}
-                                                      placeholder='Data de nascimento'/>
-                                            <IonButton color='medium' fill="clear" id="open-date-input-3">
-                                                <IonIcon icon={calendar}/>
-                                            </IonButton>
-                                            <IonPopover trigger="open-date-input-3" showBackdrop={false}>
-                                                <IonDatetime
-                                                    presentation="date"
-                                                    onIonChange={ev => setPopoverDate3(formatDate(ev.detail.value!))}
-                                                />
-                                            </IonPopover>
-                                        </IonItem>
-                                    </IonCol>
-                                </IonRow>
-
-                                <IonRow>
-                                    <IonCol sizeSm='3'>
-                                        <IonRadioGroup value={selectedSingularColetivo}
-                                                       onIonChange={e => setSelectedSingularColetivo(e.detail.value)}>
-                                            <IonListHeader>
-                                                <IonLabel>
-                                                    Domicílio / Sede
-                                                </IonLabel>
-                                            </IonListHeader>
-                                            <IonItem lines='none'>
-                                                <IonLabel>Singular</IonLabel>
-                                                <IonRadio slot="start" value="biff"/>
-                                            </IonItem>
-
-                                            <IonItem lines='none'>
-                                                <IonLabel>Coletivo</IonLabel>
-                                                <IonRadio slot="start" value="griff"/>
-                                            </IonItem>
-
-                                        </IonRadioGroup>
-                                    </IonCol>
-                                    <IonCol sizeSm='6'>
-                                        <IonItem>
-                                            <IonLabel position="floating" placeholder="Morada">Morada</IonLabel>
-                                            <IonInput></IonInput>
-                                        </IonItem>
-                                    </IonCol>
-
-                                    <IonCol sizeSm='3'>
-                                        <IonItem>
-                                            <IonLabel position="floating" itemType="number"
-                                                      defaultValue={number} placeholder="Enter Number">Nº
-                                                Polícia</IonLabel>
-                                            <IonInput></IonInput>
-                                        </IonItem>
-                                    </IonCol>
-                                </IonRow>
-
-                                <IonRow>
-                                    <IonCol sizeSm='3'>
-                                        <IonItem>
-                                            <IonLabel position="floating"
-                                                      placeholder="Fracção">Fracção</IonLabel>
-                                            <IonInput></IonInput>
-                                        </IonItem>
-                                    </IonCol>
-                                    <IonCol sizeSm='3'>
-                                        <IonItem>
-                                            <IonLabel position="floating"
-                                                      placeholder="Localidade">Localidade</IonLabel>
-                                            <IonInput></IonInput>
-                                        </IonItem>
-                                    </IonCol>
-
-                                    <IonCol sizeSm='3'>
-                                        <IonItem>
-                                            <IonLabel position="floating" itemType="number"
-                                                      defaultValue={number} placeholder="Enter Number">Código
-                                                Postal</IonLabel>
-                                            <IonInput></IonInput>
-                                        </IonItem>
-                                    </IonCol>
-
-                                    <IonCol sizeSm='3'>
-                                        <IonItem style={{marginTop: 16}}>
-                                            <IonLabel>País de emissão</IonLabel>
-                                            <IonSelect value={paisDeEmissao} interface="popover"
-                                                       onIonChange={e => setPaisDeEmissao(e.detail.value)}>
-                                                <IonSelectOption value="female">Female</IonSelectOption>
-                                                <IonSelectOption value="male">Male</IonSelectOption>
-                                            </IonSelect>
-                                        </IonItem>
-                                    </IonCol>
-                                </IonRow>
-
-                                <IonRow>
-                                    <IonCol sizeSm='6'>
-                                        <IonItem>
-                                            <IonLabel position="floating" placeholder="Representante legal">Representante
-                                                legal</IonLabel>
-                                            <IonInput></IonInput>
-                                        </IonItem>
-                                    </IonCol>
-
-                                </IonRow>
-                            </IonGrid>
-
-                        </IonCardContent>
-                    </IonCard>
+                    <InformacoesAdicionais setParentInformacoesAdicionaisData={setInformacoesAdicionaisData}/>
                     {/* Informações adicionais */}
                 </IonCol>
             </IonRow>
