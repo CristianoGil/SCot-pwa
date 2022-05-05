@@ -357,7 +357,7 @@ const Arguido: React.FC<IArguido> = (props) => {
                                                         }}
                                                         c2={{titulo: 'Custas', valor: coimas?.custas}}
                                                         c3={{
-                                                            titulo: 'Vustas Checada',
+                                                            titulo: 'Custas Checada',
                                                             valor: coimas?.valorChecado ? 'Sim' : 'Não'
                                                         }}
                                                         c4={{

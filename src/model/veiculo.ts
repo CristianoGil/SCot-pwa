@@ -15,7 +15,7 @@ export interface IVeiculo {
     cor?: ICorVeiculo
     estadoPolicial?: IEstadoPolicial
     isCoimasEmAtraso?: boolean
-    coimasEmAtraso?: ICoimaVeiculo
+    coimasEmAtraso?: ICoimaVeiculo[]
     ipo?: boolean
 }
 
@@ -64,6 +64,7 @@ export interface ICoimaVeiculo {
     custasChecada?: boolean
     isPago?: boolean
     sancaoAcessoria?: string
+    total?: number
 
 }
 

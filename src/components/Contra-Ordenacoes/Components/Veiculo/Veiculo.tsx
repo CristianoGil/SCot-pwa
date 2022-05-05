@@ -45,12 +45,17 @@ import {dateFormat} from '../../../../utils/apex-formatters';
 import Marca from '../../../Combos/Veiculo/Marca';
 import Modelo from '../../../Combos/Veiculo/Modelo';
 import Cor from '../../../Combos/Veiculo/Cor';
+import Categoria from '../../../Combos/Veiculo/Categoria';
+import Classe from '../../../Combos/Veiculo/Classe';
+import Tipo from '../../../Combos/Veiculo/Tipo';
+import Subclasse from '../../../Combos/Veiculo/Subclasse';
+import {ICoimaVeiculo, IVeiculo} from '../../../../model/veiculo';
 
-interface IVeiculo {
+interface IPROPS {
     setParentVeiculoData?: any
 }
 
-const Veiculo: React.FC<IVeiculo> = (props) => {
+const Veiculo: React.FC<IPROPS> = (props) => {
 
     const alertOfflineContext = useContext<any>(AlertNetworkOfflineContext)
 
@@ -96,13 +101,12 @@ const Veiculo: React.FC<IVeiculo> = (props) => {
 
     }
 
-    const [VeiculoData, setVeiculoData] = useState<IVeiculo>();
+    const [veiculoData, setVeiculoData] = useState<IVeiculo>();
     const searchVeiculoByMatricula = async () => {
 
         const instanceContraordenacao = new Contraordenacao();
         await instanceContraordenacao.pesquisarVeiculo({matricula: veiculoMatricula}).then((_veiculoData: IPesquisarVeiculoResponse) => {
             console.log('VeiculoData: ', _veiculoData);
-
 
             setTimeout(() => {
                 setOpenPopoverVeiculoData(true);
@@ -125,14 +129,14 @@ const Veiculo: React.FC<IVeiculo> = (props) => {
             dismissOnLoanding();
         })
     }
+
     // END: INPUT Matricula
 
+    // START: Popover
     const handlerFullfillForm = () => {
-        props.setParentVeiculoData(VeiculoData);
+        props.setParentVeiculoData(veiculoData);
         setOpenPopoverVeiculoData(false);
     }
-
-    // START: Popover
 
     // Morada
     const [segmentMorada, setSegmentMorada] = useState('morada');
@@ -143,7 +147,7 @@ const Veiculo: React.FC<IVeiculo> = (props) => {
     // END: Popover
 
     return (
-        <IonCard className={'co-Veiculo'}>
+        <IonCard className={'co-veiculo'}>
 
             <IonCardHeader>
                 <IonCardTitle>Veiculo</IonCardTitle>
@@ -173,12 +177,12 @@ const Veiculo: React.FC<IVeiculo> = (props) => {
                                     <IonIcon icon={search}/>
                                 </IonButton>
                                 <IonInput
-                                          required={true}
-                                          clearInput={true}
-                                          name='Veiculo-matricula'
-                                          value={veiculoMatricula}
-                                          onKeyUp={keyup_VeiculoMatricula}
-                                          placeholder='Matrícula'/>
+                                    required={true}
+                                    clearInput={true}
+                                    name='Veiculo-matricula'
+                                    value={veiculoMatricula}
+                                    onKeyUp={keyup_VeiculoMatricula}
+                                    placeholder='Matrícula'/>
                             </IonItem>
                         </IonCol>
                         <IonCol size-sm='4' size-md='5' size-lg='2'>
@@ -222,14 +226,33 @@ const Veiculo: React.FC<IVeiculo> = (props) => {
                             <Modelo inputName={'veiculo-modelo'} textLabel={'Modelo'} interface="popover"/>
                         </IonCol>
                         <IonCol size-sm='12' size-md='10' size-lg='3'>
-                            <Cor inputName={'veiculo-cor'} textLabel={'Cor'} />
+                            <Cor inputName={'veiculo-cor'} textLabel={'Cor'}/>
                         </IonCol>
+                    </IonRow>
+
+                    <IonRow>
+                        <IonCol size-sm='12' size-md='10' size-lg='3'>
+                            <Categoria inputName={'veiculo-categoria'} textLabel={'Categoria'} interface="popover"/>
+                        </IonCol>
+
+                        <IonCol size-sm='12' size-md='10' size-lg='3'>
+                            <Classe inputName={'veiculo-classe'} textLabel={'Classe'} interface="popover"/>
+                        </IonCol>
+
+                        <IonCol size-sm='12' size-md='10' size-lg='3'>
+                            <Tipo inputName={'veiculo-tipo'} textLabel={'Tipo'} interface="popover"/>
+                        </IonCol>
+
+                        <IonCol size-sm='12' size-md='10' size-lg='3'>
+                            <Subclasse inputName={'veiculo-subclasse'} textLabel={'Subclasse'} interface="popover"/>
+                        </IonCol>
+
+
                     </IonRow>
 
                 </IonGrid>
 
             </IonCardContent>
-
 
 
             {/*START: POPOVER*/}
@@ -249,12 +272,6 @@ const Veiculo: React.FC<IVeiculo> = (props) => {
                             </h1>
                         </IonLabel>
 
-                        <IonButton className="btn-use-data" fill="outline" color="primary" slot="end"
-                                   onClick={handlerFullfillForm}
-                        >
-                            AT/IRN <IonIcon slot="start" icon={checkboxOutline}/>
-                        </IonButton>
-
                         <IonButton className="btn-catalogo" fill="outline" color="medium" slot="end">
                             Catálogo <IonIcon slot="start" icon={bookOutline}/>
                         </IonButton>
@@ -268,6 +285,146 @@ const Veiculo: React.FC<IVeiculo> = (props) => {
                     </IonToolbar>
                 </IonHeader>
 
+                <IonContent>
+
+                    {/* Informação do IMT */}
+                    <IonCard style={{margin: 30}}>
+
+                        <IonCardHeader>
+                            <IonCardTitle>Informação do IMT
+                            </IonCardTitle>
+                        </IonCardHeader>
+
+                        <IonCardContent>
+
+                            <IonButton className="btn-apply-info" fill="solid" color="primary" slot="end" onClick={handlerFullfillForm}>
+                                Utilizar estes dados <IonIcon slot="start" icon={bookOutline}/>
+                            </IonButton>
+
+                            <IonGrid>
+
+                                <CardListItem
+                                    c1={{titulo: 'Categoria', valor: veiculoData?.categoria?.descricao}}
+                                    c2={{titulo: 'Classe', valor: veiculoData?.classe?.descricao}}
+                                    c3={{titulo: 'Tipo', valor: veiculoData?.tipo?.descricao}}
+                                    c4={{titulo: 'Subclasse', valor: veiculoData?.subclasse?.descricao}}
+                                />
+
+                                <CardListItem
+                                    c1={{titulo: 'Matrícula', valor: veiculoData?.matricula}}
+                                    c2={{titulo: 'Chassi', valor: veiculoData?.chassi}}
+                                    c3={{titulo: 'Ano Origem', valor: veiculoData?.ano}}
+                                    c4={{titulo: 'País de Origem', valor: veiculoData?.pais?.descricao}}
+                                />
+
+                                <CardListItem
+                                    c1={{titulo: 'Marca', valor: veiculoData?.marca?.descricao}}
+                                    c2={{titulo: 'Modelo', valor: veiculoData?.modelo?.descricao}}
+                                    c3={{titulo: 'Cor principal', valor: veiculoData?.cor?.descricao}}
+                                    c4={{titulo: 'Estado policial', valor: veiculoData?.estadoPolicial?.descricao}}
+                                />
+
+                            </IonGrid>
+
+                        </IonCardContent>
+                    </IonCard>
+                    {/* Informação do IMT */}
+
+                    {/* Informações adicionais */}
+                    <IonCard style={{margin: 30}}>
+
+                        <IonCardHeader>
+                            <IonCardTitle>Informações adicionais</IonCardTitle>
+                        </IonCardHeader>
+
+                        <IonCardContent>
+
+                            <IonGrid>
+
+                                <CardListItem
+                                    c2={{titulo: 'Inspeção em Atraso-IPO', valor: veiculoData?.ipo ? 'Sim' : 'Não'}}
+                                    c3={{
+                                        titulo: 'Coimas em Atraso',
+                                        valor: veiculoData?.isCoimasEmAtraso ? 'Sim' : 'Não'
+                                    }}
+                                />
+
+                                <IonCardContent>
+                                    <IonGrid>
+
+                                        {
+                                            (veiculoData?.coimasEmAtraso || []).map((coimas: ICoimaVeiculo, index: number) => {
+                                                    return (
+                                                        <IonCardContent key={`${coimas.id}-${coimas.data}-${index}`}>
+
+                                                            <IonCardHeader>
+                                                                <IonCardSubtitle>Coima - {++index}</IonCardSubtitle>
+                                                            </IonCardHeader>
+
+                                                            < CardListItem
+                                                                c1={{
+                                                                    titulo: 'Data',
+                                                                    valor: dateFormat(`${coimas?.data}`, 'yyyy-MM-DD')
+                                                                }}
+                                                                c2={{
+                                                                    titulo: 'Número do Auto',
+                                                                    valor: coimas?.numeroAuto
+                                                                }}
+                                                                c3={{
+                                                                    titulo: 'Codigo de Infração',
+                                                                    valor: coimas?.codigoInfracao
+                                                                }}
+                                                                c4={{
+                                                                    titulo: 'Valor',
+                                                                    valor: coimas?.valor
+                                                                }}
+
+                                                            />
+
+                                                            < CardListItem
+                                                                c1={{
+                                                                    titulo: 'Valor Checado',
+                                                                    valor: coimas?.valorChecado ? 'Sim' : 'Não'
+                                                                }}
+                                                                c2={{titulo: 'Custas', valor: coimas?.custas}}
+                                                                c3={{
+                                                                    titulo: 'Custas Checada',
+                                                                    valor: coimas?.valorChecado ? 'Sim' : 'Não'
+                                                                }}
+                                                                c4={{
+                                                                    titulo: 'Total',
+                                                                    valor: coimas?.total
+                                                                }}
+
+                                                            />
+                                                            < CardListItem
+                                                                c1={{
+                                                                    titulo: 'Data Prazo',
+                                                                    valor: dateFormat(`${coimas?.dataPrazo}`, 'yyyy-MM-DD')
+                                                                }}
+                                                                c2={{
+                                                                    titulo: 'Está pago',
+                                                                    valor: coimas?.isPago ? 'Sim' : 'Não'
+                                                                }}
+                                                                c3={{
+                                                                    titulo: 'Sanções acessórias',
+                                                                    valor: coimas?.sancaoAcessoria
+                                                                }}
+
+                                                            />
+                                                        </IonCardContent>
+                                                    )
+                                                }
+                                            )}
+                                    </IonGrid>
+                                </IonCardContent>
+                            </IonGrid>
+
+                        </IonCardContent>
+                    </IonCard>
+
+                </IonContent>
+
             </IonPopover>
             {/*END: POPOVER*/}
         </IonCard>
@@ -277,166 +434,3 @@ const Veiculo: React.FC<IVeiculo> = (props) => {
 }
 
 export default Veiculo
-
-
-//
-// <IonCard>
-//
-// <IonCardHeader>
-// <IonCardTitle>Veículo</IonCardTitle>
-// </IonCardHeader>
-//
-// <IonCardContent>
-//     <IonGrid>
-//         <IonRow>
-//             <IonCol sizeSm='6'>
-//                 <IonItem>
-//                     <IonLabel>O veículo é conduzido pelo Arguido?</IonLabel>
-//                     <IonToggle
-//                         slot="end"
-//                         name="darkMode"
-//                         checked={isProprietarioDoVeiculo}
-//                         onIonChange={e => {
-//                             setIsProprietarioDoVeiculo(e.detail.checked)
-//
-//                         }}
-//                     />
-//                 </IonItem>
-//             </IonCol>
-//         </IonRow>
-//         <IonRow>
-//             <IonCol sizeSm='3'>
-//                 <IonItem>
-//                     <IonButton color='medium' fill="clear" id="open-search-input-1">
-//                         <IonIcon icon={search}/>
-//                     </IonButton>
-//                     <IonInput placeholder='Matricula'/>
-//
-//                 </IonItem>
-//             </IonCol>
-//             <IonCol sizeSm='3'>
-//                 <IonItem lines='none'>
-//
-//                     <IonButton style={{background: '#084F87', borderRadius: 4}}
-//                                color="#084F87" slot="start" size='default'
-//                                onClick={() => {
-//                                    dispatch(setVisiblePopoverIndentVeiculo(true));
-//                                }}>
-//                         Pesquisar
-//                     </IonButton>
-//
-//                 </IonItem>
-//             </IonCol>
-//             <IonCol>
-//
-//                 <div style={{
-//                     display: 'inline-flex',
-//                     borderRadius: 10,
-//                     background: '#FEF7EA',
-//                     width: '100%',
-//                     border: 'groove'
-//                 }}>
-//                     <IonImg src={'assets/images/Group 4529_icon.png'}
-//                             style={{width: 'fit-content'}}></IonImg>
-//                     <strong style={{marginTop: 12, marginLeft: 2, color: 'black'}}>Dados
-//                         sujeitos a validação</strong>
-//                 </div>
-//
-//             </IonCol>
-//         </IonRow>
-//
-//         <IonRow>
-//             <IonCol sizeSm='3'>
-//
-//                 <IonItem>
-//                     <IonLabel>País</IonLabel>
-//                     <IonSelect value={paisDeEmissao} interface="popover"
-//                                onIonChange={e => setPaisDeEmissao(e.detail.value)}>
-//                         <IonSelectOption value="female">Female</IonSelectOption>
-//                         <IonSelectOption value="male">Male</IonSelectOption>
-//                     </IonSelect>
-//                 </IonItem>
-//             </IonCol>
-//             <IonCol sizeSm='3'>
-//                 <IonItem>
-//                     <IonLabel>Marca</IonLabel>
-//                     <IonSelect value={paisDeEmissao} interface="popover"
-//                                onIonChange={e => setPaisDeEmissao(e.detail.value)}>
-//                         <IonSelectOption value="female">Female</IonSelectOption>
-//                         <IonSelectOption value="male">Male</IonSelectOption>
-//                     </IonSelect>
-//                 </IonItem>
-//             </IonCol>
-//
-//             <IonCol sizeSm='3'>
-//                 <IonItem>
-//                     <IonLabel>Modelo</IonLabel>
-//                     <IonSelect value={paisDeEmissao} interface="popover"
-//                                onIonChange={e => setPaisDeEmissao(e.detail.value)}>
-//                         <IonSelectOption value="female">Female</IonSelectOption>
-//                         <IonSelectOption value="male">Male</IonSelectOption>
-//                     </IonSelect>
-//                 </IonItem>
-//             </IonCol>
-//
-//             <IonCol sizeSm='3'>
-//                 <IonItem>
-//                     <IonLabel>Cor</IonLabel>
-//                     <IonSelect value={paisDeEmissao} interface="popover"
-//                                onIonChange={e => setPaisDeEmissao(e.detail.value)}>
-//                         <IonSelectOption value="female">Female</IonSelectOption>
-//                         <IonSelectOption value="male">Male</IonSelectOption>
-//                     </IonSelect>
-//                 </IonItem>
-//             </IonCol>
-//         </IonRow>
-//
-//         <IonRow>
-//             <IonCol sizeSm='3'>
-//
-//                 <IonItem>
-//                     <IonLabel>Categoria</IonLabel>
-//                     <IonSelect value={paisDeEmissao} interface="popover"
-//                                onIonChange={e => setPaisDeEmissao(e.detail.value)}>
-//                         <IonSelectOption value="female">Female</IonSelectOption>
-//                         <IonSelectOption value="male">Male</IonSelectOption>
-//                     </IonSelect>
-//                 </IonItem>
-//             </IonCol>
-//             <IonCol sizeSm='3'>
-//                 <IonItem>
-//                     <IonLabel>Classe</IonLabel>
-//                     <IonSelect value={paisDeEmissao} interface="popover"
-//                                onIonChange={e => setPaisDeEmissao(e.detail.value)}>
-//                         <IonSelectOption value="female">Female</IonSelectOption>
-//                         <IonSelectOption value="male">Male</IonSelectOption>
-//                     </IonSelect>
-//                 </IonItem>
-//             </IonCol>
-//
-//             <IonCol sizeSm='3'>
-//                 <IonItem>
-//                     <IonLabel>Tipo</IonLabel>
-//                     <IonSelect value={paisDeEmissao} interface="popover"
-//                                onIonChange={e => setPaisDeEmissao(e.detail.value)}>
-//                         <IonSelectOption value="female">Female</IonSelectOption>
-//                         <IonSelectOption value="male">Male</IonSelectOption>
-//                     </IonSelect>
-//                 </IonItem>
-//             </IonCol>
-//
-//             <IonCol sizeSm='3'>
-//                 <IonItem>
-//                     <IonLabel>Subclasse</IonLabel>
-//                     <IonSelect value={paisDeEmissao} interface="popover"
-//                                onIonChange={e => setPaisDeEmissao(e.detail.value)}>
-//                         <IonSelectOption value="female">Female</IonSelectOption>
-//                         <IonSelectOption value="male">Male</IonSelectOption>
-//                     </IonSelect>
-//                 </IonItem>
-//             </IonCol>
-//         </IonRow>
-//     </IonGrid>
-//
-// </IonCardContent>
-// </IonCard>
