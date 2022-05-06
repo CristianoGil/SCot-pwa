@@ -66,6 +66,13 @@ const TituloConducao: React.FC<ITituloConducao> = (props) => {
         }
     }, [props.currentDocumentosData])
 
+    React.useEffect(() => {
+        const _data = {
+            isPresentedTituloConducao, tituloConducao, numero, paisEmissao, entidadeEmissora, localEmissoa, dataEmissao
+        }
+
+        props.setParentTituloConducaoData(_data)
+    }, [isPresentedTituloConducao, tituloConducao, numero, paisEmissao, entidadeEmissora, localEmissoa, dataEmissao])
 
     return (
         <IonCard>

@@ -7,6 +7,8 @@ interface IPROPSDocIdentificacao {
     inputName: string
     interface?: any
     textLabel?: string
+    selected?:any
+    setSelected?:any
 }
 
 interface IDocIdentificacao {
@@ -17,7 +19,6 @@ interface IDocIdentificacao {
 const getCombos = async (): Promise<IDocIdentificacao[] | null> => await new Contraordenacao().carregarCombosPessoa("documentosIdentificacoes");
 
 const DocIdentificacao: React.FC<IPROPSDocIdentificacao> = (props: IPROPSDocIdentificacao) => {
-    const [docIdentificacao, setDocIdentificacao] = useState('');
     const [combos, setCombos] = useState<IDocIdentificacao[] | null>([]);
 
     React.useEffect(() => {
@@ -31,8 +32,8 @@ const DocIdentificacao: React.FC<IPROPSDocIdentificacao> = (props: IPROPSDocIden
     return (
         <IonItem>
             <IonLabel>{props.textLabel}</IonLabel>
-            <IonSelect name={props.inputName} value={docIdentificacao} interface={props.interface}
-                       onIonChange={e => setDocIdentificacao(e.detail.value)}>
+            <IonSelect name={props.inputName} value={props.selected} interface={props.interface}
+                       onIonChange={e => props.setSelected(e.detail.value)}>
 
                 {combos?.map((docId: any) => {
                     return (

@@ -31,7 +31,6 @@ const getMoradaPrincipal = (moradas: any) => {
 
 const InformacoesAdicionais: React.FC<IInformacoesAdicionais> = (props) => {
 
-    const [isPresentedInformacoesAdicionais, setIsPresentedInformacoesAdicionais] = useState(false);
 
     // FiscalOutro
     const [selectedFiscalOutro, setSelectedFiscalOutro] = useState<string>('fiscal');
@@ -75,13 +74,32 @@ const InformacoesAdicionais: React.FC<IInformacoesAdicionais> = (props) => {
             }
         }
     }, [props.currentData])
-    
+
+
     React.useEffect(() => {
         if (props.representanteLegal) {
             setRepresentanteLegal(props.representanteLegal)
         }
     }, [props.representanteLegal])
 
+
+    React.useEffect(() => {
+
+        const _data = {
+            firmaNome,
+            dataEmissao,
+            selectedFiscalOutro,
+            numeroPolicia,
+            morada,
+            fraccao,
+            localidade,
+            codigoPostal,
+            paisEmissao,
+            representanteLegal
+        }
+
+        props.setParentInformacoesAdicionaisData(_data)
+    }, [firmaNome, dataEmissao, selectedFiscalOutro, numeroPolicia, morada, fraccao, localidade, codigoPostal, paisEmissao, representanteLegal])
     return (
         <IonCard className="infoAdicionais">
 

@@ -38,8 +38,10 @@ import DocumentoIdentificacao from '../Components/DocumentoIdentificacao/Documen
 import InformacoesAdicionais from '../Components/InformacoesAdicionais/InformacoesAdicionais';
 import Veiculo from '../Components/Veiculo/Veiculo';
 
-
-const Intervenientes: React.FC = () => {
+interface IProps {
+    setCoDirectaData?: any
+}
+const Intervenientes: React.FC<IProps> = (props) => {
 
     const [paisDeEmissao, setPaisDeEmissao] = useState<string>();
     const [isProprietarioDoVeiculo, setIsProprietarioDoVeiculo] = useState(false);
@@ -62,11 +64,11 @@ const Intervenientes: React.FC = () => {
     // END: ARGUIDO
 
     // START: TITULO CONDUCAO
-    const [tituloDocumento, setTituloDocumentoData] = useState();
+    const [tituloDocumentoData, setTituloDocumentoData] = useState();
     // END: TITULO CONDUCAO
 
     // START:  DOCUMENTO IDENTIFICACAO
-    const [docIdentificacao, setDocIdentificacaoData] = useState();
+    const [docIdentificacaoData, setDocIdentificacaoData] = useState();
     // END:  DOCUMENTO IDENTIFICACAO
 
     // START:  INFORMACOES ADICIONAIS
@@ -76,6 +78,18 @@ const Intervenientes: React.FC = () => {
     // START: VEICULO
     const [veiculoData, setVeiculoData] = useState();
     // END: VEICULO
+
+    React.useEffect(()=>{
+        const data = {
+            arguido: arguidoData,
+            documento: tituloDocumentoData,
+            docIdentificacao: docIdentificacaoData,
+            informacoesAdicionais: informacoesAdicionaisData,
+            veiculo: veiculoData
+        }
+        
+        props.setCoDirectaData(data);
+    },[arguidoData,tituloDocumentoData,docIdentificacaoData,informacoesAdicionaisData,veiculoData])
 
     return (
         <IonGrid className="intervenientes">

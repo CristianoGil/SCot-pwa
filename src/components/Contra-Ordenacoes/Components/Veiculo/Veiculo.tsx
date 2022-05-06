@@ -182,6 +182,14 @@ const Veiculo: React.FC<IPROPS> = (props) => {
         }
     }
 
+    React.useEffect(()=>{
+        const _data = {
+            isConduzidoVeiculo,veiculoMatricula,pais,marca,modelo,cor,categoria,classe,tipo,subclasse
+        }
+
+        props.setParentVeiculoData(_data)
+    }, [isConduzidoVeiculo,veiculoMatricula,pais,marca,modelo,cor,categoria,classe,tipo,subclasse ])
+
 
     return (
         <IonCard className={'co-veiculo'}>

@@ -5,13 +5,16 @@ import {useState} from 'react';
 import './Co-Directa.scss';
 import Menu from '../../components/Menu/Menu';
 import React from 'react';
+import ReactPDF from '@react-pdf/renderer';
 
 import Intervenientes from '../../components/Contra-Ordenacoes/Intervenientes/Intervenientes';
 import MenuActionsBtb from '../../components/Contra-Ordenacoes/MenuActionsBtb';
+import CODirecta_PDFDocument from '../../components/Pdf/Co-directa/Generate';
+import html2canvas from 'html2canvas';
 
-const RenderSegment = (props: { segment: string }) => {
+const RenderSegment = (props: { segment: string, setCoDirectaData: any }) => {
     if (props.segment === 'intervenientes') {
-        return (<Intervenientes/>)
+        return (<Intervenientes setCoDirectaData={props.setCoDirectaData}/>)
     } else if (props.segment === 'dados_da_infracao') {
         return (<div>dados_da_infracao</div>)
     } else if (props.segment === 'dados_complemenatares') {
@@ -25,14 +28,23 @@ const RenderSegment = (props: { segment: string }) => {
 const CoDirecta: React.FC = () => {
 
     const [activeSegment, setActiveSegment] = useState('intervenientes');
+    const [coDirecta, setCoDirecta] = useState<any>();
 
     const handlerSegment = (e: any) => {
-        setActiveSegment(e.detail.value)
+        setActiveSegment(e.detail.value);
+    }
+
+    const onSave = (e:any) => {
+        // console.log("coDirecta: ", coDirecta);
+        // ReactPDF.render(<CODirecta_PDFDocument data={coDirecta} />, `example.pdf`);
+
+        console.log("coDirecta: ", coDirecta);
+        alert('Vai assinar e/ou gravar')
     }
 
     return (
         <IonPage>
-            <Menu actionsCOBtn={<MenuActionsBtb/>}/>
+            <Menu actionsCOBtn={<MenuActionsBtb onSave={(e:any) => {onSave(e)}}/>}/>
             <IonContent className="contraordenacao" fullscreen={true}>
 
                 <IonGrid id="gridGeral" style={{marginBottom: 40}}>
@@ -56,7 +68,7 @@ const CoDirecta: React.FC = () => {
 
                 </IonGrid>
 
-                <RenderSegment segment={activeSegment}/>
+                <RenderSegment setCoDirectaData={setCoDirecta} segment={activeSegment}/>
 
             </IonContent>
 
