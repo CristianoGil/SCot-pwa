@@ -106,13 +106,13 @@ const Veiculo: React.FC<IPROPS> = (props) => {
 
         const instanceContraordenacao = new Contraordenacao();
         await instanceContraordenacao.pesquisarVeiculo({matricula: veiculoMatricula}).then((_veiculoData: IPesquisarVeiculoResponse) => {
-            console.log('VeiculoData: ', _veiculoData);
 
             setTimeout(() => {
                 setOpenPopoverVeiculoData(true);
                 setTimeout(() => {
                     // @ts-ignore
                     setVeiculoData(_veiculoData.veiculo);
+                    console.log(_veiculoData.veiculo)
                 })
                 dismissOnLoanding();
             }, 100)
@@ -133,18 +133,63 @@ const Veiculo: React.FC<IPROPS> = (props) => {
     // END: INPUT Matricula
 
     // START: Popover
-    const handlerFullfillForm = () => {
-        props.setParentVeiculoData(veiculoData);
-        setOpenPopoverVeiculoData(false);
-    }
-
     // Morada
     const [segmentMorada, setSegmentMorada] = useState('morada');
 
     // Documentos
     const [segmentDocumentos, setSegmentDocumentos] = useState('documentos');
-
     // END: Popover
+
+
+    // Pais
+    const [pais, setPais] = useState<string | number>();
+
+    // Marca
+    const [marca, setMarca] = useState<string | number>();
+
+    // Cor
+    const [cor, setCor] = useState<string | number>();
+
+    // Classe
+    const [classe, setClasse] = useState<string | number>();
+
+    // Categoria
+    const [categoria, setCategoria] = useState<string | number>();
+
+    //Modelo
+    const [modelo, setModelo] = useState<string | number>();
+    
+    // Subclasse
+    const [subclasse, setSubclasse] = useState<string | number>();
+    
+    // Tipo
+    const [tipo, setTipo] = useState<string | number>();
+
+    const handlerFullfillForm = () => {
+        props.setParentVeiculoData(veiculoData);
+        setOpenPopoverVeiculoData(false);
+
+        if (veiculoData) {
+            setPais(veiculoData?.pais?.id);
+            setMarca(veiculoData?.marca?.id);
+            setCor(veiculoData?.cor?.id);
+            setClasse(veiculoData?.classe?.id);
+            setCategoria(veiculoData?.categoria?.id);
+            setModelo(veiculoData?.modelo?.id);
+            setSubclasse(veiculoData?.subclasse?.id);
+            setTipo(veiculoData?.tipo?.id);
+
+        }
+    }
+
+    React.useEffect(()=>{
+        const _data = {
+            isConduzidoVeiculo,veiculoMatricula,pais,marca,modelo,cor,categoria,classe,tipo,subclasse
+        }
+
+        props.setParentVeiculoData(_data)
+    }, [isConduzidoVeiculo,veiculoMatricula,pais,marca,modelo,cor,categoria,classe,tipo,subclasse ])
+
 
     return (
         <IonCard className={'co-veiculo'}>
@@ -214,36 +259,38 @@ const Veiculo: React.FC<IPROPS> = (props) => {
 
                     <IonRow>
                         <IonCol size-sm='12' size-md='10' size-lg='3'>
-                            <Pais inputName={'veiculo-pais'} textLabel={'País'} interface="popover"/>
+                            <Pais selected={pais} setSelected={setPais} inputName={'veiculo-pais'} textLabel={'País'}
+                                  interface="popover"/>
                         </IonCol>
 
                         <IonCol size-sm='12' size-md='10' size-lg='3'>
-                            <Marca inputName={'veiculo-marca'} textLabel={'Marca'} interface="popover"/>
+                            <Marca selected={marca} setSelected={setMarca} inputName={'veiculo-marca'}
+                                   textLabel={'Marca'} interface="popover"/>
                         </IonCol>
 
                         <IonCol size-sm='12' size-md='10' size-lg='3'>
-                            <Modelo inputName={'veiculo-modelo'} textLabel={'Modelo'} interface="popover"/>
+                            <Modelo selected={modelo} setSelected={setModelo}  inputName={'veiculo-modelo'} textLabel={'Modelo'} interface="popover"/>
                         </IonCol>
                         <IonCol size-sm='12' size-md='10' size-lg='3'>
-                            <Cor inputName={'veiculo-cor'} textLabel={'Cor'}/>
+                            <Cor selected={cor} setSelected={setCor}  inputName={'veiculo-cor'} textLabel={'Cor'}/>
                         </IonCol>
                     </IonRow>
 
                     <IonRow>
                         <IonCol size-sm='12' size-md='10' size-lg='3'>
-                            <Categoria inputName={'veiculo-categoria'} textLabel={'Categoria'} interface="popover"/>
+                            <Categoria selected={categoria} setSelected={setCategoria}  inputName={'veiculo-categoria'} textLabel={'Categoria'} interface="popover"/>
                         </IonCol>
 
                         <IonCol size-sm='12' size-md='10' size-lg='3'>
-                            <Classe inputName={'veiculo-classe'} textLabel={'Classe'} interface="popover"/>
+                            <Classe selected={classe} setSelected={setClasse}  inputName={'veiculo-classe'} textLabel={'Classe'} interface="popover"/>
                         </IonCol>
 
                         <IonCol size-sm='12' size-md='10' size-lg='3'>
-                            <Tipo inputName={'veiculo-tipo'} textLabel={'Tipo'} interface="popover"/>
+                            <Tipo selected={tipo} setSelected={setTipo}  inputName={'veiculo-tipo'} textLabel={'Tipo'} interface="popover"/>
                         </IonCol>
 
                         <IonCol size-sm='12' size-md='10' size-lg='3'>
-                            <Subclasse inputName={'veiculo-subclasse'} textLabel={'Subclasse'} interface="popover"/>
+                            <Subclasse selected={subclasse} setSelected={setSubclasse}  inputName={'veiculo-subclasse'} textLabel={'Subclasse'} interface="popover"/>
                         </IonCol>
 
 
@@ -296,7 +343,8 @@ const Veiculo: React.FC<IPROPS> = (props) => {
 
                         <IonCardContent>
 
-                            <IonButton className="btn-apply-info" fill="solid" color="primary" slot="end" onClick={handlerFullfillForm}>
+                            <IonButton className="btn-apply-info" fill="solid" color="primary" slot="end"
+                                       onClick={handlerFullfillForm}>
                                 Utilizar estes dados <IonIcon slot="start" icon={bookOutline}/>
                             </IonButton>
 

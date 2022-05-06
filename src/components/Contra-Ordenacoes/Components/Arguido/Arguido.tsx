@@ -117,8 +117,6 @@ const Arguido: React.FC<IArguido> = (props) => {
 
         const instanceContraordenacao = new Contraordenacao();
         await instanceContraordenacao.pesquisarPessoa({nif: +arguidoNif}).then((_arguidoData: IPesquisarPessoaResponse) => {
-            console.log('arguidoData: ', _arguidoData);
-
 
             setTimeout(() => {
                 setOpenPopoverArguidoData(true);
@@ -162,6 +160,18 @@ const Arguido: React.FC<IArguido> = (props) => {
 
     // END: Popover
 
+    // Pais
+    const [paisEmissao, setPaisEmissao] = useState();
+
+    React.useEffect(()=>{
+        const _data = {
+            isProprietarioVeiculo: isProprietarioVeiculo,
+            arguidoNif: arguidoNif,
+            arguidoVeiculoSingularColetivo: arguidoVeiculoSingularColetivo,
+            paisEmissao: paisEmissao
+        }
+        props.setParentArguidoData(_data)
+    },[isProprietarioVeiculo,arguidoNif,arguidoVeiculoSingularColetivo,paisEmissao])
     return (
         <IonCard className={'co-arguido'}>
 
@@ -254,7 +264,7 @@ const Arguido: React.FC<IArguido> = (props) => {
                             </IonRadioGroup>
                         </IonCol>
                         <IonCol size-sm='12' size-md='10' size-lg='4'>
-                            <Pais inputName={'arguido-paisEmissao'}  textLabel={'País de emissão'} interface="popover"/>
+                            <Pais selected={paisEmissao} setSelected={setPaisEmissao}  inputName={'arguido-paisEmissao'}  textLabel={'País de emissão'} interface="popover"/>
                         </IonCol>
                     </IonRow>
 

@@ -4,6 +4,7 @@ import {
     IonSelect, IonSelectOption, IonToggle
 } from "@ionic/react"
 import {calendar} from "ionicons/icons"
+import React from "react";
 import {useState} from "react";
 import {IDocumentoPessoa} from "../../../../model/person"
 import DatePicker from "../../../Combos/DatePicker";
@@ -19,7 +20,35 @@ interface IDocumentoIdentificacao {
 const DocumentoIdentificacao: React.FC<IDocumentoIdentificacao> = (props) => {
 
     const [isPresentedDocumentoIdentificacao, setIsPresentedDocumentoIdentificacao] = useState(false);
+    // Pais de emissao
     const [paisDeEmissao, setPaisDeEmissao] = useState<string>();
+
+    // Docs ID
+    const [docIdentificacao, setDocIdentificacao] = useState<string | number>();
+
+    // Numero
+    const [numero, setNumero] = useState<string | number>();
+
+    // Entidade emissora
+    const [entidadeEmissora, setEntidadeEmissora] = useState<string | number>();
+
+    // Local de emissao
+    const [localEmissao, setLocalEmissao] = useState<string | number>();
+
+    // Data de emissao
+    const [dataEmissao, setDataEmissao] = useState<string | number>();
+
+    React.useEffect(() => {
+        const _data = {
+            isPresentedDocumentoIdentificacao,
+            docIdentificacao,
+            numero,
+            paisDeEmissao,
+            entidadeEmissora,
+            localEmissao
+        }
+        props.setParentDocumentoIdentificacaoData(_data)
+    }, [isPresentedDocumentoIdentificacao, docIdentificacao,numero,paisDeEmissao,entidadeEmissora, localEmissao]);
 
     return (
         <IonCard>
@@ -49,37 +78,57 @@ const DocumentoIdentificacao: React.FC<IDocumentoIdentificacao> = (props) => {
                     <IonRow>
 
                         <IonCol size-sm="9" size-md="8" size-lg="4" style={{marginTop: 16}}>
-                            <DocIdentificacao inputName="inputDocIdentificacao" interface="popover"
-                                              textLabel="Doc. de Identificação"/>
+                            <DocIdentificacao
+                                selected={docIdentificacao}
+                                setSelected={setDocIdentificacao}
+                                inputName="inputDocIdentificacao"
+                                interface="popover"
+                                textLabel="Doc. de Identificação"/>
                         </IonCol>
 
                         <IonCol size-sm="3" size-md="3" size-lg="3">
                             <IonItem>
                                 <IonLabel position="floating" itemType="number"
                                           placeholder="Enter Number">Número</IonLabel>
-                                <IonInput></IonInput>
+                                <IonInput name="numero" value={numero} onIonChange={(e)=> setNumero(e.detail.value!)}></IonInput>
                             </IonItem>
                         </IonCol>
                     </IonRow>
 
                     <IonRow>
                         <IonCol size-sm='12' size-md='10' size-lg='4'>
-                            <Pais inputName={'docIdentificacao-paisEmissao'} textLabel={'País de emissão'}
+                            <Pais
+                                selected={paisDeEmissao}
+                                setSelected={setPaisDeEmissao}
+                                inputName={'docIdentificacao-paisEmissao'}
+                                textLabel={'País de emissão'}
                                   interface="popover"/>
                         </IonCol>
 
                         <IonCol size-sm='12' size-md='10' size-lg='4'>
-                            <EntidadeEmissora inputName={'docIdentificacao-entidadeEmissora'}
-                                              textLabel={'Entidade de Emissora'} interface="popover"/>
+                            <EntidadeEmissora
+                                selected={entidadeEmissora}
+                                setSelected={setEntidadeEmissora}
+                                inputName={'docIdentificacao-entidadeEmissora'}
+                                textLabel={'Entidade de Emissora'}
+                                interface="popover"/>
                         </IonCol>
 
                         <IonCol size-sm='12' size-md='10' size-lg='4'>
-                            <LocalEmissao inputName={'docIdentificacao-localEmissao'} textLabel={'Local de Emissão'}
-                                          interface="popover"/>
+                            <LocalEmissao
+                                selected={localEmissao}
+                                setSelected={setLocalEmissao}
+                                inputName={'docIdentificacao-localEmissao'}
+                                textLabel={'Local de Emissão'}
+                                interface="popover"/>
                         </IonCol>
 
                         <IonCol size-sm='12' size-md='10' size-lg='4'>
-                            <DatePicker inputName={'docIdentificacao-dataEmissao'} textLabel="Data de Emissão"/>
+                            <DatePicker
+                                selected={dataEmissao}
+                                setSelected={setDataEmissao}
+                                inputName={'docIdentificacao-dataEmissao'}
+                                textLabel="Data de Emissão"/>
                         </IonCol>
 
                     </IonRow>

@@ -7,9 +7,9 @@ import {Contraordenacao} from "../../../api/Contraordenacao";
 interface IPais {
     inputName: string,
     interface?: any,
-    selectedText?: string,
+    selected?:any
+    setSelected?:any
     textLabel?: string
-    preValue?: any
 }
 
 interface IPROPSPais{
@@ -31,10 +31,6 @@ const Pais: React.FC<IPais> = (props: IPais) => {
     const [paisDeEmissao, setPaisDeEmissao] = useState();
     const [combos, setCombos] = useState<IPROPSPais[] | null>([]);
 
-    if (props.preValue) {
-        setPaisDeEmissao(props.preValue)
-    }
-
     React.useEffect(() => {
         getCombos().then((combos) => {
             setCombos(combos);
@@ -46,8 +42,8 @@ const Pais: React.FC<IPais> = (props: IPais) => {
     return (
         <IonItem>
             <IonLabel>{props.textLabel}</IonLabel>
-            <IonSelect value={paisDeEmissao} interface={props.interface} name={props.inputName}
-                       onIonChange={e => setPaisDeEmissao(e.detail.value)}>
+            <IonSelect value={props.selected} interface={props.interface} name={props.inputName}
+                       onIonChange={e => props.setSelected(e.detail.value)}>
                 {combos?.map((pais: any) => {
                     return (
                         <IonSelectOption key={`${pais.id}`}

@@ -1,11 +1,14 @@
 import {IonButton, IonButtons } from "@ionic/react"
 import { Link } from "react-router-dom"
 
-const MenuActionsBtb = () => {
+interface IProps {
+    onSave?:any
+}
+const MenuActionsBtb: React.FC<IProps> = (props) => {
     return (
         <IonButtons slot="start" >
 
-            <IonButton fill="solid" strong={true} color="success">
+            <IonButton fill="solid" strong={true} color="success" onClick={props.onSave}>
                 Gravar
             </IonButton>
 

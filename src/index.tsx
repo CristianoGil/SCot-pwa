@@ -11,6 +11,10 @@ import {UserProvider} from './Context/UserContext';
 import store from './app/store';
 import {Provider} from 'react-redux';
 import {AlertNetworkOfflineProvider} from './Context/AlertNetworkOfflineContext';
+import { Buffer } from 'buffer';
+
+// @ts-ignore
+window.Buffer = Buffer;
 
 const root: any = createRoot(document.getElementById('root')!)
 
