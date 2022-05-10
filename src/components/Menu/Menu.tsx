@@ -21,7 +21,7 @@ import {
     IonToolbar
 } from '@ionic/react';
 import {list, person, wifi, apps, close, moon} from 'ionicons/icons';
-import {useContext, useState} from 'react';
+import {useContext, useEffect, useState} from 'react';
 import CardListItem from '../CardListItem';
 import './Menu.css'
 import {useAppSelector, useAppDispatch} from '../../app/hooks';
@@ -29,6 +29,7 @@ import {Link, useHistory} from 'react-router-dom';
 import DataTable from 'react-data-table-component';
 import React from 'react';
 import {UserContext} from '../../Context/UserContext';
+import _ from 'underscore';
 
 const paginationComponentOptions = {
     rowsPerPageText: 'Linhas por página',
@@ -105,7 +106,8 @@ const data = [
 ]
 
 interface IProps {
-    actionsCOBtn?: any
+    actionsCOBtn?: any,
+    activePagePath?: any
 }
 
 const Menu: React.FC<IProps> = (props) => {
@@ -131,6 +133,21 @@ const Menu: React.FC<IProps> = (props) => {
     };
 
     const dispatch = useAppDispatch()
+    console.log(history)
+
+    useEffect(() => {
+
+        console.log('props.activePagePath', props.activePagePath )
+        console.log(history.location.pathname)
+
+        setTimeout(() => {
+            setShowModal(false);
+        })
+
+
+
+
+    }, [props.activePagePath]);
 
     return (
         <IonHeader className='ion-no-border'>
@@ -151,7 +168,7 @@ const Menu: React.FC<IProps> = (props) => {
                     </IonButton>
 
                 </IonButtons>
-                
+
                 {props.actionsCOBtn}
 
                 <IonButtons slot="end">
@@ -282,7 +299,7 @@ const Menu: React.FC<IProps> = (props) => {
                                     <IonGrid>
                                         <IonRow>
                                             <IonCol>
-                                                <Link to={'#'} onClick={() => {
+                                                <Link to={'/pessoa'} onClick={() => {
                                                     setShowModal(false);
                                                 }}>
                                                     <div style={{display: 'inline-flex'}}>
@@ -296,7 +313,7 @@ const Menu: React.FC<IProps> = (props) => {
 
                                         <IonRow>
                                             <IonCol>
-                                                <Link to={'#'} onClick={() => {
+                                                <Link to={'/veiculo'} onClick={() => {
                                                     setShowModal(false);
                                                 }}>
                                                     <div style={{display: 'inline-flex'}}>
@@ -329,7 +346,7 @@ const Menu: React.FC<IProps> = (props) => {
 
                                         <IonRow>
                                             <IonCol>
-                                                <Link to={'#'} onClick={() => {
+                                                <Link to={'/coIndirecta'} onClick={() => {
                                                     setShowModal(false);
                                                 }}>
                                                     <div style={{display: 'inline-flex'}}>
@@ -365,7 +382,7 @@ const Menu: React.FC<IProps> = (props) => {
                                     <IonGrid>
                                         <IonRow>
                                             <IonCol>
-                                                <Link to={'#'} onClick={() => {
+                                                <Link to={'/organizacao'} onClick={() => {
                                                     setShowModal(false);
                                                 }}>
                                                     <div style={{display: 'inline-flex'}}>
@@ -379,7 +396,7 @@ const Menu: React.FC<IProps> = (props) => {
 
                                         <IonRow>
                                             <IonCol>
-                                                <Link to={'#'} onClick={() => {
+                                                <Link to={'/local'} onClick={() => {
                                                     setShowModal(false);
                                                 }}>
                                                     <div style={{display: 'inline-flex'}}>
@@ -414,7 +431,7 @@ const Menu: React.FC<IProps> = (props) => {
                                     <IonGrid>
                                         <IonRow>
                                             <IonCol>
-                                                <Link to={'#'} onClick={() => {
+                                                <Link to={'/documento'} onClick={() => {
                                                     setShowModal(false);
                                                 }}>
                                                     <div style={{display: 'inline-flex'}}>

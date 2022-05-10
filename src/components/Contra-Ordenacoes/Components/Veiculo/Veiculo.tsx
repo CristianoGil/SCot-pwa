@@ -187,7 +187,10 @@ const Veiculo: React.FC<IPROPS> = (props) => {
             isConduzidoVeiculo,veiculoMatricula,pais,marca,modelo,cor,categoria,classe,tipo,subclasse
         }
 
-        props.setParentVeiculoData(_data)
+        if (_.has(props, 'setParentVeiculoData')) {
+            props.setParentVeiculoData(_data)
+        }
+
     }, [isConduzidoVeiculo,veiculoMatricula,pais,marca,modelo,cor,categoria,classe,tipo,subclasse ])
 
 

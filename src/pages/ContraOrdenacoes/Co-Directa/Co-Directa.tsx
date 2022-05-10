@@ -3,22 +3,24 @@ import {
 } from '@ionic/react';
 import {useState} from 'react';
 import './Co-Directa.scss';
-import Menu from '../../components/Menu/Menu';
+import Menu from '../../../components/Menu/Menu';
 import React from 'react';
 import ReactPDF from '@react-pdf/renderer';
 
-import Intervenientes from '../../components/Contra-Ordenacoes/Intervenientes/Intervenientes';
-import MenuActionsBtb from '../../components/Contra-Ordenacoes/MenuActionsBtb';
-import CODirecta_PDFDocument from '../../components/Pdf/Co-directa/Generate';
+import Intervenientes from '../../../components/Contra-Ordenacoes/Intervenientes/Intervenientes';
+import MenuActionsBtb from '../../../components/Contra-Ordenacoes/MenuActionsBtb';
+import CODirecta_PDFDocument from '../../../components/Pdf/Co-directa/Generate';
 import html2canvas from 'html2canvas';
+import DadosInfracao from '../../../components/Contra-Ordenacoes/DadosInfracao/DadosInfracao';
+import DadosComplementares from '../../../components/Contra-Ordenacoes/DadosComplementares/DadosComplementares';
 
 const RenderSegment = (props: { segment: string, setCoDirectaData: any }) => {
     if (props.segment === 'intervenientes') {
         return (<Intervenientes setCoDirectaData={props.setCoDirectaData}/>)
     } else if (props.segment === 'dados_da_infracao') {
-        return (<div>dados_da_infracao</div>)
+        return (<DadosInfracao/>)
     } else if (props.segment === 'dados_complemenatares') {
-        return (<div>dados_complemenatares</div>)
+        return (<DadosComplementares />)
     }
 
     return null;
@@ -44,7 +46,7 @@ const CoDirecta: React.FC = () => {
 
     return (
         <IonPage>
-            <Menu actionsCOBtn={<MenuActionsBtb onSave={(e:any) => {onSave(e)}}/>}/>
+            <Menu activePagePath="/coDirecta" actionsCOBtn={<MenuActionsBtb onSave={(e:any) => {onSave(e)}}/>}/>
             <IonContent className="contraordenacao" fullscreen={true}>
 
                 <IonGrid id="gridGeral" style={{marginBottom: 40}}>

@@ -28,10 +28,17 @@ import './App.css';
 
 import Login from './pages/Login/Login';
 import Dashboard from './pages/Dashboard/Dashboard';
-import CoDirecta from './pages/Co-Directa/Co-Directa';
 import { useContext, useEffect, useState } from 'react';
 import { IResponseLogin } from './model/login';
 import { UserContext } from './Context/UserContext';
+import CoIndirecta from './pages/ContraOrdenacoes/Co-Indirecta/Co-Indirecta';
+import CoDirecta from './pages/ContraOrdenacoes/Co-Directa/Co-Directa';
+import Pessoa from './pages/RI-Catalogo/Pessoa/Pessoa';
+import Veiculo from './pages/RI-Catalogo/Veiculo/Veiculo';
+import Organizacao from './pages/RI-Catalogo/Organizacao/Organizacao';
+import Local from './pages/RI-Catalogo/Local/Local';
+import Documento from './pages/RI-Catalogo/Documento/Documento';
+
 
 interface IProtectedProps {
     isAllowed: boolean
@@ -71,10 +78,35 @@ const App: React.FC = () => {
                     </Route>
                     {/*</ProtectedRoute>*/}
 
+                    <Route path={"/coIndirecta"} exact={true}>
+                        <CoIndirecta />
+                    </Route>
+
                     <Route path={"/login"} exact={true}>
                         <Login />
                     </Route>
                     <Redirect exact from="/" to="/dashboard" />
+
+                    <Route path={"/pessoa"} exact={true}>
+                        <Pessoa />
+                    </Route>
+
+                    <Route path={"/veiculo"} exact={true}>
+                        <Veiculo />
+                    </Route>
+
+                    <Route path={"/organizacao"} exact={true}>
+                        <Organizacao />
+                    </Route>
+
+                    <Route path={"/local"} exact={true}>
+                        <Local />
+                    </Route>
+
+                    <Route path={"/documento"} exact={true}>
+                        <Documento />
+                    </Route>
+                    
                 </IonRouterOutlet>
             </IonReactRouter>
         </IonApp>
