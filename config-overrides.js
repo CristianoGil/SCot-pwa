@@ -1,7 +1,7 @@
 const webpack = require ("webpack");
 
 module.exports = function override (config, env) {
-  console.log ("run here")
+  
   config.resolve.fallback = {
     ...config.resolve.fallback,
     process: require.resolve ("process/browser"),
@@ -19,7 +19,6 @@ module.exports = function override (config, env) {
         process: "process/browser",
       })
     ]
-
   
   return config
 }

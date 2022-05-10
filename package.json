@@ -20,6 +20,7 @@
     "@ionic/react": "^6.1.1",
     "@ionic/react-router": "^6.1.1",
     "@react-pdf/renderer": "^2.1.1",
+    "@react-pdf/zlib": "^2.0.0",
     "@reduxjs/toolkit": "^1.8.1",
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.5",
@@ -34,7 +35,6 @@
     "@types/react-router": "^5.1.11",
     "@types/react-router-dom": "^5.1.7",
     "@types/underscore": "^1.11.4",
-    "Buffer": "^0.0.0",
     "assert": "^2.0.0",
     "axios": "^0.27.1",
     "browserify-zlib": "^0.2.0",
@@ -62,7 +62,6 @@
     "react-router-dom": "^5.3.0",
     "react-scripts": "^5.0.0",
     "rxjs": "^7.5.5",
-    "stream": "^0.0.2",
     "stream-browserify": "^3.0.0",
     "styled-components": "^5.3.5",
     "typescript": "^4.1.3",
@@ -80,15 +79,13 @@
     "workbox-range-requests": "^5.1.4",
     "workbox-routing": "^5.1.4",
     "workbox-strategies": "^5.1.4",
-    "workbox-streams": "^5.1.4",
-    "zlib": "^1.0.5",
-    "zlib-sync": "^0.1.7"
+    "workbox-streams": "^5.1.4"
   },
   "scripts": {
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test --transformIgnorePatterns 'node_modules/(?!(@ionic/react|@ionic/react-router|@ionic/core|@stencil/core|ionicons)/)'",
-    "eject": "react-app-rewired eject"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [

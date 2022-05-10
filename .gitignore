@@ -30,3 +30,8 @@ yarn-error.log*
 .eslintcache
 package-lock.json
 yarn.lock
+.yarnrc.yml
+.pnp.cjs
+.pnp.loader.mjs
+.yarn
+.editorconfig
