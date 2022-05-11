@@ -41,6 +41,7 @@ import Documento from './pages/RI-Catalogo/Documento/Documento';
 import EmissaoApreensaoDocumentos from './pages/EmissaoApreensaoDocumentos/EmissaoApreensaoDocumentos';
 import EmissaoApresentacaoDocumentos from './pages/EmissaoApresentacaoDocumentos/EmissaoApresentacaoDocumentos';
 import EmissaoApreensaoVeiculo from './pages/EmissaoApreensaoVeiculo/EmissaoApreensaoVeiculo';
+import EmissaoTesteAlcoolemia from './pages/EmissaoTesteAlcoolemia/EmissaoTesteAlcoolemia';
 interface IProtectedProps {
     isAllowed: boolean
     redirectPath?: string
@@ -119,6 +120,11 @@ const App: React.FC = () => {
                     <Route path={"/emissaoApreensaoVeiculo"} exact={true}>
                         <EmissaoApreensaoVeiculo />
                     </Route>
+
+                    <Route path={"/emissaoTesteAlcoolemia"} exact={true}>
+                        <EmissaoTesteAlcoolemia />
+                    </Route>
+
 
                 </IonRouterOutlet>
             </IonReactRouter>
