@@ -1,6 +1,10 @@
 import {
     IonButton,
     IonButtons,
+    IonCard,
+    IonCardContent,
+    IonCardHeader,
+    IonCardTitle,
     IonCol,
     IonContent,
     IonFooter,
@@ -16,26 +20,38 @@ import {
     IonToggle,
     IonToolbar
 } from '@ionic/react';
-import { list, person, wifi, apps, close, moon } from 'ionicons/icons';
-import { useContext, useState } from 'react';
+import {list, person, wifi, apps, close, moon} from 'ionicons/icons';
+import {useContext, useEffect, useState} from 'react';
+import CardListItem from '../CardListItem';
 import './Menu.css'
-import { Link } from 'react-router-dom';
+import {useAppSelector, useAppDispatch} from '../../app/hooks';
+import {Link, useHistory} from 'react-router-dom';
+import DataTable from 'react-data-table-component';
 import React from 'react';
-import { UserContext } from '../../Context/UserContext';
+import {UserContext} from '../../Context/UserContext';
 import _ from 'underscore';
-import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import { modalMenuIsOpen, setVisibleModalMenu } from '../../components/Menu/modalMenuSlice';
+
+const paginationComponentOptions = {
+    rowsPerPageText: 'Linhas por página',
+    rangeSeparatorText: 'de',
+    selectAllRowsItem: true,
+    selectAllRowsItemText: 'Todos',
+};
+
 interface IProps {
-    actionsCOBtn?: any
+    actionsCOBtn?: any,
+    activePagePath?: any
 }
 
+
 const Menu: React.FC<IProps> = (props) => {
-    const _modalMenuIsOpen = useAppSelector(modalMenuIsOpen);
-    const dispatch = useAppDispatch();
+    const history = useHistory();
 
     const [showPopover, setShowPopover] = useState<boolean>(false);
     const [checked, setChecked] = useState(false);
+    const [showModal, setShowModal] = useState(false);
     const userContext = useContext<any>(UserContext);
+
     const [networkState, setNetworkState] = useState<string>(navigator.onLine ? 'online' : 'offline');
 
     window.addEventListener('offline', function () {
@@ -50,12 +66,21 @@ const Menu: React.FC<IProps> = (props) => {
         document.body.classList.toggle("dark");
     };
 
+    const closeModal = (e: any, to: string) => {
+        setShowModal(false);
+        setTimeout(() => {
+            history.push(to)
+        })
+        e.preventDefault();
+    }
+
     return (
         <IonHeader className='ion-no-border'>
             <IonToolbar color='transparent'>
 
                 <IonButtons slot="start" onClick={() => {
-                    dispatch(setVisibleModalMenu(true));
+
+                    setShowModal(true);
                 }}>
 
                     <IonButton
@@ -95,7 +120,7 @@ const Menu: React.FC<IProps> = (props) => {
                         style={networkState === 'online' ? {
                             backgroundColor: "#6EAF43",
                             color: "white"
-                        } : { backgroundColor: "#eb445a", color: "white" }}>
+                        } : {backgroundColor: "#eb445a", color: "white"}}>
                         <IonIcon icon={wifi}></IonIcon>
 
                     </IonButton>
@@ -124,16 +149,14 @@ const Menu: React.FC<IProps> = (props) => {
             {/*START: MENU LATERAL ESQUERDA*/}
             <IonModal
                 animated={true}
-                isOpen={_modalMenuIsOpen}
-                onDidDismiss={() => {
-                    dispatch(setVisibleModalMenu(false));
-                }}
+                isOpen={showModal}
+                onDidDismiss={() => setShowModal(false)}
                 className="fullscreen">
 
-                <IonHeader className="ion-no-border" style={{ position: 'absolute' }}>
-                    <IonToolbar style={{ background: 'transparent' }} id='toolbarModal'>
-                        <IonButtons slot="start" onClick={() => {
-                            dispatch(setVisibleModalMenu(false));
+                <IonHeader className="ion-no-border" style={{position: 'absolute'}}>
+                    <IonToolbar style={{background: 'transparent'}} id='toolbarModal'>
+                        <IonButtons id="btn_close_modal" slot="start" onClick={() => {
+                            setShowModal(false)
                         }}>
 
                             <IonButton
@@ -151,33 +174,33 @@ const Menu: React.FC<IProps> = (props) => {
                 </IonHeader>
                 <IonContent id='modelContent'>
 
-                    <div id='imgModal' />
+                    <div id='imgModal'/>
 
                     <div id='imgModal-fx'></div>
 
                     <div id='modelContent_Interno' className='ion-align-items-center'>
-                        <IonGrid style={{ padding: 180 }}>
+                        <IonGrid style={{padding: 180}}>
                             {/* Header */}
                             <IonRow>
                                 <IonCol sizeLg='4'>
-                                    <div style={{ display: 'inline-flex' }}>
+                                    <div style={{display: 'inline-flex'}}>
                                         <IonImg src={'assets/images/Icon Dashboard.png'}
-                                            style={{ width: 'fit-content' }}></IonImg>
-                                        <h1 style={{ marginTop: 14, marginLeft: 10 }}>Dashboard</h1>
+                                                style={{width: 'fit-content'}}></IonImg>
+                                        <h1 style={{marginTop: 14, marginLeft: 10}}>Dashboard</h1>
                                     </div>
                                 </IonCol>
                                 <IonCol sizeLg='4'>
-                                    <div style={{ display: 'inline-flex' }}>
+                                    <div style={{display: 'inline-flex'}}>
                                         <IonImg src={'assets/images/Icon Catálogo.png'}
-                                            style={{ width: 'fit-content' }}></IonImg>
-                                        <h1 style={{ marginTop: 14, marginLeft: 10 }}>RI/Catálogo</h1>
+                                                style={{width: 'fit-content'}}></IonImg>
+                                        <h1 style={{marginTop: 14, marginLeft: 10}}>RI/Catálogo</h1>
                                     </div>
                                 </IonCol>
                                 <IonCol sizeLg='4'>
-                                    <div style={{ display: 'inline-flex' }}>
+                                    <div style={{display: 'inline-flex'}}>
                                         <IonImg src={'assets/images/Icon Contraordenações.png'}
-                                            style={{ width: 'fit-content' }}></IonImg>
-                                        <h1 style={{ marginTop: 14, marginLeft: 10 }}>Contraordenações</h1>
+                                                style={{width: 'fit-content'}}></IonImg>
+                                        <h1 style={{marginTop: 14, marginLeft: 10}}>Contraordenações</h1>
                                     </div>
                                 </IonCol>
                             </IonRow>
@@ -186,29 +209,25 @@ const Menu: React.FC<IProps> = (props) => {
                             {/* Linha 1 */}
                             <IonRow>
 
-                                <IonCol sizeLg='4' style={{ alignSelf: 'center' }}>
-                                    <Link to={'#'} onClick={() => {
-                                        dispatch(setVisibleModalMenu(false));
-                                    }}>
-                                        <div style={{ display: 'inline-flex' }}>
+                                <IonCol sizeLg='4' style={{alignSelf: 'center'}}>
+                                    <Link to={'#'}>
+                                        <div style={{display: 'inline-flex'}}>
                                             <IonImg src={'assets/images/temp.png'}
-                                                style={{ width: 'fit-content' }}></IonImg>
-                                            <h1 style={{ marginTop: 14, marginLeft: 10 }}>Gestão de cobraças</h1>
+                                                    style={{width: 'fit-content'}}></IonImg>
+                                            <h1 style={{marginTop: 14, marginLeft: 10}}>Gestão de cobraças</h1>
                                         </div>
                                     </Link>
                                 </IonCol>
 
-                                <IonCol sizeLg='4' style={{ alignSelf: 'center' }}>
+                                <IonCol sizeLg='4' style={{alignSelf: 'center'}}>
                                     <IonGrid>
                                         <IonRow>
                                             <IonCol>
-                                                <Link to={'/pessoa'} onClick={() => {
-                                                    dispatch(setVisibleModalMenu(false));
-                                                }}>
-                                                    <div style={{ display: 'inline-flex' }}>
+                                                <Link onClick={(e) => closeModal(e, "/pessoa")} to={'#'}>
+                                                    <div style={{display: 'inline-flex'}}>
                                                         <IonImg className='ion-hide' src={'assets/images/temp.png'}
-                                                            style={{ width: 'fit-content' }}></IonImg>
-                                                        <h5 style={{ marginTop: 14, marginLeft: 10 }}>Pessoa</h5>
+                                                                style={{width: 'fit-content'}}></IonImg>
+                                                        <h5 style={{marginTop: 14, marginLeft: 10}}>Pessoa</h5>
                                                     </div>
                                                 </Link>
                                             </IonCol>
@@ -216,13 +235,11 @@ const Menu: React.FC<IProps> = (props) => {
 
                                         <IonRow>
                                             <IonCol>
-                                                <Link to={'/veiculo'} onClick={() => {
-                                                    dispatch(setVisibleModalMenu(false));
-                                                }}>
-                                                    <div style={{ display: 'inline-flex' }}>
+                                                <Link onClick={(e) => closeModal(e, "/veiculo")} to={'#'}>
+                                                    <div style={{display: 'inline-flex'}}>
                                                         <IonImg className='ion-hide' src={'assets/images/temp.png'}
-                                                            style={{ width: 'fit-content' }}></IonImg>
-                                                        <h5 style={{ marginTop: 14, marginLeft: 10 }}>Veículo</h5>
+                                                                style={{width: 'fit-content'}}></IonImg>
+                                                        <h5 style={{marginTop: 14, marginLeft: 10}}>Veículo</h5>
                                                     </div>
                                                 </Link>
                                             </IonCol>
@@ -234,13 +251,11 @@ const Menu: React.FC<IProps> = (props) => {
                                     <IonGrid>
                                         <IonRow>
                                             <IonCol>
-                                                <Link to={'/coDirecta'} onClick={() => {
-                                                    dispatch(setVisibleModalMenu(false));
-                                                }}>
-                                                    <div style={{ display: 'inline-flex' }}>
+                                                <Link onClick={(e) => closeModal(e, "/coDirecta")} to={'#'}>
+                                                    <div style={{display: 'inline-flex'}}>
                                                         <IonImg className='ion-hide' src={'assets/images/temp.png'}
-                                                            style={{ width: 'fit-content' }}></IonImg>
-                                                        <h5 style={{ marginTop: 14, marginLeft: 10 }}>Registrar
+                                                                style={{width: 'fit-content'}}></IonImg>
+                                                        <h5 style={{marginTop: 14, marginLeft: 10}}>Registrar
                                                             contraordenação direta</h5>
                                                     </div>
                                                 </Link>
@@ -249,13 +264,11 @@ const Menu: React.FC<IProps> = (props) => {
 
                                         <IonRow>
                                             <IonCol>
-                                                <Link to={'/coIndirecta'} onClick={() => {
-                                                    dispatch(setVisibleModalMenu(false));
-                                                }}>
-                                                    <div style={{ display: 'inline-flex' }}>
+                                                <Link onClick={(e) => closeModal(e, "/coIndirecta")} to={'#'} >
+                                                    <div style={{display: 'inline-flex'}}>
                                                         <IonImg className='ion-hide' src={'assets/images/temp.png'}
-                                                            style={{ width: 'fit-content' }}></IonImg>
-                                                        <h5 style={{ marginTop: 14, marginLeft: 10 }}>Registrar
+                                                                style={{width: 'fit-content'}}></IonImg>
+                                                        <h5 style={{marginTop: 14, marginLeft: 10}}>Registrar
                                                             contraordenação indireta</h5>
                                                     </div>
                                                 </Link>
@@ -269,14 +282,12 @@ const Menu: React.FC<IProps> = (props) => {
 
                             {/* Linha 2 */}
                             <IonRow>
-                                <IonCol sizeLg='4' style={{ alignSelf: 'center' }}>
-                                    <Link to={'#'} onClick={() => {
-                                        dispatch(setVisibleModalMenu(false));
-                                    }}>
-                                        <div style={{ display: 'inline-flex' }}>
+                                <IonCol sizeLg='4' style={{alignSelf: 'center'}}>
+                                    <Link to={'#'}>
+                                        <div style={{display: 'inline-flex'}}>
                                             <IonImg src={'assets/images/temp.png'}
-                                                style={{ width: 'fit-content' }}></IonImg>
-                                            <h1 style={{ marginTop: 14, marginLeft: 10 }}>Estatísticas e
+                                                    style={{width: 'fit-content'}}></IonImg>
+                                            <h1 style={{marginTop: 14, marginLeft: 10}}>Estatísticas e
                                                 listagens</h1>
                                         </div>
                                     </Link>
@@ -285,13 +296,11 @@ const Menu: React.FC<IProps> = (props) => {
                                     <IonGrid>
                                         <IonRow>
                                             <IonCol>
-                                                <Link to={'/organizacao'} onClick={() => {
-                                                    dispatch(setVisibleModalMenu(false));
-                                                }}>
-                                                    <div style={{ display: 'inline-flex' }}>
+                                                <Link onClick={(e) => closeModal(e, "/organizacao")} to={'#'}  >
+                                                    <div style={{display: 'inline-flex'}}>
                                                         <IonImg className='ion-hide' src={'assets/images/temp.png'}
-                                                            style={{ width: 'fit-content' }}></IonImg>
-                                                        <h5 style={{ marginTop: 14, marginLeft: 10 }}>Organização</h5>
+                                                                style={{width: 'fit-content'}}></IonImg>
+                                                        <h5 style={{marginTop: 14, marginLeft: 10}}>Organização</h5>
                                                     </div>
                                                 </Link>
                                             </IonCol>
@@ -299,13 +308,11 @@ const Menu: React.FC<IProps> = (props) => {
 
                                         <IonRow>
                                             <IonCol>
-                                                <Link to={'/local'} onClick={() => {
-                                                    dispatch(setVisibleModalMenu(false));
-                                                }}>
-                                                    <div style={{ display: 'inline-flex' }}>
+                                                <Link  onClick={(e) => closeModal(e, "/local")} to={'#'}  >
+                                                    <div style={{display: 'inline-flex'}}>
                                                         <IonImg className='ion-hide' src={'assets/images/temp.png'}
-                                                            style={{ width: 'fit-content' }}></IonImg>
-                                                        <h5 style={{ marginTop: 14, marginLeft: 10 }}>Local</h5>
+                                                                style={{width: 'fit-content'}}></IonImg>
+                                                        <h5 style={{marginTop: 14, marginLeft: 10}}>Local</h5>
                                                     </div>
                                                 </Link>
                                             </IonCol>
@@ -317,14 +324,12 @@ const Menu: React.FC<IProps> = (props) => {
 
                             {/* Linha 3 */}
                             <IonRow>
-                                <IonCol sizeLg='4' style={{ alignSelf: 'center' }}>
-                                    <Link to={'#'} onClick={() => {
-                                        dispatch(setVisibleModalMenu(false));
-                                    }}>
-                                        <div style={{ display: 'inline-flex' }}>
+                                <IonCol sizeLg='4' style={{alignSelf: 'center'}}>
+                                    <Link to={'#'}>
+                                        <div style={{display: 'inline-flex'}}>
                                             <IonImg src={'assets/images/temp.png'}
-                                                style={{ width: 'fit-content' }}></IonImg>
-                                            <h1 style={{ marginTop: 14, marginLeft: 10 }}>Ofícios gerais</h1>
+                                                    style={{width: 'fit-content'}}></IonImg>
+                                            <h1 style={{marginTop: 14, marginLeft: 10}}>Ofícios gerais</h1>
                                         </div>
                                     </Link>
                                 </IonCol>
@@ -334,13 +339,11 @@ const Menu: React.FC<IProps> = (props) => {
                                     <IonGrid>
                                         <IonRow>
                                             <IonCol>
-                                                <Link to={'/documento'} onClick={() => {
-                                                    dispatch(setVisibleModalMenu(false));
-                                                }}>
-                                                    <div style={{ display: 'inline-flex' }}>
+                                                <Link onClick={(e) => closeModal(e, "/documento")} to={'#'}>
+                                                    <div style={{display: 'inline-flex'}}>
                                                         <IonImg className='ion-hide' src={'assets/images/temp.png'}
-                                                            style={{ width: 'fit-content' }}></IonImg>
-                                                        <h5 style={{ marginTop: 44, marginLeft: 10 }}>Documentos</h5>
+                                                                style={{width: 'fit-content'}}></IonImg>
+                                                        <h5 style={{marginTop: 44, marginLeft: 10}}>Documentos</h5>
                                                     </div>
                                                 </Link>
                                             </IonCol>
@@ -348,13 +351,11 @@ const Menu: React.FC<IProps> = (props) => {
 
                                         <IonRow>
                                             <IonCol>
-                                                <Link to={'#'} onClick={() => {
-                                                    dispatch(setVisibleModalMenu(false));
-                                                }}>
-                                                    <div style={{ display: 'inline-flex' }}>
+                                                <Link to={'#'}>
+                                                    <div style={{display: 'inline-flex'}}>
                                                         <IonImg className='ion-hide' src={'assets/images/temp.png'}
-                                                            style={{ width: 'fit-content' }}></IonImg>
-                                                        <h5 style={{ marginTop: 14, marginLeft: 10 }}></h5>
+                                                                style={{width: 'fit-content'}}></IonImg>
+                                                        <h5 style={{marginTop: 14, marginLeft: 10}}></h5>
                                                     </div>
                                                 </Link>
                                             </IonCol>
@@ -405,8 +406,8 @@ const Menu: React.FC<IProps> = (props) => {
 
                 <IonContent>
 
-                    <IonItem className="ion-margin-top" style={{ margin: 24 }}>
-                        <IonIcon slot="start" icon={moon} />
+                    <IonItem className="ion-margin-top" style={{margin: 24}}>
+                        <IonIcon slot="start" icon={moon}/>
                         <IonLabel>Modo escuro</IonLabel>
                         <small>Reduzir exposição à luz e poupança de bateria</small>
                         <IonToggle
@@ -421,8 +422,8 @@ const Menu: React.FC<IProps> = (props) => {
                     </IonItem>
 
 
-                    <IonItem className="ion-margin-top" style={{ margin: 24 }} lines='none'>
-                        <div style={{ width: '-webkit-fill-available' }}>
+                    <IonItem className="ion-margin-top" style={{margin: 24}} lines='none'>
+                        <div style={{width: '-webkit-fill-available'}}>
                             <IonGrid>
                                 <IonRow>
                                     <IonCol sizeSm='3'>
@@ -472,7 +473,7 @@ const Menu: React.FC<IProps> = (props) => {
                     </IonItem>
 
 
-                    <IonItem style={{ padding: '0px 30px 0px 30px' }} lines='none'>
+                    <IonItem style={{padding: '0px 30px 0px 30px'}} lines='none'>
                         <div style={{
                             borderRadius: 10,
                             background: '#F0FFF6',
@@ -481,14 +482,14 @@ const Menu: React.FC<IProps> = (props) => {
                             color: 'black',
                             border: 'groove'
                         }}>
-                            <h1 style={{ fontSize: 44 }}>48</h1>
+                            <h1 style={{fontSize: 44}}>48</h1>
                             <IonLabel>
                                 Autos disponíveis
                             </IonLabel>
                         </div>
                     </IonItem>
 
-                    <IonItem style={{ padding: '0px 30px 0px 30px', marginTop: 20 }} lines='none'>
+                    <IonItem style={{padding: '0px 30px 0px 30px', marginTop: 20}} lines='none'>
                         <div style={{
                             borderRadius: 10,
                             background: '#FFF0FA',
@@ -497,7 +498,7 @@ const Menu: React.FC<IProps> = (props) => {
                             color: 'black',
                             border: 'groove'
                         }}>
-                            <h1 style={{ fontSize: 44 }}>71</h1>
+                            <h1 style={{fontSize: 44}}>71</h1>
                             <IonLabel>
                                 Processos disponíveis
                             </IonLabel>
@@ -507,10 +508,10 @@ const Menu: React.FC<IProps> = (props) => {
                 </IonContent>
                 <IonFooter>
                     <IonItem lines='none'>
-                        <div id='imgModelosBarras' className='ion-text-center' style={{ padding: 12 }}>
-                            <small>Copyright @ 2021 SCOT+. Todos os direitos reservados.</small><br />
+                        <div id='imgModelosBarras' className='ion-text-center' style={{padding: 12}}>
+                            <small>Copyright @ 2021 SCOT+. Todos os direitos reservados.</small><br/>
                             <IonImg className='ion-margin-top ion-margin-bottom'
-                                src={'assets/images/Group 4529.png'} style={{ height: 40, marginTop: 36 }} />
+                                    src={'assets/images/Group 4529.png'} style={{height: 40, marginTop: 36}}/>
                         </div>
                     </IonItem>
 
