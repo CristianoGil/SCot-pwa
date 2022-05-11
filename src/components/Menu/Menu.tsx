@@ -21,7 +21,7 @@ import {
     IonToolbar
 } from '@ionic/react';
 import {list, person, wifi, apps, close, moon} from 'ionicons/icons';
-import {useContext, useState} from 'react';
+import {useContext, useEffect, useState} from 'react';
 import CardListItem from '../CardListItem';
 import './Menu.css'
 import {useAppSelector, useAppDispatch} from '../../app/hooks';
@@ -29,6 +29,7 @@ import {Link, useHistory} from 'react-router-dom';
 import DataTable from 'react-data-table-component';
 import React from 'react';
 import {UserContext} from '../../Context/UserContext';
+import _ from 'underscore';
 
 const paginationComponentOptions = {
     rowsPerPageText: 'Linhas por página',
@@ -37,83 +38,18 @@ const paginationComponentOptions = {
     selectAllRowsItemText: 'Todos',
 };
 
-const columns = [
-    {
-        name: 'Categoria',
-        selector: (row: { categoria: any; }) => row.categoria,
-    },
-    {
-        name: 'Classe',
-        selector: (row: { classe: any; }) => row.classe,
-    },
-    {
-        name: 'Tipo',
-        selector: (row: { tipo: any; }) => row.tipo,
-    },
-    {
-        name: 'Matrícula',
-        selector: (row: { matricula: any; }) => row.matricula,
-    },
-    {
-        name: 'Nº de chassis',
-        selector: (row: { nChassis: any; }) => row.nChassis,
-    },
-    {
-        name: 'Ano origem',
-        selector: (row: { anoOrigem: any; }) => row.anoOrigem,
-    },
-];
-
-const data = [
-    {
-        id: 1,
-        categoria: 'Automóveis',
-        classe: 'Ligeiros',
-        tipo: 'Passageiros',
-        matricula: '00-XX-01',
-        nChassis: 'ABCDE20201',
-        anoOrigem: '2020',
-    },
-    {
-        id: 2,
-        categoria: 'Automóveis',
-        classe: 'Ligeiros',
-        tipo: 'Passageiros',
-        matricula: '00-XX-01',
-        nChassis: 'ABCDE20201',
-        anoOrigem: '2020',
-    },
-    {
-        id: 3,
-        categoria: 'Automóveis',
-        classe: 'Ligeiros',
-        tipo: 'Passageiros',
-        matricula: '00-XX-01',
-        nChassis: 'ABCDE20201',
-        anoOrigem: '2020',
-    },
-    {
-        id: 4,
-        categoria: 'Automóveis',
-        classe: 'Ligeiros',
-        tipo: 'Passageiros',
-        matricula: '00-XX-01',
-        nChassis: 'ABCDE20201',
-        anoOrigem: '2020',
-    },
-
-]
-
 interface IProps {
-    actionsCOBtn?: any
+    actionsCOBtn?: any,
+    activePagePath?: any
 }
+
 
 const Menu: React.FC<IProps> = (props) => {
     const history = useHistory();
-    const [showModal, setShowModal] = useState<boolean>(false);
+
     const [showPopover, setShowPopover] = useState<boolean>(false);
     const [checked, setChecked] = useState(false);
-
+    const [showModal, setShowModal] = useState(false);
     const userContext = useContext<any>(UserContext);
 
     const [networkState, setNetworkState] = useState<string>(navigator.onLine ? 'online' : 'offline');
@@ -130,13 +66,20 @@ const Menu: React.FC<IProps> = (props) => {
         document.body.classList.toggle("dark");
     };
 
-    const dispatch = useAppDispatch()
+    const closeModal = (e: any, to: string) => {
+        setShowModal(false);
+        setTimeout(() => {
+            history.push(to)
+        })
+        e.preventDefault();
+    }
 
     return (
         <IonHeader className='ion-no-border'>
             <IonToolbar color='transparent'>
 
                 <IonButtons slot="start" onClick={() => {
+
                     setShowModal(true);
                 }}>
 
@@ -151,7 +94,7 @@ const Menu: React.FC<IProps> = (props) => {
                     </IonButton>
 
                 </IonButtons>
-                
+
                 {props.actionsCOBtn}
 
                 <IonButtons slot="end">
@@ -212,8 +155,8 @@ const Menu: React.FC<IProps> = (props) => {
 
                 <IonHeader className="ion-no-border" style={{position: 'absolute'}}>
                     <IonToolbar style={{background: 'transparent'}} id='toolbarModal'>
-                        <IonButtons slot="start" onClick={() => {
-                            setShowModal(false);
+                        <IonButtons id="btn_close_modal" slot="start" onClick={() => {
+                            setShowModal(false)
                         }}>
 
                             <IonButton
@@ -267,9 +210,7 @@ const Menu: React.FC<IProps> = (props) => {
                             <IonRow>
 
                                 <IonCol sizeLg='4' style={{alignSelf: 'center'}}>
-                                    <Link to={'#'} onClick={() => {
-                                        setShowModal(false);
-                                    }}>
+                                    <Link to={'#'}>
                                         <div style={{display: 'inline-flex'}}>
                                             <IonImg src={'assets/images/temp.png'}
                                                     style={{width: 'fit-content'}}></IonImg>
@@ -282,9 +223,7 @@ const Menu: React.FC<IProps> = (props) => {
                                     <IonGrid>
                                         <IonRow>
                                             <IonCol>
-                                                <Link to={'#'} onClick={() => {
-                                                    setShowModal(false);
-                                                }}>
+                                                <Link onClick={(e) => closeModal(e, "/pessoa")} to={'#'}>
                                                     <div style={{display: 'inline-flex'}}>
                                                         <IonImg className='ion-hide' src={'assets/images/temp.png'}
                                                                 style={{width: 'fit-content'}}></IonImg>
@@ -296,9 +235,7 @@ const Menu: React.FC<IProps> = (props) => {
 
                                         <IonRow>
                                             <IonCol>
-                                                <Link to={'#'} onClick={() => {
-                                                    setShowModal(false);
-                                                }}>
+                                                <Link onClick={(e) => closeModal(e, "/veiculo")} to={'#'}>
                                                     <div style={{display: 'inline-flex'}}>
                                                         <IonImg className='ion-hide' src={'assets/images/temp.png'}
                                                                 style={{width: 'fit-content'}}></IonImg>
@@ -314,9 +251,7 @@ const Menu: React.FC<IProps> = (props) => {
                                     <IonGrid>
                                         <IonRow>
                                             <IonCol>
-                                                <Link to={'/coDirecta'} onClick={() => {
-                                                    setShowModal(false);
-                                                }}>
+                                                <Link onClick={(e) => closeModal(e, "/coDirecta")} to={'#'}>
                                                     <div style={{display: 'inline-flex'}}>
                                                         <IonImg className='ion-hide' src={'assets/images/temp.png'}
                                                                 style={{width: 'fit-content'}}></IonImg>
@@ -329,9 +264,7 @@ const Menu: React.FC<IProps> = (props) => {
 
                                         <IonRow>
                                             <IonCol>
-                                                <Link to={'#'} onClick={() => {
-                                                    setShowModal(false);
-                                                }}>
+                                                <Link onClick={(e) => closeModal(e, "/coIndirecta")} to={'#'} >
                                                     <div style={{display: 'inline-flex'}}>
                                                         <IonImg className='ion-hide' src={'assets/images/temp.png'}
                                                                 style={{width: 'fit-content'}}></IonImg>
@@ -350,9 +283,7 @@ const Menu: React.FC<IProps> = (props) => {
                             {/* Linha 2 */}
                             <IonRow>
                                 <IonCol sizeLg='4' style={{alignSelf: 'center'}}>
-                                    <Link to={'#'} onClick={() => {
-                                        setShowModal(false);
-                                    }}>
+                                    <Link to={'#'}>
                                         <div style={{display: 'inline-flex'}}>
                                             <IonImg src={'assets/images/temp.png'}
                                                     style={{width: 'fit-content'}}></IonImg>
@@ -365,9 +296,7 @@ const Menu: React.FC<IProps> = (props) => {
                                     <IonGrid>
                                         <IonRow>
                                             <IonCol>
-                                                <Link to={'#'} onClick={() => {
-                                                    setShowModal(false);
-                                                }}>
+                                                <Link onClick={(e) => closeModal(e, "/organizacao")} to={'#'}  >
                                                     <div style={{display: 'inline-flex'}}>
                                                         <IonImg className='ion-hide' src={'assets/images/temp.png'}
                                                                 style={{width: 'fit-content'}}></IonImg>
@@ -379,9 +308,7 @@ const Menu: React.FC<IProps> = (props) => {
 
                                         <IonRow>
                                             <IonCol>
-                                                <Link to={'#'} onClick={() => {
-                                                    setShowModal(false);
-                                                }}>
+                                                <Link  onClick={(e) => closeModal(e, "/local")} to={'#'}  >
                                                     <div style={{display: 'inline-flex'}}>
                                                         <IonImg className='ion-hide' src={'assets/images/temp.png'}
                                                                 style={{width: 'fit-content'}}></IonImg>
@@ -398,9 +325,7 @@ const Menu: React.FC<IProps> = (props) => {
                             {/* Linha 3 */}
                             <IonRow>
                                 <IonCol sizeLg='4' style={{alignSelf: 'center'}}>
-                                    <Link to={'#'} onClick={() => {
-                                        setShowModal(false);
-                                    }}>
+                                    <Link to={'#'}>
                                         <div style={{display: 'inline-flex'}}>
                                             <IonImg src={'assets/images/temp.png'}
                                                     style={{width: 'fit-content'}}></IonImg>
@@ -414,9 +339,7 @@ const Menu: React.FC<IProps> = (props) => {
                                     <IonGrid>
                                         <IonRow>
                                             <IonCol>
-                                                <Link to={'#'} onClick={() => {
-                                                    setShowModal(false);
-                                                }}>
+                                                <Link onClick={(e) => closeModal(e, "/documento")} to={'#'}>
                                                     <div style={{display: 'inline-flex'}}>
                                                         <IonImg className='ion-hide' src={'assets/images/temp.png'}
                                                                 style={{width: 'fit-content'}}></IonImg>
@@ -428,9 +351,7 @@ const Menu: React.FC<IProps> = (props) => {
 
                                         <IonRow>
                                             <IonCol>
-                                                <Link to={'#'} onClick={() => {
-                                                    setShowModal(false);
-                                                }}>
+                                                <Link to={'#'}>
                                                     <div style={{display: 'inline-flex'}}>
                                                         <IonImg className='ion-hide' src={'assets/images/temp.png'}
                                                                 style={{width: 'fit-content'}}></IonImg>

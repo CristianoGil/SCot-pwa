@@ -1,0 +1,24 @@
+ion-grid#gridGeral,
+ion-grid.veiculoPartial {
+  padding: 0px;
+  padding-left: 100px;
+  padding-right: 100px;
+}
+
+ion-grid.veiculoPartial {
+  padding-bottom: 200px !important;
+}
+
+@media only screen and (max-width: 575px) {
+  ion-grid#gridGeral,
+  ion-grid.veiculoPartial {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
+
+.veiculo {
+  ion-toolbar {
+    padding: 0 !important;
+  }
+}

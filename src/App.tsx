@@ -3,9 +3,10 @@ import {
     IonApp,
     IonRouterOutlet,
     setupIonicReact,
+    useIonViewWillEnter,
 
 } from '@ionic/react';
-import { IonReactRouter } from '@ionic/react-router';
+import { IonReactRouter,  } from '@ionic/react-router';
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
 
@@ -28,11 +29,19 @@ import './App.css';
 
 import Login from './pages/Login/Login';
 import Dashboard from './pages/Dashboard/Dashboard';
-import CoDirecta from './pages/Co-Directa/Co-Directa';
 import { useContext, useEffect, useState } from 'react';
 import { IResponseLogin } from './model/login';
 import { UserContext } from './Context/UserContext';
-
+import CoIndirecta from './pages/ContraOrdenacoes/Co-Indirecta/Co-Indirecta';
+import CoDirecta from './pages/ContraOrdenacoes/Co-Directa/Co-Directa';
+import Pessoa from './pages/RI-Catalogo/Pessoa/Pessoa';
+import Veiculo from './pages/RI-Catalogo/Veiculo/Veiculo';
+import Organizacao from './pages/RI-Catalogo/Organizacao/Organizacao';
+import Local from './pages/RI-Catalogo/Local/Local';
+import Documento from './pages/RI-Catalogo/Documento/Documento';
+import EmissaoApreensaoDocumentos from './pages/EmissaoApreensaoDocumentos/EmissaoApreensaoDocumentos';
+import EmissaoApresentacaoDocumentos from './pages/EmissaoApresentacaoDocumentos/EmissaoApresentacaoDocumentos';
+import EmissaoApreensaoVeiculo from './pages/EmissaoApreensaoVeiculo/EmissaoApreensaoVeiculo';
 interface IProtectedProps {
     isAllowed: boolean
     redirectPath?: string
@@ -54,13 +63,14 @@ const App: React.FC = () => {
 
     const userContext = useContext<any>(UserContext);
 
+
     return (
         <IonApp>
             <IonReactRouter>
-                <IonRouterOutlet>
+                <IonRouterOutlet >
 
                     {/*<ProtectedRoute isAllowed={userContext.isAuthenticated()}>*/}
-                    <Route path={"/dashboard"} exact={true}>
+                    <Route path={"/dashboard"} exact={true} >
                         <Dashboard />
                     </Route>
                     {/*</ProtectedRoute>*/}
@@ -71,10 +81,47 @@ const App: React.FC = () => {
                     </Route>
                     {/*</ProtectedRoute>*/}
 
+                    <Route path={"/coIndirecta"} exact={true}>
+                        <CoIndirecta />
+                    </Route>
+
                     <Route path={"/login"} exact={true}>
                         <Login />
                     </Route>
                     <Redirect exact from="/" to="/dashboard" />
+
+                    <Route path={"/pessoa"} exact={true}>
+                        <Pessoa />
+                    </Route>
+
+                    <Route path={"/veiculo"} exact={true}>
+                        <Veiculo />
+                    </Route>
+
+                    <Route path={"/organizacao"} exact={true}>
+                        <Organizacao />
+                    </Route>
+
+                    <Route path={"/local"} exact={true}>
+                        <Local />
+                    </Route>
+
+                    <Route path={"/documento"} exact={true}>
+                        <Documento />
+                    </Route>
+
+                    <Route path={"/emissaoApreensaoDocumentos"} exact={true}>
+                        <EmissaoApreensaoDocumentos />
+                    </Route>
+
+                    <Route path={"/emissaoApresentacaoDocumentos"} exact={true}>
+                        <EmissaoApresentacaoDocumentos />
+                    </Route>
+
+                    <Route path={"/emissaoApreensaoVeiculo"} exact={true}>
+                        <EmissaoApreensaoVeiculo />
+                    </Route>
+
                 </IonRouterOutlet>
             </IonReactRouter>
         </IonApp>

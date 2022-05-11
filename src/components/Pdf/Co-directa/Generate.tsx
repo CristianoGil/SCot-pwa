@@ -1,6 +1,5 @@
 import React from 'react';
-import { Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
-
+import {Page, Text, View, Document, StyleSheet} from '@react-pdf/renderer';
 
 // Create styles
 const styles = StyleSheet.create({
@@ -16,10 +15,12 @@ const styles = StyleSheet.create({
 });
 
 interface IProps {
-    data?:any
+    data?: any
 }
+
 // Create Document Component
-const CODirecta_PDFDocument: React.FC<IProps> = (props) => ( 
+const CODirecta_PDFDocument: React.FC<IProps> = (props) => (
+
     // @ts-ignore
     <Document>
         {/*// @ts-ignore*/}
@@ -32,6 +33,7 @@ const CODirecta_PDFDocument: React.FC<IProps> = (props) => (
             </View>
         </Page>
     </Document>
+
 );
 
 export default CODirecta_PDFDocument

@@ -1,43 +1,19 @@
 import {
-    IonButton,
-    IonCard,
-    IonCardContent,
-    IonCardHeader,
-    IonCardTitle,
     IonCol,
-    IonDatetime,
     IonGrid,
-    IonIcon,
-    IonImg,
-    IonInput,
-    IonItem,
-    IonLabel,
-    IonListHeader,
-    IonPopover,
-    IonRadio,
-    IonRadioGroup,
-    IonRow,
-    IonSelect,
-    IonSelectOption,
-    IonToggle,
-    IonToolbar
+    IonRow
 } from '@ionic/react';
 import {useState} from 'react';
-import {calendar, informationCircle, map, personCircle, search, star} from 'ionicons/icons';
 import {format, parseISO} from 'date-fns';
-import {setVisiblePopoverIndentVeiculo} from '../../../components/Menu/popoverIndentVeiculoSlice';
 import {useAppSelector, useAppDispatch} from '../../../app/hooks';
-import AlertNetwork from '../../../components/AlertNetwork/AlertNetwork';
-import {Link} from 'react-router-dom';
 import React from 'react';
-
 import Arguido from '../../../components/Contra-Ordenacoes/Components/Arguido/Arguido';
 import {IDocumentoPessoa, IPerson} from '../../../model/person';
 import TituloConducao from '../Components/TituloConducao/TituloConducao';
 import DocumentoIdentificacao from '../Components/DocumentoIdentificacao/DocumentoIdentificacao';
 import InformacoesAdicionais from '../Components/InformacoesAdicionais/InformacoesAdicionais';
 import Veiculo from '../Components/Veiculo/Veiculo';
-
+import './Intervenientes.scss';
 interface IProps {
     setCoDirectaData?: any
 }
