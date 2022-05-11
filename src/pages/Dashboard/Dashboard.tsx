@@ -66,7 +66,7 @@ class Dashboard extends React.Component {
         return (
             <IonPage>
 
-                <Menu activePagePath="/dashboard"/>
+                <Menu/>
 
                 <IonContent
                     class={"content-dashboard "}

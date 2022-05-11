@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
-import popoverIndentVeiculoReducer from '../components/Menu/popoverIndentVeiculoSlice'
+import popoverIndentVeiculoReducer from '../components/Menu/popoverIndentVeiculoSlice';
+import modalMenuReducer from '../components/Menu/modalMenuSlice';
 
 const store = configureStore({
   reducer: {
     popoverIndentVeiculo: popoverIndentVeiculoReducer,
+    modalMenu: modalMenuReducer,
   },
 })
 

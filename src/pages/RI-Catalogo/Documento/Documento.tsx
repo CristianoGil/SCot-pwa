@@ -52,7 +52,7 @@ const Documento: React.FC = () => {
 
     return (
         <IonPage>
-            <Menu activePagePath="/documento"/>
+            <Menu />
             <IonContent className="documento">
 
                 <IonGrid id="gridGeral" style={{ marginBottom: 40 }}>

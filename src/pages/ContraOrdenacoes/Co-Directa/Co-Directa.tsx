@@ -46,7 +46,7 @@ const CoDirecta: React.FC = () => {
 
     return (
         <IonPage>
-            <Menu activePagePath="/coDirecta" actionsCOBtn={<MenuActionsBtb onSave={(e:any) => {onSave(e)}}/>}/>
+            <Menu actionsCOBtn={<MenuActionsBtb onSave={(e:any) => {onSave(e)}}/>}/>
             <IonContent className="contraordenacao" fullscreen={true}>
 
                 <IonGrid id="gridGeral" style={{marginBottom: 40}}>

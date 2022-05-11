@@ -1,14 +1,14 @@
 import {
     IonCol, IonContent, IonGrid, IonHeader, IonItem, IonLabel, IonPage, IonRadio, IonRadioGroup, IonRow,
 } from '@ionic/react';
-import Menu from '../../../components/Menu/Menu';
+import Menu from '../../components/Menu/Menu';
 import React from 'react';
 import './Co-Indirecta.scss';
-import Veiculo from '../../../components/Contra-Ordenacoes/Components/Veiculo/Veiculo';
-import Unidade from '../../../components/Contra-Ordenacoes/Components/Unidade/Unidade';
-import Infraccao from '../../../components/Contra-Ordenacoes/Components/Infraccao/Infraccao';
+import Veiculo from '../../components/Contra-Ordenacoes/Components/Veiculo/Veiculo';
+import Unidade from '../../components/Contra-Ordenacoes/Components/Unidade/Unidade';
+import Infraccao from '../../components/Contra-Ordenacoes/Components/Infraccao/Infraccao';
 
-const CoIndirecta: React.FC = () => {
+const EmissaoApreensaoDocumentos: React.FC = () => {
 
 
     return (
@@ -83,4 +83,4 @@ const CoIndirecta: React.FC = () => {
     );
 };
 
-export default CoIndirecta;
+export default EmissaoApreensaoDocumentos;

@@ -52,7 +52,7 @@ const Local: React.FC = () => {
 
     return (
         <IonPage>
-            <Menu  activePagePath="/local"/>
+            <Menu />
             <IonContent className="local">
 
                 <IonGrid id="gridGeral" style={{ marginBottom: 40 }}>

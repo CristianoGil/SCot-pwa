@@ -37,7 +37,7 @@ const Pessoa: React.FC = () => {
 
     return (
         <IonPage>
-            <Menu  activePagePath="/pessoa"/>
+            <Menu />
             <IonContent className="pessoa">
 
                 <IonGrid id="gridGeral" style={{ marginBottom: 40 }}>

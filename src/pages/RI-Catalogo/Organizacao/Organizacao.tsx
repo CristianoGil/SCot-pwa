@@ -32,7 +32,7 @@ const Organizacao: React.FC = () => {
 
     return (
         <IonPage>
-            <Menu activePagePath="/organizacao" />
+            <Menu />
             <IonContent className="organizacao">
 
                 <IonGrid id="gridGeral" style={{ marginBottom: 40 }}>
