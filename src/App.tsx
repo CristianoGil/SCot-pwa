@@ -38,6 +38,7 @@ import Veiculo from './pages/RI-Catalogo/Veiculo/Veiculo';
 import Organizacao from './pages/RI-Catalogo/Organizacao/Organizacao';
 import Local from './pages/RI-Catalogo/Local/Local';
 import Documento from './pages/RI-Catalogo/Documento/Documento';
+import EmissaoApreensaoDocumentos from './pages/EmissaoApreensaoDocumentos/EmissaoApreensaoDocumentos';
 
 
 interface IProtectedProps {
@@ -106,6 +107,11 @@ const App: React.FC = () => {
                     <Route path={"/documento"} exact={true}>
                         <Documento />
                     </Route>
+
+                    <Route path={"/emissaoApreensaoDocumentos"} exact={true}>
+                        <EmissaoApreensaoDocumentos />
+                    </Route>
+                    
                     
                 </IonRouterOutlet>
             </IonReactRouter>

@@ -39,7 +39,7 @@ class Dashboard extends React.Component {
                 goTo: "/coIndirecta",
                 title: "Registo Simplicado de CO Indirecta"
             }, {
-                goTo: "#",
+                goTo: "/emissaoApreensaoDocumentos",
                 title: "Emissão de Apreensão de Documentos"
             }, {
                 goTo: "#",

@@ -1,84 +1,67 @@
 import {
-    IonCol, IonContent, IonGrid, IonHeader, IonItem, IonLabel, IonPage, IonRadio, IonRadioGroup, IonRow,
+    IonCol, IonContent, IonGrid, IonPage, IonRow, IonSegment, IonSegmentButton, IonToolbar,
 } from '@ionic/react';
+import {useState} from 'react';
+import './EmissaoApreensaoDocumentos.scss';
 import Menu from '../../components/Menu/Menu';
 import React from 'react';
-import './Co-Indirecta.scss';
-import Veiculo from '../../components/Contra-Ordenacoes/Components/Veiculo/Veiculo';
-import Unidade from '../../components/Contra-Ordenacoes/Components/Unidade/Unidade';
-import Infraccao from '../../components/Contra-Ordenacoes/Components/Infraccao/Infraccao';
+
+import Intervenientes from '../../components/EmissaoApreensaoDocumentos/Intervenientes/Intervenientes';
+import DadosInfracao from '../../components/EmissaoApreensaoDocumentos/DadosInfracao/DadosInfracao';
+import DadosComplementares from '../../components/EmissaoApreensaoDocumentos/DadosComplementares/DadosComplementares';
+
+const RenderSegment = (props: { segment: string, setCoDirectaData: any }) => {
+    if (props.segment === 'intervenientes') {
+        return (<Intervenientes setCoDirectaData={props.setCoDirectaData}/>)
+    } else if (props.segment === 'dados_da_infracao') {
+        return (<DadosInfracao/>)
+    } else if (props.segment === 'dados_complemenatares') {
+        return (<DadosComplementares />)
+    }
+
+    return null;
+
+}
 
 const EmissaoApreensaoDocumentos: React.FC = () => {
 
+    const [activeSegment, setActiveSegment] = useState('intervenientes');
+    const [coDirecta, setCoDirecta] = useState<any>();
+
+    const handlerSegment = (e: any) => {
+        setActiveSegment(e.detail.value);
+    }
 
     return (
         <IonPage>
             <Menu />
-            <IonContent className="coindirecta">
+            <IonContent className="contraordenacao" fullscreen={true}>
 
-                <IonGrid id="gridGeral" style={{ marginBottom: 40 }}>
+                <IonGrid id="gridGeral" style={{marginBottom: 40}}>
 
-                    <IonRow style={{ marginBottom: 40 }}>
+                    <IonRow style={{marginBottom: 40}}>
                         <IonCol size="12">
-                            <h1>Registro de contraordenações Indirectas</h1>
-                            <p>Registro de contraordenações Indirectas</p>
+                            <h1>Registro de Apreensão de Documentos</h1>
+                            <p>Registro de Apreensão de Documentos</p>
+                        </IonCol>
+                        <IonCol size-sm="12" size-md="12" size-lg="6">
+                            <IonToolbar>
+                                <IonSegment slot="primary" onIonChange={handlerSegment} value={activeSegment}>
+                                    <IonSegmentButton value="intervenientes">Intervenientes</IonSegmentButton>
+                                    <IonSegmentButton value="dados_da_infracao">Dados da Infração</IonSegmentButton>
+                                    <IonSegmentButton value="dados_complemenatares">Dados
+                                        Complementares</IonSegmentButton>
+                                </IonSegment>
+                            </IonToolbar>
                         </IonCol>
                     </IonRow>
 
                 </IonGrid>
 
-                <IonGrid className="coindirectaPartial">
-                    <IonRow>
-                        <IonCol size-sm='12' size-md='10' size-lg='4'>
-                            {/* Identificação Arguido */}
-                            <IonHeader>
-                                <IonLabel>Possui os elementos de identificação do arguido?</IonLabel>
-                            </IonHeader>
-                            <IonRadioGroup
-                                // value={}
-                                onIonChange={e => () => { }}>
-                                <IonRow>
-                                    <IonCol size='3'>
-                                        <IonItem lines='none' className="veiculo-proprietario-radio radio-item">
-                                            <IonRadio value="singular" />
-                                            <IonLabel className="radioBox">Sim</IonLabel>
-                                        </IonItem>
-                                    </IonCol>
-                                    <IonCol size='3'>
-                                        <IonItem lines='none' className="veiculo-proprietario-radio radio-Item">
-                                            <IonRadio value="colection" />
-                                            <IonLabel className="radioBox">Não</IonLabel>
-                                        </IonItem>
-                                    </IonCol>
-                                </IonRow>
-                            </IonRadioGroup>
-                            {/* Identificação Arguido */}
-                        </IonCol>
-                    </IonRow>
-                    <IonRow>
-                        <IonCol size-sm='12' size-md="12" size-lg="11">
-                            {/* Veículo */}
-                            <Veiculo />
-                            {/* Veículo */}
-                        </IonCol>
-                    </IonRow>
-                    <IonRow>
-                        <IonCol size-sm='12' size-md="12" size-lg="11">
-                            {/*START: UNIDADE*/}
-                            <Unidade />
-                            {/*END: UNIDADE*/}
-                        </IonCol>
-                    </IonRow>
-                    <IonRow>
-                        <IonCol size-sm='12' size-md="12" size-lg="11">
-                            {/*START: Infracção*/}
-                            <Infraccao />
-                            {/*END: Infracção*/}
-                        </IonCol>
-                    </IonRow>
-                </IonGrid>
+                <RenderSegment setCoDirectaData={setCoDirecta} segment={activeSegment}/>
 
             </IonContent>
+
         </IonPage>
     );
 };
