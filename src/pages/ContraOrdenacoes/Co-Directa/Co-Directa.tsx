@@ -5,7 +5,7 @@ import {useState} from 'react';
 import './Co-Directa.scss';
 import Menu from '../../../components/Menu/Menu';
 import React from 'react';
-import ReactPDF from '@react-pdf/renderer';
+import ReactPDF, {BlobProvider, pdf, PDFDownloadLink } from '@react-pdf/renderer';
 
 import Intervenientes from '../../../components/Contra-Ordenacoes/Intervenientes/Intervenientes';
 import MenuActionsBtb from '../../../components/Contra-Ordenacoes/MenuActionsBtb';
@@ -36,10 +36,10 @@ const CoDirecta: React.FC = () => {
         setActiveSegment(e.detail.value);
     }
 
-    const onSave = (e:any) => {
+    const onSave = async (e: any) => {
         // console.log("coDirecta: ", coDirecta);
-        // ReactPDF.render(<CODirecta_PDFDocument data={coDirecta} />, `example.pdf`);
-
+        const blob = await pdf(<CODirecta_PDFDocument data={coDirecta}/>).toBlob();
+        console.log('blob: ', blob)
         console.log("coDirecta: ", coDirecta);
         alert('Vai assinar e/ou gravar')
     }
