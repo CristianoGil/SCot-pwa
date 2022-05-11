@@ -23,12 +23,12 @@ class Dashboard extends React.Component {
             {
                 type: "big",
                 bgClassName: "card-big-img-background-1",
-                goTo: "#",
+                goTo: "/pessoa",
                 title: "Pesquisar Pessoa"
             }, {
                 type: "big",
                 bgClassName: "card-big-img-background-2",
-                goTo: "#",
+                goTo: "/veiculo",
                 title: "Pesquisar Veículo",
                 noYellow: true
             },
@@ -46,7 +46,7 @@ class Dashboard extends React.Component {
                 title: "Emissão de Apresentação de Documentos"
             },
             {
-                goTo: "#",
+                goTo: "/emissaoApreensaoVeiculo",
                 title: "Emissão de Apreensão de Veículo"
             }, {
                 goTo: "#",
