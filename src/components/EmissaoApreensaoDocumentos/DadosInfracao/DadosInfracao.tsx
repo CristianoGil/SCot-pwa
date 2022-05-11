@@ -1,8 +1,8 @@
 import { IonCol, IonGrid, IonRow } from "@ionic/react";
 import React from "react";
-import Infraccao from "../Components/Infraccao/Infraccao";
-import LocalInfraccao from "../Components/LocalInfraccao/LocalInfraccao";
-import Unidade from "../Components/Unidade/Unidade";
+import Infraccao from "../../../components/Contra-Ordenacoes/Components/Infraccao/Infraccao";
+import LocalInfraccao from "../../../components/Contra-Ordenacoes/Components/LocalInfraccao/LocalInfraccao";
+import Unidade from "../../../components/Contra-Ordenacoes/Components/Unidade/Unidade";
 import './DadosInfracao.scss';
 
 const DadosInfracao: React.FC = () => {

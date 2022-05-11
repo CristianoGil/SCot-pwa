@@ -13,7 +13,7 @@ const CoIndirecta: React.FC = () => {
 
     return (
         <IonPage>
-            <Menu activePagePath="/coIndirecta"/>
+            <Menu />
             <IonContent className="coindirecta">
 
                 <IonGrid id="gridGeral" style={{ marginBottom: 40 }}>

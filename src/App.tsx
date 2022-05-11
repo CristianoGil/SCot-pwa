@@ -39,8 +39,9 @@ import Veiculo from './pages/RI-Catalogo/Veiculo/Veiculo';
 import Organizacao from './pages/RI-Catalogo/Organizacao/Organizacao';
 import Local from './pages/RI-Catalogo/Local/Local';
 import Documento from './pages/RI-Catalogo/Documento/Documento';
-
-
+import EmissaoApreensaoDocumentos from './pages/EmissaoApreensaoDocumentos/EmissaoApreensaoDocumentos';
+import EmissaoApresentacaoDocumentos from './pages/EmissaoApresentacaoDocumentos/EmissaoApresentacaoDocumentos';
+import EmissaoApreensaoVeiculo from './pages/EmissaoApreensaoVeiculo/EmissaoApreensaoVeiculo';
 interface IProtectedProps {
     isAllowed: boolean
     redirectPath?: string
@@ -108,7 +109,19 @@ const App: React.FC = () => {
                     <Route path={"/documento"} exact={true}>
                         <Documento />
                     </Route>
-                    
+
+                    <Route path={"/emissaoApreensaoDocumentos"} exact={true}>
+                        <EmissaoApreensaoDocumentos />
+                    </Route>
+
+                    <Route path={"/emissaoApresentacaoDocumentos"} exact={true}>
+                        <EmissaoApresentacaoDocumentos />
+                    </Route>
+
+                    <Route path={"/emissaoApreensaoVeiculo"} exact={true}>
+                        <EmissaoApreensaoVeiculo />
+                    </Route>
+
                 </IonRouterOutlet>
             </IonReactRouter>
         </IonApp>
