@@ -9,10 +9,10 @@ import {useAppSelector, useAppDispatch} from '../../../app/hooks';
 import React from 'react';
 import Arguido from '../../../components/Contra-Ordenacoes/Components/Arguido/Arguido';
 import {IDocumentoPessoa, IPerson} from '../../../model/person';
-import TituloConducao from '../Components/TituloConducao/TituloConducao';
-import DocumentoIdentificacao from '../Components/DocumentoIdentificacao/DocumentoIdentificacao';
-import InformacoesAdicionais from '../Components/InformacoesAdicionais/InformacoesAdicionais';
-import Veiculo from '../Components/Veiculo/Veiculo';
+import TituloConducao from '../../../components/Contra-Ordenacoes/Components/TituloConducao/TituloConducao';
+import DocumentoIdentificacao from '../../../components/Contra-Ordenacoes/Components/DocumentoIdentificacao/DocumentoIdentificacao';
+import InformacoesAdicionais from '../../../components/Contra-Ordenacoes/Components/InformacoesAdicionais/InformacoesAdicionais';
+import Veiculo from '../../../components/Contra-Ordenacoes/Components/Veiculo/Veiculo';
 import './Intervenientes.scss';
 interface IProps {
     setCoDirectaData?: any
@@ -71,6 +71,14 @@ const Intervenientes: React.FC<IProps> = (props) => {
         <IonGrid className="intervenientes">
             <IonRow>
                 <IonCol size-sm='12' size-md="12" size-lg="11">
+                    {/* Veículo */}
+                    <Veiculo setParentVeiculoData={setVeiculoData}/>
+                    {/* Veículo */}
+                </IonCol>
+            </IonRow>
+            
+            <IonRow>
+                <IonCol size-sm='12' size-md="12" size-lg="11">
                     {/*START: ARGUIDO*/}
                     <Arguido setParentArguidoData={setArguidoData}/>
                     {/*END: ARGUIDO*/}
@@ -101,14 +109,6 @@ const Intervenientes: React.FC<IProps> = (props) => {
                     {/* Informações adicionais */}
                     <InformacoesAdicionais currentData={arguidoData?.moradas} representanteLegal={arguidoData?.representanteLegal}  setParentInformacoesAdicionaisData={setInformacoesAdicionaisData}/>
                     {/* Informações adicionais */}
-                </IonCol>
-            </IonRow>
-
-            <IonRow>
-                <IonCol size-sm='12' size-md="12" size-lg="11">
-                    {/* Veículo */}
-                    <Veiculo setParentVeiculoData={setVeiculoData}/>
-                    {/* Veículo */}
                 </IonCol>
             </IonRow>
 

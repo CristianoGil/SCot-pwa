@@ -23,12 +23,12 @@ class Dashboard extends React.Component {
             {
                 type: "big",
                 bgClassName: "card-big-img-background-1",
-                goTo: "#",
+                goTo: "/pessoa",
                 title: "Pesquisar Pessoa"
             }, {
                 type: "big",
                 bgClassName: "card-big-img-background-2",
-                goTo: "#",
+                goTo: "/veiculo",
                 title: "Pesquisar Veículo",
                 noYellow: true
             },
@@ -36,17 +36,17 @@ class Dashboard extends React.Component {
                 goTo: "/coDirecta",
                 title: "Emissão CO Directa"
             }, {
-                goTo: "#",
+                goTo: "/coIndirecta",
                 title: "Registo Simplicado de CO Indirecta"
             }, {
-                goTo: "#",
+                goTo: "/emissaoApreensaoDocumentos",
                 title: "Emissão de Apreensão de Documentos"
             }, {
-                goTo: "#",
+                goTo: "/emissaoApresentacaoDocumentos",
                 title: "Emissão de Apresentação de Documentos"
             },
             {
-                goTo: "#",
+                goTo: "/emissaoApreensaoVeiculo",
                 title: "Emissão de Apreensão de Veículo"
             }, {
                 goTo: "#",

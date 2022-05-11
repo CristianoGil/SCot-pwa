@@ -2,30 +2,28 @@ import {
     IonCol, IonContent, IonGrid, IonPage, IonRow, IonSegment, IonSegmentButton, IonToolbar,
 } from '@ionic/react';
 import {useState} from 'react';
-import './Co-Directa.scss';
+import './EmissaoApreensaoVeiculo.scss';
 import Menu from '../../components/Menu/Menu';
 import React from 'react';
-import ReactPDF, {BlobProvider, pdf, PDFDownloadLink } from '@react-pdf/renderer';
 
-import Intervenientes from '../../components/Contra-Ordenacoes/Intervenientes/Intervenientes';
-import MenuActionsBtb from '../../components/Contra-Ordenacoes/MenuActionsBtb';
-import CODirecta_PDFDocument from '../../components/Pdf/Co-directa/Generate';
-import html2canvas from 'html2canvas';
+import Intervenientes from '../../components/emissaoApreensaoVeiculo/Intervenientes/Intervenientes';
+import DadosInfracao from '../../components/emissaoApreensaoVeiculo/DadosInfracao/DadosInfracao';
+import DadosComplementares from '../../components/emissaoApreensaoVeiculo/DadosComplementares/DadosComplementares';
 
 const RenderSegment = (props: { segment: string, setCoDirectaData: any }) => {
     if (props.segment === 'intervenientes') {
         return (<Intervenientes setCoDirectaData={props.setCoDirectaData}/>)
     } else if (props.segment === 'dados_da_infracao') {
-        return (<div>dados_da_infracao</div>)
+        return (<DadosInfracao/>)
     } else if (props.segment === 'dados_complemenatares') {
-        return (<div>dados_complemenatares</div>)
+        return (<DadosComplementares />)
     }
 
     return null;
 
 }
 
-const CoDirecta: React.FC = () => {
+const EmissaoApreensaoVeiculo: React.FC = () => {
 
     const [activeSegment, setActiveSegment] = useState('intervenientes');
     const [coDirecta, setCoDirecta] = useState<any>();
@@ -34,25 +32,17 @@ const CoDirecta: React.FC = () => {
         setActiveSegment(e.detail.value);
     }
 
-    const onSave = async (e: any) => {
-        // console.log("coDirecta: ", coDirecta);
-        const blob = await pdf(<CODirecta_PDFDocument data={coDirecta}/>).toBlob();
-        console.log('blob: ', blob)
-        console.log("coDirecta: ", coDirecta);
-        alert('Vai assinar e/ou gravar')
-    }
-
     return (
         <IonPage>
-            <Menu actionsCOBtn={<MenuActionsBtb onSave={(e:any) => {onSave(e)}}/>}/>
+            <Menu />
             <IonContent className="contraordenacao" fullscreen={true}>
 
                 <IonGrid id="gridGeral" style={{marginBottom: 40}}>
 
                     <IonRow style={{marginBottom: 40}}>
                         <IonCol size="12">
-                            <h1>Registro de contraordenações Directas</h1>
-                            <p>Registro de contraordenações Directas</p>
+                            <h1>Registro de Apreensão de Veículos</h1>
+                            <p>Registro de Apreensão de Veículos</p>
                         </IonCol>
                         <IonCol size-sm="12" size-md="12" size-lg="6">
                             <IonToolbar>
@@ -76,4 +66,4 @@ const CoDirecta: React.FC = () => {
     );
 };
 
-export default CoDirecta;
+export default EmissaoApreensaoVeiculo;
