@@ -42,7 +42,7 @@ class Dashboard extends React.Component {
                 goTo: "/emissaoApreensaoDocumentos",
                 title: "Emissão de Apreensão de Documentos"
             }, {
-                goTo: "#",
+                goTo: "/emissaoApresentacaoDocumentos",
                 title: "Emissão de Apresentação de Documentos"
             },
             {
