@@ -3,6 +3,7 @@ import React from "react";
 import AcoesComplementares from "../Components/AcoesComplementares/AcoesComplementares";
 import InfraccoesAdicionais from "../Components/InfraccoesAdicionais/InfraccoesAdicionais";
 import Pagamento from "../Components/Pagamento/Pagamento";
+import './DadosComplementares.scss';
 
 const DadosComplementares: React.FC = () => {
 

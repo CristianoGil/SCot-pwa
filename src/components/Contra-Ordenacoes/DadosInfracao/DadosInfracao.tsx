@@ -3,6 +3,7 @@ import React from "react";
 import Infraccao from "../Components/Infraccao/Infraccao";
 import LocalInfraccao from "../Components/LocalInfraccao/LocalInfraccao";
 import Unidade from "../Components/Unidade/Unidade";
+import './DadosInfracao.scss';
 
 const DadosInfracao: React.FC = () => {
 
