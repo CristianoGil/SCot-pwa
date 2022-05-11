@@ -1,11 +1,12 @@
 import {
-    IonCol, IonContent, IonGrid, IonPage, IonRow,
+    IonCol, IonContent, IonGrid, IonPage, IonRow, useIonViewDidEnter, useIonViewDidLeave, useIonViewWillEnter, useIonViewWillLeave,
 } from '@ionic/react';
 import Menu from '../../../components/Menu/Menu';
 import PessoaPartial from '../../../components/RI-Catalogo/Components/PessoaPartial/PessoaPartial';
 import React, { useEffect } from 'react';
 import './Pessoa.scss';
 import DataTable from 'react-data-table-component';
+import { useGlobalState , getGlobalState} from '../../../app/global_states';
 
 const columns = [
     {
@@ -33,8 +34,6 @@ const data = [
 ]
 
 const Pessoa: React.FC = () => {
-
-
     return (
         <IonPage>
             <Menu  activePagePath="/pessoa"/>

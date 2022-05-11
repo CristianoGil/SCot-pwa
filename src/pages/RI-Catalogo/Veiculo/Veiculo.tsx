@@ -1,11 +1,12 @@
 import {
-    IonCol, IonContent, IonGrid, IonPage, IonRow,
+    IonCol, IonContent, IonGrid, IonPage, IonRow, useIonViewDidEnter, useIonViewDidLeave, useIonViewWillEnter, useIonViewWillLeave,
 } from '@ionic/react';
 import Menu from '../../../components/Menu/Menu';
 import React from 'react';
 import './Veiculo.scss';
 import DataTable from 'react-data-table-component';
 import VeiculoPartial from '../../../components/RI-Catalogo/Components/VeiculoPartial/VeiculoPartial.';
+import {getGlobalState, useGlobalState } from '../../../app/global_states';
 
 const columns = [
     {
@@ -42,9 +43,7 @@ const data = [
 
 ]
 
-const Pessoa: React.FC = () => {
-
-
+const Veiculo: React.FC = () => {
     return (
         <IonPage>
             <Menu activePagePath="/veiculo" />
@@ -84,4 +83,4 @@ const Pessoa: React.FC = () => {
     );
 };
 
-export default Pessoa;
+export default Veiculo;

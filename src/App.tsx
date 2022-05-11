@@ -3,9 +3,10 @@ import {
     IonApp,
     IonRouterOutlet,
     setupIonicReact,
+    useIonViewWillEnter,
 
 } from '@ionic/react';
-import { IonReactRouter } from '@ionic/react-router';
+import { IonReactRouter,  } from '@ionic/react-router';
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
 
@@ -61,13 +62,14 @@ const App: React.FC = () => {
 
     const userContext = useContext<any>(UserContext);
 
+
     return (
         <IonApp>
             <IonReactRouter>
-                <IonRouterOutlet>
+                <IonRouterOutlet >
 
                     {/*<ProtectedRoute isAllowed={userContext.isAuthenticated()}>*/}
-                    <Route path={"/dashboard"} exact={true}>
+                    <Route path={"/dashboard"} exact={true} >
                         <Dashboard />
                     </Route>
                     {/*</ProtectedRoute>*/}
