@@ -1,10 +1,6 @@
 import {
     IonButton,
     IonButtons,
-    IonCard,
-    IonCardContent,
-    IonCardHeader,
-    IonCardTitle,
     IonCol,
     IonContent,
     IonFooter,
@@ -21,15 +17,11 @@ import {
     IonToolbar
 } from '@ionic/react';
 import {list, person, wifi, apps, close, moon} from 'ionicons/icons';
-import {useContext, useEffect, useState} from 'react';
-import CardListItem from '../CardListItem';
+import {useContext, useState} from 'react';
 import './Menu.css'
-import {useAppSelector, useAppDispatch} from '../../app/hooks';
 import {Link, useHistory} from 'react-router-dom';
-import DataTable from 'react-data-table-component';
 import React from 'react';
 import {UserContext} from '../../Context/UserContext';
-import _ from 'underscore';
 
 const paginationComponentOptions = {
     rowsPerPageText: 'Linhas por página',

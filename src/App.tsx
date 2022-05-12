@@ -3,10 +3,9 @@ import {
     IonApp,
     IonRouterOutlet,
     setupIonicReact,
-    useIonViewWillEnter,
 
 } from '@ionic/react';
-import { IonReactRouter,  } from '@ionic/react-router';
+import { IonReactRouter } from '@ionic/react-router';
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
 
@@ -43,6 +42,7 @@ import EmissaoApreensaoDocumentos from './pages/EmissaoApreensaoDocumentos/Emiss
 import EmissaoApresentacaoDocumentos from './pages/EmissaoApresentacaoDocumentos/EmissaoApresentacaoDocumentos';
 import EmissaoApreensaoVeiculo from './pages/EmissaoApreensaoVeiculo/EmissaoApreensaoVeiculo';
 import EmissaoTesteAlcoolemia from './pages/EmissaoTesteAlcoolemia/EmissaoTesteAlcoolemia';
+import CODirectaSignPDFPreview from './pages/ContraOrdenacoes/Co-Directa/CO-SignPDFPreview';
 interface IProtectedProps {
     isAllowed: boolean
     redirectPath?: string
@@ -64,14 +64,13 @@ const App: React.FC = () => {
 
     const userContext = useContext<any>(UserContext);
 
-
     return (
         <IonApp>
             <IonReactRouter>
-                <IonRouterOutlet >
+                <IonRouterOutlet>
 
                     {/*<ProtectedRoute isAllowed={userContext.isAuthenticated()}>*/}
-                    <Route path={"/dashboard"} exact={true} >
+                    <Route path={"/dashboard"} exact={true}>
                         <Dashboard />
                     </Route>
                     {/*</ProtectedRoute>*/}
@@ -79,6 +78,10 @@ const App: React.FC = () => {
                     {/*<ProtectedRoute isAllowed={userContext.isAuthenticated()}>*/}
                     <Route path={"/coDirecta"} exact={true}>
                         <CoDirecta />
+                    </Route>
+
+                    <Route path={"/CODirectaSignPDFPreview"} exact={true}>
+                        <CODirectaSignPDFPreview />
                     </Route>
                     {/*</ProtectedRoute>*/}
 
