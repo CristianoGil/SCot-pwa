@@ -42,6 +42,7 @@ import Documento from './pages/RI-Catalogo/Documento/Documento';
 import EmissaoApreensaoDocumentos from './pages/EmissaoApreensaoDocumentos/EmissaoApreensaoDocumentos';
 import EmissaoApresentacaoDocumentos from './pages/EmissaoApresentacaoDocumentos/EmissaoApresentacaoDocumentos';
 import EmissaoApreensaoVeiculo from './pages/EmissaoApreensaoVeiculo/EmissaoApreensaoVeiculo';
+import CODirectaSignPDFPreview from './pages/ContraOrdenacoes/Co-Directa/CO-SignPDFPreview';
 interface IProtectedProps {
     isAllowed: boolean
     redirectPath?: string
@@ -78,6 +79,10 @@ const App: React.FC = () => {
                     {/*<ProtectedRoute isAllowed={userContext.isAuthenticated()}>*/}
                     <Route path={"/coDirecta"} exact={true}>
                         <CoDirecta />
+                    </Route>
+
+                    <Route path={"/CODirectaSignPDFPreview"} exact={true}>
+                        <CODirectaSignPDFPreview />
                     </Route>
                     {/*</ProtectedRoute>*/}
 

@@ -5,14 +5,14 @@ import {useState} from 'react';
 import './Co-Directa.scss';
 import Menu from '../../../components/Menu/Menu';
 import React from 'react';
-import ReactPDF, {BlobProvider, pdf, PDFDownloadLink } from '@react-pdf/renderer';
-
+// import ReactPDF, {BlobProvider, pdf, PDFDownloadLink } from '@react-pdf/renderer';
+import jsPDF from 'jspdf';
 import Intervenientes from '../../../components/Contra-Ordenacoes/Intervenientes/Intervenientes';
-import MenuActionsBtb from '../../../components/Contra-Ordenacoes/MenuActionsBtb';
-import CODirecta_PDFDocument from '../../../components/Pdf/Co-directa/Generate';
-import html2canvas from 'html2canvas';
+import {MenuActionsBtnSave} from '../../../components/Contra-Ordenacoes/MenuActionsBtn';
 import DadosInfracao from '../../../components/Contra-Ordenacoes/DadosInfracao/DadosInfracao';
 import DadosComplementares from '../../../components/Contra-Ordenacoes/DadosComplementares/DadosComplementares';
+
+import { useHistory } from 'react-router';
 
 const RenderSegment = (props: { segment: string, setCoDirectaData: any }) => {
     if (props.segment === 'intervenientes') {
@@ -20,7 +20,7 @@ const RenderSegment = (props: { segment: string, setCoDirectaData: any }) => {
     } else if (props.segment === 'dados_da_infracao') {
         return (<DadosInfracao/>)
     } else if (props.segment === 'dados_complemenatares') {
-        return (<DadosComplementares />)
+        return (<DadosComplementares/>)
     }
 
     return null;
@@ -28,7 +28,7 @@ const RenderSegment = (props: { segment: string, setCoDirectaData: any }) => {
 }
 
 const CoDirecta: React.FC = () => {
-
+    const history = useHistory();
     const [activeSegment, setActiveSegment] = useState('intervenientes');
     const [coDirecta, setCoDirecta] = useState<any>();
 
@@ -37,16 +37,14 @@ const CoDirecta: React.FC = () => {
     }
 
     const onSave = async (e: any) => {
-        // console.log("coDirecta: ", coDirecta);
-        const blob = await pdf(<CODirecta_PDFDocument data={coDirecta}/>).toBlob();
-        console.log('blob: ', blob)
-        console.log("coDirecta: ", coDirecta);
-        alert('Vai assinar e/ou gravar')
+        history.push("/CODirectaSignPDFPreview")
     }
 
     return (
         <IonPage>
-            <Menu actionsCOBtn={<MenuActionsBtb onSave={(e:any) => {onSave(e)}}/>}/>
+            <Menu actionsCOBtn={<MenuActionsBtnSave onSave={(e: any) => {
+                onSave(e)
+            }}/>}/>
             <IonContent className="contraordenacao" fullscreen={true}>
 
                 <IonGrid id="gridGeral" style={{marginBottom: 40}}>

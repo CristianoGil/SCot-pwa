@@ -19,7 +19,6 @@
     "@ionic/pwa-elements": "^3.1.1",
     "@ionic/react": "^6.1.1",
     "@ionic/react-router": "^6.1.1",
-    "@react-pdf/renderer": "^2.1.1",
     "@react-pdf/zlib": "^2.0.0",
     "@reduxjs/toolkit": "^1.8.1",
     "@testing-library/jest-dom": "^5.11.9",
@@ -48,12 +47,12 @@
     "dayjs": "^1.11.1",
     "html2canvas": "^1.4.1",
     "ionicons": "^5.4.0",
+    "jspdf": "^2.5.1",
     "jwt-decode": "^3.1.2",
     "moment": "^2.29.3",
     "polyfill": "^0.1.0",
     "process": "^0.11.10",
     "react": "^18.0.0",
-    "react-app-rewired": "^2.2.1",
     "react-color": "^2.19.3",
     "react-data-table-component": "^7.5.0",
     "react-dom": "^18.0.0",
@@ -83,9 +82,9 @@
     "workbox-streams": "^5.1.4"
   },
   "scripts": {
-    "start": "react-app-rewired start",
-    "build": "react-app-rewired build",
-    "test": "react-app-rewired test --transformIgnorePatterns 'node_modules/(?!(@ionic/react|@ionic/react-router|@ionic/core|@stencil/core|ionicons)/)'",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --transformIgnorePatterns 'node_modules/(?!(@ionic/react|@ionic/react-router|@ionic/core|@stencil/core|ionicons)/)'",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

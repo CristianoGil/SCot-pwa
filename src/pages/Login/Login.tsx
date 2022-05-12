@@ -167,7 +167,7 @@ const Login: React.FC = () => {
                                                className='ion-margin-top ion-margin-bottom login-Btn'
                                                color='#003E7E'>Entrar</IonButton>
 
-                                    <a target="_blank" className="recoverPasswordAnchor" href="#">Recuperar acesso</a>
+                                    <a target="_blank" className="recoverPasswordAnchor" href="/login">Recuperar acesso</a>
                                     <IonItem lines='none'>
                                         <div className="ion-text-center">
 
