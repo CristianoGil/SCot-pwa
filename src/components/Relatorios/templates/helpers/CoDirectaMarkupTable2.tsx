@@ -9,8 +9,8 @@ export const CoDirectaMarkupTable2 = () => (
 
         style={{
             emptyCells: "show",
-            width: 595,
-            height: 842,
+            width: 530,
+            height: 1670,
             borderCollapse: "collapse",
             backgroundColor: "white"
         }}

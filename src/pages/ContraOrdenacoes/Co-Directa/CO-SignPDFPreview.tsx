@@ -5,26 +5,10 @@ import {MenuActionsBtnSignPDF} from '../../../components/Contra-Ordenacoes/MenuA
 import jsPDF from "jspdf";
 import html2canvas from 'html2canvas';
 import {IteratorArray} from "../../../common/iterator";
-import {blobToBase64} from "../../../utils/apex-formatters";
+import {blobToBase64, createCanvas} from "../../../utils/apex-formatters";
 import {useHistory} from "react-router";
 
 
-const createCanvas = (element: HTMLElement | null): Promise<HTMLCanvasElement> => {
-    return new Promise((resolve, reject) => {
-        if (element) {
-            html2canvas(element).then(async (canvas) => {
-                resolve(canvas)
-            }).catch((err: any) => {
-                console.log('html2canvas: ', err);
-                reject(err)
-            })
-        } else {
-            reject('element not found')
-        }
-
-    })
-
-}
 
 interface IProps {
     data?: any
@@ -105,22 +89,19 @@ const CODirectaSignPDFPreview: React.FC<IProps> = (props) => {
                     pagesNumber--;
 
                     try {
+
+                        const width = pdf.internal.pageSize.getWidth();
+                        const height = pdf.internal.pageSize.getHeight();
+
                         const canvas = await createCanvas(page);
 
-                        const imgData = canvas.toDataURL('image/png');
-
-                        let imgWidth = 210;
-                        let imgHeight = canvas.height * imgWidth / canvas.width;
-
-
-                        pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+                        const imgData = canvas.toDataURL('image/jpeg');
+                        pdf.addImage(imgData, 'JPEG', 0, 0, width, height);
 
 
                         if (pagesNumber >= 1) {
                             pdf.addPage('a4');
                         }
-
-                        ;
                     } catch (e) {
                         console.error("createCanvas: ", e, page);
                         reject(e)
