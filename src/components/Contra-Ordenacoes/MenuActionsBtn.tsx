@@ -21,7 +21,7 @@ export const MenuActionsBtnSave: React.FC<IProps> = (props) => {
                 Terminar
             </IonButton>
 
-            <IonButton disabled strong={true} color="dark">
+            <IonButton strong={true} color="dark" onClick={props.onSave}>
                 Imprimir
             </IonButton>
 
@@ -36,7 +36,8 @@ export const MenuActionsBtnSave: React.FC<IProps> = (props) => {
 }
 
 interface IProps {
-    onSignPdf?: any
+    onSignPdf?: any,
+    onPrint?: any
 }
 
 export const MenuActionsBtnSignPDF: React.FC<IProps> = (props) => {
@@ -47,7 +48,7 @@ export const MenuActionsBtnSignPDF: React.FC<IProps> = (props) => {
                 Assinar
             </IonButton>
 
-            <IonButton disabled strong={true} color="dark">
+            <IonButton  strong={true} color="dark" onClick={props.onPrint}>
                 Imprimir
             </IonButton>
 

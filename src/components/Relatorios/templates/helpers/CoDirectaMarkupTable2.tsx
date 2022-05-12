@@ -1,6 +1,6 @@
 export const CoDirectaMarkupTable2 = () => (
     <table
-        id="JR_PAGE_ANCHOR_0_2"
+        id="CO_DIRECTA_JR_PAGE_ANCHOR_0_2"
         role="none"
         className="jrPage"
         data-jr-height={842}
@@ -259,7 +259,10 @@ export const CoDirectaMarkupTable2 = () => (
         </tr>
         <tr style={{height: 4}}>
             <td colSpan={15}></td>
-            <td rowSpan={10}></td>
+            <td rowSpan={10}>
+                <img src={"assets/icon/relatorios/JGCP.png"}/>
+
+            </td>
             <td colSpan={2}></td>
         </tr>
         <tr style={{height: 1}}>
@@ -278,7 +281,10 @@ export const CoDirectaMarkupTable2 = () => (
         </tr>
         <tr style={{height: 1}}>
             <td></td>
-            <td colSpan={3} rowSpan={2}></td>
+            <td colSpan={3} rowSpan={2}>
+                <img src={"assets/icon/relatorios/MB.png"}/>
+
+            </td>
             <td colSpan={3}></td>
             <td colSpan={7}></td>
             <td colSpan={2}></td>
@@ -287,7 +293,9 @@ export const CoDirectaMarkupTable2 = () => (
             <td></td>
             <td colSpan={3}></td>
             <td></td>
-            <td colSpan={2} rowSpan={2}></td>
+            <td colSpan={2} rowSpan={2}>
+                <img src={"assets/icon/relatorios/CTT.png"}/>
+            </td>
             <td colSpan={4}></td>
             <td colSpan={2}></td>
         </tr>

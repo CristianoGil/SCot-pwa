@@ -1,52 +1,155 @@
-import {IonContent, IonPage} from "@ionic/react";
+import {IonContent, IonPage, useIonAlert, useIonLoading} from "@ionic/react";
 import Menu from "../../../components/Menu/Menu";
 import {CoDirectaTemplateMarkup} from '../../../components/Relatorios/templates/CoDirectaTemplate';
 import {MenuActionsBtnSignPDF} from '../../../components/Contra-Ordenacoes/MenuActionsBtn';
 import jsPDF from "jspdf";
 import html2canvas from 'html2canvas';
+import {IteratorArray} from "../../../common/iterator";
+import {blobToBase64} from "../../../utils/apex-formatters";
+import {useHistory} from "react-router";
 
-const CODirectaSignPDFPreview = () => {
 
-    const signPDF = (e:any) => {
-        // e.preventDefault();
-        // alert('Yes')
-
-        const JR_PAGE_ANCHOR_0_1 = document.getElementById('JR_PAGE_ANCHOR_0_1');
-        console.log("elementPdf: ", JR_PAGE_ANCHOR_0_1)
-        if (JR_PAGE_ANCHOR_0_1) {
-
-            // @ts-ignore
-            html2canvas(JR_PAGE_ANCHOR_0_1).then(async (canvas) => {
-                console.log('canvas: ', canvas)
-                const imgData = canvas.toDataURL('image/png');
-
-                const pdf = new jsPDF({
-                    orientation: 'p',
-                    unit: 'mm',
-                    format: 'a4',
-                    putOnlyUsedFonts:true
-                });
-                let imgWidth = 210;
-                let imgHeight = canvas.height * imgWidth / canvas.width;
-
-                pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
-
-                pdf.save(`${(new Date()).toDateString()}.pdf`);
-
-            }).catch((err:any) => {
+const createCanvas = (element: HTMLElement | null): Promise<HTMLCanvasElement> => {
+    return new Promise((resolve, reject) => {
+        if (element) {
+            html2canvas(element).then(async (canvas) => {
+                resolve(canvas)
+            }).catch((err: any) => {
                 console.log('html2canvas: ', err);
+                reject(err)
             })
-
         } else {
-            alert('Not found')
+            reject('element not found')
+        }
+
+    })
+
+}
+
+interface IProps {
+    data?: any
+}
+
+const CODirectaSignPDFPreview: React.FC<IProps> = (props) => {
+
+    const [presentLoad, dismissLoad] = useIonLoading();
+    const [presentAlert] = useIonAlert();
+    const history = useHistory();
+
+    const signPDF = async (e: any) => {
+        presentLoad({
+            message: 'A assinar... isto pode demorar!',
+        })
+        try {
+            const pdf = await generatePDF(e);
+            const blobPDF = await blobToBase64(pdf.output('blob'))
+        } catch (e) {
+            presentAlert({
+                header: 'Erro!',
+                message: 'Ocorreu um erro ao assinar. Tente novamente mais tarde e se o problema persistir reinicie o aplicativo',
+                buttons: [
+                    {text: 'Fechar'},
+                ]
+            })
+        } finally {
+            dismissLoad();
         }
     }
 
+    const onPrint = async (e: any) => {
+        presentLoad({
+            message: 'A imprimir... isto pode demorar!',
+        })
+        try {
+            const pdf = await generatePDF(e);
+            pdf.save(`co-directa-[name]-${(new Date()).toDateString()}.pdf`);
+        } catch (e) {
+            presentAlert({
+                header: 'Erro!',
+                message: 'Ocorreu um erro ao assinar a contraordenação. Tente novamente mais tarde e se o problema persistir reinicie o aplicativo',
+                buttons: [
+                    {text: 'Fechar'},
+                ]
+            })
+        } finally {
+            dismissLoad();
+        }
+
+    }
+
+    const generatePDF = (e: any): Promise<any> => {
+        return new Promise((resolve, reject) => {
+            const pdf = new jsPDF({
+                orientation: 'p',
+                unit: 'mm',
+                format: 'a4',
+                putOnlyUsedFonts: true
+            });
+
+            const JR_PAGE_ANCHOR_0_1 = document.getElementById('CO_DIRECTA_JR_PAGE_ANCHOR_0_1');
+            const JR_PAGE_ANCHOR_0_2 = document.getElementById('CO_DIRECTA_JR_PAGE_ANCHOR_0_2');
+            const JR_PAGE_ANCHOR_0_3 = document.getElementById('CO_DIRECTA_JR_PAGE_ANCHOR_0_3');
+
+
+            const iteratorPages: any = new IteratorArray([JR_PAGE_ANCHOR_0_1, JR_PAGE_ANCHOR_0_2, JR_PAGE_ANCHOR_0_3]);
+
+            let pagesNumber = 3;
+            const _funcIterable = async (): Promise<void> => {
+
+                const dataValue: IteratorResult<any> = iteratorPages.next();
+                const isDone: boolean | undefined = dataValue.done;
+                const page = dataValue.value;
+
+                if (!isDone) {
+
+                    pagesNumber--;
+
+                    try {
+                        const canvas = await createCanvas(page);
+
+                        const imgData = canvas.toDataURL('image/png');
+
+                        let imgWidth = 210;
+                        let imgHeight = canvas.height * imgWidth / canvas.width;
+
+
+                        pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+
+
+                        if (pagesNumber >= 1) {
+                            pdf.addPage('a4');
+                        }
+
+                        ;
+                    } catch (e) {
+                        console.error("createCanvas: ", e, page);
+                        reject(e)
+                    } finally {
+                        setTimeout(_funcIterable,)
+                    }
+
+                } else {
+                    resolve(pdf)
+                }
+            }
+
+            _funcIterable();
+            // @ts-ignore
+        })
+
+
+    }
+
+
     return (
         <IonPage>
-            <Menu actionsCOBtn={<MenuActionsBtnSignPDF onSignPdf={(e: any) => { signPDF(e) }}/>} />
+            <Menu actionsCOBtn={<MenuActionsBtnSignPDF onSignPdf={(e: any) => {
+                signPDF(e)
+            }} onPrint={(e: any) => {
+                onPrint(e)
+            }}/>}/>
             <IonContent id={"CODirectaSignPDFPreview"} className="CODirectaSignPDFPreview" fullscreen={true}>
-            <CoDirectaTemplateMarkup/>
+                <CoDirectaTemplateMarkup/>
             </IonContent>
         </IonPage>
     )

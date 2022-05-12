@@ -7,7 +7,7 @@ export const CoDirectaTemplateMarkup = () => (
     <table width="100%" cellPadding={0} cellSpacing={0} id={"htmlWrapperForPDF"}>
         <tbody>
         <tr>
-            <td width="50%">&nbsp;</td>
+            <td width="50%" style={{backgroundColor: "rgb(82, 86, 89)"}}>&nbsp;</td>
             <td align="center">
                 <CoDirectaMarkupTable1/>
                 <br/>
@@ -17,7 +17,7 @@ export const CoDirectaTemplateMarkup = () => (
                 <br/>
                 <CoDirectaMarkupTable3/>
             </td>
-            <td width="50%">&nbsp;</td>
+            <td width="50%" style={{backgroundColor: "rgb(82, 86, 89)"}}>&nbsp;</td>
         </tr>
         </tbody>
     </table>

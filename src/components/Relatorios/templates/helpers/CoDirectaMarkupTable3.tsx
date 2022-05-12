@@ -1,6 +1,6 @@
 export const CoDirectaMarkupTable3 = () => (
     <table
-        id="JR_PAGE_ANCHOR_0_3"
+        id="CO_DIRECTA_JR_PAGE_ANCHOR_0_3"
         role="none"
         className="jrPage"
         data-jr-height={842}
@@ -103,7 +103,10 @@ export const CoDirectaMarkupTable3 = () => (
                 colSpan={9}
                 rowSpan={7}
                 style={{textAlign: "center", verticalAlign: "middle"}}
-            ></td>
+            >
+                <img src={"assets/icon/relatorios/BRASAO.png"}/>
+
+            </td>
             <td></td>
             <td colSpan={33} rowSpan={6}>
                 <div style={{width: "100%", height: "100%", position: "relative"}}>
@@ -2477,7 +2480,8 @@ export const CoDirectaMarkupTable3 = () => (
                                     style={{
                                         pointerEvents: "auto",
                                         textIndent: 0,
-                                        textAlign: "justify"
+                                        textAlign: "justify",
+                                        lineHeight: 0
                                     }}
                                 >
                                     <div style={{textIndent: 0, textAlignLast: "justify"}}>
