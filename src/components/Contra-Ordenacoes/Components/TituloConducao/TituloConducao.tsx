@@ -71,7 +71,10 @@ const TituloConducao: React.FC<ITituloConducao> = (props) => {
             isPresentedTituloConducao, tituloConducao, numero, paisEmissao, entidadeEmissora, localEmissoa, dataEmissao
         }
 
-        props.setParentTituloConducaoData(_data)
+        if (_.has(props, 'setParentTituloConducaoData')) {
+            props.setParentTituloConducaoData(_data)
+        }
+        
     }, [isPresentedTituloConducao, tituloConducao, numero, paisEmissao, entidadeEmissora, localEmissoa, dataEmissao])
 
     return (

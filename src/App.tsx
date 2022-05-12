@@ -41,6 +41,7 @@ import Documento from './pages/RI-Catalogo/Documento/Documento';
 import EmissaoApreensaoDocumentos from './pages/EmissaoApreensaoDocumentos/EmissaoApreensaoDocumentos';
 import EmissaoApresentacaoDocumentos from './pages/EmissaoApresentacaoDocumentos/EmissaoApresentacaoDocumentos';
 import EmissaoApreensaoVeiculo from './pages/EmissaoApreensaoVeiculo/EmissaoApreensaoVeiculo';
+import EmissaoTesteAlcoolemia from './pages/EmissaoTesteAlcoolemia/EmissaoTesteAlcoolemia';
 import CODirectaSignPDFPreview from './pages/ContraOrdenacoes/Co-Directa/CO-SignPDFPreview';
 interface IProtectedProps {
     isAllowed: boolean
@@ -124,6 +125,11 @@ const App: React.FC = () => {
                     <Route path={"/emissaoApreensaoVeiculo"} exact={true}>
                         <EmissaoApreensaoVeiculo />
                     </Route>
+
+                    <Route path={"/emissaoTesteAlcoolemia"} exact={true}>
+                        <EmissaoTesteAlcoolemia />
+                    </Route>
+
 
                 </IonRouterOutlet>
             </IonReactRouter>

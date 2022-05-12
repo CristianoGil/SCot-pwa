@@ -1,0 +1,10 @@
+
+#modalAlert::part(content){
+    border-radius: 20px;
+    height: 318px;
+}
+
+#modalAlert #colImagem{
+    background-size: cover !important;
+    background: url("../../../public/assets/images/semInternet.png") right;
+}
