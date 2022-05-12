@@ -1,12 +1,11 @@
 import {
-    IonCol, IonContent, IonGrid, IonPage, IonRow, useIonViewDidEnter, useIonViewDidLeave, useIonViewWillEnter, useIonViewWillLeave,
+    IonCol, IonContent, IonGrid, IonPage, IonRow
 } from '@ionic/react';
 import Menu from '../../../components/Menu/Menu';
 import PessoaPartial from '../../../components/RI-Catalogo/Components/PessoaPartial/PessoaPartial';
-import React, { useEffect } from 'react';
+import React from 'react';
 import './Pessoa.scss';
 import DataTable from 'react-data-table-component';
-import { useGlobalState , getGlobalState} from '../../../app/global_states';
 
 const columns = [
     {

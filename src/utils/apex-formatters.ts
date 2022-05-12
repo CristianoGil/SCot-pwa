@@ -1,4 +1,5 @@
 import dayjs from 'dayjs'
+import html2canvas from 'html2canvas';
 import moment from 'moment'
 import 'moment/locale/pt-br';
 moment.locale('pt-br');
@@ -39,4 +40,38 @@ export function dateFormat(timestamp: string, format: string): string {
 
 export function capitalize(str: string): string {
   return str.charAt(0).toUpperCase() + str.slice(1)
+}
+export function blobToBase64(blob: Blob): Promise<ArrayBuffer | string | null> {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.onloadend = () => resolve(reader.result);
+    reader.readAsDataURL(blob);
+  });
+}
+
+export function base64ToArrayBuffer(base64: string) {
+  const binary_string = window.atob(base64);
+  const len = binary_string.length;
+  const bytes = new Uint8Array(len);
+  for (let i = 0; i < len; i++) {
+    bytes[i] = binary_string.charCodeAt(i);
+  }
+  return bytes.buffer;
+}
+
+export function createCanvas (element: HTMLElement | null, opt?: any ): Promise<HTMLCanvasElement> {
+  return new Promise((resolve, reject) => {
+    if (element) {
+      html2canvas(element, opt).then(async (canvas) => {
+        resolve(canvas)
+      }).catch((err: any) => {
+        console.log('html2canvas: ', err);
+        reject(err)
+      })
+    } else {
+      reject('element not found')
+    }
+
+  })
+
 }

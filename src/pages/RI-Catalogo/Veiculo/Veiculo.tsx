@@ -1,12 +1,11 @@
 import {
-    IonCol, IonContent, IonGrid, IonPage, IonRow, useIonViewDidEnter, useIonViewDidLeave, useIonViewWillEnter, useIonViewWillLeave,
+    IonCol, IonContent, IonGrid, IonPage, IonRow
 } from '@ionic/react';
 import Menu from '../../../components/Menu/Menu';
 import React from 'react';
 import './Veiculo.scss';
 import DataTable from 'react-data-table-component';
 import VeiculoPartial from '../../../components/RI-Catalogo/Components/VeiculoPartial/VeiculoPartial.';
-import {getGlobalState, useGlobalState } from '../../../app/global_states';
 
 const columns = [
     {
