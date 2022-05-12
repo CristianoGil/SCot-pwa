@@ -1,0 +1,24 @@
+ion-grid#gridGeral,
+ion-grid.localPartial {
+  padding: 0px;
+  padding-left: 100px;
+  padding-right: 100px;
+}
+
+ion-grid.localPartial {
+  padding-bottom: 200px !important;
+}
+
+@media only screen and (max-width: 575px) {
+  ion-grid#gridGeral,
+  ion-grid.localPartial {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
+
+.local {
+  ion-toolbar {
+    padding: 0 !important;
+  }
+}

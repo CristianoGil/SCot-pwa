@@ -1,0 +1,24 @@
+ion-grid#gridGeral,
+ion-grid.documentoPartial {
+  padding: 0px;
+  padding-left: 100px;
+  padding-right: 100px;
+}
+
+ion-grid.documentoPartial {
+  padding-bottom: 200px !important;
+}
+
+@media only screen and (max-width: 575px) {
+  ion-grid#gridGeral,
+  ion-grid.documentoPartial {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
+
+.documento {
+  ion-toolbar {
+    padding: 0 !important;
+  }
+}

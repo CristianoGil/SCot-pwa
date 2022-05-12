@@ -1,0 +1,7 @@
+{
+  "name": "SCoT-PWA",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
