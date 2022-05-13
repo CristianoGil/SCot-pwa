@@ -5,10 +5,10 @@ import {useState} from 'react';
 import './EmissaoApreensaoVeiculo.scss';
 import Menu from '../../components/Menu/Menu';
 import React from 'react';
+import Intervenientes from '../../components/Contra-Ordenacoes/Intervenientes/Intervenientes';
+import DadosInfracao from '../../components/Contra-Ordenacoes/DadosInfracao/DadosInfracao';
+import DadosComplementares from '../../components/Contra-Ordenacoes/DadosComplementares/DadosComplementares';
 
-import Intervenientes from '../../components/EmissaoApreensaoVeiculo/Intervenientes/Intervenientes';
-import DadosInfracao from '../../components/EmissaoApreensaoVeiculo/DadosInfracao/DadosInfracao';
-import DadosComplementares from '../../components/EmissaoApreensaoVeiculo/DadosComplementares/DadosComplementares';
 
 const RenderSegment = (props: { segment: string, setCoDirectaData: any }) => {
     if (props.segment === 'intervenientes') {
