@@ -1,5 +1,5 @@
 import {
-    IonCol, IonContent, IonGrid, IonPage, IonRow, IonSegment, IonSegmentButton, IonToolbar,
+    IonCol, IonContent, IonGrid, IonPage, IonRow, IonSegment, IonSegmentButton, IonToolbar, useIonAlert, useIonLoading,
 } from '@ionic/react';
 import {useState} from 'react';
 import './Co-Directa.scss';
@@ -12,7 +12,7 @@ import {MenuActionsBtnSave} from '../../../components/Contra-Ordenacoes/MenuActi
 import DadosInfracao from '../../../components/Contra-Ordenacoes/DadosInfracao/DadosInfracao';
 import DadosComplementares from '../../../components/Contra-Ordenacoes/DadosComplementares/DadosComplementares';
 
-import { useHistory } from 'react-router';
+import {useHistory} from 'react-router';
 
 const RenderSegment = (props: { segment: string, setCoDirectaData: any }) => {
     if (props.segment === 'intervenientes') {
@@ -28,21 +28,52 @@ const RenderSegment = (props: { segment: string, setCoDirectaData: any }) => {
 }
 
 const CoDirecta: React.FC = () => {
+
+
+    const [presentLoad, dismissLoad] = useIonLoading();
+    const [presentAlert] = useIonAlert();
+
     const history = useHistory();
     const [activeSegment, setActiveSegment] = useState('intervenientes');
     const [coDirecta, setCoDirecta] = useState<any>();
+    const [isCOSaved, setIsCOSaved] = useState(false);
 
     const handlerSegment = (e: any) => {
         setActiveSegment(e.detail.value);
     }
 
-    const onSave = async (e: any) => {
+    const onSave = (e: any) => {
+        presentLoad({
+            message: 'A guardar...',
+        })
+
+
+        setTimeout(() => {
+            dismissLoad();
+            presentAlert({
+                header: 'Sucesso!',
+                message: 'Contraordenação guardada com sucesso!',
+                buttons: [
+                    {text: 'Fechar'},
+                ]
+            })
+            setIsCOSaved(true);
+
+        }, 500)
+
+
+        console.error('Ainda nao temos informacao de onde e como armazenar a CO directa');
+    }
+
+    const onEmit = (e: any) => {
         history.push("/CODirectaSignPDFPreview")
     }
 
     return (
         <IonPage>
-            <Menu actionsCOBtn={<MenuActionsBtnSave onSave={(e: any) => {
+            <Menu actionsCOBtn={<MenuActionsBtnSave isCOSaved={isCOSaved} onEmit={(e: any) => {
+                onEmit(e);
+            }} onSave={(e: any) => {
                 onSave(e)
             }}/>}/>
             <IonContent className="contraordenacao" fullscreen={true}>

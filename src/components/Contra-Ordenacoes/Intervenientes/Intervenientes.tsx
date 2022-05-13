@@ -26,7 +26,6 @@ const Intervenientes: React.FC<IProps> = (props) => {
     const [popoverDate1, setPopoverDate1] = useState('');
     const [popoverDate2, setPopoverDate2] = useState('');
     const [popoverDate3, setPopoverDate3] = useState('');
-    const popoverIndentVeiculoIsOpen = useAppSelector((state) => state.popoverIndentVeiculo.isOpen)
 
     const dispatch = useAppDispatch()
 

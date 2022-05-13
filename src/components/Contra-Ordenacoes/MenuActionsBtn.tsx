@@ -2,7 +2,9 @@ import {IonButton, IonButtons} from "@ionic/react"
 import {Link} from "react-router-dom"
 
 interface IProps {
-    onSave?: any
+    onSave?: any,
+    onEmit?: any,
+    isCOSaved?: boolean
 }
 
 export const MenuActionsBtnSave: React.FC<IProps> = (props) => {
@@ -13,16 +15,12 @@ export const MenuActionsBtnSave: React.FC<IProps> = (props) => {
                 Gravar
             </IonButton>
 
-            <IonButton fill="outline" strong={true} color="dark">
+            <IonButton disabled={!props.isCOSaved} fill="outline" strong={true} color="dark" onClick={props.onEmit}>
                 Emitir
             </IonButton>
 
             <IonButton fill="outline" strong={true} color="dark">
                 Terminar
-            </IonButton>
-
-            <IonButton strong={true} color="dark" onClick={props.onSave}>
-                Imprimir
             </IonButton>
 
             <Link to="/dashboard">
@@ -45,10 +43,10 @@ export const MenuActionsBtnSignPDF: React.FC<IProps> = (props) => {
         <IonButtons slot="start">
 
             <IonButton fill="solid" strong={true} color="success" onClick={props.onSignPdf}>
-                Assinar
+                Recolha de assinaturas
             </IonButton>
 
-            <IonButton  strong={true} color="dark" onClick={props.onPrint}>
+            <IonButton fill="outline" strong={true} color="dark" onClick={props.onPrint}>
                 Imprimir
             </IonButton>
 

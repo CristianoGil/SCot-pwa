@@ -1,4 +1,11 @@
-export const CoDirectaMarkupTable1 = () => (
+import _ from 'underscore'
+
+interface IProps {
+    assinaturaManuscritoArguido?: string
+}
+export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
+    const {assinaturaManuscritoArguido} = props;
+    return (
     <table
         id="CO_DIRECTA_JR_PAGE_ANCHOR_0_1"
         role="none"
@@ -1672,7 +1679,9 @@ export const CoDirectaMarkupTable1 = () => (
                             </tr>
                             <tr   style={{height: 21}}>
                                 <td colSpan={2}></td>
-                                <td colSpan={7} style={{pointerEvents: "auto"}}></td>
+                                <td colSpan={7} className="signPlace" style={{pointerEvents: "auto", textAlign: "center"}}>
+                                    {!_.isEmpty(assinaturaManuscritoArguido) ? <img style={{height: 19}} src={assinaturaManuscritoArguido} /> :'' }
+                                </td>
                                 <td colSpan={2}></td>
                             </tr>
                             <tr   style={{height: 7}}>
@@ -2414,4 +2423,4 @@ export const CoDirectaMarkupTable1 = () => (
         </tr>
         </tbody>
     </table>
-)
+)}

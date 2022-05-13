@@ -1,0 +1,26 @@
+.popoverSign {
+  ion-item {
+    --border: unset !important;
+    border: none !important;
+    --inner-border-width: 0 !important;
+  }
+
+  ion-item {
+    ion-label.radioBox {
+      padding-left: 10px;
+    }
+  }
+}
+
+
+
+ion-popover.popoverSign {
+  --width: 840px;
+  --max-width: 100%;
+
+  .btn-catalogo, .btn-use-data {
+    margin-right: 15px;
+  }
+}
+
+
