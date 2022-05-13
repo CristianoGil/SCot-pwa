@@ -3,7 +3,6 @@ import Menu from "../../../components/Menu/Menu";
 import {CoDirectaTemplateMarkup} from '../../../components/Relatorios/templates/CoDirectaTemplate';
 import {MenuActionsBtnSignPDF} from '../../../components/Contra-Ordenacoes/MenuActionsBtn';
 import jsPDF from "jspdf";
-import html2canvas from 'html2canvas';
 import {IteratorArray} from "../../../common/iterator";
 import {blobToBase64, createCanvas} from "../../../utils/apex-formatters";
 import {useHistory} from "react-router";
@@ -26,7 +25,10 @@ const CODirectaSignPDFPreview: React.FC<IProps> = (props) => {
         })
         try {
             const pdf = await generatePDF(e);
-            const blobPDF = await blobToBase64(pdf.output('blob'))
+            const blobPDF = await blobToBase64(pdf.output('blob'));
+
+            console.log('blobPDF base64: ', blobPDF);
+
         } catch (e) {
             presentAlert({
                 header: 'Erro!',
