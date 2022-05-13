@@ -98,7 +98,10 @@ const InformacoesAdicionais: React.FC<IInformacoesAdicionais> = (props) => {
             representanteLegal
         }
 
-        props.setParentInformacoesAdicionaisData(_data)
+        if (_.has(props, 'setParentInformacoesAdicionaisData')) {
+            props.setParentInformacoesAdicionaisData(_data)
+        }
+        
     }, [firmaNome, dataEmissao, selectedFiscalOutro, numeroPolicia, morada, fraccao, localidade, codigoPostal, paisEmissao, representanteLegal])
     return (
         <IonCard className="infoAdicionais">

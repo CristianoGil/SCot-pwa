@@ -6,6 +6,7 @@ import {
 import {calendar} from "ionicons/icons"
 import React from "react";
 import {useState} from "react";
+import _ from "underscore";
 import {IDocumentoPessoa} from "../../../../model/person"
 import DatePicker from "../../../Combos/DatePicker";
 import DocIdentificacao from "../../../Combos/Pessoa/DocIdentificacao";
@@ -47,7 +48,11 @@ const DocumentoIdentificacao: React.FC<IDocumentoIdentificacao> = (props) => {
             entidadeEmissora,
             localEmissao
         }
-        props.setParentDocumentoIdentificacaoData(_data)
+
+        if (_.has(props, 'setParentDocumentoIdentificacaoData')) {
+            props.setParentDocumentoIdentificacaoData(_data)
+        }
+        
     }, [isPresentedDocumentoIdentificacao, docIdentificacao,numero,paisDeEmissao,entidadeEmissora, localEmissao]);
 
     return (

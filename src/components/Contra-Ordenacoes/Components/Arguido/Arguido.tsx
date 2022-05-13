@@ -170,7 +170,11 @@ const Arguido: React.FC<IArguido> = (props) => {
             arguidoVeiculoSingularColetivo: arguidoVeiculoSingularColetivo,
             paisEmissao: paisEmissao
         }
-        props.setParentArguidoData(_data)
+
+        if (_.has(props, 'setParentArguidoData')) {
+            props.setParentArguidoData(_data)
+        }
+
     },[isProprietarioVeiculo,arguidoNif,arguidoVeiculoSingularColetivo,paisEmissao])
     return (
         <IonCard className={'co-arguido'}>

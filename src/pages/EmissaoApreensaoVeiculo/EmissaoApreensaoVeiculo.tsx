@@ -6,9 +6,9 @@ import './EmissaoApreensaoVeiculo.scss';
 import Menu from '../../components/Menu/Menu';
 import React from 'react';
 
-import Intervenientes from '../../components/emissaoApreensaoVeiculo/Intervenientes/Intervenientes';
-import DadosInfracao from '../../components/emissaoApreensaoVeiculo/DadosInfracao/DadosInfracao';
-import DadosComplementares from '../../components/emissaoApreensaoVeiculo/DadosComplementares/DadosComplementares';
+import Intervenientes from '../../components/EmissaoApreensaoVeiculo/Intervenientes/Intervenientes';
+import DadosInfracao from '../../components/EmissaoApreensaoVeiculo/DadosInfracao/DadosInfracao';
+import DadosComplementares from '../../components/EmissaoApreensaoVeiculo/DadosComplementares/DadosComplementares';
 
 const RenderSegment = (props: { segment: string, setCoDirectaData: any }) => {
     if (props.segment === 'intervenientes') {
