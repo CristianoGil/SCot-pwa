@@ -1,5 +1,7 @@
 import {
+    IonBadge,
     IonButton,
+    IonButtons,
     IonCard,
     IonCardContent,
     IonCardHeader,
@@ -23,6 +25,7 @@ import AssinaturaManuscrito from "../../../components/Relatorios/Assinaturas/Ass
 import TipoAssinaturas from "../../../components/Combos/TipoAssinaturas";
 import React from "react";
 import _ from "underscore";
+import {alertCircle, alertOutline, checkmarkCircle} from "ionicons/icons";
 
 
 const assinaturaManuscrito = 'Assinatura Manuscrito';
@@ -252,14 +255,35 @@ const CODirectaSignPDFPreview: React.FC<IProps> = (props) => {
                     {/* Arguido assinatura*/}
                     {arguidoNaoAssinouNotificacao ? '' :
                         <IonCard style={{margin: 30}}>
-
-                            <IonCardContent>
+                            <IonItem>
+                                {_.isEmpty(assinaturaManuscritaArguido) ?
+                                    <IonIcon color="warning" icon={alertCircle}></IonIcon>
+                                    :
+                                    <IonIcon color="success" icon={checkmarkCircle}></IonIcon>
+                                }
+                            </IonItem>
+                            <IonCardContent style={{paddingTop: 0}}>
                                 <IonGrid>
                                     <IonRow>
+
                                         <IonCol size-sm="12" size-md="8" size-lg="6">
                                             <TipoAssinaturas interface={"popover"} inputName={"tipoAssinaturaArguido"}
                                                              selected={tipoAssinaturaArguido}
                                                              setSelected={setTipoAssinaturaArguido}/>
+                                        </IonCol>
+
+                                        <IonCol size="12">
+                                            <IonButtons>
+                                                <IonButton disabled={!!_.isEmpty(assinaturaManuscritaArguido)} fill="outline" strong={true} color="warning"
+                                                           onClick={(e) => {
+                                                               setAssinaturaManuscritaArguido('');
+                                                               setTipoAssinaturaArguido('')
+
+                                                           }
+                                                           }>
+                                                    Limpar a assinatura actual
+                                                </IonButton>
+                                            </IonButtons>
                                         </IonCol>
 
                                     </IonRow>
