@@ -8,11 +8,12 @@ import {
      
      } 
      from "../utils/const";
+import { AnularCobrancaRequest, AnularCobrancaResponse, ObterDadosPagamentoCobrancaRequest, ObterDadosPagamentoCobrancaResponse, ObterEstadoCobrancaRequest, ObterEstadoCobrancaResponse, AtualizarCobrancaRequest, AtualizarCobrancaResponse } from "../model/cobranca";
 
 export class CobrancaService{
   private apiUtils = new ApiUtils();
 
-    public anularCobranca(requestData:any): Promise<any> {
+    public anularCobranca(requestData:AnularCobrancaRequest): Promise<AnularCobrancaResponse> {
         return new Promise((resolve, reject) => {
             this.apiUtils.connectPostAPI(`${ANULAR_COBRANCA_ENDPOINT}`, requestData).then((response) => {
                 resolve(response.data);
@@ -22,7 +23,7 @@ export class CobrancaService{
         }) 
        }  
   
-       public obterDadosPagamentoCobranca(requestData:any): Promise<any> {
+       public obterDadosPagamentoCobranca(requestData:ObterDadosPagamentoCobrancaRequest): Promise<ObterDadosPagamentoCobrancaResponse> {
         return new Promise((resolve, reject) => {
             this.apiUtils.connectPostAPI(`${OBTER_DADOS_PAGAMENTO_COBRANCA_ENDPOINT}`, requestData).then((response) => {
                 resolve(response.data);
@@ -32,7 +33,7 @@ export class CobrancaService{
         }) 
        } 
        
-       public obterEstadoCobranca(requestData:any): Promise<any> {
+       public obterEstadoCobranca(requestData:ObterEstadoCobrancaRequest): Promise<ObterEstadoCobrancaResponse> {
         return new Promise((resolve, reject) => {
             this.apiUtils.connectPostAPI(`${OBTER_ESTADO_COBRANCA_ENDPOINT}`, requestData).then((response) => {
                 resolve(response.data);
@@ -42,7 +43,7 @@ export class CobrancaService{
         }) 
        }  
 
-       public atualizarCobranca(requestData:any): Promise<any> {
+       public atualizarCobranca(requestData:AtualizarCobrancaRequest): Promise<AtualizarCobrancaResponse> {
         return new Promise((resolve, reject) => {
             this.apiUtils.connectPostAPI(`${ATUALIZAR_COBRANCA_ENDPOINT}`, requestData).then((response) => {
                 resolve(response.data);
