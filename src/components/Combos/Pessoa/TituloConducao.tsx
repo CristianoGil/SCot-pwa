@@ -39,7 +39,7 @@ const TituloConducaoCombo: React.FC<IProps> = (props) => {
                            props.setSelected(e.detail.value);
                        }}>
 
-                {combos?.map((local: any) => {
+                {(combos || []).map((local: any) => {
                     return (
                         <IonSelectOption key={`${local.id}`}
                                          value={local.id}>{`${local.descricao}`}</IonSelectOption>

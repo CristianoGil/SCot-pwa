@@ -37,7 +37,7 @@ const Classe: React.FC<IClasse> = (props: IClasse) => {
             <IonLabel>{props.textLabel}</IonLabel>
             <IonSelect value={props.selected} interface={props.interface} name={props.inputName}
                        onIonChange={e => props.setSelected(e.detail.value)}>
-                {combos?.map((classe: any) => {
+                {(combos || []).map((classe: any) => {
                     return (
                         <IonSelectOption key={`${classe.id}`} value={classe.id}>{classe.descricao}</IonSelectOption>
                     )
