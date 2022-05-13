@@ -19,3 +19,21 @@ export const LOAD_COMBOS_PATH = [
     'organizacoes/carregarCombosOrganizacoes',
     'veiculos/carregarCombosVeiculo'
 ];  
+
+export const COIMAS_PREFIX='v1/coimas'
+export const PESQUISAR_COIMAS_EM_ATRASO_ENDPOINT= `${COIMAS_PREFIX}/pesquisarCoimasEmAtraso`
+export const PESQUISAR_COIMAS_VOLUNT_EM_ATRASO_ENDPOINT=`${COIMAS_PREFIX}/pesquisarCoimasVoluntEmAtraso`
+
+export const CARTA_CONDUCAO_PREFIX='v1/cartaconducao'
+export const OBTER_DADOS_CARTA_CONDUCAO=`${CARTA_CONDUCAO_PREFIX}/obterInformacao`
+
+export const DOCUMENTOS_APREENDIDOS_PREFIX='v1/documentosapreendidos'
+export const CONSULTAR_DOCUMENTOS=`${DOCUMENTOS_APREENDIDOS_PREFIX}/obterInformacao`
+
+export const FICHA_CONTROLES_PREFIX='v1/fichactrl'
+
+export const SANCOES_PREFIX='v1/pesquisaSancoesAcessorias'
+
+export const LIVRETE_PREFIX='v1/consultainfolivrete'
+
+
