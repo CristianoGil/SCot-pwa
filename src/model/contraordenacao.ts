@@ -31,3 +31,8 @@ export interface ICombosContraOrdenacaoPessoa {
 export interface IPesquisarVeiculoResponse {
     veiculo: IVeiculo
 }
+
+export interface ICombosAssinaturas {
+    opcoesAssinaturas: IID_DESCRICAO[];
+    opcoesAssinaturasQualificadas: IID_DESCRICAO[];
+}

@@ -75,3 +75,8 @@ export function createCanvas (element: HTMLElement | null, opt?: any ): Promise<
   })
 
 }
+
+
+export function cleanString (str: string): string {
+  return str.trim().toLowerCase().replace(' ', '_')
+}

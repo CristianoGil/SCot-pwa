@@ -14,6 +14,7 @@ export const LOAD_COMBOS_PATH = [
     'contraOrdenacao/carregarCombosInfracao',
     'contraOrdenacao/carregarCombosVeiculo',
     'contraOrdenacao/carregarCombosAutoBloqueamentoRemocaoVeiculos',
+    'contraOrdenacao/getCombosAssinaturas',
     'documentos/carregarCombosDocumento',
     'locais/carregarCombosLocal',
     'organizacoes/carregarCombosOrganizacoes',

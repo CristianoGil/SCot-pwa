@@ -130,6 +130,34 @@ export class Contraordenacao {
             }
         })
     }
+
+
+    public carregarCombosAssinaturas(): Promise<any> {
+        return new Promise((resolve, reject) => {
+
+            if (!_.contains(getPlatforms(), 'desktop')) { // Load offline data
+
+                const instanceOfflineData = new LoadOfflineData();
+                instanceOfflineData.fetch_combos('contraOrdenacao_getCombosAssinaturas'.toLowerCase()).then((data: any) => {
+                    resolve(data);
+                }).catch((error: AxiosError) => {
+                    reject(error);
+                })
+
+            } else { // Go to the internet for load data
+
+                const service_url = 'getCombosAssinaturas';
+                this.connectGetAPI(`${this.prefix_url}/${service_url}`).then((response) => {
+                    const data = response.data;
+                    resolve(data);
+                }).catch((error: AxiosError) => {
+                    console.error(`${service_url}:`, error);
+                    reject(error);
+                })
+
+            }
+        })
+    }
     
 
 }
