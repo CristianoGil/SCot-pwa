@@ -35,7 +35,7 @@ const Marca: React.FC<IMarca> = (props: IMarca) => {
             <IonLabel>{props.textLabel}</IonLabel>
             <IonSelect value={props.selected} interface={props.interface} name={props.inputName}
                        onIonChange={e => props.setSelected(e.detail.value)}>
-                {combos?.map((marca: any) => {
+                {(combos || []).map((marca: any) => {
                     return (
                         <IonSelectOption key={`${marca.id}`}
                                          value={marca.id}>{marca.descricao}</IonSelectOption>

@@ -38,7 +38,7 @@ const EntidadeEmissora: React.FC<IPROPSEntidadeEmissora> = (props: IPROPSEntidad
             <IonSelect name={props.inputName} value={props.selected} interface={props.interface}
                        onIonChange={e => props.setSelected(e.detail.value)}>
 
-                {combos?.map((entidade: any) => {
+                {(combos || []).map((entidade: any) => {
                     return (
                         <IonSelectOption key={`${entidade.id}`}
                                          value={entidade.id}>{`${entidade.descricao}`}</IonSelectOption>

@@ -37,7 +37,7 @@ const Tipo: React.FC<ITipo> = (props: ITipo) => {
             <IonLabel>{props.textLabel}</IonLabel>
             <IonSelect value={props.selected} interface={props.interface} name={props.inputName}
                        onIonChange={e => props.setSelected(e.detail.value)}>
-                {combos?.map((tipo: any) => {
+                {(combos || []).map((tipo: any) => {
                     return (
                         <IonSelectOption key={`${tipo.id}`} value={tipo.id}>{tipo.descricao}</IonSelectOption>
                     )

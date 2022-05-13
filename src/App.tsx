@@ -43,6 +43,7 @@ import EmissaoApresentacaoDocumentos from './pages/EmissaoApresentacaoDocumentos
 import EmissaoApreensaoVeiculo from './pages/EmissaoApreensaoVeiculo/EmissaoApreensaoVeiculo';
 import EmissaoTesteAlcoolemia from './pages/EmissaoTesteAlcoolemia/EmissaoTesteAlcoolemia';
 import CODirectaSignPDFPreview from './pages/ContraOrdenacoes/Co-Directa/CO-SignPDFPreview';
+
 interface IProtectedProps {
     isAllowed: boolean
     redirectPath?: string
@@ -136,6 +137,6 @@ const App: React.FC = () => {
         </IonApp>
 
     );
-};
+}
 
 export default App;

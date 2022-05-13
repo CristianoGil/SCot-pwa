@@ -53,7 +53,7 @@ const Cor: React.FC<ICor> = (props: ICor) => {
                 <IonIcon icon={colorPaletteOutline}/>
             </IonButton>
             <IonPopover trigger={`open-${props.inputName}`} showBackdrop={false}>
-                <CompactPicker colors={(combos?.map((e) => e.descricao))}
+                <CompactPicker colors={((combos || []).map((e) => e.descricao))}
                                onSwatchHover={(color: any) => props.setSelected(color.hex)}/>
             </IonPopover>
         </IonItem>
