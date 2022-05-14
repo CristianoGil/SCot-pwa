@@ -103,8 +103,6 @@ const CODirectaSignPDFPreview: React.FC<IProps> = (props) => {
     const history = useHistory();
 
     const [signatureManuscrito_arguido, setSignatureManuscrito_arguido] = useState<any>();
-
-
     const [arguidoNaoAssinouNotificacao, setArguidoNaoAssinouNotificacao] = useState(false);
 
 
@@ -144,13 +142,6 @@ const CODirectaSignPDFPreview: React.FC<IProps> = (props) => {
         }
 
     }, [tipoAssinaturaArguido])
-    // const signArguido = (value: any) => {
-    //     setTipoAssinaturaArguido(value);
-    //
-    //     if (value === 'signManuscrito') {
-    //         // setToggleModalAssinaturaManuscrita(true)
-    //     }
-    // }
 
 
     // START: Sign on PDF
@@ -254,14 +245,29 @@ const CODirectaSignPDFPreview: React.FC<IProps> = (props) => {
 
                     {/* Arguido assinatura*/}
                     {arguidoNaoAssinouNotificacao ? '' :
+
                         <IonCard style={{margin: 30}}>
-                            <IonItem>
+
+                            <IonCardHeader>
+                                <IonCardTitle style={{paddingLeft: 15}}> Arguido </IonCardTitle>
+
                                 {_.isEmpty(assinaturaManuscritaArguido) ?
-                                    <IonIcon color="warning" icon={alertCircle}></IonIcon>
+                                    <IonIcon style={{
+                                        position: "absolute",
+                                        left: 10,
+                                        top: 20,
+                                        fontSize: 16
+                                    }} color="warning" icon={alertCircle}></IonIcon>
                                     :
-                                    <IonIcon color="success" icon={checkmarkCircle}></IonIcon>
+                                    <IonIcon style={{
+                                        position: "absolute",
+                                        left: 10,
+                                        top: 20,
+                                        fontSize: 16
+                                    }} color="success" icon={checkmarkCircle}></IonIcon>
                                 }
-                            </IonItem>
+
+                            </IonCardHeader>
                             <IonCardContent style={{paddingTop: 0}}>
                                 <IonGrid>
                                     <IonRow>
@@ -274,13 +280,12 @@ const CODirectaSignPDFPreview: React.FC<IProps> = (props) => {
 
                                         <IonCol size="12">
                                             <IonButtons>
-                                                <IonButton disabled={!!_.isEmpty(assinaturaManuscritaArguido)} fill="outline" strong={true} color="warning"
+                                                <IonButton disabled={!!_.isEmpty(assinaturaManuscritaArguido)}
+                                                           fill="outline" strong={true} color="warning"
                                                            onClick={(e) => {
                                                                setAssinaturaManuscritaArguido('');
                                                                setTipoAssinaturaArguido('')
-
-                                                           }
-                                                           }>
+                                                           }}>
                                                     Limpar a assinatura actual
                                                 </IonButton>
                                             </IonButtons>
