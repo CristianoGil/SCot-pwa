@@ -1,125 +1,129 @@
 import _ from 'underscore'
 
 interface IProps {
-    assinaturaManuscritoArguido?: string
+    assinaturaArguido?: string
+    assinaturaTestemunha_1?: string
+    assinaturaTestemunha_2?: string
+    assinaturaAgente?: string
 }
+
 export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
-    const {assinaturaManuscritoArguido} = props;
+    const {assinaturaArguido, assinaturaTestemunha_1, assinaturaTestemunha_2, assinaturaAgente} = props;
     return (
-    <table
-        id="CO_DIRECTA_JR_PAGE_ANCHOR_0_1"
-        role="none"
-        className="jrPage"
-        data-jr-height={842}
-        cellPadding={0}
-        cellSpacing={0}
-        style={{
-            emptyCells: "show",
-            width: 595,
-            height: 842,
-            borderCollapse: "collapse",
-            backgroundColor: "white"
-        }}
-    >
-        <style
-            type="text/css"
-            dangerouslySetInnerHTML={{
-                __html:
-                    "\n                    #JR_PAGE_ANCHOR_0_1 th {\n                        font-weight: normal;\n                    }\n\n                    #JR_PAGE_ANCHOR_0_1 ul {\n                        list-style-type: disc;\n                        padding-inline-start: 40px;\n                        margin: 0px;\n                    }\n\n                    #JR_PAGE_ANCHOR_0_1 ol {\n                        list-style-type: decimal;\n                        padding-inline-start: 40px;\n                        margin: 0px;\n                    }\n                "
+        <table
+            id="CO_DIRECTA_JR_PAGE_ANCHOR_0_1"
+            role="none"
+            className="jrPage"
+            data-jr-height={842}
+            cellPadding={0}
+            cellSpacing={0}
+            style={{
+                emptyCells: "show",
+                width: 595,
+                height: 842,
+                borderCollapse: "collapse",
+                backgroundColor: "white"
             }}
-        />
-        <tbody>
-        <tr role="none" style={{height: 0}}>
-            <td style={{width: 20}}/>
-            <td style={{width: 4}}/>
-            <td style={{width: 3}}/>
-            <td style={{width: 2}}/>
-            <td style={{width: 21}}/>
-            <td style={{width: 10}}/>
-            <td style={{width: 10}}/>
-            <td style={{width: 4}}/>
-            <td style={{width: 6}}/>
-            <td style={{width: 1}}/>
-            <td style={{width: 9}}/>
-            <td style={{width: 1}}/>
-            <td style={{width: 9}}/>
-            <td style={{width: 1}}/>
-            <td style={{width: 9}}/>
-            <td style={{width: 5}}/>
-            <td style={{width: 3}}/>
-            <td style={{width: 5}}/>
-            <td style={{width: 7}}/>
-            <td style={{width: 10}}/>
-            <td style={{width: 11}}/>
-            <td style={{width: 9}}/>
-            <td style={{width: 2}}/>
-            <td style={{width: 8}}/>
-            <td style={{width: 20}}/>
-            <td style={{width: 8}}/>
-            <td style={{width: 2}}/>
-            <td style={{width: 5}}/>
-            <td style={{width: 13}}/>
-            <td style={{width: 11}}/>
-            <td style={{width: 1}}/>
-            <td style={{width: 4}}/>
-            <td style={{width: 5}}/>
-            <td style={{width: 3}}/>
-            <td style={{width: 7}}/>
-            <td style={{width: 1}}/>
-            <td style={{width: 5}}/>
-            <td style={{width: 1}}/>
-            <td style={{width: 2}}/>
-            <td style={{width: 1}}/>
-            <td style={{width: 1}}/>
-            <td style={{width: 14}}/>
-            <td style={{width: 6}}/>
-            <td style={{width: 10}}/>
-            <td style={{width: 6}}/>
-            <td style={{width: 2}}/>
-            <td style={{width: 2}}/>
-            <td style={{width: 1}}/>
-            <td style={{width: 7}}/>
-            <td style={{width: 6}}/>
-            <td style={{width: 16}}/>
-            <td style={{width: 5}}/>
-            <td style={{width: 4}}/>
-            <td style={{width: 7}}/>
-            <td style={{width: 1}}/>
-            <td style={{width: 28}}/>
-            <td style={{width: 20}}/>
-            <td style={{width: 1}}/>
-            <td style={{width: 4}}/>
-            <td style={{width: 6}}/>
-            <td style={{width: 54}}/>
-            <td style={{width: 5}}/>
-            <td style={{width: 1}}/>
-            <td style={{width: 2}}/>
-            <td style={{width: 2}}/>
-            <td style={{width: 20}}/>
-            <td style={{width: 10}}/>
-            <td style={{width: 6}}/>
-            <td style={{width: 19}}/>
-            <td style={{width: 45}}/>
-            <td style={{width: 25}}/>
-        </tr>
-        <tr   style={{height: 20}}>
-            <td colSpan={71}></td>
-        </tr>
-        <tr   style={{height: 16}}>
-            <td colSpan={4}></td>
-            <td
-                colSpan={8}
-                rowSpan={9}
-                style={{textAlign: "center", verticalAlign: "middle"}}
-            >
-                <img src={"assets/icon/relatorios/BRASAO.png"}/>
-            </td>
-            <td></td>
-            <td
-                colSpan={34}
-                rowSpan={3}
-                style={{textIndent: 0, textAlign: "center"}}
-            >
+        >
+            <style
+                type="text/css"
+                dangerouslySetInnerHTML={{
+                    __html:
+                        "\n                    #JR_PAGE_ANCHOR_0_1 th {\n                        font-weight: normal;\n                    }\n\n                    #JR_PAGE_ANCHOR_0_1 ul {\n                        list-style-type: disc;\n                        padding-inline-start: 40px;\n                        margin: 0px;\n                    }\n\n                    #JR_PAGE_ANCHOR_0_1 ol {\n                        list-style-type: decimal;\n                        padding-inline-start: 40px;\n                        margin: 0px;\n                    }\n                "
+                }}
+            />
+            <tbody>
+            <tr role="none" style={{height: 0}}>
+                <td style={{width: 20}}/>
+                <td style={{width: 4}}/>
+                <td style={{width: 3}}/>
+                <td style={{width: 2}}/>
+                <td style={{width: 21}}/>
+                <td style={{width: 10}}/>
+                <td style={{width: 10}}/>
+                <td style={{width: 4}}/>
+                <td style={{width: 6}}/>
+                <td style={{width: 1}}/>
+                <td style={{width: 9}}/>
+                <td style={{width: 1}}/>
+                <td style={{width: 9}}/>
+                <td style={{width: 1}}/>
+                <td style={{width: 9}}/>
+                <td style={{width: 5}}/>
+                <td style={{width: 3}}/>
+                <td style={{width: 5}}/>
+                <td style={{width: 7}}/>
+                <td style={{width: 10}}/>
+                <td style={{width: 11}}/>
+                <td style={{width: 9}}/>
+                <td style={{width: 2}}/>
+                <td style={{width: 8}}/>
+                <td style={{width: 20}}/>
+                <td style={{width: 8}}/>
+                <td style={{width: 2}}/>
+                <td style={{width: 5}}/>
+                <td style={{width: 13}}/>
+                <td style={{width: 11}}/>
+                <td style={{width: 1}}/>
+                <td style={{width: 4}}/>
+                <td style={{width: 5}}/>
+                <td style={{width: 3}}/>
+                <td style={{width: 7}}/>
+                <td style={{width: 1}}/>
+                <td style={{width: 5}}/>
+                <td style={{width: 1}}/>
+                <td style={{width: 2}}/>
+                <td style={{width: 1}}/>
+                <td style={{width: 1}}/>
+                <td style={{width: 14}}/>
+                <td style={{width: 6}}/>
+                <td style={{width: 10}}/>
+                <td style={{width: 6}}/>
+                <td style={{width: 2}}/>
+                <td style={{width: 2}}/>
+                <td style={{width: 1}}/>
+                <td style={{width: 7}}/>
+                <td style={{width: 6}}/>
+                <td style={{width: 16}}/>
+                <td style={{width: 5}}/>
+                <td style={{width: 4}}/>
+                <td style={{width: 7}}/>
+                <td style={{width: 1}}/>
+                <td style={{width: 28}}/>
+                <td style={{width: 20}}/>
+                <td style={{width: 1}}/>
+                <td style={{width: 4}}/>
+                <td style={{width: 6}}/>
+                <td style={{width: 54}}/>
+                <td style={{width: 5}}/>
+                <td style={{width: 1}}/>
+                <td style={{width: 2}}/>
+                <td style={{width: 2}}/>
+                <td style={{width: 20}}/>
+                <td style={{width: 10}}/>
+                <td style={{width: 6}}/>
+                <td style={{width: 19}}/>
+                <td style={{width: 45}}/>
+                <td style={{width: 25}}/>
+            </tr>
+            <tr style={{height: 20}}>
+                <td colSpan={71}></td>
+            </tr>
+            <tr style={{height: 16}}>
+                <td colSpan={4}></td>
+                <td
+                    colSpan={8}
+                    rowSpan={9}
+                    style={{textAlign: "center", verticalAlign: "middle"}}
+                >
+                    <img src={"assets/icon/relatorios/BRASAO.png"}/>
+                </td>
+                <td></td>
+                <td
+                    colSpan={34}
+                    rowSpan={3}
+                    style={{textIndent: 0, textAlign: "center"}}
+                >
           <span
               style={{
                   fontFamily: "Arial Rounded MT Bold",
@@ -130,9 +134,9 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
           >
             Ministério da Administração{" "}
           </span>
-            </td>
-            <td colSpan={20}></td>
-            <td colSpan={3} style={{textIndent: 0, textAlign: "right"}}>
+                </td>
+                <td colSpan={20}></td>
+                <td colSpan={3} style={{textIndent: 0, textAlign: "right"}}>
           <span
               style={{
                   fontFamily: "Arial Rounded MT Bold",
@@ -143,23 +147,23 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
           >
             ORIGINAL
           </span>
-            </td>
-            <td></td>
-        </tr>
-        <tr   style={{height: 1}}>
-            <td colSpan={4}></td>
-            <td></td>
-            <td colSpan={24}></td>
-        </tr>
-        <tr   style={{height: 3}}>
-            <td colSpan={4}></td>
-            <td></td>
-            <td colSpan={18}></td>
-            <td
-                colSpan={2}
-                rowSpan={2}
-                style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-            >
+                </td>
+                <td></td>
+            </tr>
+            <tr style={{height: 1}}>
+                <td colSpan={4}></td>
+                <td></td>
+                <td colSpan={24}></td>
+            </tr>
+            <tr style={{height: 3}}>
+                <td colSpan={4}></td>
+                <td></td>
+                <td colSpan={18}></td>
+                <td
+                    colSpan={2}
+                    rowSpan={2}
+                    style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
+                >
           <span
               style={{
                   fontFamily: "Arial Rounded MT Bold",
@@ -170,22 +174,22 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
           >
             Auto{" "}
           </span>
-            </td>
-            <td
-                colSpan={3}
-                rowSpan={2}
-                style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-            ></td>
-            <td></td>
-        </tr>
-        <tr   style={{height: 13}}>
-            <td colSpan={4}></td>
-            <td></td>
-            <td
-                colSpan={34}
-                rowSpan={3}
-                style={{textIndent: 0, textAlign: "center"}}
-            >
+                </td>
+                <td
+                    colSpan={3}
+                    rowSpan={2}
+                    style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
+                ></td>
+                <td></td>
+            </tr>
+            <tr style={{height: 13}}>
+                <td colSpan={4}></td>
+                <td></td>
+                <td
+                    colSpan={34}
+                    rowSpan={3}
+                    style={{textIndent: 0, textAlign: "center"}}
+                >
           <span
               style={{
                   fontFamily: "Arial Rounded MT Bold",
@@ -196,24 +200,24 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
           >
             Guarda Nacional Republicana
           </span>
-            </td>
-            <td colSpan={18}></td>
-            <td></td>
-        </tr>
-        <tr   style={{height: 1}}>
-            <td colSpan={4}></td>
-            <td></td>
-            <td colSpan={24}></td>
-        </tr>
-        <tr   style={{height: 2}}>
-            <td colSpan={4}></td>
-            <td></td>
-            <td colSpan={18}></td>
-            <td
-                colSpan={2}
-                rowSpan={2}
-                style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-            >
+                </td>
+                <td colSpan={18}></td>
+                <td></td>
+            </tr>
+            <tr style={{height: 1}}>
+                <td colSpan={4}></td>
+                <td></td>
+                <td colSpan={24}></td>
+            </tr>
+            <tr style={{height: 2}}>
+                <td colSpan={4}></td>
+                <td></td>
+                <td colSpan={18}></td>
+                <td
+                    colSpan={2}
+                    rowSpan={2}
+                    style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
+                >
           <span
               style={{
                   fontFamily: "Arial Rounded MT Bold",
@@ -224,26 +228,26 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
           >
             EA{" "}
           </span>
-            </td>
-            <td
-                colSpan={3}
-                rowSpan={2}
-                style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-            ></td>
-            <td></td>
-        </tr>
-        <tr   style={{height: 16}}>
-            <td colSpan={4}></td>
-            <td colSpan={2}></td>
-            <td
-                colSpan={34}
-                rowSpan={2}
-                style={{
-                    textIndent: 0,
-                    verticalAlign: "middle",
-                    textAlign: "center"
-                }}
-            >
+                </td>
+                <td
+                    colSpan={3}
+                    rowSpan={2}
+                    style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
+                ></td>
+                <td></td>
+            </tr>
+            <tr style={{height: 16}}>
+                <td colSpan={4}></td>
+                <td colSpan={2}></td>
+                <td
+                    colSpan={34}
+                    rowSpan={2}
+                    style={{
+                        textIndent: 0,
+                        verticalAlign: "middle",
+                        textAlign: "center"
+                    }}
+                >
           <span
               style={{
                   fontFamily: "Arial Rounded MT Bold",
@@ -254,16 +258,16 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
           >
             AUTO DE CONTRAORDENAÇÃO{" "}
           </span>
-            </td>
-            <td
-                colSpan={10}
-                rowSpan={2}
-                style={{
-                    textIndent: 0,
-                    verticalAlign: "middle",
-                    textAlign: "center"
-                }}
-            >
+                </td>
+                <td
+                    colSpan={10}
+                    rowSpan={2}
+                    style={{
+                        textIndent: 0,
+                        verticalAlign: "middle",
+                        textAlign: "center"
+                    }}
+                >
           <span
               style={{
                   fontFamily: "Arial Rounded MT Bold",
@@ -274,98 +278,98 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
           >
             (Frente / Verso)
           </span>
-            </td>
-            <td colSpan={7}></td>
-            <td></td>
-        </tr>
-        <tr   style={{height: 2}}>
-            <td colSpan={4}></td>
-            <td colSpan={2}></td>
-            <td colSpan={13}></td>
-        </tr>
-        <tr   style={{height: 5}}>
-            <td colSpan={4}></td>
-            <td colSpan={59}></td>
-        </tr>
-        <tr   style={{height: 1}}>
-            <td colSpan={71}></td>
-        </tr>
-        <tr   style={{height: 20}}>
-            <td></td>
-            <td colSpan={69}>
-                <div style={{width: "100%", height: "100%", position: "relative"}}>
-                    <div
-                        style={{
-                            position: "absolute",
-                            overflow: "hidden",
-                            width: "100%",
-                            height: "100%"
-                        }}
-                    >
-                        <table
-                            cellPadding={0}
-                            cellSpacing={0}
-
+                </td>
+                <td colSpan={7}></td>
+                <td></td>
+            </tr>
+            <tr style={{height: 2}}>
+                <td colSpan={4}></td>
+                <td colSpan={2}></td>
+                <td colSpan={13}></td>
+            </tr>
+            <tr style={{height: 5}}>
+                <td colSpan={4}></td>
+                <td colSpan={59}></td>
+            </tr>
+            <tr style={{height: 1}}>
+                <td colSpan={71}></td>
+            </tr>
+            <tr style={{height: 20}}>
+                <td></td>
+                <td colSpan={69}>
+                    <div style={{width: "100%", height: "100%", position: "relative"}}>
+                        <div
                             style={{
-                                emptyCells: "show",
+                                position: "absolute",
+                                overflow: "hidden",
                                 width: "100%",
-                                borderCollapse: "collapse"
+                                height: "100%"
                             }}
                         >
-                            <tbody>
-                            <tr role="none"   style={{height: 0}}>
-                                <td style={{width: 550}}/>
-                            </tr>
-                            <tr   style={{height: 1}}>
-                                <td
-                                    style={{
-                                        pointerEvents: "auto",
-                                        backgroundColor: "#FFFFFF",
-                                        borderTop: "1px solid #000000"
-                                    }}
-                                ></td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div
-                        style={{
-                            position: "relative",
-                            width: "100%",
-                            height: "100%",
-                            pointerEvents: "none"
-                        }}
-                    >
-                        <table
-                            cellPadding={0}
-                            cellSpacing={0}
+                            <table
+                                cellPadding={0}
+                                cellSpacing={0}
 
+                                style={{
+                                    emptyCells: "show",
+                                    width: "100%",
+                                    borderCollapse: "collapse"
+                                }}
+                            >
+                                <tbody>
+                                <tr role="none" style={{height: 0}}>
+                                    <td style={{width: 550}}/>
+                                </tr>
+                                <tr style={{height: 1}}>
+                                    <td
+                                        style={{
+                                            pointerEvents: "auto",
+                                            backgroundColor: "#FFFFFF",
+                                            borderTop: "1px solid #000000"
+                                        }}
+                                    ></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div
                             style={{
-                                emptyCells: "show",
+                                position: "relative",
                                 width: "100%",
-                                borderCollapse: "collapse"
+                                height: "100%",
+                                pointerEvents: "none"
                             }}
                         >
-                            <tbody>
-                            <tr role="none"   style={{height: 0}}>
-                                <td style={{width: 70}}/>
-                                <td style={{width: 10}}/>
-                                <td style={{width: 40}}/>
-                                <td style={{width: 430}}/>
-                            </tr>
-                            <tr   style={{height: 1}}>
-                                <td
-                                    rowSpan={2}
-                                    style={{
-                                        pointerEvents: "auto",
-                                        borderLeft: "1px solid #000000",
-                                        borderBottom: "1px solid #000000",
-                                        borderRight: "1px solid #000000",
-                                        textIndent: 0,
-                                        verticalAlign: "middle",
-                                        textAlign: "center"
-                                    }}
-                                >
+                            <table
+                                cellPadding={0}
+                                cellSpacing={0}
+
+                                style={{
+                                    emptyCells: "show",
+                                    width: "100%",
+                                    borderCollapse: "collapse"
+                                }}
+                            >
+                                <tbody>
+                                <tr role="none" style={{height: 0}}>
+                                    <td style={{width: 70}}/>
+                                    <td style={{width: 10}}/>
+                                    <td style={{width: 40}}/>
+                                    <td style={{width: 430}}/>
+                                </tr>
+                                <tr style={{height: 1}}>
+                                    <td
+                                        rowSpan={2}
+                                        style={{
+                                            pointerEvents: "auto",
+                                            borderLeft: "1px solid #000000",
+                                            borderBottom: "1px solid #000000",
+                                            borderRight: "1px solid #000000",
+                                            textIndent: 0,
+                                            verticalAlign: "middle",
+                                            textAlign: "center"
+                                        }}
+                                    >
                       <span
                           style={{
                               fontFamily: "Arial Rounded MT Bold",
@@ -376,17 +380,17 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
                       >
                         Arguido
                       </span>
-                                </td>
-                                <td></td>
-                                <td
-                                    rowSpan={2}
-                                    style={{
-                                        pointerEvents: "auto",
-                                        textIndent: 0,
-                                        verticalAlign: "bottom",
-                                        textAlign: "left"
-                                    }}
-                                >
+                                    </td>
+                                    <td></td>
+                                    <td
+                                        rowSpan={2}
+                                        style={{
+                                            pointerEvents: "auto",
+                                            textIndent: 0,
+                                            verticalAlign: "bottom",
+                                            textAlign: "left"
+                                        }}
+                                    >
                       <span
                           style={{
                               fontFamily: "Arial Rounded MT Bold",
@@ -397,33 +401,33 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
                       >
                         Nome
                       </span>
-                                </td>
-                                <td></td>
-                            </tr>
-                            <tr   style={{height: 19}}>
-                                <td></td>
-                                <td
-                                    style={{
-                                        pointerEvents: "auto",
-                                        textIndent: 0,
-                                        verticalAlign: "bottom",
-                                        textAlign: "left"
-                                    }}
-                                ></td>
-                            </tr>
-                            </tbody>
-                        </table>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr style={{height: 19}}>
+                                    <td></td>
+                                    <td
+                                        style={{
+                                            pointerEvents: "auto",
+                                            textIndent: 0,
+                                            verticalAlign: "bottom",
+                                            textAlign: "left"
+                                        }}
+                                    ></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                </div>
-            </td>
-            <td></td>
-        </tr>
-        <tr   style={{height: 20}}>
-            <td colSpan={13}></td>
-            <td
-                colSpan={10}
-                style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-            >
+                </td>
+                <td></td>
+            </tr>
+            <tr style={{height: 20}}>
+                <td colSpan={13}></td>
+                <td
+                    colSpan={10}
+                    style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
+                >
           <span
               style={{
                   fontFamily: "Arial Rounded MT Bold",
@@ -434,20 +438,20 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
           >
             Nascido a
           </span>
-            </td>
-            <td
-                colSpan={26}
-                style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-            ></td>
-            <td></td>
-            <td
-                colSpan={5}
-                style={{
-                    textIndent: 0,
-                    verticalAlign: "bottom",
-                    textAlign: "center"
-                }}
-            >
+                </td>
+                <td
+                    colSpan={26}
+                    style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
+                ></td>
+                <td></td>
+                <td
+                    colSpan={5}
+                    style={{
+                        textIndent: 0,
+                        verticalAlign: "bottom",
+                        textAlign: "center"
+                    }}
+                >
           <span
               style={{
                   fontFamily: "Arial Rounded MT Bold",
@@ -458,19 +462,19 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
           >
             NIF
           </span>
-            </td>
-            <td
-                colSpan={15}
-                style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-            ></td>
-            <td></td>
-        </tr>
-        <tr   style={{height: 20}}>
-            <td></td>
-            <td
-                colSpan={4}
-                style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-            >
+                </td>
+                <td
+                    colSpan={15}
+                    style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
+                ></td>
+                <td></td>
+            </tr>
+            <tr style={{height: 20}}>
+                <td></td>
+                <td
+                    colSpan={4}
+                    style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
+                >
           <span
               style={{
                   fontFamily: "Arial Rounded MT Bold",
@@ -481,20 +485,20 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
           >
             CC
           </span>
-            </td>
-            <td
-                colSpan={32}
-                style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-            ></td>
-            <td colSpan={4}></td>
-            <td
-                colSpan={10}
-                style={{
-                    textIndent: 0,
-                    verticalAlign: "bottom",
-                    textAlign: "center"
-                }}
-            >
+                </td>
+                <td
+                    colSpan={32}
+                    style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
+                ></td>
+                <td colSpan={4}></td>
+                <td
+                    colSpan={10}
+                    style={{
+                        textIndent: 0,
+                        verticalAlign: "bottom",
+                        textAlign: "center"
+                    }}
+                >
           <span
               style={{
                   fontFamily: "Arial Rounded MT Bold",
@@ -505,19 +509,19 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
           >
             Emitido por
           </span>
-            </td>
-            <td
-                colSpan={10}
-                style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-            ></td>
-            <td
-                colSpan={5}
-                style={{
-                    textIndent: 0,
-                    verticalAlign: "bottom",
-                    textAlign: "center"
-                }}
-            >
+                </td>
+                <td
+                    colSpan={10}
+                    style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
+                ></td>
+                <td
+                    colSpan={5}
+                    style={{
+                        textIndent: 0,
+                        verticalAlign: "bottom",
+                        textAlign: "center"
+                    }}
+                >
           <span
               style={{
                   fontFamily: "Arial Rounded MT Bold",
@@ -528,19 +532,19 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
           >
             em
           </span>
-            </td>
-            <td
-                colSpan={4}
-                style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-            ></td>
-            <td></td>
-        </tr>
-        <tr   style={{height: 20}}>
-            <td></td>
-            <td
-                colSpan={4}
-                style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-            >
+                </td>
+                <td
+                    colSpan={4}
+                    style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
+                ></td>
+                <td></td>
+            </tr>
+            <tr style={{height: 20}}>
+                <td></td>
+                <td
+                    colSpan={4}
+                    style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
+                >
           <span
               style={{
                   fontFamily: "Arial Rounded MT Bold",
@@ -551,20 +555,20 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
           >
             BI
           </span>
-            </td>
-            <td
-                colSpan={29}
-                style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-            ></td>
-            <td colSpan={7}></td>
-            <td
-                colSpan={10}
-                style={{
-                    textIndent: 0,
-                    verticalAlign: "bottom",
-                    textAlign: "center"
-                }}
-            >
+                </td>
+                <td
+                    colSpan={29}
+                    style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
+                ></td>
+                <td colSpan={7}></td>
+                <td
+                    colSpan={10}
+                    style={{
+                        textIndent: 0,
+                        verticalAlign: "bottom",
+                        textAlign: "center"
+                    }}
+                >
           <span
               style={{
                   fontFamily: "Arial Rounded MT Bold",
@@ -575,19 +579,19 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
           >
             Emitido por
           </span>
-            </td>
-            <td
-                colSpan={10}
-                style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-            ></td>
-            <td
-                colSpan={5}
-                style={{
-                    textIndent: 0,
-                    verticalAlign: "bottom",
-                    textAlign: "center"
-                }}
-            >
+                </td>
+                <td
+                    colSpan={10}
+                    style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
+                ></td>
+                <td
+                    colSpan={5}
+                    style={{
+                        textIndent: 0,
+                        verticalAlign: "bottom",
+                        textAlign: "center"
+                    }}
+                >
           <span
               style={{
                   fontFamily: "Arial Rounded MT Bold",
@@ -598,19 +602,19 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
           >
             em
           </span>
-            </td>
-            <td
-                colSpan={4}
-                style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-            ></td>
-            <td></td>
-        </tr>
-        <tr   style={{height: 20}}>
-            <td></td>
-            <td
-                colSpan={8}
-                style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-            >
+                </td>
+                <td
+                    colSpan={4}
+                    style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
+                ></td>
+                <td></td>
+            </tr>
+            <tr style={{height: 20}}>
+                <td></td>
+                <td
+                    colSpan={8}
+                    style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
+                >
           <span
               style={{
                   fontFamily: "Arial Rounded MT Bold",
@@ -621,37 +625,37 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
           >
             Domicílio
           </span>
-            </td>
-            <td
-                colSpan={61}
-                style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-            ></td>
-            <td></td>
-        </tr>
-        <tr   style={{height: 3}}>
-            <td colSpan={71}></td>
-        </tr>
-        <tr   style={{height: 1}}>
-            <td></td>
-            <td colSpan={69} style={{borderTop: "1px solid #000000"}}></td>
-            <td></td>
-        </tr>
-        <tr   style={{height: 1}}>
-            <td colSpan={71}></td>
-        </tr>
-        <tr   style={{height: 20}}>
-            <td></td>
-            <td
-                colSpan={10}
-                style={{
-                    borderLeft: "1px solid #000000",
-                    borderBottom: "1px solid #000000",
-                    borderRight: "1px solid #000000",
-                    textIndent: 0,
-                    verticalAlign: "middle",
-                    textAlign: "center"
-                }}
-            >
+                </td>
+                <td
+                    colSpan={61}
+                    style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
+                ></td>
+                <td></td>
+            </tr>
+            <tr style={{height: 3}}>
+                <td colSpan={71}></td>
+            </tr>
+            <tr style={{height: 1}}>
+                <td></td>
+                <td colSpan={69} style={{borderTop: "1px solid #000000"}}></td>
+                <td></td>
+            </tr>
+            <tr style={{height: 1}}>
+                <td colSpan={71}></td>
+            </tr>
+            <tr style={{height: 20}}>
+                <td></td>
+                <td
+                    colSpan={10}
+                    style={{
+                        borderLeft: "1px solid #000000",
+                        borderBottom: "1px solid #000000",
+                        borderRight: "1px solid #000000",
+                        textIndent: 0,
+                        verticalAlign: "middle",
+                        textAlign: "center"
+                    }}
+                >
           <span
               style={{
                   fontFamily: "Arial Rounded MT Bold",
@@ -662,12 +666,12 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
           >
             Veículo
           </span>
-            </td>
-            <td colSpan={2}></td>
-            <td
-                colSpan={9}
-                style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-            >
+                </td>
+                <td colSpan={2}></td>
+                <td
+                    colSpan={9}
+                    style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
+                >
           <span
               style={{
                   fontFamily: "Arial Rounded MT Bold",
@@ -678,16 +682,16 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
           >
             Matrícula
           </span>
-            </td>
-            <td
-                colSpan={22}
-                style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-            ></td>
-            <td colSpan={3}></td>
-            <td
-                colSpan={5}
-                style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-            >
+                </td>
+                <td
+                    colSpan={22}
+                    style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
+                ></td>
+                <td colSpan={3}></td>
+                <td
+                    colSpan={5}
+                    style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
+                >
           <span
               style={{
                   fontFamily: "Arial Rounded MT Bold",
@@ -698,22 +702,22 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
           >
             País
           </span>
-            </td>
-            <td
-                colSpan={10}
-                style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-            ></td>
-            <td colSpan={9}></td>
-        </tr>
-        <tr   style={{height: 1}}>
-            <td colSpan={71}></td>
-        </tr>
-        <tr   style={{height: 20}}>
-            <td></td>
-            <td
-                colSpan={18}
-                style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-            >
+                </td>
+                <td
+                    colSpan={10}
+                    style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
+                ></td>
+                <td colSpan={9}></td>
+            </tr>
+            <tr style={{height: 1}}>
+                <td colSpan={71}></td>
+            </tr>
+            <tr style={{height: 20}}>
+                <td></td>
+                <td
+                    colSpan={18}
+                    style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
+                >
           <span
               style={{
                   fontFamily: "Arial Rounded MT Bold",
@@ -724,16 +728,16 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
           >
             Categoria/Classe
           </span>
-            </td>
-            <td
-                colSpan={25}
-                style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-            ></td>
-            <td colSpan={3}></td>
-            <td
-                colSpan={10}
-                style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-            >
+                </td>
+                <td
+                    colSpan={25}
+                    style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
+                ></td>
+                <td colSpan={3}></td>
+                <td
+                    colSpan={10}
+                    style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
+                >
           <span
               style={{
                   fontFamily: "Arial Rounded MT Bold",
@@ -744,20 +748,20 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
           >
             Tipo/Subclasse
           </span>
-            </td>
-            <td
-                colSpan={13}
-                style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-            ></td>
-            <td></td>
-        </tr>
-        <tr   style={{height: 19}}>
-            <td></td>
-            <td
-                colSpan={14}
-                rowSpan={2}
-                style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-            >
+                </td>
+                <td
+                    colSpan={13}
+                    style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
+                ></td>
+                <td></td>
+            </tr>
+            <tr style={{height: 19}}>
+                <td></td>
+                <td
+                    colSpan={14}
+                    rowSpan={2}
+                    style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
+                >
           <span
               style={{
                   fontFamily: "Arial Rounded MT Bold",
@@ -768,21 +772,21 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
           >
             Conduzido por
           </span>
-            </td>
-            <td
-                colSpan={16}
-                rowSpan={2}
-                style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-            ></td>
-            <td
-                colSpan={12}
-                rowSpan={2}
-                style={{
-                    textIndent: 0,
-                    verticalAlign: "bottom",
-                    textAlign: "center"
-                }}
-            >
+                </td>
+                <td
+                    colSpan={16}
+                    rowSpan={2}
+                    style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
+                ></td>
+                <td
+                    colSpan={12}
+                    rowSpan={2}
+                    style={{
+                        textIndent: 0,
+                        verticalAlign: "bottom",
+                        textAlign: "center"
+                    }}
+                >
           <span
               style={{
                   fontFamily: "Arial Rounded MT Bold",
@@ -793,23 +797,23 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
           >
             Nome
           </span>
-            </td>
-            <td
-                colSpan={27}
-                style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-            ></td>
-            <td></td>
-        </tr>
-        <tr   style={{height: 1}}>
-            <td></td>
-            <td colSpan={28}></td>
-        </tr>
-        <tr   style={{height: 20}}>
-            <td></td>
-            <td
-                colSpan={4}
-                style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-            >
+                </td>
+                <td
+                    colSpan={27}
+                    style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
+                ></td>
+                <td></td>
+            </tr>
+            <tr style={{height: 1}}>
+                <td></td>
+                <td colSpan={28}></td>
+            </tr>
+            <tr style={{height: 20}}>
+                <td></td>
+                <td
+                    colSpan={4}
+                    style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
+                >
           <span
               style={{
                   fontFamily: "Arial Rounded MT Bold",
@@ -820,20 +824,20 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
           >
             CC
           </span>
-            </td>
-            <td
-                colSpan={31}
-                style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-            ></td>
-            <td colSpan={5}></td>
-            <td
-                colSpan={10}
-                style={{
-                    textIndent: 0,
-                    verticalAlign: "bottom",
-                    textAlign: "center"
-                }}
-            >
+                </td>
+                <td
+                    colSpan={31}
+                    style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
+                ></td>
+                <td colSpan={5}></td>
+                <td
+                    colSpan={10}
+                    style={{
+                        textIndent: 0,
+                        verticalAlign: "bottom",
+                        textAlign: "center"
+                    }}
+                >
           <span
               style={{
                   fontFamily: "Arial Rounded MT Bold",
@@ -844,19 +848,19 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
           >
             Emitido por
           </span>
-            </td>
-            <td
-                colSpan={10}
-                style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-            ></td>
-            <td
-                colSpan={5}
-                style={{
-                    textIndent: 0,
-                    verticalAlign: "bottom",
-                    textAlign: "center"
-                }}
-            >
+                </td>
+                <td
+                    colSpan={10}
+                    style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
+                ></td>
+                <td
+                    colSpan={5}
+                    style={{
+                        textIndent: 0,
+                        verticalAlign: "bottom",
+                        textAlign: "center"
+                    }}
+                >
           <span
               style={{
                   fontFamily: "Arial Rounded MT Bold",
@@ -867,31 +871,31 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
           >
             em
           </span>
-            </td>
-            <td
-                colSpan={4}
-                style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-            ></td>
-            <td></td>
-        </tr>
-        <tr   style={{height: 2}}>
-            <td colSpan={71}></td>
-        </tr>
-        <tr   style={{height: 1}}>
-            <td></td>
-            <td colSpan={69} style={{borderTop: "1px solid #000000"}}></td>
-            <td></td>
-        </tr>
-        <tr   style={{height: 1}}>
-            <td colSpan={71}></td>
-        </tr>
-        <tr   style={{height: 1}}>
-            <td colSpan={13}></td>
-            <td
-                colSpan={6}
-                rowSpan={2}
-                style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-            >
+                </td>
+                <td
+                    colSpan={4}
+                    style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
+                ></td>
+                <td></td>
+            </tr>
+            <tr style={{height: 2}}>
+                <td colSpan={71}></td>
+            </tr>
+            <tr style={{height: 1}}>
+                <td></td>
+                <td colSpan={69} style={{borderTop: "1px solid #000000"}}></td>
+                <td></td>
+            </tr>
+            <tr style={{height: 1}}>
+                <td colSpan={71}></td>
+            </tr>
+            <tr style={{height: 1}}>
+                <td colSpan={13}></td>
+                <td
+                    colSpan={6}
+                    rowSpan={2}
+                    style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
+                >
           <span
               style={{
                   fontFamily: "Arial Rounded MT Bold",
@@ -902,18 +906,18 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
           >
             Data
           </span>
-            </td>
-            <td
-                colSpan={13}
-                rowSpan={2}
-                style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-            ></td>
-            <td></td>
-            <td
-                colSpan={9}
-                rowSpan={2}
-                style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-            >
+                </td>
+                <td
+                    colSpan={13}
+                    rowSpan={2}
+                    style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
+                ></td>
+                <td></td>
+                <td
+                    colSpan={9}
+                    rowSpan={2}
+                    style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
+                >
           <span
               style={{
                   fontFamily: "Arial Rounded MT Bold",
@@ -924,18 +928,18 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
           >
             Hora
           </span>
-            </td>
-            <td
-                colSpan={11}
-                rowSpan={2}
-                style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-            ></td>
-            <td></td>
-            <td
-                colSpan={14}
-                rowSpan={2}
-                style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-            >
+                </td>
+                <td
+                    colSpan={11}
+                    rowSpan={2}
+                    style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
+                ></td>
+                <td></td>
+                <td
+                    colSpan={14}
+                    rowSpan={2}
+                    style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
+                >
           <span
               style={{
                   fontFamily: "Arial Rounded MT Bold",
@@ -946,28 +950,28 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
           >
             Presenciada pelo{" "}
           </span>
-            </td>
-            <td
-                colSpan={2}
-                rowSpan={2}
-                style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-            ></td>
-            <td></td>
-        </tr>
-        <tr   style={{height: 19}}>
-            <td></td>
-            <td
-                colSpan={10}
-                rowSpan={2}
-                style={{
-                    borderLeft: "1px solid #000000",
-                    borderBottom: "1px solid #000000",
-                    borderRight: "1px solid #000000",
-                    textIndent: 0,
-                    verticalAlign: "middle",
-                    textAlign: "center"
-                }}
-            >
+                </td>
+                <td
+                    colSpan={2}
+                    rowSpan={2}
+                    style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
+                ></td>
+                <td></td>
+            </tr>
+            <tr style={{height: 19}}>
+                <td></td>
+                <td
+                    colSpan={10}
+                    rowSpan={2}
+                    style={{
+                        borderLeft: "1px solid #000000",
+                        borderBottom: "1px solid #000000",
+                        borderRight: "1px solid #000000",
+                        textIndent: 0,
+                        verticalAlign: "middle",
+                        textAlign: "center"
+                    }}
+                >
           <span
               style={{
                   fontFamily: "Arial Rounded MT Bold",
@@ -978,22 +982,22 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
           >
             Infracção
           </span>
-            </td>
-            <td colSpan={2}></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr   style={{height: 1}}>
-            <td></td>
-            <td colSpan={60}></td>
-        </tr>
-        <tr   style={{height: 20}}>
-            <td></td>
-            <td
-                colSpan={5}
-                style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-            >
+                </td>
+                <td colSpan={2}></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr style={{height: 1}}>
+                <td></td>
+                <td colSpan={60}></td>
+            </tr>
+            <tr style={{height: 20}}>
+                <td></td>
+                <td
+                    colSpan={5}
+                    style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
+                >
           <span
               style={{
                   fontFamily: "Arial Rounded MT Bold",
@@ -1004,19 +1008,19 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
           >
             Local
           </span>
-            </td>
-            <td
-                colSpan={64}
-                style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-            ></td>
-            <td></td>
-        </tr>
-        <tr   style={{height: 20}}>
-            <td></td>
-            <td
-                colSpan={6}
-                style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-            >
+                </td>
+                <td
+                    colSpan={64}
+                    style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
+                ></td>
+                <td></td>
+            </tr>
+            <tr style={{height: 20}}>
+                <td></td>
+                <td
+                    colSpan={6}
+                    style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
+                >
           <span
               style={{
                   fontFamily: "Arial Rounded MT Bold",
@@ -1027,16 +1031,16 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
           >
             Distrito
           </span>
-            </td>
-            <td
-                colSpan={18}
-                style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-            ></td>
-            <td></td>
-            <td
-                colSpan={13}
-                style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-            >
+                </td>
+                <td
+                    colSpan={18}
+                    style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
+                ></td>
+                <td></td>
+                <td
+                    colSpan={13}
+                    style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
+                >
           <span
               style={{
                   fontFamily: "Arial Rounded MT Bold",
@@ -1047,17 +1051,17 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
           >
             Município
           </span>
-            </td>
-            <td></td>
-            <td
-                colSpan={19}
-                style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-            ></td>
-            <td></td>
-            <td
-                colSpan={3}
-                style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-            >
+                </td>
+                <td></td>
+                <td
+                    colSpan={19}
+                    style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
+                ></td>
+                <td></td>
+                <td
+                    colSpan={3}
+                    style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
+                >
           <span
               style={{
                   fontFamily: "Arial Rounded MT Bold",
@@ -1068,20 +1072,20 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
           >
             Comarca
           </span>
-            </td>
-            <td></td>
-            <td
-                colSpan={6}
-                style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-            ></td>
-            <td></td>
-        </tr>
-        <tr   style={{height: 20}}>
-            <td></td>
-            <td
-                colSpan={19}
-                style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-            >
+                </td>
+                <td></td>
+                <td
+                    colSpan={6}
+                    style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
+                ></td>
+                <td></td>
+            </tr>
+            <tr style={{height: 20}}>
+                <td></td>
+                <td
+                    colSpan={19}
+                    style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
+                >
           <span
               style={{
                   fontFamily: "Arial Rounded MT Bold",
@@ -1092,23 +1096,23 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
           >
             Descrição Sumária
           </span>
-            </td>
-            <td colSpan={51}></td>
-        </tr>
-        <tr   style={{height: 40}}>
-            <td></td>
-            <td colSpan={69} style={{textIndent: 0, textAlign: "left"}}></td>
-            <td></td>
-        </tr>
-        <tr   style={{height: 2}}>
-            <td colSpan={71}></td>
-        </tr>
-        <tr   style={{height: 20}}>
-            <td></td>
-            <td
-                colSpan={6}
-                style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-            >
+                </td>
+                <td colSpan={51}></td>
+            </tr>
+            <tr style={{height: 40}}>
+                <td></td>
+                <td colSpan={69} style={{textIndent: 0, textAlign: "left"}}></td>
+                <td></td>
+            </tr>
+            <tr style={{height: 2}}>
+                <td colSpan={71}></td>
+            </tr>
+            <tr style={{height: 20}}>
+                <td></td>
+                <td
+                    colSpan={6}
+                    style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
+                >
           <span
               style={{
                   fontFamily: "Arial Rounded MT Bold",
@@ -1119,16 +1123,16 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
           >
             Código
           </span>
-            </td>
-            <td
-                colSpan={16}
-                style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-            ></td>
-            <td></td>
-            <td
-                colSpan={20}
-                style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-            >
+                </td>
+                <td
+                    colSpan={16}
+                    style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
+                ></td>
+                <td></td>
+                <td
+                    colSpan={20}
+                    style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
+                >
           <span
               style={{
                   fontFamily: "Arial Rounded MT Bold",
@@ -1139,37 +1143,37 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
           >
             Normas Infringidas
           </span>
-            </td>
-            <td
-                colSpan={26}
-                style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-            ></td>
-            <td></td>
-        </tr>
-        <tr   style={{height: 2}}>
-            <td colSpan={71}></td>
-        </tr>
-        <tr   style={{height: 1}}>
-            <td></td>
-            <td colSpan={69} style={{borderTop: "1px solid #000000"}}></td>
-            <td></td>
-        </tr>
-        <tr   style={{height: 2}}>
-            <td colSpan={71}></td>
-        </tr>
-        <tr   style={{height: 20}}>
-            <td></td>
-            <td
-                colSpan={10}
-                style={{
-                    borderLeft: "1px solid #000000",
-                    borderBottom: "1px solid #000000",
-                    borderRight: "1px solid #000000",
-                    textIndent: 0,
-                    verticalAlign: "middle",
-                    textAlign: "center"
-                }}
-            >
+                </td>
+                <td
+                    colSpan={26}
+                    style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
+                ></td>
+                <td></td>
+            </tr>
+            <tr style={{height: 2}}>
+                <td colSpan={71}></td>
+            </tr>
+            <tr style={{height: 1}}>
+                <td></td>
+                <td colSpan={69} style={{borderTop: "1px solid #000000"}}></td>
+                <td></td>
+            </tr>
+            <tr style={{height: 2}}>
+                <td colSpan={71}></td>
+            </tr>
+            <tr style={{height: 20}}>
+                <td></td>
+                <td
+                    colSpan={10}
+                    style={{
+                        borderLeft: "1px solid #000000",
+                        borderBottom: "1px solid #000000",
+                        borderRight: "1px solid #000000",
+                        textIndent: 0,
+                        verticalAlign: "middle",
+                        textAlign: "center"
+                    }}
+                >
           <span
               style={{
                   fontFamily: "Arial Rounded MT Bold",
@@ -1180,12 +1184,12 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
           >
             Sanções
           </span>
-            </td>
-            <td colSpan={2}></td>
-            <td
-                colSpan={7}
-                style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-            >
+                </td>
+                <td colSpan={2}></td>
+                <td
+                    colSpan={7}
+                    style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
+                >
           <span
               style={{
                   fontFamily: "Arial Rounded MT Bold",
@@ -1196,28 +1200,28 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
           >
             Coima
           </span>
-            </td>
-            <td
-                colSpan={7}
-                style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-            ></td>
-            <td></td>
-            <td
-                colSpan={41}
-                style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-            ></td>
-            <td colSpan={2}></td>
-        </tr>
-        <tr   style={{height: 20}}>
-            <td colSpan={18}></td>
-            <td
-                colSpan={2}
-                style={{
-                    textIndent: 0,
-                    verticalAlign: "bottom",
-                    textAlign: "center"
-                }}
-            >
+                </td>
+                <td
+                    colSpan={7}
+                    style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
+                ></td>
+                <td></td>
+                <td
+                    colSpan={41}
+                    style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
+                ></td>
+                <td colSpan={2}></td>
+            </tr>
+            <tr style={{height: 20}}>
+                <td colSpan={18}></td>
+                <td
+                    colSpan={2}
+                    style={{
+                        textIndent: 0,
+                        verticalAlign: "bottom",
+                        textAlign: "center"
+                    }}
+                >
           <span
               style={{
                   fontFamily: "Arial Rounded MT Bold",
@@ -1228,34 +1232,34 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
           >
             a
           </span>
-            </td>
-            <td
-                colSpan={7}
-                style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-            ></td>
-            <td></td>
-            <td
-                colSpan={41}
-                style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-            ></td>
-            <td colSpan={2}></td>
-        </tr>
-        <tr   style={{height: 1}}>
-            <td colSpan={38}></td>
-            <td
-                colSpan={18}
-                rowSpan={2}
-                style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-            ></td>
-            <td colSpan={15}></td>
-        </tr>
-        <tr   style={{height: 19}}>
-            <td></td>
-            <td
-                colSpan={9}
-                rowSpan={2}
-                style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-            >
+                </td>
+                <td
+                    colSpan={7}
+                    style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
+                ></td>
+                <td></td>
+                <td
+                    colSpan={41}
+                    style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
+                ></td>
+                <td colSpan={2}></td>
+            </tr>
+            <tr style={{height: 1}}>
+                <td colSpan={38}></td>
+                <td
+                    colSpan={18}
+                    rowSpan={2}
+                    style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
+                ></td>
+                <td colSpan={15}></td>
+            </tr>
+            <tr style={{height: 19}}>
+                <td></td>
+                <td
+                    colSpan={9}
+                    rowSpan={2}
+                    style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
+                >
           <span
               style={{
                   fontFamily: "Arial Rounded MT Bold",
@@ -1266,17 +1270,17 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
           >
             Prevista em
           </span>
-            </td>
-            <td
-                colSpan={11}
-                rowSpan={2}
-                style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-            ></td>
-            <td
-                colSpan={16}
-                rowSpan={2}
-                style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-            >
+                </td>
+                <td
+                    colSpan={11}
+                    rowSpan={2}
+                    style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
+                ></td>
+                <td
+                    colSpan={16}
+                    rowSpan={2}
+                    style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
+                >
           <span
               style={{
                   fontFamily: "Arial Rounded MT Bold",
@@ -1287,13 +1291,13 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
           >
             Sanção acessória de
           </span>
-            </td>
-            <td></td>
-            <td
-                colSpan={14}
-                rowSpan={2}
-                style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-            >
+                </td>
+                <td></td>
+                <td
+                    colSpan={14}
+                    rowSpan={2}
+                    style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
+                >
           <span
               style={{
                   fontFamily: "Arial Rounded MT Bold",
@@ -1304,100 +1308,100 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
           >
             Prevista em Art.° 136, Art.° 147 do CE{" "}
           </span>
-            </td>
-            <td></td>
-        </tr>
-        <tr   style={{height: 1}}>
-            <td></td>
-            <td colSpan={19}></td>
-            <td></td>
-        </tr>
-        <tr   style={{height: 3}}>
-            <td colSpan={71}></td>
-        </tr>
-        <tr   style={{height: 162}}>
-            <td></td>
-            <td colSpan={47}>
-                <div style={{width: "100%", height: "100%", position: "relative"}}>
-                    <div
-                        style={{
-                            position: "absolute",
-                            overflow: "hidden",
-                            width: "100%",
-                            height: "100%"
-                        }}
-                    >
-                        <table
-                            cellPadding={0}
-                            cellSpacing={0}
-
+                </td>
+                <td></td>
+            </tr>
+            <tr style={{height: 1}}>
+                <td></td>
+                <td colSpan={19}></td>
+                <td></td>
+            </tr>
+            <tr style={{height: 3}}>
+                <td colSpan={71}></td>
+            </tr>
+            <tr style={{height: 162}}>
+                <td></td>
+                <td colSpan={47}>
+                    <div style={{width: "100%", height: "100%", position: "relative"}}>
+                        <div
                             style={{
-                                emptyCells: "show",
+                                position: "absolute",
+                                overflow: "hidden",
                                 width: "100%",
-                                borderCollapse: "collapse"
+                                height: "100%"
                             }}
                         >
-                            <tbody>
-                            <tr role="none"   style={{height: 0}}>
-                                <td style={{width: 281}}/>
-                            </tr>
-                            <tr   style={{height: 162}}>
-                                <td
-                                    style={{
-                                        pointerEvents: "auto",
-                                        backgroundColor: "#FFFFFF",
-                                        border: "1px solid #000000"
-                                    }}
-                                ></td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div
-                        style={{
-                            position: "relative",
-                            width: "100%",
-                            height: "100%",
-                            pointerEvents: "none"
-                        }}
-                    >
-                        <table
-                            cellPadding={0}
-                            cellSpacing={0}
+                            <table
+                                cellPadding={0}
+                                cellSpacing={0}
 
+                                style={{
+                                    emptyCells: "show",
+                                    width: "100%",
+                                    borderCollapse: "collapse"
+                                }}
+                            >
+                                <tbody>
+                                <tr role="none" style={{height: 0}}>
+                                    <td style={{width: 281}}/>
+                                </tr>
+                                <tr style={{height: 162}}>
+                                    <td
+                                        style={{
+                                            pointerEvents: "auto",
+                                            backgroundColor: "#FFFFFF",
+                                            border: "1px solid #000000"
+                                        }}
+                                    ></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div
                             style={{
-                                emptyCells: "show",
+                                position: "relative",
                                 width: "100%",
-                                borderCollapse: "collapse"
+                                height: "100%",
+                                pointerEvents: "none"
                             }}
                         >
-                            <tbody>
-                            <tr role="none"   style={{height: 0}}>
-                                <td style={{width: 40}}/>
-                                <td style={{width: 1}}/>
-                                <td style={{width: 7}}/>
-                                <td style={{width: 50}}/>
-                                <td style={{width: 6}}/>
-                                <td style={{width: 70}}/>
-                                <td style={{width: 9}}/>
-                                <td style={{width: 39}}/>
-                                <td style={{width: 18}}/>
-                                <td style={{width: 1}}/>
-                                <td style={{width: 40}}/>
-                            </tr>
-                            <tr   style={{height: 2}}>
-                                <td colSpan={11}></td>
-                            </tr>
-                            <tr   style={{height: 20}}>
-                                <td colSpan={5}></td>
-                                <td
-                                    style={{
-                                        pointerEvents: "auto",
-                                        textIndent: 0,
-                                        verticalAlign: "middle",
-                                        textAlign: "center"
-                                    }}
-                                >
+                            <table
+                                cellPadding={0}
+                                cellSpacing={0}
+
+                                style={{
+                                    emptyCells: "show",
+                                    width: "100%",
+                                    borderCollapse: "collapse"
+                                }}
+                            >
+                                <tbody>
+                                <tr role="none" style={{height: 0}}>
+                                    <td style={{width: 40}}/>
+                                    <td style={{width: 1}}/>
+                                    <td style={{width: 7}}/>
+                                    <td style={{width: 50}}/>
+                                    <td style={{width: 6}}/>
+                                    <td style={{width: 70}}/>
+                                    <td style={{width: 9}}/>
+                                    <td style={{width: 39}}/>
+                                    <td style={{width: 18}}/>
+                                    <td style={{width: 1}}/>
+                                    <td style={{width: 40}}/>
+                                </tr>
+                                <tr style={{height: 2}}>
+                                    <td colSpan={11}></td>
+                                </tr>
+                                <tr style={{height: 20}}>
+                                    <td colSpan={5}></td>
+                                    <td
+                                        style={{
+                                            pointerEvents: "auto",
+                                            textIndent: 0,
+                                            verticalAlign: "middle",
+                                            textAlign: "center"
+                                        }}
+                                    >
                       <span
                           style={{
                               fontFamily: "Arial Rounded MT Bold",
@@ -1408,56 +1412,58 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
                       >
                         O Autuante
                       </span>
-                                </td>
-                                <td colSpan={5}></td>
-                            </tr>
-                            <tr   style={{height: 21}}>
-                                <td></td>
-                                <td colSpan={8} style={{pointerEvents: "auto"}}></td>
-                                <td colSpan={2}></td>
-                            </tr>
-                            <tr   style={{height: 5}}>
-                                <td colSpan={11}></td>
-                            </tr>
-                            <tr   style={{height: 1}}>
-                                <td></td>
-                                <td
-                                    colSpan={8}
-                                    style={{
-                                        pointerEvents: "auto",
-                                        backgroundColor: "#FFFFFF",
-                                        borderTop: "1px solid #000000"
-                                    }}
-                                ></td>
-                                <td colSpan={2}></td>
-                            </tr>
-                            <tr   style={{height: 15}}>
-                                <td></td>
-                                <td
-                                    colSpan={8}
-                                    style={{
-                                        pointerEvents: "auto",
-                                        textIndent: 0,
-                                        verticalAlign: "middle",
-                                        textAlign: "left"
-                                    }}
-                                ></td>
-                                <td colSpan={2}></td>
-                            </tr>
-                            <tr   style={{height: 2}}>
-                                <td colSpan={11}></td>
-                            </tr>
-                            <tr   style={{height: 20}}>
-                                <td colSpan={4}></td>
-                                <td
-                                    colSpan={3}
-                                    style={{
-                                        pointerEvents: "auto",
-                                        textIndent: 0,
-                                        verticalAlign: "middle",
-                                        textAlign: "center"
-                                    }}
-                                >
+                                    </td>
+                                    <td colSpan={5}></td>
+                                </tr>
+                                <tr style={{height: 21}}>
+                                    <td></td>
+                                    <td colSpan={8} className={"signPlace agente"}  style={{pointerEvents: "auto"}}>
+                                        {!_.isEmpty(assinaturaAgente) ? <img src={assinaturaAgente} /> :'' }
+                                    </td>
+                                    <td colSpan={2}></td>
+                                </tr>
+                                <tr style={{height: 5}}>
+                                    <td colSpan={11}></td>
+                                </tr>
+                                <tr style={{height: 1}}>
+                                    <td></td>
+                                    <td
+                                        colSpan={8}
+                                        style={{
+                                            pointerEvents: "auto",
+                                            backgroundColor: "#FFFFFF",
+                                            borderTop: "1px solid #000000"
+                                        }}
+                                    ></td>
+                                    <td colSpan={2}></td>
+                                </tr>
+                                <tr style={{height: 15}}>
+                                    <td></td>
+                                    <td
+                                        colSpan={8}
+                                        style={{
+                                            pointerEvents: "auto",
+                                            textIndent: 0,
+                                            verticalAlign: "middle",
+                                            textAlign: "left"
+                                        }}
+                                    ></td>
+                                    <td colSpan={2}></td>
+                                </tr>
+                                <tr style={{height: 2}}>
+                                    <td colSpan={11}></td>
+                                </tr>
+                                <tr style={{height: 20}}>
+                                    <td colSpan={4}></td>
+                                    <td
+                                        colSpan={3}
+                                        style={{
+                                            pointerEvents: "auto",
+                                            textIndent: 0,
+                                            verticalAlign: "middle",
+                                            textAlign: "center"
+                                        }}
+                                    >
                       <span
                           style={{
                               fontFamily: "Arial Rounded MT Bold",
@@ -1468,69 +1474,77 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
                       >
                         Testemunhas
                       </span>
-                                </td>
-                                <td colSpan={4}></td>
-                            </tr>
-                            <tr   style={{height: 2}}>
-                                <td colSpan={11}></td>
-                            </tr>
-                            <tr   style={{height: 21}}>
-                                <td></td>
-                                <td colSpan={8} style={{pointerEvents: "auto"}}></td>
-                                <td colSpan={2}></td>
-                            </tr>
-                            <tr   style={{height: 3}}>
-                                <td colSpan={11}></td>
-                            </tr>
-                            <tr   style={{height: 1}}>
-                                <td></td>
-                                <td
-                                    colSpan={8}
-                                    style={{
-                                        pointerEvents: "auto",
-                                        backgroundColor: "#FFFFFF",
-                                        borderTop: "1px solid #000000"
-                                    }}
-                                ></td>
-                                <td colSpan={2}></td>
-                            </tr>
-                            <tr   style={{height: 7}}>
-                                <td colSpan={11}></td>
-                            </tr>
-                            <tr   style={{height: 21}}>
-                                <td colSpan={2}></td>
-                                <td colSpan={8} style={{pointerEvents: "auto"}}></td>
-                                <td></td>
-                            </tr>
-                            <tr   style={{height: 3}}>
-                                <td colSpan={11}></td>
-                            </tr>
-                            <tr   style={{height: 1}}>
-                                <td></td>
-                                <td
-                                    colSpan={8}
-                                    style={{
-                                        pointerEvents: "auto",
-                                        backgroundColor: "#FFFFFF",
-                                        borderTop: "1px solid #000000"
-                                    }}
-                                ></td>
-                                <td colSpan={2}></td>
-                            </tr>
-                            <tr   style={{height: 2}}>
-                                <td colSpan={11}></td>
-                            </tr>
-                            <tr   style={{height: 13}}>
-                                <td colSpan={3}></td>
-                                <td
-                                    colSpan={5}
-                                    style={{
-                                        pointerEvents: "auto",
-                                        textIndent: 0,
-                                        textAlign: "justify"
-                                    }}
-                                >
-                                    <div style={{textIndent: 0, textAlignLast: "justify"}}>
+                                    </td>
+                                    <td colSpan={4}></td>
+                                </tr>
+                                <tr style={{height: 2}}>
+                                    <td colSpan={11}></td>
+                                </tr>
+                                <tr style={{height: 21}}>
+                                    <td></td>
+                                    <td colSpan={8} className={"signPlace testemunhaAssinatura1"}
+                                        style={{pointerEvents: "auto"}}>
+                                        {!_.isEmpty(assinaturaTestemunha_1) ?
+                                            <img  src={assinaturaTestemunha_1}/> : ''}
+                                    </td>
+                                    <td colSpan={2}></td>
+                                </tr>
+                                <tr style={{height: 3}}>
+                                    <td colSpan={11}></td>
+                                </tr>
+                                <tr style={{height: 1}}>
+                                    <td></td>
+                                    <td
+                                        colSpan={8}
+                                        style={{
+                                            pointerEvents: "auto",
+                                            backgroundColor: "#FFFFFF",
+                                            borderTop: "1px solid #000000"
+                                        }}
+                                    ></td>
+                                    <td colSpan={2}></td>
+                                </tr>
+                                <tr style={{height: 7}}>
+                                    <td colSpan={11}></td>
+                                </tr>
+                                <tr style={{height: 21}}>
+                                    <td colSpan={2}></td>
+                                    <td colSpan={8} className={"signPlace testemunhaAssinatura2"}
+                                        style={{pointerEvents: "auto"}}>
+                                        {!_.isEmpty(assinaturaTestemunha_2) ?
+                                            <img src={assinaturaTestemunha_2}/> : ''}
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr style={{height: 3}}>
+                                    <td colSpan={11}></td>
+                                </tr>
+                                <tr style={{height: 1}}>
+                                    <td></td>
+                                    <td
+                                        colSpan={8}
+                                        style={{
+                                            pointerEvents: "auto",
+                                            backgroundColor: "#FFFFFF",
+                                            borderTop: "1px solid #000000"
+                                        }}
+                                    ></td>
+                                    <td colSpan={2}></td>
+                                </tr>
+                                <tr style={{height: 2}}>
+                                    <td colSpan={11}></td>
+                                </tr>
+                                <tr style={{height: 13}}>
+                                    <td colSpan={3}></td>
+                                    <td
+                                        colSpan={5}
+                                        style={{
+                                            pointerEvents: "auto",
+                                            textIndent: 0,
+                                            textAlign: "justify"
+                                        }}
+                                    >
+                                        <div style={{textIndent: 0, textAlignLast: "justify"}}>
                         <span
                             style={{
                                 fontFamily: "Arial",
@@ -1541,100 +1555,100 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
                         >
                           ( ou diretamente à entidade{" "}
                         </span>
-                                    </div>
-                                </td>
-                                <td colSpan={3}></td>
-                            </tr>
-                            <tr   style={{height: 2}}>
-                                <td colSpan={11}></td>
-                            </tr>
-                            </tbody>
-                        </table>
+                                        </div>
+                                    </td>
+                                    <td colSpan={3}></td>
+                                </tr>
+                                <tr style={{height: 2}}>
+                                    <td colSpan={11}></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                </div>
-            </td>
-            <td colSpan={22}>
-                <div style={{width: "100%", height: "100%", position: "relative"}}>
-                    <div
-                        style={{
-                            position: "absolute",
-                            overflow: "hidden",
-                            width: "100%",
-                            height: "100%"
-                        }}
-                    >
-                        <table
-                            cellPadding={0}
-                            cellSpacing={0}
-
+                </td>
+                <td colSpan={22}>
+                    <div style={{width: "100%", height: "100%", position: "relative"}}>
+                        <div
                             style={{
-                                emptyCells: "show",
+                                position: "absolute",
+                                overflow: "hidden",
                                 width: "100%",
-                                borderCollapse: "collapse"
+                                height: "100%"
                             }}
                         >
-                            <tbody>
-                            <tr role="none"   style={{height: 0}}>
-                                <td style={{width: 269}}/>
-                            </tr>
-                            <tr   style={{height: 162}}>
-                                <td
-                                    style={{
-                                        pointerEvents: "auto",
-                                        backgroundColor: "#FFFFFF",
-                                        border: "1px solid #000000"
-                                    }}
-                                ></td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div
-                        style={{
-                            position: "relative",
-                            width: "100%",
-                            height: "100%",
-                            pointerEvents: "none"
-                        }}
-                    >
-                        <table
-                            cellPadding={0}
-                            cellSpacing={0}
+                            <table
+                                cellPadding={0}
+                                cellSpacing={0}
 
+                                style={{
+                                    emptyCells: "show",
+                                    width: "100%",
+                                    borderCollapse: "collapse"
+                                }}
+                            >
+                                <tbody>
+                                <tr role="none" style={{height: 0}}>
+                                    <td style={{width: 269}}/>
+                                </tr>
+                                <tr style={{height: 162}}>
+                                    <td
+                                        style={{
+                                            pointerEvents: "auto",
+                                            backgroundColor: "#FFFFFF",
+                                            border: "1px solid #000000"
+                                        }}
+                                    ></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div
                             style={{
-                                emptyCells: "show",
+                                position: "relative",
                                 width: "100%",
-                                borderCollapse: "collapse"
+                                height: "100%",
+                                pointerEvents: "none"
                             }}
                         >
-                            <tbody>
-                            <tr role="none"   style={{height: 0}}>
-                                <td style={{width: 29}}/>
-                                <td style={{width: 12}}/>
-                                <td style={{width: 28}}/>
-                                <td style={{width: 23}}/>
-                                <td style={{width: 2}}/>
-                                <td style={{width: 70}}/>
-                                <td style={{width: 3}}/>
-                                <td style={{width: 38}}/>
-                                <td style={{width: 36}}/>
-                                <td style={{width: 3}}/>
-                                <td style={{width: 25}}/>
-                            </tr>
-                            <tr   style={{height: 2}}>
-                                <td colSpan={11}></td>
-                            </tr>
-                            <tr   style={{height: 20}}>
-                                <td colSpan={3}></td>
-                                <td
-                                    colSpan={5}
-                                    style={{
-                                        pointerEvents: "auto",
-                                        textIndent: 0,
-                                        verticalAlign: "middle",
-                                        textAlign: "left"
-                                    }}
-                                >
+                            <table
+                                cellPadding={0}
+                                cellSpacing={0}
+
+                                style={{
+                                    emptyCells: "show",
+                                    width: "100%",
+                                    borderCollapse: "collapse"
+                                }}
+                            >
+                                <tbody>
+                                <tr role="none" style={{height: 0}}>
+                                    <td style={{width: 29}}/>
+                                    <td style={{width: 12}}/>
+                                    <td style={{width: 28}}/>
+                                    <td style={{width: 23}}/>
+                                    <td style={{width: 2}}/>
+                                    <td style={{width: 70}}/>
+                                    <td style={{width: 3}}/>
+                                    <td style={{width: 38}}/>
+                                    <td style={{width: 36}}/>
+                                    <td style={{width: 3}}/>
+                                    <td style={{width: 25}}/>
+                                </tr>
+                                <tr style={{height: 2}}>
+                                    <td colSpan={11}></td>
+                                </tr>
+                                <tr style={{height: 20}}>
+                                    <td colSpan={3}></td>
+                                    <td
+                                        colSpan={5}
+                                        style={{
+                                            pointerEvents: "auto",
+                                            textIndent: 0,
+                                            verticalAlign: "middle",
+                                            textAlign: "left"
+                                        }}
+                                    >
                       <span
                           style={{
                               fontFamily: "Arial",
@@ -1645,22 +1659,22 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
                       >
                         Recebi a &nbsp;notificação{" "}
                       </span>
-                                </td>
-                                <td colSpan={3}></td>
-                            </tr>
-                            <tr   style={{height: 1}}>
-                                <td colSpan={11}></td>
-                            </tr>
-                            <tr   style={{height: 20}}>
-                                <td colSpan={5}></td>
-                                <td
-                                    style={{
-                                        pointerEvents: "auto",
-                                        textIndent: 0,
-                                        verticalAlign: "middle",
-                                        textAlign: "center"
-                                    }}
-                                >
+                                    </td>
+                                    <td colSpan={3}></td>
+                                </tr>
+                                <tr style={{height: 1}}>
+                                    <td colSpan={11}></td>
+                                </tr>
+                                <tr style={{height: 20}}>
+                                    <td colSpan={5}></td>
+                                    <td
+                                        style={{
+                                            pointerEvents: "auto",
+                                            textIndent: 0,
+                                            verticalAlign: "middle",
+                                            textAlign: "center"
+                                        }}
+                                    >
                       <span
                           style={{
                               fontFamily: "Arial Rounded MT Bold",
@@ -1671,48 +1685,50 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
                       >
                         O Arguido
                       </span>
-                                </td>
-                                <td colSpan={5}></td>
-                            </tr>
-                            <tr   style={{height: 5}}>
-                                <td colSpan={11}></td>
-                            </tr>
-                            <tr   style={{height: 21}}>
-                                <td colSpan={2}></td>
-                                <td colSpan={7} className="signPlace" style={{pointerEvents: "auto", textAlign: "center"}}>
-                                    {!_.isEmpty(assinaturaManuscritoArguido) ? <img style={{height: 19}} src={assinaturaManuscritoArguido} /> :'' }
-                                </td>
-                                <td colSpan={2}></td>
-                            </tr>
-                            <tr   style={{height: 7}}>
-                                <td colSpan={11}></td>
-                            </tr>
-                            <tr   style={{height: 1}}>
-                                <td colSpan={2}></td>
-                                <td
-                                    colSpan={7}
-                                    style={{
-                                        pointerEvents: "auto",
-                                        backgroundColor: "#FFFFFF",
-                                        borderTop: "1px solid #000000"
-                                    }}
-                                ></td>
-                                <td colSpan={2}></td>
-                            </tr>
-                            <tr   style={{height: 5}}>
-                                <td colSpan={11}></td>
-                            </tr>
-                            <tr   style={{height: 20}}>
-                                <td colSpan={4}></td>
-                                <td
-                                    colSpan={3}
-                                    style={{
-                                        pointerEvents: "auto",
-                                        textIndent: 0,
-                                        verticalAlign: "middle",
-                                        textAlign: "center"
-                                    }}
-                                >
+                                    </td>
+                                    <td colSpan={5}></td>
+                                </tr>
+                                <tr style={{height: 5}}>
+                                    <td colSpan={11}></td>
+                                </tr>
+                                <tr style={{height: 21}}>
+                                    <td colSpan={2}></td>
+                                    <td colSpan={7} className="signPlace arguido"
+                                        style={{pointerEvents: "auto", textAlign: "center"}}>
+                                        {!_.isEmpty(assinaturaArguido) ?
+                                            <img src={assinaturaArguido}/> : ''}
+                                    </td>
+                                    <td colSpan={2}></td>
+                                </tr>
+                                <tr style={{height: 7}}>
+                                    <td colSpan={11}></td>
+                                </tr>
+                                <tr style={{height: 1}}>
+                                    <td colSpan={2}></td>
+                                    <td
+                                        colSpan={7}
+                                        style={{
+                                            pointerEvents: "auto",
+                                            backgroundColor: "#FFFFFF",
+                                            borderTop: "1px solid #000000"
+                                        }}
+                                    ></td>
+                                    <td colSpan={2}></td>
+                                </tr>
+                                <tr style={{height: 5}}>
+                                    <td colSpan={11}></td>
+                                </tr>
+                                <tr style={{height: 20}}>
+                                    <td colSpan={4}></td>
+                                    <td
+                                        colSpan={3}
+                                        style={{
+                                            pointerEvents: "auto",
+                                            textIndent: 0,
+                                            verticalAlign: "middle",
+                                            textAlign: "center"
+                                        }}
+                                    >
                       <span
                           style={{
                               fontFamily: "Arial Rounded MT Bold",
@@ -1723,46 +1739,46 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
                       >
                         O &nbsp;Condutor
                       </span>
-                                </td>
-                                <td colSpan={4}></td>
-                            </tr>
-                            <tr   style={{height: 10}}>
-                                <td colSpan={11}></td>
-                            </tr>
-                            <tr   style={{height: 21}}>
-                                <td colSpan={2}></td>
-                                <td colSpan={7} style={{pointerEvents: "auto"}}></td>
-                                <td colSpan={2}></td>
-                            </tr>
-                            <tr   style={{height: 3}}>
-                                <td colSpan={11}></td>
-                            </tr>
-                            <tr   style={{height: 1}}>
-                                <td colSpan={2}></td>
-                                <td
-                                    colSpan={7}
-                                    style={{
-                                        pointerEvents: "auto",
-                                        backgroundColor: "#FFFFFF",
-                                        borderTop: "1px solid #000000"
-                                    }}
-                                ></td>
-                                <td colSpan={2}></td>
-                            </tr>
-                            <tr   style={{height: 8}}>
-                                <td colSpan={11}></td>
-                            </tr>
-                            <tr   style={{height: 13}}>
-                                <td></td>
-                                <td
-                                    colSpan={9}
-                                    style={{
-                                        pointerEvents: "auto",
-                                        textIndent: 0,
-                                        verticalAlign: "middle",
-                                        textAlign: "center"
-                                    }}
-                                >
+                                    </td>
+                                    <td colSpan={4}></td>
+                                </tr>
+                                <tr style={{height: 10}}>
+                                    <td colSpan={11}></td>
+                                </tr>
+                                <tr style={{height: 21}}>
+                                    <td colSpan={2}></td>
+                                    <td colSpan={7} style={{pointerEvents: "auto"}}></td>
+                                    <td colSpan={2}></td>
+                                </tr>
+                                <tr style={{height: 3}}>
+                                    <td colSpan={11}></td>
+                                </tr>
+                                <tr style={{height: 1}}>
+                                    <td colSpan={2}></td>
+                                    <td
+                                        colSpan={7}
+                                        style={{
+                                            pointerEvents: "auto",
+                                            backgroundColor: "#FFFFFF",
+                                            borderTop: "1px solid #000000"
+                                        }}
+                                    ></td>
+                                    <td colSpan={2}></td>
+                                </tr>
+                                <tr style={{height: 8}}>
+                                    <td colSpan={11}></td>
+                                </tr>
+                                <tr style={{height: 13}}>
+                                    <td></td>
+                                    <td
+                                        colSpan={9}
+                                        style={{
+                                            pointerEvents: "auto",
+                                            textIndent: 0,
+                                            verticalAlign: "middle",
+                                            textAlign: "center"
+                                        }}
+                                    >
                       <span
                           style={{
                               fontFamily: "Arial",
@@ -1773,96 +1789,96 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
                       >
                         (art 176.°, n° 11, do codigo da estrada)
                       </span>
-                                </td>
-                                <td></td>
-                            </tr>
-                            <tr   style={{height: 4}}>
-                                <td colSpan={11}></td>
-                            </tr>
-                            </tbody>
-                        </table>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr style={{height: 4}}>
+                                    <td colSpan={11}></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                </div>
-            </td>
-            <td></td>
-        </tr>
-        <tr   style={{height: 9}}>
-            <td colSpan={48}></td>
-            <td colSpan={22} rowSpan={16}>
-                <div style={{width: "100%", height: "100%", position: "relative"}}>
-                    <div
-                        style={{
-                            position: "absolute",
-                            overflow: "hidden",
-                            width: "100%",
-                            height: "100%"
-                        }}
-                    >
-                        <table
-                            cellPadding={0}
-                            cellSpacing={0}
-
+                </td>
+                <td></td>
+            </tr>
+            <tr style={{height: 9}}>
+                <td colSpan={48}></td>
+                <td colSpan={22} rowSpan={16}>
+                    <div style={{width: "100%", height: "100%", position: "relative"}}>
+                        <div
                             style={{
-                                emptyCells: "show",
+                                position: "absolute",
+                                overflow: "hidden",
                                 width: "100%",
-                                borderCollapse: "collapse"
+                                height: "100%"
                             }}
                         >
-                            <tbody>
-                            <tr role="none"   style={{height: 0}}>
-                                <td style={{width: 269}}/>
-                            </tr>
-                            <tr   style={{height: 178}}>
-                                <td
-                                    style={{
-                                        pointerEvents: "auto",
-                                        backgroundColor: "#FFFFFF",
-                                        border: "1px solid #000000"
-                                    }}
-                                ></td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div
-                        style={{
-                            position: "relative",
-                            width: "100%",
-                            height: "100%",
-                            pointerEvents: "none"
-                        }}
-                    >
-                        <table
-                            cellPadding={0}
-                            cellSpacing={0}
+                            <table
+                                cellPadding={0}
+                                cellSpacing={0}
 
+                                style={{
+                                    emptyCells: "show",
+                                    width: "100%",
+                                    borderCollapse: "collapse"
+                                }}
+                            >
+                                <tbody>
+                                <tr role="none" style={{height: 0}}>
+                                    <td style={{width: 269}}/>
+                                </tr>
+                                <tr style={{height: 178}}>
+                                    <td
+                                        style={{
+                                            pointerEvents: "auto",
+                                            backgroundColor: "#FFFFFF",
+                                            border: "1px solid #000000"
+                                        }}
+                                    ></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div
                             style={{
-                                emptyCells: "show",
+                                position: "relative",
                                 width: "100%",
-                                borderCollapse: "collapse"
+                                height: "100%",
+                                pointerEvents: "none"
                             }}
                         >
-                            <tbody>
-                            <tr role="none"   style={{height: 0}}>
-                                <td style={{width: 34}}/>
-                                <td style={{width: 65}}/>
-                                <td style={{width: 70}}/>
-                                <td style={{width: 65}}/>
-                                <td style={{width: 35}}/>
-                            </tr>
-                            <tr   style={{height: 37}}>
-                                <td colSpan={5}></td>
-                            </tr>
-                            <tr   style={{height: 20}}>
-                                <td colSpan={2}></td>
-                                <td
-                                    style={{
-                                        pointerEvents: "auto",
-                                        textIndent: 0,
-                                        verticalAlign: "middle",
-                                        textAlign: "center"
-                                    }}
-                                >
+                            <table
+                                cellPadding={0}
+                                cellSpacing={0}
+
+                                style={{
+                                    emptyCells: "show",
+                                    width: "100%",
+                                    borderCollapse: "collapse"
+                                }}
+                            >
+                                <tbody>
+                                <tr role="none" style={{height: 0}}>
+                                    <td style={{width: 34}}/>
+                                    <td style={{width: 65}}/>
+                                    <td style={{width: 70}}/>
+                                    <td style={{width: 65}}/>
+                                    <td style={{width: 35}}/>
+                                </tr>
+                                <tr style={{height: 37}}>
+                                    <td colSpan={5}></td>
+                                </tr>
+                                <tr style={{height: 20}}>
+                                    <td colSpan={2}></td>
+                                    <td
+                                        style={{
+                                            pointerEvents: "auto",
+                                            textIndent: 0,
+                                            verticalAlign: "middle",
+                                            textAlign: "center"
+                                        }}
+                                    >
                       <span
                           style={{
                               fontFamily: "Arial Rounded MT Bold",
@@ -1873,83 +1889,85 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
                       >
                         O Autuante
                       </span>
-                                </td>
-                                <td colSpan={2}></td>
-                            </tr>
-                            <tr   style={{height: 9}}>
-                                <td colSpan={5}></td>
-                            </tr>
-                            <tr   style={{height: 21}}>
-                                <td></td>
-                                <td colSpan={3} style={{pointerEvents: "auto"}}></td>
-                                <td></td>
-                            </tr>
-                            <tr   style={{height: 3}}>
-                                <td colSpan={5}></td>
-                            </tr>
-                            <tr   style={{height: 1}}>
-                                <td></td>
-                                <td
-                                    colSpan={3}
-                                    style={{
-                                        pointerEvents: "auto",
-                                        backgroundColor: "#FFFFFF",
-                                        borderTop: "1px solid #000000"
-                                    }}
-                                ></td>
-                                <td></td>
-                            </tr>
-                            <tr   style={{height: 5}}>
-                                <td colSpan={5}></td>
-                            </tr>
-                            <tr   style={{height: 40}}>
-                                <td></td>
-                                <td colSpan={3}>
-                                    <div
+                                    </td>
+                                    <td colSpan={2}></td>
+                                </tr>
+                                <tr style={{height: 9}}>
+                                    <td colSpan={5}></td>
+                                </tr>
+                                <tr style={{height: 21}}>
+                                    <td></td>
+                                    <td colSpan={3} className={"signPlace agente"}  style={{pointerEvents: "auto"}}>
+                                        {!_.isEmpty(assinaturaAgente) ? <img src={assinaturaAgente} /> :'' }
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr style={{height: 3}}>
+                                    <td colSpan={5}></td>
+                                </tr>
+                                <tr style={{height: 1}}>
+                                    <td></td>
+                                    <td
+                                        colSpan={3}
                                         style={{
-                                            width: "100%",
-                                            height: "100%",
-                                            position: "relative"
+                                            pointerEvents: "auto",
+                                            backgroundColor: "#FFFFFF",
+                                            borderTop: "1px solid #000000"
                                         }}
-                                    >
+                                    ></td>
+                                    <td></td>
+                                </tr>
+                                <tr style={{height: 5}}>
+                                    <td colSpan={5}></td>
+                                </tr>
+                                <tr style={{height: 40}}>
+                                    <td></td>
+                                    <td colSpan={3}>
                                         <div
                                             style={{
-                                                position: "absolute",
-                                                overflow: "hidden",
                                                 width: "100%",
-                                                height: "100%"
+                                                height: "100%",
+                                                position: "relative"
                                             }}
                                         >
-                                            <table
-                                                cellPadding={0}
-                                                cellSpacing={0}
-
+                                            <div
                                                 style={{
-                                                    emptyCells: "show",
+                                                    position: "absolute",
+                                                    overflow: "hidden",
                                                     width: "100%",
-                                                    borderCollapse: "collapse"
+                                                    height: "100%"
                                                 }}
                                             >
-                                                <tbody>
-                                                <tr
-                                                    role="none"
-                                                     
-                                                    style={{height: 0}}
+                                                <table
+                                                    cellPadding={0}
+                                                    cellSpacing={0}
+
+                                                    style={{
+                                                        emptyCells: "show",
+                                                        width: "100%",
+                                                        borderCollapse: "collapse"
+                                                    }}
                                                 >
-                                                    <td style={{width: 58}}/>
-                                                    <td style={{width: 85}}/>
-                                                    <td style={{width: 57}}/>
-                                                </tr>
-                                                <tr   style={{height: 20}}>
-                                                    <td></td>
-                                                    <td
-                                                        style={{
-                                                            pointerEvents: "auto",
-                                                            textIndent: 0,
-                                                            verticalAlign: "middle",
-                                                            textAlign: "center"
-                                                        }}
+                                                    <tbody>
+                                                    <tr
+                                                        role="none"
+
+                                                        style={{height: 0}}
                                                     >
+                                                        <td style={{width: 58}}/>
+                                                        <td style={{width: 85}}/>
+                                                        <td style={{width: 57}}/>
+                                                    </tr>
+                                                    <tr style={{height: 20}}>
+                                                        <td></td>
+                                                        <td
+                                                            style={{
+                                                                pointerEvents: "auto",
+                                                                textIndent: 0,
+                                                                verticalAlign: "middle",
+                                                                textAlign: "center"
+                                                            }}
+                                                        >
                                   <span
                                       style={{
                                           fontFamily: "Arial Rounded MT Bold",
@@ -1960,137 +1978,145 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
                                   >
                                     Testemunhas
                                   </span>
-                                                    </td>
-                                                    <td></td>
-                                                </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                        <div
-                                            style={{
-                                                position: "relative",
-                                                width: "100%",
-                                                height: "100%",
-                                                pointerEvents: "none"
-                                            }}
-                                        >
-                                            <table
-                                                cellPadding={0}
-                                                cellSpacing={0}
-
+                                                        </td>
+                                                        <td></td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div
                                                 style={{
-                                                    emptyCells: "show",
+                                                    position: "relative",
                                                     width: "100%",
-                                                    borderCollapse: "collapse"
+                                                    height: "100%",
+                                                    pointerEvents: "none"
                                                 }}
                                             >
-                                                <tbody>
-                                                <tr
-                                                    role="none"
-                                                     
-                                                    style={{height: 0}}
+                                                <table
+                                                    cellPadding={0}
+                                                    cellSpacing={0}
+
+                                                    style={{
+                                                        emptyCells: "show",
+                                                        width: "100%",
+                                                        borderCollapse: "collapse"
+                                                    }}
                                                 >
-                                                    <td style={{width: 200}}/>
-                                                </tr>
-                                                <tr   style={{height: 19}}>
-                                                    <td></td>
-                                                </tr>
-                                                <tr   style={{height: 21}}>
-                                                    <td style={{pointerEvents: "auto"}}></td>
-                                                </tr>
-                                                </tbody>
-                                            </table>
+                                                    <tbody>
+                                                    <tr
+                                                        role="none"
+
+                                                        style={{height: 0}}
+                                                    >
+                                                        <td style={{width: 200}}/>
+                                                    </tr>
+                                                    <tr style={{height: 19}}>
+                                                        <td></td>
+                                                    </tr>
+                                                    <tr style={{height: 21}}>
+                                                        <td style={{pointerEvents: "auto"}}
+                                                            className={"signPlace testemunhaAssinatura1"}>
+                                                            {!_.isEmpty(assinaturaTestemunha_1) ?
+                                                                <img  src={assinaturaTestemunha_1}/> : ''}
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                         </div>
-                                    </div>
-                                </td>
-                                <td></td>
-                            </tr>
-                            <tr   style={{height: 3}}>
-                                <td colSpan={5}></td>
-                            </tr>
-                            <tr   style={{height: 1}}>
-                                <td></td>
-                                <td
-                                    colSpan={3}
-                                    style={{
-                                        pointerEvents: "auto",
-                                        backgroundColor: "#FFFFFF",
-                                        borderTop: "1px solid #000000"
-                                    }}
-                                ></td>
-                                <td></td>
-                            </tr>
-                            <tr   style={{height: 8}}>
-                                <td colSpan={5}></td>
-                            </tr>
-                            <tr   style={{height: 21}}>
-                                <td></td>
-                                <td colSpan={3} style={{pointerEvents: "auto"}}></td>
-                                <td></td>
-                            </tr>
-                            <tr   style={{height: 2}}>
-                                <td colSpan={5}></td>
-                            </tr>
-                            <tr   style={{height: 1}}>
-                                <td></td>
-                                <td
-                                    colSpan={3}
-                                    style={{
-                                        pointerEvents: "auto",
-                                        backgroundColor: "#FFFFFF",
-                                        borderTop: "1px solid #000000"
-                                    }}
-                                ></td>
-                                <td></td>
-                            </tr>
-                            <tr   style={{height: 6}}>
-                                <td colSpan={5}></td>
-                            </tr>
-                            </tbody>
-                        </table>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr style={{height: 3}}>
+                                    <td colSpan={5}></td>
+                                </tr>
+                                <tr style={{height: 1}}>
+                                    <td></td>
+                                    <td
+                                        colSpan={3}
+                                        style={{
+                                            pointerEvents: "auto",
+                                            backgroundColor: "#FFFFFF",
+                                            borderTop: "1px solid #000000"
+                                        }}
+                                    ></td>
+                                    <td></td>
+                                </tr>
+                                <tr style={{height: 8}}>
+                                    <td colSpan={5}></td>
+                                </tr>
+                                <tr style={{height: 21}}>
+                                    <td></td>
+                                    <td colSpan={3} className={"signPlace testemunhaAssinatura2"}
+                                        style={{pointerEvents: "auto"}}>
+                                        {!_.isEmpty(assinaturaTestemunha_2) ?
+                                            <img  src={assinaturaTestemunha_2}/> : ''}
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr style={{height: 2}}>
+                                    <td colSpan={5}></td>
+                                </tr>
+                                <tr style={{height: 1}}>
+                                    <td></td>
+                                    <td
+                                        colSpan={3}
+                                        style={{
+                                            pointerEvents: "auto",
+                                            backgroundColor: "#FFFFFF",
+                                            borderTop: "1px solid #000000"
+                                        }}
+                                    ></td>
+                                    <td></td>
+                                </tr>
+                                <tr style={{height: 6}}>
+                                    <td colSpan={5}></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                </div>
-            </td>
-            <td></td>
-        </tr>
-        <tr   style={{height: 6}}>
-            <td colSpan={2}></td>
-            <td colSpan={6} rowSpan={9}>
-                <svg height={48} width={50}>
-                    <ellipse
-                        cx={25}
-                        cy={24}
-                        rx="24.5"
-                        ry="23.5"
-                        style={{
-                            fill: "#FFFFFF",
-                            stroke: "#000000",
-                            strokeWidth: 1.0,
-                            strokeDasharray: "5.0,3.0"
-                        }}
-                    />
-                </svg>
-            </td>
-            <td colSpan={40}></td>
-            <td></td>
-        </tr>
-        <tr   style={{height: 10}}>
-            <td colSpan={2}></td>
-            <td colSpan={22}></td>
-            <td
-                colSpan={5}
-                rowSpan={2}
-                style={{border: "1px solid #000000"}}
-            ></td>
-            <td
-                colSpan={11}
-                rowSpan={2}
-                style={{
-                    textIndent: 0,
-                    verticalAlign: "middle",
-                    textAlign: "center"
-                }}
-            >
+                </td>
+                <td></td>
+            </tr>
+            <tr style={{height: 6}}>
+                <td colSpan={2}></td>
+                <td colSpan={6} rowSpan={9}>
+                    <svg height={48} width={50}>
+                        <ellipse
+                            cx={25}
+                            cy={24}
+                            rx="24.5"
+                            ry="23.5"
+                            style={{
+                                fill: "#FFFFFF",
+                                stroke: "#000000",
+                                strokeWidth: 1.0,
+                                strokeDasharray: "5.0,3.0"
+                            }}
+                        />
+                    </svg>
+                </td>
+                <td colSpan={40}></td>
+                <td></td>
+            </tr>
+            <tr style={{height: 10}}>
+                <td colSpan={2}></td>
+                <td colSpan={22}></td>
+                <td
+                    colSpan={5}
+                    rowSpan={2}
+                    style={{border: "1px solid #000000"}}
+                ></td>
+                <td
+                    colSpan={11}
+                    rowSpan={2}
+                    style={{
+                        textIndent: 0,
+                        verticalAlign: "middle",
+                        textAlign: "center"
+                    }}
+                >
           <span
               style={{
                   fontFamily: "Arial Rounded MT Bold",
@@ -2101,19 +2127,19 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
           >
             Coima
           </span>
-            </td>
-            <td colSpan={2}></td>
-            <td></td>
-        </tr>
-        <tr   style={{height: 9}}>
-            <td colSpan={2}></td>
-            <td></td>
-            <td
-                colSpan={7}
-                rowSpan={5}
-                style={{textIndent: 0, textAlign: "justify"}}
-            >
-                <div style={{textIndent: 0, textAlignLast: "justify"}}>
+                </td>
+                <td colSpan={2}></td>
+                <td></td>
+            </tr>
+            <tr style={{height: 9}}>
+                <td colSpan={2}></td>
+                <td></td>
+                <td
+                    colSpan={7}
+                    rowSpan={5}
+                    style={{textIndent: 0, textAlign: "justify"}}
+                >
+                    <div style={{textIndent: 0, textAlignLast: "justify"}}>
             <span
                 style={{
                     fontFamily: "Arial",
@@ -2124,50 +2150,50 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
             >
               Recibo
             </span>
-                </div>
-            </td>
-            <td colSpan={14}></td>
-            <td colSpan={2}></td>
-            <td></td>
-        </tr>
-        <tr   style={{height: 1}}>
-            <td colSpan={2}></td>
-            <td></td>
-            <td colSpan={32}></td>
-            <td></td>
-        </tr>
-        <tr   style={{height: 1}}>
-            <td colSpan={2}></td>
-            <td></td>
-            <td></td>
-            <td colSpan={12} style={{borderTop: "1px solid #000000"}}></td>
-            <td colSpan={19}></td>
-            <td></td>
-        </tr>
-        <tr   style={{height: 2}}>
-            <td colSpan={2}></td>
-            <td></td>
-            <td colSpan={32}></td>
-            <td></td>
-        </tr>
-        <tr   style={{height: 3}}>
-            <td colSpan={2}></td>
-            <td></td>
-            <td colSpan={14}></td>
-            <td
-                colSpan={5}
-                rowSpan={3}
-                style={{border: "1px solid #000000"}}
-            ></td>
-            <td
-                colSpan={11}
-                rowSpan={2}
-                style={{
-                    textIndent: 0,
-                    verticalAlign: "middle",
-                    textAlign: "center"
-                }}
-            >
+                    </div>
+                </td>
+                <td colSpan={14}></td>
+                <td colSpan={2}></td>
+                <td></td>
+            </tr>
+            <tr style={{height: 1}}>
+                <td colSpan={2}></td>
+                <td></td>
+                <td colSpan={32}></td>
+                <td></td>
+            </tr>
+            <tr style={{height: 1}}>
+                <td colSpan={2}></td>
+                <td></td>
+                <td></td>
+                <td colSpan={12} style={{borderTop: "1px solid #000000"}}></td>
+                <td colSpan={19}></td>
+                <td></td>
+            </tr>
+            <tr style={{height: 2}}>
+                <td colSpan={2}></td>
+                <td></td>
+                <td colSpan={32}></td>
+                <td></td>
+            </tr>
+            <tr style={{height: 3}}>
+                <td colSpan={2}></td>
+                <td></td>
+                <td colSpan={14}></td>
+                <td
+                    colSpan={5}
+                    rowSpan={3}
+                    style={{border: "1px solid #000000"}}
+                ></td>
+                <td
+                    colSpan={11}
+                    rowSpan={2}
+                    style={{
+                        textIndent: 0,
+                        verticalAlign: "middle",
+                        textAlign: "center"
+                    }}
+                >
           <span
               style={{
                   fontFamily: "Arial Rounded MT Bold",
@@ -2178,140 +2204,140 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
           >
             Depósito
           </span>
-            </td>
-            <td colSpan={2}></td>
-            <td></td>
-        </tr>
-        <tr   style={{height: 15}}>
-            <td colSpan={2}></td>
-            <td colSpan={22}></td>
-            <td colSpan={2}></td>
-            <td></td>
-        </tr>
-        <tr   style={{height: 1}}>
-            <td colSpan={2}></td>
-            <td colSpan={22}></td>
-            <td colSpan={13}></td>
-            <td></td>
-        </tr>
-        <tr   style={{height: 3}}>
-            <td colSpan={48}></td>
-            <td></td>
-        </tr>
-        <tr   style={{height: 1}}>
-            <td colSpan={3}></td>
-            <td colSpan={42} style={{borderTop: "1px dashed #000000"}}></td>
-            <td colSpan={3}></td>
-            <td></td>
-        </tr>
-        <tr   style={{height: 2}}>
-            <td colSpan={48}></td>
-            <td></td>
-        </tr>
-        <tr   style={{height: 49}}>
-            <td colSpan={2}></td>
-            <td colSpan={6}>
-                <svg height={49} width={50}>
-                    <ellipse
-                        cx={25}
-                        cy={24}
-                        rx="24.5"
-                        ry="23.5"
-                        style={{
-                            fill: "#FFFFFF",
-                            stroke: "#000000",
-                            strokeWidth: 1.0,
-                            strokeDasharray: "5.0,3.0"
-                        }}
-                    />
-                </svg>
-            </td>
-            <td colSpan={40}></td>
-            <td></td>
-        </tr>
-        <tr   style={{height: 4}}>
-            <td colSpan={48}></td>
-            <td></td>
-        </tr>
-        <tr   style={{height: 62}}>
-            <td></td>
-            <td colSpan={47}>
-                <div style={{width: "100%", height: "100%", position: "relative"}}>
-                    <div
-                        style={{
-                            position: "absolute",
-                            overflow: "hidden",
-                            width: "100%",
-                            height: "100%"
-                        }}
-                    >
-                        <table
-                            cellPadding={0}
-                            cellSpacing={0}
-
+                </td>
+                <td colSpan={2}></td>
+                <td></td>
+            </tr>
+            <tr style={{height: 15}}>
+                <td colSpan={2}></td>
+                <td colSpan={22}></td>
+                <td colSpan={2}></td>
+                <td></td>
+            </tr>
+            <tr style={{height: 1}}>
+                <td colSpan={2}></td>
+                <td colSpan={22}></td>
+                <td colSpan={13}></td>
+                <td></td>
+            </tr>
+            <tr style={{height: 3}}>
+                <td colSpan={48}></td>
+                <td></td>
+            </tr>
+            <tr style={{height: 1}}>
+                <td colSpan={3}></td>
+                <td colSpan={42} style={{borderTop: "1px dashed #000000"}}></td>
+                <td colSpan={3}></td>
+                <td></td>
+            </tr>
+            <tr style={{height: 2}}>
+                <td colSpan={48}></td>
+                <td></td>
+            </tr>
+            <tr style={{height: 49}}>
+                <td colSpan={2}></td>
+                <td colSpan={6}>
+                    <svg height={49} width={50}>
+                        <ellipse
+                            cx={25}
+                            cy={24}
+                            rx="24.5"
+                            ry="23.5"
                             style={{
-                                emptyCells: "show",
+                                fill: "#FFFFFF",
+                                stroke: "#000000",
+                                strokeWidth: 1.0,
+                                strokeDasharray: "5.0,3.0"
+                            }}
+                        />
+                    </svg>
+                </td>
+                <td colSpan={40}></td>
+                <td></td>
+            </tr>
+            <tr style={{height: 4}}>
+                <td colSpan={48}></td>
+                <td></td>
+            </tr>
+            <tr style={{height: 62}}>
+                <td></td>
+                <td colSpan={47}>
+                    <div style={{width: "100%", height: "100%", position: "relative"}}>
+                        <div
+                            style={{
+                                position: "absolute",
+                                overflow: "hidden",
                                 width: "100%",
-                                borderCollapse: "collapse"
+                                height: "100%"
                             }}
                         >
-                            <tbody>
-                            <tr role="none"   style={{height: 0}}>
-                                <td style={{width: 281}}/>
-                            </tr>
-                            <tr   style={{height: 62}}>
-                                <td
-                                    style={{
-                                        pointerEvents: "auto",
-                                        backgroundColor: "#FFFFFF",
-                                        border: "1px solid #000000"
-                                    }}
-                                ></td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div
-                        style={{
-                            position: "relative",
-                            width: "100%",
-                            height: "100%",
-                            pointerEvents: "none"
-                        }}
-                    >
-                        <table
-                            cellPadding={0}
-                            cellSpacing={0}
+                            <table
+                                cellPadding={0}
+                                cellSpacing={0}
 
+                                style={{
+                                    emptyCells: "show",
+                                    width: "100%",
+                                    borderCollapse: "collapse"
+                                }}
+                            >
+                                <tbody>
+                                <tr role="none" style={{height: 0}}>
+                                    <td style={{width: 281}}/>
+                                </tr>
+                                <tr style={{height: 62}}>
+                                    <td
+                                        style={{
+                                            pointerEvents: "auto",
+                                            backgroundColor: "#FFFFFF",
+                                            border: "1px solid #000000"
+                                        }}
+                                    ></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div
                             style={{
-                                emptyCells: "show",
+                                position: "relative",
                                 width: "100%",
-                                borderCollapse: "collapse"
+                                height: "100%",
+                                pointerEvents: "none"
                             }}
                         >
-                            <tbody>
-                            <tr role="none"   style={{height: 0}}>
-                                <td style={{width: 3}}/>
-                                <td style={{width: 49}}/>
-                                <td style={{width: 2}}/>
-                                <td style={{width: 34}}/>
-                                <td style={{width: 127}}/>
-                                <td style={{width: 60}}/>
-                                <td style={{width: 6}}/>
-                            </tr>
-                            <tr   style={{height: 2}}>
-                                <td colSpan={7}></td>
-                            </tr>
-                            <tr   style={{height: 14}}>
-                                <td></td>
-                                <td
-                                    style={{
-                                        pointerEvents: "auto",
-                                        textIndent: 0,
-                                        verticalAlign: "middle",
-                                        textAlign: "left"
-                                    }}
-                                >
+                            <table
+                                cellPadding={0}
+                                cellSpacing={0}
+
+                                style={{
+                                    emptyCells: "show",
+                                    width: "100%",
+                                    borderCollapse: "collapse"
+                                }}
+                            >
+                                <tbody>
+                                <tr role="none" style={{height: 0}}>
+                                    <td style={{width: 3}}/>
+                                    <td style={{width: 49}}/>
+                                    <td style={{width: 2}}/>
+                                    <td style={{width: 34}}/>
+                                    <td style={{width: 127}}/>
+                                    <td style={{width: 60}}/>
+                                    <td style={{width: 6}}/>
+                                </tr>
+                                <tr style={{height: 2}}>
+                                    <td colSpan={7}></td>
+                                </tr>
+                                <tr style={{height: 14}}>
+                                    <td></td>
+                                    <td
+                                        style={{
+                                            pointerEvents: "auto",
+                                            textIndent: 0,
+                                            verticalAlign: "middle",
+                                            textAlign: "left"
+                                        }}
+                                    >
                       <span
                           style={{
                               fontFamily: "Arial Rounded MT Bold",
@@ -2322,17 +2348,17 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
                       >
                         IBAN
                       </span>
-                                </td>
-                                <td></td>
-                                <td
-                                    colSpan={3}
-                                    style={{
-                                        pointerEvents: "auto",
-                                        textIndent: 0,
-                                        verticalAlign: "middle",
-                                        textAlign: "right"
-                                    }}
-                                >
+                                    </td>
+                                    <td></td>
+                                    <td
+                                        colSpan={3}
+                                        style={{
+                                            pointerEvents: "auto",
+                                            textIndent: 0,
+                                            verticalAlign: "middle",
+                                            textAlign: "right"
+                                        }}
+                                    >
                       <span
                           style={{
                               fontFamily: "Arial Rounded MT Bold",
@@ -2343,23 +2369,23 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
                       >
                         PT50 0035 0771 00000263630 55
                       </span>
-                                </td>
-                                <td></td>
-                            </tr>
-                            <tr   style={{height: 2}}>
-                                <td colSpan={7}></td>
-                            </tr>
-                            <tr   style={{height: 14}}>
-                                <td></td>
-                                <td
-                                    colSpan={3}
-                                    style={{
-                                        pointerEvents: "auto",
-                                        textIndent: 0,
-                                        verticalAlign: "bottom",
-                                        textAlign: "left"
-                                    }}
-                                >
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr style={{height: 2}}>
+                                    <td colSpan={7}></td>
+                                </tr>
+                                <tr style={{height: 14}}>
+                                    <td></td>
+                                    <td
+                                        colSpan={3}
+                                        style={{
+                                            pointerEvents: "auto",
+                                            textIndent: 0,
+                                            verticalAlign: "bottom",
+                                            textAlign: "left"
+                                        }}
+                                    >
                       <span
                           style={{
                               fontFamily: "Arial Rounded MT Bold",
@@ -2370,30 +2396,30 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
                       >
                         MONTANTE
                       </span>
-                                </td>
-                                <td></td>
-                                <td
-                                    style={{
-                                        pointerEvents: "auto",
-                                        textIndent: 0,
-                                        verticalAlign: "bottom",
-                                        textAlign: "left"
-                                    }}
-                                ></td>
-                                <td></td>
-                            </tr>
-                            <tr   style={{height: 30}}>
-                                <td></td>
-                                <td
-                                    colSpan={5}
-                                    style={{
-                                        pointerEvents: "auto",
-                                        textIndent: 0,
-                                        textAlign: "justify",
-                                        lineHeight: "0"
-                                    }}
-                                >
-                                    <div style={{textIndent: 0, textAlignLast: "justify"}}>
+                                    </td>
+                                    <td></td>
+                                    <td
+                                        style={{
+                                            pointerEvents: "auto",
+                                            textIndent: 0,
+                                            verticalAlign: "bottom",
+                                            textAlign: "left"
+                                        }}
+                                    ></td>
+                                    <td></td>
+                                </tr>
+                                <tr style={{height: 30}}>
+                                    <td></td>
+                                    <td
+                                        colSpan={5}
+                                        style={{
+                                            pointerEvents: "auto",
+                                            textIndent: 0,
+                                            textAlign: "justify",
+                                            lineHeight: "0"
+                                        }}
+                                    >
+                                        <div style={{textIndent: 0, textAlignLast: "justify"}}>
                         <span
                             style={{
                                 fontFamily: "Arial",
@@ -2407,20 +2433,21 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
                           eletrônica para juridico.apoio@cm-sesimbra.pt com a
                             &nbsp;indicação do n° do &nbsp;auto de{" "}
                         </span>
-                                    </div>
-                                </td>
-                                <td></td>
-                            </tr>
-                            </tbody>
-                        </table>
+                                        </div>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                </div>
-            </td>
-            <td></td>
-        </tr>
-        <tr   style={{height: 20}}>
-            <td colSpan={71}></td>
-        </tr>
-        </tbody>
-    </table>
-)}
+                </td>
+                <td></td>
+            </tr>
+            <tr style={{height: 20}}>
+                <td colSpan={71}></td>
+            </tr>
+            </tbody>
+        </table>
+    )
+}

@@ -23,4 +23,14 @@ ion-popover.popoverSign {
   }
 }
 
+.signPlace {
+  position: relative;
+  img {
+    height: 30px;
+    position: absolute;
+    left: 0;
+    top: -4px;
+  }
+
+}
 

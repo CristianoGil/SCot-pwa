@@ -1,10 +1,14 @@
 import _ from 'underscore'
 
 interface IProps {
-    assinaturaManuscritoArguido?: string
+    assinaturaArguido?: string
+    assinaturaTestemunha_1?: string
+    assinaturaTestemunha_2?: string
+    assinaturaAgente?: string
 }
+
 export const CoDirectaMarkupTable3: React.FC<IProps> = (props) => {
-    const {assinaturaManuscritoArguido} = props;
+    const {assinaturaArguido, assinaturaTestemunha_1, assinaturaTestemunha_2, assinaturaAgente} = props;
     return (
     <table
         id="CO_DIRECTA_JR_PAGE_ANCHOR_0_3"
@@ -1513,7 +1517,9 @@ export const CoDirectaMarkupTable3: React.FC<IProps> = (props) => {
                             </tr>
                             <tr style={{height: 21}}>
                                 <td></td>
-                                <td colSpan={8} style={{pointerEvents: "auto"}}></td>
+                                <td colSpan={8} className={"signPlace agente"}  style={{pointerEvents: "auto"}}>
+                                    {!_.isEmpty(assinaturaAgente) ? <img src={assinaturaAgente} /> :'' }
+                                </td>
                                 <td colSpan={2}></td>
                             </tr>
                             <tr style={{height: 5}}>
@@ -1576,7 +1582,9 @@ export const CoDirectaMarkupTable3: React.FC<IProps> = (props) => {
                             </tr>
                             <tr style={{height: 21}}>
                                 <td></td>
-                                <td colSpan={8} style={{pointerEvents: "auto"}}></td>
+                                <td colSpan={8} className={"signPlace testemunhaAssinatura1"}  style={{pointerEvents: "auto"}}>
+                                    {!_.isEmpty(assinaturaTestemunha_1) ? <img src={assinaturaTestemunha_1} /> :'' }
+                                </td>
                                 <td colSpan={2}></td>
                             </tr>
                             <tr style={{height: 3}}>
@@ -1599,7 +1607,9 @@ export const CoDirectaMarkupTable3: React.FC<IProps> = (props) => {
                             </tr>
                             <tr style={{height: 21}}>
                                 <td colSpan={2}></td>
-                                <td colSpan={8} style={{pointerEvents: "auto"}}></td>
+                                <td colSpan={8} className={"signPlace testemunhaAssinatura2"}  style={{pointerEvents: "auto"}}>
+                                    {!_.isEmpty(assinaturaTestemunha_2) ? <img src={assinaturaTestemunha_2} /> :'' }
+                                </td>
                                 <td></td>
                             </tr>
                             <tr style={{height: 3}}>
@@ -1780,7 +1790,7 @@ export const CoDirectaMarkupTable3: React.FC<IProps> = (props) => {
                             <tr style={{height: 21}}>
                                 <td colSpan={2}></td>
                                 <td colSpan={7} className="signPlace" style={{pointerEvents: "auto", textAlign: "center"}}>
-                                    {!_.isEmpty(assinaturaManuscritoArguido) ? <img style={{height: 19}} src={assinaturaManuscritoArguido} /> :'' }
+                                    {!_.isEmpty(assinaturaArguido) ? <img src={assinaturaArguido} /> :'' }
                                 </td>
                                 <td colSpan={2}></td>
                             </tr>
@@ -1981,7 +1991,9 @@ export const CoDirectaMarkupTable3: React.FC<IProps> = (props) => {
                             </tr>
                             <tr style={{height: 21}}>
                                 <td></td>
-                                <td colSpan={3} style={{pointerEvents: "auto"}}></td>
+                                <td colSpan={3} className={"signPlace agente"}  style={{pointerEvents: "auto"}}>
+                                    {!_.isEmpty(assinaturaAgente) ? <img src={assinaturaAgente} /> :'' }
+                                </td>
                                 <td></td>
                             </tr>
                             <tr style={{height: 3}}>
@@ -2096,7 +2108,11 @@ export const CoDirectaMarkupTable3: React.FC<IProps> = (props) => {
                                                     <td></td>
                                                 </tr>
                                                 <tr style={{height: 21}}>
-                                                    <td style={{pointerEvents: "auto"}}></td>
+                                                    <td style={{pointerEvents: "auto"}}
+                                                        className={"signPlace testemunhaAssinatura1"}>
+                                                        {!_.isEmpty(assinaturaTestemunha_1) ?
+                                                            <img src={assinaturaTestemunha_1}/> : ''}
+                                                    </td>
                                                 </tr>
                                                 </tbody>
                                             </table>
@@ -2125,7 +2141,11 @@ export const CoDirectaMarkupTable3: React.FC<IProps> = (props) => {
                             </tr>
                             <tr style={{height: 21}}>
                                 <td></td>
-                                <td colSpan={3} style={{pointerEvents: "auto"}}></td>
+                                <td colSpan={3} className={"signPlace testemunhaAssinatura2"}
+                                    style={{pointerEvents: "auto"}}>
+                                    {!_.isEmpty(assinaturaTestemunha_2) ?
+                                        <img src={assinaturaTestemunha_2}/> : ''}
+                                </td>
                                 <td></td>
                             </tr>
                             <tr style={{height: 2}}>

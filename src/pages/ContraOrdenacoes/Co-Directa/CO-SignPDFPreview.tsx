@@ -1,13 +1,11 @@
 import {
-    IonBadge,
     IonButton,
-    IonButtons,
-    IonCard,
-    IonCardContent,
-    IonCardHeader,
-    IonCardTitle, IonCheckbox, IonCol, IonContent,
-    IonGrid, IonHeader, IonIcon, IonItem, IonLabel, IonModal, IonPage, IonPopover, IonRow,
-    IonSelect, IonSelectOption, IonToolbar, useIonAlert, useIonLoading
+    IonContent,
+    IonHeader,
+    IonLabel,
+    IonPage,
+    IonPopover,
+    IonToolbar, useIonAlert, useIonLoading
 } from "@ionic/react";
 import Menu from "../../../components/Menu/Menu";
 import {CoDirectaTemplateMarkup} from '../../../components/Relatorios/templates/CoDirectaTemplate';
@@ -15,21 +13,19 @@ import {MenuActionsBtnSignPDF} from '../../../components/Contra-Ordenacoes/MenuA
 import jsPDF from "jspdf";
 import {IteratorArray} from "../../../common/iterator";
 import {blobToBase64, cleanString, createCanvas} from "../../../utils/apex-formatters";
-import {useHistory} from "react-router";
-import CardListItem from "../../../components/CardListItem";
 import {useState} from "react";
 
 
 import './CO-SignPDFPreview.scss';
 import AssinaturaManuscrito from "../../../components/Relatorios/Assinaturas/AssinaturaManuscrito";
-import TipoAssinaturas from "../../../components/Combos/TipoAssinaturas";
 import React from "react";
 import _ from "underscore";
-import {alertCircle, alertOutline, checkmarkCircle} from "ionicons/icons";
+import AssinaturaArguido from "../../../components/Relatorios/Intervenientes/Arguido";
+import AssinaturaTestemunha from "../../../components/Relatorios/Intervenientes/Testemunha";
+import AssinaturaAgente from "../../../components/Relatorios/Intervenientes/Agente";
 
 
 const assinaturaManuscrito = 'Assinatura Manuscrito';
-
 
 const generatePDF = (e: any): Promise<any> => {
     return new Promise((resolve, reject) => {
@@ -100,10 +96,6 @@ const CODirectaSignPDFPreview: React.FC<IProps> = (props) => {
 
     const [presentLoad, dismissLoad] = useIonLoading();
     const [presentAlert] = useIonAlert();
-    const history = useHistory();
-
-    const [signatureManuscrito_arguido, setSignatureManuscrito_arguido] = useState<any>();
-    const [arguidoNaoAssinouNotificacao, setArguidoNaoAssinouNotificacao] = useState(false);
 
 
     // START: Request Signatures
@@ -112,21 +104,16 @@ const CODirectaSignPDFPreview: React.FC<IProps> = (props) => {
         setOpenPopoverSignatures(true);
     }
     const handlerCleanStateOnPopoverClose = () => {
-        setOpenPopoverSignatures(false);
-        setTipoAssinaturaArguido('');
-    }
-
-    // START: Assinatura Manuscrita
-    const [toggleModalAssinaturaManuscrita, setToggleModalAssinaturaManuscrita] = useState(false);
-    const [assinaturaManuscritaArguido, setAssinaturaManuscritaArguido] = useState<string>();
-    const signedAssinaturaManuscrita = (value: string) => {
-        if (value) {
-            setAssinaturaManuscritaArguido(value)
-        }
+        setOpenPopoverSignatures(false)
+        setWhoIsSigningManuscrito('')
     }
 
     // START: Handler tipo assinatura arguido
+    const [assinaturaManuscritaArguido, setAssinaturaManuscritaArguido] = useState<string>();
     const [tipoAssinaturaArguido, setTipoAssinaturaArguido] = useState<any>();
+    const [signatureManuscrito_arguido, setSignatureManuscrito_arguido] = useState<any>();
+    const [arguidoNaoAssinouNotificacao, setArguidoNaoAssinouNotificacao] = useState(false);
+
     React.useEffect(() => {
 
         if (!_.isEmpty(tipoAssinaturaArguido)) {
@@ -135,6 +122,7 @@ const CODirectaSignPDFPreview: React.FC<IProps> = (props) => {
             // Assinatura Manuscrito'
             if (cleanString(_tipoAssinaturaArguido.descricao).includes(cleanString(assinaturaManuscrito))) {
                 setToggleModalAssinaturaManuscrita(true);
+                setWhoIsSigningManuscrito('arguido');
             } else {
                 setToggleModalAssinaturaManuscrita(false);
             }
@@ -143,6 +131,86 @@ const CODirectaSignPDFPreview: React.FC<IProps> = (props) => {
 
     }, [tipoAssinaturaArguido])
 
+
+    // START: Handler assinatura Testemunha = 1
+    const testemunhaRef_1 = 1;
+    const [assinaturaManuscritaTestemunha_1, setAssinaturaManuscritaTestemunha_1] = useState<string>()
+    const [tipoAssinaturaTestemunha_1, setTipoAssinaturaTestemunha_1] = useState<any>();
+    React.useEffect(() => {
+
+        if (!_.isEmpty(tipoAssinaturaTestemunha_1)) {
+            const _tipoAssinaturaTestemunha_1 = JSON.parse(tipoAssinaturaTestemunha_1);
+
+            // Assinatura Manuscrito'
+            if (cleanString(_tipoAssinaturaTestemunha_1.descricao).includes(cleanString(assinaturaManuscrito))) {
+                setToggleModalAssinaturaManuscrita(true);
+                setWhoIsSigningManuscrito('testemunha1');
+            } else {
+                setToggleModalAssinaturaManuscrita(false);
+            }
+
+        }
+
+    }, [tipoAssinaturaTestemunha_1])
+
+    // START: Handler assinatura Testemunha = 2
+    const testemunhaRef_2 = 2;
+    const [assinaturaManuscritaTestemunha_2, setAssinaturaManuscritaTestemunha_2] = useState<string>()
+    const [tipoAssinaturaTestemunha_2, setTipoAssinaturaTestemunha_2] = useState<any>();
+    React.useEffect(() => {
+
+        if (!_.isEmpty(tipoAssinaturaTestemunha_2)) {
+            const _tipoAssinaturaTestemunha_2 = JSON.parse(tipoAssinaturaTestemunha_2);
+
+            // Assinatura Manuscrito'
+            if (cleanString(_tipoAssinaturaTestemunha_2.descricao).includes(cleanString(assinaturaManuscrito))) {
+                setToggleModalAssinaturaManuscrita(true);
+                setWhoIsSigningManuscrito('testemunha2');
+            } else {
+                setToggleModalAssinaturaManuscrita(false);
+            }
+
+        }
+
+    }, [tipoAssinaturaTestemunha_2])
+
+
+    // START: Handler assinatura Agente
+    const [assinaturaManuscritaAgente, setAssinaturaManuscritaAgente] = useState<string>();
+    const [tipoAssinaturaAgente, setTipoAssinaturaAgente] = useState<any>()
+    React.useEffect(() => {
+        if (!_.isEmpty(tipoAssinaturaAgente)) {
+            const _tipoAssinaturaAgente = JSON.parse(tipoAssinaturaAgente);
+
+            // Assinatura Manuscrito'
+            if (cleanString(_tipoAssinaturaAgente.descricao).includes(cleanString(assinaturaManuscrito))) {
+                setToggleModalAssinaturaManuscrita(true);
+                setWhoIsSigningManuscrito('agente');
+            } else {
+                setToggleModalAssinaturaManuscrita(false);
+            }
+
+        }
+    }, [tipoAssinaturaAgente])
+
+
+    // START: Assinatura Manuscrita
+    const [toggleModalAssinaturaManuscrita, setToggleModalAssinaturaManuscrita] = useState(false);
+    const [whoIsSigningManuscrito, setWhoIsSigningManuscrito] = useState<string>();
+    const signedAssinaturaManuscrita = (value: string) => {
+        if (value) {
+            if (whoIsSigningManuscrito === 'arguido') {
+                setAssinaturaManuscritaArguido(value)
+            } else if (whoIsSigningManuscrito === 'testemunha1') {
+                setAssinaturaManuscritaTestemunha_1(value)
+            } else if (whoIsSigningManuscrito === 'testemunha2') {
+                setAssinaturaManuscritaTestemunha_2(value)
+            } else if (whoIsSigningManuscrito === 'agente') {
+                setAssinaturaManuscritaAgente(value)
+            }
+
+        }
+    }
 
     // START: Sign on PDF
     const signPDF = async (e: any) => {
@@ -198,7 +266,11 @@ const CODirectaSignPDFPreview: React.FC<IProps> = (props) => {
                 onPrint(e)
             }}/>}/>
             <IonContent id={"CODirectaSignPDFPreview"} className="CODirectaSignPDFPreview" fullscreen={true}>
-                <CoDirectaTemplateMarkup assinaturaManuscritoArguido={assinaturaManuscritaArguido}/>
+                <CoDirectaTemplateMarkup assinaturaArguido={assinaturaManuscritaArguido}
+                                         assinaturaTestemunha_1={assinaturaManuscritaTestemunha_1}
+                                         assinaturaTestemunha_2={assinaturaManuscritaTestemunha_2}
+                                         assinaturaAgente={assinaturaManuscritaAgente}
+                />
             </IonContent>
 
             {/*START: Request Signatures*/}
@@ -206,6 +278,7 @@ const CODirectaSignPDFPreview: React.FC<IProps> = (props) => {
                 isOpen={openPopoverSignatures}
                 className="menu popoverSign"
                 showBackdrop={true}
+                backdropDismiss={false}
                 onDidDismiss={() => {
                     handlerCleanStateOnPopoverClose();
                 }}>
@@ -229,79 +302,38 @@ const CODirectaSignPDFPreview: React.FC<IProps> = (props) => {
                 </IonHeader>
 
                 <IonContent>
-
-                    <IonGrid>
-                        <IonRow>
-                            <IonCol size-sm="12" size-md="10" size-lg="8">
-                                <IonItem className="ionItem-no-border">
-                                    <IonLabel> <strong>O arguido não assina a contraordenação</strong> </IonLabel>
-                                    <IonCheckbox checked={arguidoNaoAssinouNotificacao}
-                                                 onIonChange={e => setArguidoNaoAssinouNotificacao(e.detail.checked)}
-                                                 slot="start"/>
-                                </IonItem>
-                            </IonCol>
-                        </IonRow>
-                    </IonGrid>
-
                     {/* Arguido assinatura*/}
-                    {arguidoNaoAssinouNotificacao ? '' :
-
-                        <IonCard style={{margin: 30}}>
-
-                            <IonCardHeader>
-                                <IonCardTitle style={{paddingLeft: 15}}> Arguido </IonCardTitle>
-
-                                {_.isEmpty(assinaturaManuscritaArguido) ?
-                                    <IonIcon style={{
-                                        position: "absolute",
-                                        left: 10,
-                                        top: 20,
-                                        fontSize: 16
-                                    }} color="warning" icon={alertCircle}></IonIcon>
-                                    :
-                                    <IonIcon style={{
-                                        position: "absolute",
-                                        left: 10,
-                                        top: 20,
-                                        fontSize: 16
-                                    }} color="success" icon={checkmarkCircle}></IonIcon>
-                                }
-
-                            </IonCardHeader>
-                            <IonCardContent style={{paddingTop: 0}}>
-                                <IonGrid>
-                                    <IonRow>
-
-                                        <IonCol size-sm="12" size-md="8" size-lg="6">
-                                            <TipoAssinaturas interface={"popover"} inputName={"tipoAssinaturaArguido"}
-                                                             selected={tipoAssinaturaArguido}
-                                                             setSelected={setTipoAssinaturaArguido}/>
-                                        </IonCol>
-
-                                        <IonCol size="12">
-                                            <IonButtons>
-                                                <IonButton disabled={!!_.isEmpty(assinaturaManuscritaArguido)}
-                                                           fill="outline" strong={true} color="warning"
-                                                           onClick={(e) => {
-                                                               setAssinaturaManuscritaArguido('');
-                                                               setTipoAssinaturaArguido('')
-                                                           }}>
-                                                    Limpar a assinatura actual
-                                                </IonButton>
-                                            </IonButtons>
-                                        </IonCol>
-
-                                    </IonRow>
-
-                                </IonGrid>
-
-
-                            </IonCardContent>
-                        </IonCard>
-                    }
+                    <AssinaturaArguido assinaturaManuscritaArguido={assinaturaManuscritaArguido}
+                                       setAssinaturaManuscritaArguido={setAssinaturaManuscritaArguido}
+                                       setTipoAssinaturaArguido={setTipoAssinaturaArguido}
+                                       tipoAssinaturaArguido={tipoAssinaturaArguido}
+                                       arguidoNaoAssinouNotificacao={arguidoNaoAssinouNotificacao}
+                                       setArguidoNaoAssinouNotificacao={setArguidoNaoAssinouNotificacao}
+                    />
                     {/*  Arguido assinatura */}
 
+                    {/* Testemunha 1 assinatura*/}
+                    <AssinaturaTestemunha setAssinaturaManuscritaTestemunha={setAssinaturaManuscritaTestemunha_1}
+                                          assinaturaManuscritaTestemunha={assinaturaManuscritaTestemunha_1}
+                                          setTipoAssinaturaTestemunha={setTipoAssinaturaTestemunha_1}
+                                          tipoAssinaturaTestemunha={tipoAssinaturaTestemunha_1}
+                                          testemunhaRef={testemunhaRef_1}/>
+                    {/* Testemunha 1 assinatura*/}
 
+                    {/* Testemunha 2 assinatura*/}
+                    <AssinaturaTestemunha setAssinaturaManuscritaTestemunha={setAssinaturaManuscritaTestemunha_2}
+                                          assinaturaManuscritaTestemunha={assinaturaManuscritaTestemunha_2}
+                                          setTipoAssinaturaTestemunha={setTipoAssinaturaTestemunha_2}
+                                          tipoAssinaturaTestemunha={tipoAssinaturaTestemunha_2}
+                                          testemunhaRef={testemunhaRef_2}/>
+                    {/* Testemunha 2 assinatura*/}
+
+                    {/*O AGENTE*/}
+                    <AssinaturaAgente assinaturaManuscritaAgente={assinaturaManuscritaAgente}
+                                      setAssinaturaManuscritaAgente={setAssinaturaManuscritaAgente}
+                                      setTipoAssinaturaAgente={setTipoAssinaturaAgente}
+                                      tipoAssinaturaAgente={tipoAssinaturaAgente}/>
+                    {/*O AGENTE*/}
                 </IonContent>
 
             </IonPopover>
