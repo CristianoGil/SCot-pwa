@@ -22,6 +22,7 @@ import React from "react";
 import _ from "underscore";
 import AssinaturaArguido from "../../../components/Relatorios/Intervenientes/Arguido";
 import AssinaturaTestemunha from "../../../components/Relatorios/Intervenientes/Testemunha";
+import AssinaturaAgente from "../../../components/Relatorios/Intervenientes/Agente";
 
 
 const assinaturaManuscrito = 'Assinatura Manuscrito';
@@ -103,10 +104,9 @@ const CODirectaSignPDFPreview: React.FC<IProps> = (props) => {
         setOpenPopoverSignatures(true);
     }
     const handlerCleanStateOnPopoverClose = () => {
-        setOpenPopoverSignatures(false);
-        setTipoAssinaturaArguido('');
+        setOpenPopoverSignatures(false)
+        setWhoIsSigningManuscrito('')
     }
-
 
     // START: Handler tipo assinatura arguido
     const [assinaturaManuscritaArguido, setAssinaturaManuscritaArguido] = useState<string>();
@@ -175,6 +175,25 @@ const CODirectaSignPDFPreview: React.FC<IProps> = (props) => {
     }, [tipoAssinaturaTestemunha_2])
 
 
+    // START: Handler assinatura Agente
+    const [assinaturaManuscritaAgente, setAssinaturaManuscritaAgente] = useState<string>();
+    const [tipoAssinaturaAgente, setTipoAssinaturaAgente] = useState<any>()
+    React.useEffect(() => {
+        if (!_.isEmpty(tipoAssinaturaAgente)) {
+            const _tipoAssinaturaAgente = JSON.parse(tipoAssinaturaAgente);
+
+            // Assinatura Manuscrito'
+            if (cleanString(_tipoAssinaturaAgente.descricao).includes(cleanString(assinaturaManuscrito))) {
+                setToggleModalAssinaturaManuscrita(true);
+                setWhoIsSigningManuscrito('agente');
+            } else {
+                setToggleModalAssinaturaManuscrita(false);
+            }
+
+        }
+    }, [tipoAssinaturaAgente])
+
+
     // START: Assinatura Manuscrita
     const [toggleModalAssinaturaManuscrita, setToggleModalAssinaturaManuscrita] = useState(false);
     const [whoIsSigningManuscrito, setWhoIsSigningManuscrito] = useState<string>();
@@ -186,6 +205,8 @@ const CODirectaSignPDFPreview: React.FC<IProps> = (props) => {
                 setAssinaturaManuscritaTestemunha_1(value)
             } else if (whoIsSigningManuscrito === 'testemunha2') {
                 setAssinaturaManuscritaTestemunha_2(value)
+            } else if (whoIsSigningManuscrito === 'agente') {
+                setAssinaturaManuscritaAgente(value)
             }
 
         }
@@ -245,7 +266,11 @@ const CODirectaSignPDFPreview: React.FC<IProps> = (props) => {
                 onPrint(e)
             }}/>}/>
             <IonContent id={"CODirectaSignPDFPreview"} className="CODirectaSignPDFPreview" fullscreen={true}>
-                <CoDirectaTemplateMarkup assinaturaManuscritoArguido={assinaturaManuscritaArguido} assinaturaManuscritaTestemunha_1={assinaturaManuscritaTestemunha_1} assinaturaManuscritaTestemunha_2={assinaturaManuscritaTestemunha_2}/>
+                <CoDirectaTemplateMarkup assinaturaArguido={assinaturaManuscritaArguido}
+                                         assinaturaTestemunha_1={assinaturaManuscritaTestemunha_1}
+                                         assinaturaTestemunha_2={assinaturaManuscritaTestemunha_2}
+                                         assinaturaAgente={assinaturaManuscritaAgente}
+                />
             </IonContent>
 
             {/*START: Request Signatures*/}
@@ -253,6 +278,7 @@ const CODirectaSignPDFPreview: React.FC<IProps> = (props) => {
                 isOpen={openPopoverSignatures}
                 className="menu popoverSign"
                 showBackdrop={true}
+                backdropDismiss={false}
                 onDidDismiss={() => {
                     handlerCleanStateOnPopoverClose();
                 }}>
@@ -280,9 +306,10 @@ const CODirectaSignPDFPreview: React.FC<IProps> = (props) => {
                     <AssinaturaArguido assinaturaManuscritaArguido={assinaturaManuscritaArguido}
                                        setAssinaturaManuscritaArguido={setAssinaturaManuscritaArguido}
                                        setTipoAssinaturaArguido={setTipoAssinaturaArguido}
-                                       tipoAssinaturaArguido={setTipoAssinaturaArguido}
+                                       tipoAssinaturaArguido={tipoAssinaturaArguido}
                                        arguidoNaoAssinouNotificacao={arguidoNaoAssinouNotificacao}
-                                       setArguidoNaoAssinouNotificacao={setArguidoNaoAssinouNotificacao}/>
+                                       setArguidoNaoAssinouNotificacao={setArguidoNaoAssinouNotificacao}
+                    />
                     {/*  Arguido assinatura */}
 
                     {/* Testemunha 1 assinatura*/}
@@ -301,6 +328,12 @@ const CODirectaSignPDFPreview: React.FC<IProps> = (props) => {
                                           testemunhaRef={testemunhaRef_2}/>
                     {/* Testemunha 2 assinatura*/}
 
+                    {/*O AGENTE*/}
+                    <AssinaturaAgente assinaturaManuscritaAgente={assinaturaManuscritaAgente}
+                                      setAssinaturaManuscritaAgente={setAssinaturaManuscritaAgente}
+                                      setTipoAssinaturaAgente={setTipoAssinaturaAgente}
+                                      tipoAssinaturaAgente={tipoAssinaturaAgente}/>
+                    {/*O AGENTE*/}
                 </IonContent>
 
             </IonPopover>

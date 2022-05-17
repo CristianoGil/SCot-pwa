@@ -2,8 +2,9 @@ import React, {useState} from "react";
 import {IonLabel, IonItem, IonSelect, IonSelectOption} from '@ionic/react';
 
 import {Contraordenacao} from "../../api/Contraordenacao";
+import _ from "underscore";
 
-const tipoAssinaturaOpcaoArguido = [
+const tipoAssinaturaOpcao = [
     {id: 0, descricao: 'Assinatura Papel'},
     {id: 1, descricao: 'Assinatura Qualidade'},
     {id: 2, descricao: 'Assinatura Manuscrito'}
@@ -25,9 +26,10 @@ interface IPROS {
 const getCombos = async (): Promise<IPROS[] | null> => await new Contraordenacao().carregarCombosAssinaturas();
 
 
-const TipoAssinaturas: React.FC<IModelo> = (props: IModelo) => {
+const TipoAssinaturas: React.FC<IModelo> = (props) => {
 
     const [combos, setCombos] = useState<IPROS[] | null>([]);
+    const {selected, setSelected} = props;
 
     React.useEffect(() => {
         getCombos().then((combos) => {
@@ -40,13 +42,14 @@ const TipoAssinaturas: React.FC<IModelo> = (props: IModelo) => {
     return (
         <IonItem>
             <IonLabel>Tipo de Assinatura</IonLabel>
-            <IonSelect  value={props.selected} interface={props.interface}
+            <IonSelect  value={selected}  interface={props.interface}
                        name={props.inputName}
                        placeholder="Seleciona a assinatura"
                        onIonChange={e =>
-                           props.setSelected(e.detail.value)
+                           setSelected(e.detail.value)
+
                        }>
-                {(combos || tipoAssinaturaOpcaoArguido).map((t) => {
+                {(combos || tipoAssinaturaOpcao).map((t) => {
                     return (
                         <IonSelectOption key={t.id} value={JSON.stringify(t)}>{t.descricao}</IonSelectOption>
                     )

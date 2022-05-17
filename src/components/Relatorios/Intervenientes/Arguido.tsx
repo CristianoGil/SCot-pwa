@@ -22,7 +22,7 @@ const AssinaturaArguido: React.FC<IProps> = (props) => {
         assinaturaManuscritaArguido,
         tipoAssinaturaArguido,
         setTipoAssinaturaArguido,
-        setAssinaturaManuscritaArguido
+        setAssinaturaManuscritaArguido,
     } = props;
 
     return (
@@ -80,7 +80,7 @@ const AssinaturaArguido: React.FC<IProps> = (props) => {
                                         <IonButton disabled={!!_.isEmpty(assinaturaManuscritaArguido)}
                                                    fill="outline" strong={true} color="warning"
                                                    onClick={(e) => {
-                                                       setAssinaturaManuscritaArguido('');
+                                                       setAssinaturaManuscritaArguido('')
                                                        setTipoAssinaturaArguido('')
                                                    }}>
                                             Limpar a assinatura actual
