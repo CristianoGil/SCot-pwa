@@ -80,3 +80,7 @@ export function createCanvas (element: HTMLElement | null, opt?: any ): Promise<
 export function cleanString (str: string): string {
   return str.trim().toLowerCase().replace(' ', '_')
 }
+
+export function isMatchRegex(regexList: any[], text: string): boolean {
+  return  regexList.some(function(rx) { return rx.test(text); });
+}

@@ -39,7 +39,7 @@ const TipoAssinaturas: React.FC<IModelo> = (props: IModelo) => {
 
     return (
         <IonItem>
-            <IonLabel>Assinatura do arguido</IonLabel>
+            <IonLabel>Tipo de Assinatura</IonLabel>
             <IonSelect  value={props.selected} interface={props.interface}
                        name={props.inputName}
                        placeholder="Seleciona a assinatura"
