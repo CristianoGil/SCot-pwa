@@ -14,6 +14,7 @@ import DocumentoIdentificacao from '../Components/DocumentoIdentificacao/Documen
 import InformacoesAdicionais from '../Components/InformacoesAdicionais/InformacoesAdicionais';
 import Veiculo from '../Components/Veiculo/Veiculo';
 import './Intervenientes.scss';
+import { CartaConducaoResponse } from '../../../model/cartaconducao';
 interface IProps {
     setCoDirectaData?: any
 }
@@ -37,6 +38,10 @@ const Intervenientes: React.FC<IProps> = (props) => {
     // START: ARGUIDO
     const [arguidoData, setArguidoData] = useState<IPerson>();
     // END: ARGUIDO
+    
+// START: ARGUIDO
+const [cartaResponse, setCartaResponse] = useState<CartaConducaoResponse>();
+// END: ARGUIDO
 
     // START: TITULO CONDUCAO
     const [tituloDocumentoData, setTituloDocumentoData] = useState();
@@ -49,6 +54,7 @@ const Intervenientes: React.FC<IProps> = (props) => {
     // START:  INFORMACOES ADICIONAIS
     const [informacoesAdicionaisData, setInformacoesAdicionaisData] = useState();
     // END:   INFORMACOES ADICIONAIS
+    
 
     // START: VEICULO
     const [veiculoData, setVeiculoData] = useState();
@@ -80,7 +86,7 @@ const Intervenientes: React.FC<IProps> = (props) => {
             <IonRow>
                 <IonCol size-sm='12' size-md="12" size-lg="11">
                     {/* Título de condução */}
-                    <TituloConducao currentDocumentosData={arguidoData?.documentos} setParentTituloConducaoData={setTituloDocumentoData}/>
+                    <TituloConducao cartaResponse={cartaResponse} currentDocumentosData={arguidoData?.documentos} setParentTituloConducaoData={setTituloDocumentoData}/>
                     {/* Título de condução */}
                 </IonCol>
             </IonRow>

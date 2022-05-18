@@ -7,6 +7,7 @@ import {calendar} from "ionicons/icons"
 import React from "react";
 import {useState} from "react";
 import _ from "underscore";
+import { CartaConducaoResponse } from "../../../../model/cartaconducao";
 import {IDocumentoPessoa} from "../../../../model/person"
 import {dateFormat} from "../../../../utils/apex-formatters";
 import DatePicker from "../../../Combos/DatePicker";
@@ -18,6 +19,7 @@ import TituloConducaoCombo from "../../../Combos/Pessoa/TituloConducao";
 interface ITituloConducao {
     setParentTituloConducaoData?: any
     currentDocumentosData?: IDocumentoPessoa[] | IDocumentoPessoa
+    cartaResponse?: CartaConducaoResponse[] | CartaConducaoResponse
 
 }
 
@@ -52,6 +54,7 @@ const TituloConducao: React.FC<ITituloConducao> = (props) => {
     const [dataEmissao, setDataEmissao] = useState<string>();
 
     React.useEffect(() => {
+
         if (props.currentDocumentosData) {
             const tituloCo = getTituloConducaoPrincipal(props.currentDocumentosData);
 
@@ -74,7 +77,9 @@ const TituloConducao: React.FC<ITituloConducao> = (props) => {
         if (_.has(props, 'setParentTituloConducaoData')) {
             props.setParentTituloConducaoData(_data)
         }
-        
+        console.log(props.cartaResponse, "info conducao from this component")
+
+
     }, [isPresentedTituloConducao, tituloConducao, numero, paisEmissao, entidadeEmissora, localEmissoa, dataEmissao])
 
     return (
