@@ -1,62 +1,64 @@
 import { IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCol, IonGrid, IonHeader, IonInput, IonItem, IonLabel, IonRadio, IonRadioGroup, IonRow, IonSelect, IonSelectOption } from "@ionic/react";
+import { useEffect, useState } from "react";
+import { Deposito48hrService } from "../../../../api/Deposito48hrService";
+import { DepositosNaoPago, DepositoResponse } from "../../../../model/deposito";
 import DatePicker from "../../../Combos/DatePicker";
+import Deposito from "./Depositos";
 
 const Pagamento: React.FC = () => {
+    const [depositosNaoPagos, setDepositosNaoPagos] = useState<DepositosNaoPago[]>();
+    const [errorMsg, setErrorMsg] = useState('');
+
+    const getDepositos48Hr = async () => {
+        const depositosService = new Deposito48hrService();
+        await depositosService.pesquisarDepositos48hrsEmAtraso({
+            forca: "user.teste",
+            idUtilizador: "user.teste",
+            numDocumento: "42343423",
+            tipoDocumento: "7"
+        }).then((_response: DepositoResponse) => {
+            const depositosResponse = _response.depositosNaoPagos;
+            setDepositosNaoPagos(depositosResponse)
+           
+        }).catch((reason: any) => {
+            setErrorMsg(reason?.message)
+        })
+
+    };
+    useEffect(() => {
+        getDepositos48Hr();
+        if (depositosNaoPagos?.length===0) {
+            setErrorMsg("Sem Dados a Apresentar");
+         }
+    },[]);
+
 
     return (
-
+           
         <IonCard className={'co-pagamento'}>
             <IonCardHeader>
-                <IonCardTitle>Pagamento</IonCardTitle>
+                <IonCardTitle>Deposito 48 horas
+                </IonCardTitle>
             </IonCardHeader>
 
             <IonCardContent>
-                <IonGrid>
-                    <IonRow>
-                        <IonCol size-sm='12' size-md='10' size-lg='2' style={{ marginTop: 16 }}>
-                            <IonItem>
-                                <IonLabel>Tipo Pagamento</IonLabel>
-                                <IonSelect interface="popover">
-                                    <IonSelectOption value="Tipo Pagamento">Tipo Pagamento 1</IonSelectOption>
-                                </IonSelect>
-                            </IonItem>
-                        </IonCol>
-
-                        <IonCol size-sm='12' size-md='10' size-lg='2' style={{ marginTop: 16 }}>
-                            <IonItem>
-                                <IonLabel>Meio Pagamento</IonLabel>
-                                <IonSelect interface="popover">
-                                    <IonSelectOption value="Meio Pagamento">Meio Pagamento 1</IonSelectOption>
-                                </IonSelect>
-                            </IonItem>
-                        </IonCol>
-
-                        <IonCol size-sm='12' size-md='10' size-lg='2'>
-                            <IonItem>
-                                <IonLabel position="floating" itemType="number" placeholder="Número do cheque">Número do cheque</IonLabel>
-                                <IonInput></IonInput>
-                            </IonItem>
-                        </IonCol>
-
-                        <IonCol size-sm='12' size-md='10' size-lg='2' style={{ marginTop: 16 }}>
-                            <IonItem>
-                                <IonLabel>Banco Emissor</IonLabel>
-                                <IonSelect interface="popover">
-                                    <IonSelectOption value="Banco Emissor">Banco Emissor</IonSelectOption>
-                                </IonSelect>
-                            </IonItem>
-                        </IonCol>
-
-                        <IonCol size-sm='12' size-md='10' size-lg='2'>
-                            <IonItem>
-                                <IonLabel position="floating" itemType="number" placeholder="Valor">Valor</IonLabel>
-                                <IonInput></IonInput>
-                            </IonItem>
-                        </IonCol>
-                        <IonCol size-sm='12' size-md='10' size-lg='2' style={{ marginTop: 16 }}>
-                            <DatePicker inputName={'pagamento-data'} textLabel="Data" />
-                        </IonCol>
-                    </IonRow>
+            <IonGrid>
+                {depositosNaoPagos?.map((deposito:DepositosNaoPago)=>( 
+                     <Deposito 
+                     ano={deposito?.ano} 
+                     descritivo={deposito?.descritivo} 
+                     inSIGA={deposito?.inSIGA} 
+                     infratorId={deposito?.infratorId}
+                      infratorNome={deposito?.infratorNome} 
+                      infratorTipo={deposito?.infratorTipo} 
+                      numeroAuto={deposito?.numeroAuto}
+                       numeroProcesso={deposito?.numeroProcesso}
+                        procId={deposito?.procId}
+                         tipoId={deposito?.tipoId} 
+                         unidadeOrganica={deposito?.unidadeOrganica}/>
+                ))}
+              {errorMsg}
+              
                 </IonGrid>
             </IonCardContent>
         </IonCard>

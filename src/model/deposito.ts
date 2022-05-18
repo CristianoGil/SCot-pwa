@@ -12,7 +12,7 @@ export interface DepositoRequest {
     resultado: boolean;
   }
 
-  interface DepositosNaoPago {
+  export interface DepositosNaoPago {
     ano: string;
     descritivo: string;
     inSIGA: string;
