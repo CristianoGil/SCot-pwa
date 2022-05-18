@@ -1,8 +1,10 @@
 import {
     IonButton, IonButtons, IonCard,
-    IonCardContent, IonCardHeader, IonCardTitle,  IonCol, IonGrid, IonIcon, IonRow
+    IonCardContent, IonCardHeader, IonCardTitle, IonCol, IonGrid, IonIcon, IonRow
 } from "@ionic/react";
 import {alertCircle, checkmarkCircle} from "ionicons/icons";
+import React from "react";
+import {useState} from "react";
 import _ from "underscore";
 import TipoAssinaturas from "../../Combos/TipoAssinaturas";
 
@@ -11,17 +13,30 @@ interface IProps {
     assinaturaManuscritaTestemunha: any
     tipoAssinaturaTestemunha: any
     setTipoAssinaturaTestemunha: any
-    setAssinaturaManuscritaTestemunha: any
+    setAssinaturaManuscritaTestemunha?: any
+    assinaturaQualificadaTestemunha?: any
 }
 
 const AssinaturaTestemunha: React.FC<IProps> = (props) => {
     const {
         testemunhaRef,
+        assinaturaQualificadaTestemunha,
         assinaturaManuscritaTestemunha,
         tipoAssinaturaTestemunha,
         setTipoAssinaturaTestemunha,
         setAssinaturaManuscritaTestemunha
     } = props;
+
+    const [isSigned, setIsSigned] = useState(false);
+    React.useEffect(() => {
+        if (!_.isEmpty(assinaturaManuscritaTestemunha) || !_.isEmpty(assinaturaQualificadaTestemunha)) {
+            setIsSigned(true)
+        } else {
+            setIsSigned(false)
+        }
+
+    }, [assinaturaManuscritaTestemunha, assinaturaQualificadaTestemunha])
+
 
     return (
 
@@ -31,7 +46,7 @@ const AssinaturaTestemunha: React.FC<IProps> = (props) => {
             <IonCardHeader>
                 <IonCardTitle style={{paddingLeft: 15}}> Testemunha {testemunhaRef}</IonCardTitle>
 
-                {_.isEmpty(assinaturaManuscritaTestemunha) ?
+                {!isSigned ?
                     <IonIcon style={{
                         position: "absolute",
                         left: 10,
@@ -60,7 +75,7 @@ const AssinaturaTestemunha: React.FC<IProps> = (props) => {
 
                         <IonCol size="12">
                             <IonButtons>
-                                <IonButton disabled={!!_.isEmpty(assinaturaManuscritaTestemunha)}
+                                <IonButton disabled={!isSigned}
                                            fill="outline" strong={true} color="warning"
                                            onClick={(e) => {
                                                setAssinaturaManuscritaTestemunha('');

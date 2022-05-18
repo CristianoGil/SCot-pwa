@@ -10,9 +10,6 @@ import {
 import Menu from "../../../components/Menu/Menu";
 import {CoDirectaTemplateMarkup} from '../../../components/Relatorios/templates/CoDirectaTemplate';
 import {MenuActionsBtnSignPDF} from '../../../components/Contra-Ordenacoes/MenuActionsBtn';
-import jsPDF from "jspdf";
-import {IteratorArray} from "../../../common/iterator";
-import {blobToBase64, cleanString, createCanvas} from "../../../utils/apex-formatters";
 import {useState} from "react";
 
 
@@ -23,69 +20,14 @@ import _ from "underscore";
 import AssinaturaArguido from "../../../components/Relatorios/Intervenientes/Arguido";
 import AssinaturaTestemunha from "../../../components/Relatorios/Intervenientes/Testemunha";
 import AssinaturaAgente from "../../../components/Relatorios/Intervenientes/Agente";
+import {cleanString} from "../../../utils/apex-formatters";
+import {generatePDF_HTML, getPDFBlob_HTML} from "../../../app/SignPDF_HTML";
+import Assinatura from "../../../api/Assinatura";
 
 
-const assinaturaManuscrito = 'Assinatura Manuscrito';
-
-const generatePDF = (e: any): Promise<any> => {
-    return new Promise((resolve, reject) => {
-        const pdf = new jsPDF({
-            orientation: 'p',
-            unit: 'mm',
-            format: 'a4',
-            putOnlyUsedFonts: true
-        });
-
-        const JR_PAGE_ANCHOR_0_1 = document.getElementById('CO_DIRECTA_JR_PAGE_ANCHOR_0_1');
-        const JR_PAGE_ANCHOR_0_2 = document.getElementById('CO_DIRECTA_JR_PAGE_ANCHOR_0_2');
-        const JR_PAGE_ANCHOR_0_3 = document.getElementById('CO_DIRECTA_JR_PAGE_ANCHOR_0_3');
-
-
-        const iteratorPages: any = new IteratorArray([JR_PAGE_ANCHOR_0_1, JR_PAGE_ANCHOR_0_2, JR_PAGE_ANCHOR_0_3]);
-
-        let pagesNumber = 3;
-        const _funcIterable = async (): Promise<void> => {
-
-            const dataValue: IteratorResult<any> = iteratorPages.next();
-            const isDone: boolean | undefined = dataValue.done;
-            const page = dataValue.value;
-
-            if (!isDone) {
-
-                pagesNumber--;
-
-                try {
-
-                    const width = pdf.internal.pageSize.getWidth();
-                    const height = pdf.internal.pageSize.getHeight();
-
-                    const canvas = await createCanvas(page);
-
-                    const imgData = canvas.toDataURL('image/jpeg');
-                    pdf.addImage(imgData, 'JPEG', 0, 0, width, height);
-
-
-                    if (pagesNumber >= 1) {
-                        pdf.addPage('a4');
-                    }
-                } catch (e) {
-                    console.error("createCanvas: ", e, page);
-                    reject(e)
-                } finally {
-                    setTimeout(_funcIterable,)
-                }
-
-            } else {
-                resolve(pdf)
-            }
-        }
-
-        _funcIterable();
-        // @ts-ignore
-    })
-
-
-}
+const assinaturaManuscrito = 'Manuscrito';
+const assinaturaQualificada = 'Qualificada';
+const assinaturaPapel = 'Papel';
 
 
 interface IProps {
@@ -113,7 +55,6 @@ const CODirectaSignPDFPreview: React.FC<IProps> = (props) => {
     const [tipoAssinaturaArguido, setTipoAssinaturaArguido] = useState<any>();
     const [signatureManuscrito_arguido, setSignatureManuscrito_arguido] = useState<any>();
     const [arguidoNaoAssinouNotificacao, setArguidoNaoAssinouNotificacao] = useState(false);
-
     React.useEffect(() => {
 
         if (!_.isEmpty(tipoAssinaturaArguido)) {
@@ -177,7 +118,59 @@ const CODirectaSignPDFPreview: React.FC<IProps> = (props) => {
 
     // START: Handler assinatura Agente
     const [assinaturaManuscritaAgente, setAssinaturaManuscritaAgente] = useState<string>();
-    const [tipoAssinaturaAgente, setTipoAssinaturaAgente] = useState<any>()
+    const [tipoAssinaturaAgente, setTipoAssinaturaAgente] = useState<any>();
+
+    const handlerAssinaturaQualificadaAgente = async (formatoAssinaturaQualificada: any, chaveDigitalPhoneNumber?: number) => {
+        if (!_.isEmpty(formatoAssinaturaQualificada)) {
+            const _data = JSON.parse(formatoAssinaturaQualificada);
+
+            if (_.isObject(_data)) {
+                const formatoAssinatura = cleanString(_data.descricao);
+
+                presentLoad({
+                    message: 'A assinar... isto pode demorar!',
+                })
+
+                try {
+                    console.log("Gerando o blob");
+                    const blob = await getPDFBlob_HTML();
+                    console.log("Requesitando o servicos de assinatura o blob");
+
+                    const assinaturaInstance = new Assinatura(blob);
+
+                    // Chave Móvel Digital
+                    if (formatoAssinatura === cleanString('Chave Móvel Digital')) {
+                        const responseData = await assinaturaInstance.cmd_sign(undefined, undefined, undefined, undefined, escape(`${chaveDigitalPhoneNumber}`));
+                        console.log(formatoAssinatura, ': ', responseData)
+                    }
+
+                } catch (e: any) {
+                    presentAlert({
+                        header: 'Erro!',
+                        subHeader: e.message,
+                        message: 'Ocorreu um erro ao assinar. Tente novamente mais tarde e se o problema persistir reinicie o aplicativo.',
+                        buttons: [
+                            {text: 'Fechar'},
+                        ]
+                    })
+                    console.log(e)
+                } finally {
+                    dismissLoad();
+                }
+
+
+            }
+        } else {
+            presentAlert({
+                header: 'Erro!',
+                message: 'Ocorreu um erro ao assinar. Tente novamente mais tarde e se o problema persistir reinicie o aplicativo',
+                buttons: [
+                    {text: 'Fechar'},
+                ]
+            })
+        }
+    }
+
     React.useEffect(() => {
         if (!_.isEmpty(tipoAssinaturaAgente)) {
             const _tipoAssinaturaAgente = JSON.parse(tipoAssinaturaAgente);
@@ -192,6 +185,10 @@ const CODirectaSignPDFPreview: React.FC<IProps> = (props) => {
 
         }
     }, [tipoAssinaturaAgente])
+
+
+    // START: Assinatura Qualificada
+    const [assinaturaQualificadaAgente, setAssinaturaQualificadaAgente] = useState<string>()
 
 
     // START: Assinatura Manuscrita
@@ -210,38 +207,15 @@ const CODirectaSignPDFPreview: React.FC<IProps> = (props) => {
             }
 
         }
-    }
+    };
 
-    // START: Sign on PDF
-    const signPDF = async (e: any) => {
-        presentLoad({
-            message: 'A assinar... isto pode demorar!',
-        })
-        try {
-            const pdf = await generatePDF(e);
-            const blobPDF = await blobToBase64(pdf.output('blob'));
-
-            console.log('blobPDF base64: ', blobPDF);
-
-        } catch (e) {
-            presentAlert({
-                header: 'Erro!',
-                message: 'Ocorreu um erro ao assinar. Tente novamente mais tarde e se o problema persistir reinicie o aplicativo',
-                buttons: [
-                    {text: 'Fechar'},
-                ]
-            })
-        } finally {
-            dismissLoad();
-        }
-    }
 
     const onPrint = async (e: any) => {
         presentLoad({
             message: 'A imprimir... isto pode demorar!',
         })
         try {
-            const pdf = await generatePDF(e);
+            const pdf = await generatePDF_HTML();
             pdf.save(`co-directa-[name]-${(new Date()).toDateString()}.pdf`);
         } catch (e) {
             presentAlert({
@@ -295,7 +269,7 @@ const CODirectaSignPDFPreview: React.FC<IProps> = (props) => {
                             setOpenPopoverSignatures(false);
 
                         }}>
-                            Terminar
+                            Fechar
                         </IonButton>
 
                     </IonToolbar>
@@ -331,8 +305,13 @@ const CODirectaSignPDFPreview: React.FC<IProps> = (props) => {
                     {/*O AGENTE*/}
                     <AssinaturaAgente assinaturaManuscritaAgente={assinaturaManuscritaAgente}
                                       setAssinaturaManuscritaAgente={setAssinaturaManuscritaAgente}
+                                      assinaturaQualificadaAgente={assinaturaQualificadaAgente}
+                                      setAssinaturaQualificadaAgente={setAssinaturaQualificadaAgente}
                                       setTipoAssinaturaAgente={setTipoAssinaturaAgente}
-                                      tipoAssinaturaAgente={tipoAssinaturaAgente}/>
+                                      tipoAssinaturaAgente={tipoAssinaturaAgente}
+                                      handlerSignPDF={handlerAssinaturaQualificadaAgente}
+
+                    />
                     {/*O AGENTE*/}
                 </IonContent>
 

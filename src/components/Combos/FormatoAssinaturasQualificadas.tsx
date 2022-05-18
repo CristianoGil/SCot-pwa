@@ -3,12 +3,12 @@ import {IonLabel, IonItem, IonSelect, IonSelectOption} from '@ionic/react';
 
 import {Contraordenacao} from "../../api/Contraordenacao";
 import _ from "underscore";
-import { IID_DESCRICAO } from "../../model/extendable";
+import {IID_DESCRICAO} from "../../model/extendable";
 
 const tipoAssinaturaOpcao = [
-    {id: 0, descricao: 'Papel'},
-    {id: 1, descricao: 'Qualificada'},
-    {id: 2, descricao: 'Manuscrito'}
+    {id: 0, descricao: 'Chave Móvel Digital'},
+    {id: 1, descricao: 'Cartão Cidadão'},
+    {id: 2, descricao: 'Cartão CEGER'}
 ]
 
 interface IModelo {
@@ -26,16 +26,15 @@ interface IPROS_COMBOS {
 
 const getCombos = async (): Promise<IPROS_COMBOS | null> => await new Contraordenacao().carregarCombosAssinaturas();
 
-
-const TipoAssinaturas: React.FC<IModelo> = (props) => {
+const FormatoAssinaturasQualificadas: React.FC<IModelo> = (props) => {
 
     const [combos, setCombos] = useState<IID_DESCRICAO[] | undefined>([]);
     const {selected, setSelected} = props;
 
     React.useEffect(() => {
         getCombos().then((combos) => {
-            if (_.has(combos, 'opcoesAssinaturas')) {
-                setCombos(combos?.opcoesAssinaturas);
+            if (_.has(combos, 'opcoesAssinaturasQualificadas')) {
+                setCombos(combos?.opcoesAssinaturasQualificadas);
             } else {
                 setCombos(undefined)
             }
@@ -46,8 +45,8 @@ const TipoAssinaturas: React.FC<IModelo> = (props) => {
 
     return (
         <IonItem>
-            <IonLabel>Tipo de Assinatura</IonLabel>
-            <IonSelect  value={selected}  interface={props.interface}
+            <IonLabel>Formato de Assinatura</IonLabel>
+            <IonSelect value={selected} interface={props.interface}
                        name={props.inputName}
                        placeholder="Seleciona a assinatura"
                        onIonChange={e =>
@@ -64,4 +63,4 @@ const TipoAssinaturas: React.FC<IModelo> = (props) => {
     )
 }
 
-export default React.memo(TipoAssinaturas);
+export default React.memo(FormatoAssinaturasQualificadas);
