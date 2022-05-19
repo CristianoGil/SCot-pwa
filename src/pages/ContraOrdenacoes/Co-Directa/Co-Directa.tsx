@@ -20,7 +20,7 @@ const RenderSegment = (props: { segment: string, setCoDirectaData: any }) => {
     } else if (props.segment === 'dados_da_infracao') {
         return (<DadosInfracao/>)
     } else if (props.segment === 'dados_complemenatares') {
-        return (<DadosComplementares/>)
+        return (<DadosComplementares setCoDirectaData={props.setCoDirectaData} />)
     }
 
     return null;

@@ -1,14 +1,45 @@
 import { IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCol, IonGrid, IonHeader, IonInput, IonItem, IonLabel, IonRadio, IonRadioGroup, IonRow } from "@ionic/react";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { Deposito48hrService } from "../../../api/Deposito48hrService";
+import { DepositoResponse, DepositosNaoPago } from "../../../model/deposito";
 import AcoesComplementares from "../Components/AcoesComplementares/AcoesComplementares";
 import InfraccoesAdicionais from "../Components/InfraccoesAdicionais/InfraccoesAdicionais";
 import Pagamento from "../Components/Pagamento/Pagamento";
 import './DadosComplementares.scss';
 
-const DadosComplementares: React.FC = () => {
+interface IProps {
+    setCoDirectaData?: any
+}
+interface Infracao{
+    id?:number,
+    _id:number,
+    entidade:string,
+    infraccoesAdicionais:string,
+    acoes: string
+
+}
+
+const DadosComplementares: React.FC<IProps> = (props) => {
+    const [tipoProprietario, setTipoProprietario]= useState<String>();
+    const [refArguido, setRefArguido]= useState('');
+    const [infracoes, setInfracoes]= useState<Infracao[]>();
+
+    const keyup_refArguido = (e: any) => {
+        setRefArguido(e.target.value);
+    }
+    
+    React.useEffect(()=>{
+        const data = {
+            tipoProprietario: tipoProprietario,
+            refArguido: refArguido,
+            infracoes: infracoes,        }
+        
+            props.setCoDirectaData(data);
+
+    },[tipoProprietario, refArguido, infracoes])
+
 
     return (
-
         <IonGrid className="dadosComplementares">
 
             <IonRow>
@@ -24,8 +55,10 @@ const DadosComplementares: React.FC = () => {
                                             <IonLabel>Proprietário</IonLabel>
                                         </IonHeader>
                                         <IonRadioGroup
-                                            // value={}
-                                            onIonChange={e => () => { }}>
+                                            value={tipoProprietario}
+                                            onIonChange={(e)=>{
+                                                setTipoProprietario(e.detail.value)
+                                            }}>
                                             <IonRow>
                                                 <IonCol size='4'>
                                                     <IonItem lines='none' className="veiculo-proprietario-radio radio-item">
@@ -52,7 +85,11 @@ const DadosComplementares: React.FC = () => {
                                     <IonCol size-sm='12' size-md='10' size-lg='6'>
                                         <IonItem>
                                             <IonLabel position="floating" itemType="text" placeholder="Ref. Arquivo">Ref. Arquivo</IonLabel>
-                                            <IonInput></IonInput>
+                                            <IonInput
+                                            type="text"
+                                            value={refArguido}
+                                            onKeyUp={keyup_refArguido}
+                                             ></IonInput>
                                         </IonItem>
                                     </IonCol>
                                 </IonRow>
@@ -83,7 +120,7 @@ const DadosComplementares: React.FC = () => {
             <IonRow>
                 <IonCol size-sm='12' size-md="12" size-lg="11">
                     {/*START: Infracções adicionais*/}
-                    <InfraccoesAdicionais />
+                    <InfraccoesAdicionais setParentInfracoesData={setInfracoes}/>
                     {/*END: Infracções adicionais*/}
                 </IonCol>
             </IonRow>
