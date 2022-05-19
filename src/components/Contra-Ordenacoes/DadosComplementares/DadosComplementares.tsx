@@ -1,7 +1,7 @@
 import { IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCol, IonGrid, IonHeader, IonInput, IonItem, IonLabel, IonRadio, IonRadioGroup, IonRow } from "@ionic/react";
 import React, { useEffect, useState } from "react";
 import { Deposito48hrService } from "../../../api/Deposito48hrService";
-import { DepositoResponse, DepositosNaoPago } from "../../../model/deposito";
+import { DepositoRequest, DepositoResponse, DepositosNaoPago } from "../../../model/deposito";
 import AcoesComplementares from "../Components/AcoesComplementares/AcoesComplementares";
 import InfraccoesAdicionais from "../Components/InfraccoesAdicionais/InfraccoesAdicionais";
 import Pagamento from "../Components/Pagamento/Pagamento";
@@ -23,6 +23,8 @@ const DadosComplementares: React.FC<IProps> = (props) => {
     const [tipoProprietario, setTipoProprietario]= useState<String>();
     const [refArguido, setRefArguido]= useState('');
     const [infracoes, setInfracoes]= useState<Infracao[]>();
+    const [depositoRequest, setDepositoRequest]= useState<DepositoRequest>();
+    const [apreensaoDocumento, setApreensaoDocumento]= useState(false);
 
     const keyup_refArguido = (e: any) => {
         setRefArguido(e.target.value);
@@ -36,7 +38,7 @@ const DadosComplementares: React.FC<IProps> = (props) => {
         
             props.setCoDirectaData(data);
 
-    },[tipoProprietario, refArguido, infracoes])
+    },[])
 
 
     return (
@@ -104,7 +106,7 @@ const DadosComplementares: React.FC<IProps> = (props) => {
             <IonRow>
                 <IonCol size-sm='12' size-md="12" size-lg="11">
                     {/*START: Pagamento*/}
-                    <Pagamento />
+                    <Pagamento setParentDeposito48hr={setDepositoRequest} />
                     {/*END: Pagamento*/}
                 </IonCol>
             </IonRow>

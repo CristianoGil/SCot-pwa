@@ -5,7 +5,12 @@ import { DepositosNaoPago, DepositoResponse } from "../../../../model/deposito";
 import DatePicker from "../../../Combos/DatePicker";
 import Deposito from "./Depositos";
 
-const Pagamento: React.FC = () => {
+
+interface IDeposito48hr {
+    setParentDeposito48hr?: any
+}
+
+const Pagamento: React.FC<IDeposito48hr> = (props) => {
     const [depositosNaoPagos, setDepositosNaoPagos] = useState<DepositosNaoPago[]>();
     const [errorMsg, setErrorMsg] = useState('');
 
@@ -19,7 +24,7 @@ const Pagamento: React.FC = () => {
         }).then((_response: DepositoResponse) => {
             const depositosResponse = _response.depositosNaoPagos;
             setDepositosNaoPagos(depositosResponse)
-           
+            props.setParentDeposito48hr(depositosNaoPagos)
         }).catch((reason: any) => {
             setErrorMsg(reason?.message)
         })

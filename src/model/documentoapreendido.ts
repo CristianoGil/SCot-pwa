@@ -26,3 +26,17 @@ export interface DocumentoApreendidoRequest {
     descCodigoPostal: string;
     descHorarioAtend: string;
   }
+
+ export interface CarregarCombosApreensaoDocumento {
+    motivosApreensao: MotivosApreensao[];
+    documentosDadosApreensao: MotivosApreensao[];
+    pagamentoIntegralAcoesAssociadas: MotivosApreensao[];
+    entidadeAcoesAssociadas: MotivosApreensao[];
+  }
+  
+  export interface MotivosApreensao {
+    id: number;
+    descricao: string;
+  }
+
+  

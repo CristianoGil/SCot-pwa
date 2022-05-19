@@ -1,7 +1,10 @@
 import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCheckbox, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonPopover, IonRow, IonSelect, IonSelectOption, IonToolbar } from "@ionic/react";
 import { open, trash, remove, bookOutline } from "ionicons/icons";
+import React from "react";
 import { useState } from "react";
 import DataTable from 'react-data-table-component';
+import { Contraordenacao } from "../../../../api/Contraordenacao";
+import { CarregarCombosApreensaoDocumento, MotivosApreensao } from "../../../../model/documentoapreendido";
 import NumeroDocumento from "../../../NumeroDocumento/NumeroDocumento";
 
 
@@ -120,14 +123,13 @@ const AcoesComplementares: React.FC = () => {
         },
     ];
 
-    const dataMotivosApreensao = [
-        {
-            id: 1,
-            _id: 'null',
-            motivo: 'null',
-            accoes: 'Abrir/Excluir',
-        },
-    ]
+    interface MotivoApreensaoTable{
+            id: number,
+            _id: number,
+            motivo: string,
+            accoes:string,       
+    }
+    const dataMotivosApreensao:MotivoApreensaoTable[] = []
     //-------------------------[Dados Apreensao Documentos]
 
     const columnsDadosApreensaoDocumentos = [
@@ -157,14 +159,90 @@ const AcoesComplementares: React.FC = () => {
         },
     ];
 
-    const dataDadosApreensaoDocumentos = [
-        {
-            id: 1,
-            documento: 'null',
-            numero: 'null',
-            accoes: 'Abrir/Excluir',
-        },
-    ]
+    interface DadosApreensaoDocumentos{
+        id: number,
+        numero: number,
+        documento: string,
+        accoes:string,       
+}
+    const dataDadosApreensaoDocumentos:DadosApreensaoDocumentos[] = []
+
+
+    const [combos, setCombos] = useState<MotivosApreensao[]>();
+    const [dadosApreensaoDocumento, setDadosApreensaoDocumento] = useState<MotivosApreensao[]>();
+    const [documento, setDocumento] = useState('');
+    const [motivoApreensao,setMotivoApreensao] = useState('');
+    const [idMotivoApreensao,setIdMotivoApreensao] = useState(0);
+    const [tamanhoMotivoApreensao,setTamanhoMotivoApreensao] = useState(0);
+    const [ numDocumento,  setNumDocumento] = useState('');
+    const [ localApresentacao,  setLocalApresentacao] = useState('');
+    const getCombos = async (): Promise<CarregarCombosApreensaoDocumento> => await new Contraordenacao().carregarCombosMotivoApreensao()
+    
+    
+    // CarregarCombosApreensaoDocumento
+    React.useEffect(() => {
+        getCombos().then((combos) => {
+            setCombos(combos?.motivosApreensao)
+            setDadosApreensaoDocumento(combos?.documentosDadosApreensao)
+        }).catch((error) => {
+            console.error("Load emissao combos: \n", error);
+        })
+    }, []);
+
+    const onClick_addAMotivoApreensao=()=>{
+
+        const _idMotivoApreensao:any= combos?.find(motivo => motivo?.descricao ===motivoApreensao )?.id
+        setIdMotivoApreensao(_idMotivoApreensao)
+        
+        dataMotivosApreensao.push({
+            _id:idMotivoApreensao,
+            id: idMotivoApreensao,
+            motivo:motivoApreensao,
+            accoes:"null"
+        })
+
+        setTamanhoMotivoApreensao(dataMotivosApreensao?.length)
+
+    }
+
+    const onClick_addDadosDocumentoApreensao=()=>{
+        const id:any= dadosApreensaoDocumento?.find(doc => doc?.descricao ===documento )?.id
+
+           dataDadosApreensaoDocumentos.push({
+               accoes:"",
+               documento:documento,
+               id:id, 
+               numero:+numDocumento
+           })
+
+    }
+
+    const keyup_numDocumento =(e:any)=>{
+        setNumDocumento(e.target.value);
+
+    
+    }
+     const keyup_localApresentacao =(e:any)=>{
+        setLocalApresentacao(e.target.value);
+
+    }  
+    
+    const keyup_regularSituacaoLocal =(e:any)=>{
+        setRegularSituacaoLocal(e.target.value);
+    }
+    
+  
+    const keyup_levantarDocsDiaUtilLocal=(e:any)=>{
+        setLevantarDocsDiaUtilLocal(e.target.value);
+    }
+
+    // checkbox handlers constants 
+const [regularSituacaoCheckbox,setRegularSituacaoCheckbox ] = useState(false);
+const [regularSituacaoLocal,setRegularSituacaoLocal ] = useState('');
+
+
+const [levantarDocsDiaCheckbox,setLevantarDocsDiaCheckbox] = useState(false);
+const [levantarDocsDiaUtilLocal,setLevantarDocsDiaUtilLocal ] = useState('');
 
     return (
 
@@ -232,8 +310,13 @@ const AcoesComplementares: React.FC = () => {
                                     <IonCol size-sm="9" size-md="10" size-lg="9" style={{ marginTop: 16 }}>
                                         <IonItem>
                                             <IonLabel>Motivos da Apreensão *</IonLabel>
-                                            <IonSelect interface="popover">
-                                                <IonSelectOption value="Unidade_Comando">Motivos da Apreensão 1</IonSelectOption>
+                                            <IonSelect interface="popover"  onIonChange={e => setMotivoApreensao(e.detail.value)}>
+                                                {combos?.map((local: any) => {
+                                                    return (
+                                                        <IonSelectOption key={`${local.id}`}
+                                                            value={local.id}>{`${local.descricao}`}</IonSelectOption>
+                                                    )
+                                                })}
                                             </IonSelect>
                                         </IonItem>
                                     </IonCol>
@@ -243,9 +326,8 @@ const AcoesComplementares: React.FC = () => {
                                             <IonButton style={{ background: '#084F87', borderRadius: 4 }}
                                                 color="#084F87"
                                                 slot="start"
-                                                //    disabled={}
                                                 size='default'
-                                                onClick={() => { }}> ADICIONAR </IonButton>
+                                                onClick={onClick_addAMotivoApreensao}> ADICIONAR </IonButton>
 
                                         </IonItem>
                                     </IonCol>
@@ -270,7 +352,9 @@ const AcoesComplementares: React.FC = () => {
                                     <IonCol size-sm='12' size-md='10' size-lg='6'>
                                         <IonItem>
                                             <IonLabel position="floating" itemType="text" placeholder="Nome infringida">Nº da Apreensão de Documentos *</IonLabel>
-                                            <IonInput></IonInput>
+                                            <IonInput 
+                                            disabled
+                                            value={tamanhoMotivoApreensao}></IonInput>
                                         </IonItem>
                                     </IonCol>
                                 </IonRow>
@@ -294,14 +378,24 @@ const AcoesComplementares: React.FC = () => {
                                         <IonItem>
                                             <IonLabel>Documento *</IonLabel>
                                             <IonSelect interface="popover">
-                                                <IonSelectOption value="Unidade_Comando">Documento 1</IonSelectOption>
+                                            <IonSelect interface="popover"  onIonChange={e => setDocumento(e.detail.value)}>
+                                                {combos?.map((local: any) => {
+                                                    return (
+                                                        <IonSelectOption key={`${local.id}`}
+                                                            value={local.id}>{`${local.descricao}`}</IonSelectOption>
+                                                    )
+                                                })}
+                                            </IonSelect>
                                             </IonSelect>
                                         </IonItem>
                                     </IonCol>
                                     <IonCol size-sm='12' size-md='10' size-lg='4'>
                                         <IonItem>
                                             <IonLabel position="floating" itemType="text" placeholder="Nome infringida">Número</IonLabel>
-                                            <IonInput></IonInput>
+                                            <IonInput value={numDocumento}
+                                                onKeyUp={keyup_numDocumento}
+
+                                            ></IonInput>
                                         </IonItem>
                                     </IonCol>
                                     <IonCol size-sm='12' size-md='10' size-lg='3' style={{ marginTop: 16 }}>
@@ -311,7 +405,7 @@ const AcoesComplementares: React.FC = () => {
                                                 slot="start"
                                                 //    disabled={}
                                                 size='default'
-                                                onClick={() => { }}> ADICIONAR </IonButton>
+                                                onClick={onClick_addDadosDocumentoApreensao}> ADICIONAR </IonButton>
 
                                         </IonItem>
                                     </IonCol>
@@ -329,7 +423,11 @@ const AcoesComplementares: React.FC = () => {
                                     <IonCol size-sm='12' size-md='10' size-lg='12'>
                                         <IonItem>
                                             <IonLabel position="floating" itemType="text" placeholder="Nome infringida">Local de Apresentação</IonLabel>
-                                            <IonInput></IonInput>
+                                            <IonInput
+                                            value={localApresentacao}
+                                            onKeyUp={keyup_localApresentacao}>
+
+                                            </IonInput>
                                         </IonItem>
                                     </IonCol>
                                 </IonRow>
@@ -356,7 +454,7 @@ const AcoesComplementares: React.FC = () => {
 
                                         <IonItem lines='none'>
 
-                                            <IonCheckbox checked={checked} onIonChange={e => setChecked(e.detail.checked)} />
+                                            <IonCheckbox checked={regularSituacaoCheckbox} onIonChange={e => setRegularSituacaoCheckbox(e.detail.checked)} />
                                             <IonLabel class="ion-margin-start">
                                                 A fim de regularizar a situação, o interessado deverá dirigir-se a
                                             </IonLabel>
@@ -370,7 +468,11 @@ const AcoesComplementares: React.FC = () => {
 
                                         <IonItem>
                                             <IonLabel position="floating" itemType="text" placeholder="Nome infringida">Descreva aqui o local</IonLabel>
-                                            <IonInput></IonInput>
+                                            <IonInput
+                                            disabled={!regularSituacaoCheckbox}
+                                             value={regularSituacaoLocal}
+                                             onKeyUp={keyup_regularSituacaoLocal}
+                                            ></IonInput>
                                         </IonItem>
 
                                     </IonCol>
@@ -387,7 +489,10 @@ const AcoesComplementares: React.FC = () => {
 
                                         <IonItem lines='none'>
 
-                                            <IonCheckbox checked={checked} onIonChange={e => setChecked(e.detail.checked)} />
+                                            <IonCheckbox 
+                                            
+                                            checked={levantarDocsDiaCheckbox}
+                                            onIonChange={e => setLevantarDocsDiaCheckbox(e.detail.checked)} />
                                             <IonLabel class="ion-margin-start">
                                                 os Documentos do Veículo poderão ser levantados nos primeiros cinco dias úteis no
                                             </IonLabel>
@@ -401,7 +506,12 @@ const AcoesComplementares: React.FC = () => {
 
                                         <IonItem>
                                             <IonLabel position="floating" itemType="text" placeholder="Nome infringida">Descreva aqui o local</IonLabel>
-                                            <IonInput></IonInput>
+                                            <IonInput
+                                                         
+                                            disabled={!levantarDocsDiaCheckbox}
+                                            value={levantarDocsDiaUtilLocal}
+                                            onKeyUp={keyup_levantarDocsDiaUtilLocal}
+                                            ></IonInput>
                                         </IonItem>
 
                                     </IonCol>

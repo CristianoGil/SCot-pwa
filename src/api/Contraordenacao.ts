@@ -6,6 +6,7 @@ import { getPlatforms } from "@ionic/react";
 import { LoadOfflineData } from "./LoadOfflineData";
 import _ from "underscore";
 import { IVeiculoRequest } from "../model/veiculo";
+import { CarregarCombosApreensaoDocumento } from "../model/documentoapreendido";
 
 export class Contraordenacao {
 
@@ -156,6 +157,33 @@ export class Contraordenacao {
                 })
 
             }
+        })
+    }
+    
+    public carregarCombosMotivoApreensao(): Promise<CarregarCombosApreensaoDocumento> {
+        return new Promise((resolve, reject) => {
+
+            // if (!_.contains(getPlatforms(), 'desktop')) { // Load offline data
+
+            //     const instanceOfflineData = new LoadOfflineData();
+            //     instanceOfflineData.fetch_combos('contraOrdenacao_carregarCombosApreensaoDocumentos'.toLowerCase()).then((data: any) => {
+            //         resolve(data);
+            //     }).catch((error: AxiosError) => {
+            //         reject(error);
+            //     })
+
+            // } 
+            // else { // Go to the internet for load data
+
+                const service_url = 'carregarCombosApreensaoDocumentos';
+                this.connectGetAPI(`${this.prefix_url}/${service_url}`).then((response) => {
+                    const data = response.data;
+                    resolve(data);
+                }).catch((error: AxiosError) => {
+                    reject(error);
+                })
+
+            // }
         })
     }
     
