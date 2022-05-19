@@ -20,6 +20,8 @@ interface IProps {
     assinaturaQualificadaArguido?: any
     setAssinaturaQualificadaArguido?: any
     isDisablebAssinaturaPapelManuscrito: boolean
+    setAssinaturaPapelArguido: any
+    assinaturaPapelArguido: any
     handlerSignPDF: (value1: string, value2: string, value3?: number) => void
 }
 
@@ -35,6 +37,9 @@ const AssinaturaArguido: React.FC<IProps> = (props) => {
     } = props;
 
 
+    const {assinaturaPapelArguido,setAssinaturaPapelArguido} = props
+
+    
     //START: Qualificada
     const {handlerSignPDF, assinaturaQualificadaArguido} = props;
     const [formatoAssinaturaQualificada, setFormatoAssinaturaQualificada] = useState<any>();
@@ -81,7 +86,7 @@ const AssinaturaArguido: React.FC<IProps> = (props) => {
     // START: ALL
     const [isSigned, setIsSigned] = useState(false);
     React.useEffect(() => {
-        if (!_.isEmpty(assinaturaManuscritaArguido) || !_.isEmpty(assinaturaQualificadaArguido)) {
+        if (!_.isEmpty(assinaturaManuscritaArguido) || !_.isEmpty(assinaturaQualificadaArguido) || !_.isEmpty(assinaturaPapelArguido)) {
             setIsSigned(true)
         } else {
             setIsSigned(false)

@@ -17,6 +17,8 @@ interface IProps {
     setAssinaturaManuscritaAgente?: any
     assinaturaQualificadaAgente?: any
     setAssinaturaQualificadaAgente?: any
+    setAssinaturaPapelAgente: any
+    assinaturaPapelAgente: any
     handlerSignPDF: (value1: string, value2: string, value3?: number) => void
     isDisablebAssinaturaPapelManuscrito: boolean
 }
@@ -30,6 +32,8 @@ const {isDisablebAssinaturaPapelManuscrito} = props;
         setTipoAssinaturaAgente,
         setAssinaturaManuscritaAgente
     } = props;
+
+    const {assinaturaPapelAgente,setAssinaturaPapelAgente} = props
 
     //START: Qualificada
     const {handlerSignPDF, assinaturaQualificadaAgente} = props;
@@ -76,13 +80,13 @@ const {isDisablebAssinaturaPapelManuscrito} = props;
     // START: ALL
     const [isSigned, setIsSigned] = useState(false);
     React.useEffect(() => {
-        if (!_.isEmpty(assinaturaManuscritaAgente) || !_.isEmpty(assinaturaQualificadaAgente)) {
+        if (!_.isEmpty(assinaturaManuscritaAgente) || !_.isEmpty(assinaturaQualificadaAgente) || !_.isEmpty(assinaturaPapelAgente)) {
             setIsSigned(true)
         } else {
             setIsSigned(false)
         }
 
-    }, [assinaturaManuscritaAgente, assinaturaQualificadaAgente])
+    }, [assinaturaManuscritaAgente, assinaturaQualificadaAgente, assinaturaPapelAgente])
 
     const isSignBtnDisabled = (_isFormatoQualificada_digital: boolean, _chaveDigitalPhoneNumber: number | undefined, _assinaturaQualificadaAgente: any): boolean => {
         if (isFormatoQualificada_digital) {

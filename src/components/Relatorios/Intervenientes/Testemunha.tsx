@@ -19,6 +19,8 @@ interface IProps {
     assinaturaQualificadaTestemunha?: any
     setAssinaturaQualificadaTestemunha?: any
     isDisablebAssinaturaPapelManuscrito: boolean
+    setAssinaturaPapelTestemunha: any
+    assinaturaPapelTestemunha: any
     handlerSignPDF: (value1: string, value2: string, value3?: number) => void
 }
 
@@ -32,6 +34,9 @@ const AssinaturaTestemunha: React.FC<IProps> = (props) => {
         setAssinaturaManuscritaTestemunha
     } = props;
 
+    const {assinaturaPapelTestemunha,setAssinaturaPapelTestemunha} = props
+
+    
     //START: Qualificada
     const {handlerSignPDF, assinaturaQualificadaTestemunha} = props;
     const [formatoAssinaturaQualificada, setFormatoAssinaturaQualificada] = useState<any>();
@@ -78,7 +83,7 @@ const AssinaturaTestemunha: React.FC<IProps> = (props) => {
     // START: ALL
     const [isSigned, setIsSigned] = useState(false);
     React.useEffect(() => {
-        if (!_.isEmpty(assinaturaManuscritaTestemunha) || !_.isEmpty(assinaturaQualificadaTestemunha)) {
+        if (!_.isEmpty(assinaturaManuscritaTestemunha) || !_.isEmpty(assinaturaQualificadaTestemunha) || !_.isEmpty(assinaturaPapelTestemunha)) {
             setIsSigned(true)
         } else {
             setIsSigned(false)
