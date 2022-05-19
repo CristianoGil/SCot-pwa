@@ -1,6 +1,6 @@
 import jsPDF from "jspdf";
 import {IteratorArray} from "../common/iterator";
-import {blobToBase64, cleanString, createCanvas} from "../utils/apex-formatters";
+import {base64ToArrayBuffer, blobToBase64, cleanString, createCanvas} from "../utils/apex-formatters";
 
 export const generatePDF_HTML = (): Promise<any> => {
     return new Promise((resolve, reject) => {
@@ -62,12 +62,12 @@ export const generatePDF_HTML = (): Promise<any> => {
 }
 
 
-export const getPDFBlob_HTML = (): Promise<any> => {
+export const getPDFBase64_HTML = (): Promise<any> => {
     return new Promise(async (resolve, reject) => {
         try {
             const pdf = await generatePDF_HTML();
-            const blobPDF = await blobToBase64(pdf.output('blob'));
-            resolve(blobPDF)
+            const base64PDF = pdf.output('blob');
+            resolve(blobToBase64(base64PDF))
         } catch (e) {
             reject(e)
         }

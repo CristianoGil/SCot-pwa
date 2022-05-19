@@ -21,5 +21,4 @@ axios.interceptors.request.use(async (config: AxiosRequestConfig | any) => {
 })
 
 axios.defaults.timeout = AXIOS_TIMEOUT;
-axios.defaults.maxContentLength = 1024 * 10
 export default axios

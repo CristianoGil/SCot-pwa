@@ -17,7 +17,7 @@ interface IProps {
     setAssinaturaManuscritaAgente?: any
     assinaturaQualificadaAgente?: any
     setAssinaturaQualificadaAgente?: any
-    handlerSignPDF: (value1: string, value2: number | undefined) => void
+    handlerSignPDF: (value1: string, value2: string, value3?: number) => void
 }
 
 const AssinaturaAgente: React.FC<IProps> = (props) => {
@@ -31,7 +31,7 @@ const AssinaturaAgente: React.FC<IProps> = (props) => {
     } = props;
 
     //START: Qualificada
-    const {handlerSignPDF} = props;
+    const {handlerSignPDF, assinaturaQualificadaAgente} = props;
     const [formatoAssinaturaQualificada, setFormatoAssinaturaQualificada] = useState<any>();
     const [chaveDigitalPhoneNumber, setChaveDigitalPhoneNumber] = useState<number | undefined>(undefined);
 
@@ -46,10 +46,12 @@ const AssinaturaAgente: React.FC<IProps> = (props) => {
             if (_.isObject(_data)) {
                 if (cleanString(_data.descricao) === cleanString("Qualificada")) {
                     _is = true
+                }  else {
+                    setFormatoAssinaturaQualificada('')
                 }
             }
         }
-        console.log(_is)
+
         setIsTipoAssinatura_qualificada(_is)
     }, [tipoAssinaturaAgente])
 
@@ -73,17 +75,29 @@ const AssinaturaAgente: React.FC<IProps> = (props) => {
     // START: ALL
     const [isSigned, setIsSigned] = useState(false);
     React.useEffect(() => {
-        if (!_.isEmpty(assinaturaManuscritaAgente)) {
+        if (!_.isEmpty(assinaturaManuscritaAgente) || !_.isEmpty(assinaturaQualificadaAgente)) {
             setIsSigned(true)
         } else {
             setIsSigned(false)
         }
 
-    }, [assinaturaManuscritaAgente])
+    }, [assinaturaManuscritaAgente, assinaturaQualificadaAgente])
 
+    const isSignBtnDisabled = (_isFormatoQualificada_digital: boolean, _chaveDigitalPhoneNumber: number | undefined, _assinaturaQualificadaAgente: any): boolean => {
+        if (isFormatoQualificada_digital) {
+            if (!_.isEmpty(_assinaturaQualificadaAgente)) {
+                return true
+            } else {
+                return !chaveDigitalPhoneNumber
+            }
+        } else if(_.isEmpty(formatoAssinaturaQualificada)) {
+            return true
+        }
+
+        return false
+    }
 
     return (
-
 
         <IonCard style={{margin: 30}}>
 
@@ -145,11 +159,12 @@ const AssinaturaAgente: React.FC<IProps> = (props) => {
                                 <IonCol size="12">
                                     <IonButtons>
                                         <IonButton
-                                            disabled={isFormatoQualificada_digital ? !chaveDigitalPhoneNumber : false}
+                                            disabled={isSignBtnDisabled(isFormatoQualificada_digital, chaveDigitalPhoneNumber, assinaturaQualificadaAgente)}
                                             fill="outline" strong={true} color="primary"
-                                            onClick={(e) => {
-                                                handlerSignPDF(formatoAssinaturaQualificada, chaveDigitalPhoneNumber)
-                                            }}>
+                                            onClick={_.throttle((e:any) => {
+                                                handlerSignPDF(formatoAssinaturaQualificada, 'agente', chaveDigitalPhoneNumber)
+                                            }, 2000)}>
+
                                             Assinar
                                         </IonButton>
                                     </IonButtons>
