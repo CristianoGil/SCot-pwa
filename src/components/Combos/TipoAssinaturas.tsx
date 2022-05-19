@@ -3,7 +3,8 @@ import {IonLabel, IonItem, IonSelect, IonSelectOption} from '@ionic/react';
 
 import {Contraordenacao} from "../../api/Contraordenacao";
 import _ from "underscore";
-import { IID_DESCRICAO } from "../../model/extendable";
+import {IID_DESCRICAO} from "../../model/extendable";
+import {cleanString} from "../../utils/apex-formatters";
 
 const tipoAssinaturaOpcao = [
     {id: 0, descricao: 'Papel'},
@@ -17,6 +18,7 @@ interface IModelo {
     selected?: any
     setSelected?: any
     textLabel?: string
+    isDisablebAssinaturaPapelManuscrito: boolean
 }
 
 interface IPROS_COMBOS {
@@ -30,7 +32,7 @@ const getCombos = async (): Promise<IPROS_COMBOS | null> => await new Contraorde
 const TipoAssinaturas: React.FC<IModelo> = (props) => {
 
     const [combos, setCombos] = useState<IID_DESCRICAO[] | undefined>([]);
-    const {selected, setSelected} = props;
+    const {selected, setSelected, isDisablebAssinaturaPapelManuscrito} = props;
 
     React.useEffect(() => {
         getCombos().then((combos) => {
@@ -44,10 +46,18 @@ const TipoAssinaturas: React.FC<IModelo> = (props) => {
         })
     }, []);
 
+    const isPapelManuscritoDisableb = (descricao: string): boolean => {
+        if (cleanString(descricao) === cleanString('Papel') || cleanString(descricao) === cleanString('Manuscrito')) {
+            return isDisablebAssinaturaPapelManuscrito
+        }
+        return false
+    }
+
+
     return (
         <IonItem>
             <IonLabel>Tipo de Assinatura</IonLabel>
-            <IonSelect  value={selected}  interface={props.interface}
+            <IonSelect value={selected} interface={props.interface}
                        name={props.inputName}
                        placeholder="Seleciona a assinatura"
                        onIonChange={e =>
@@ -56,7 +66,8 @@ const TipoAssinaturas: React.FC<IModelo> = (props) => {
                        }>
                 {(combos || tipoAssinaturaOpcao).map((t) => {
                     return (
-                        <IonSelectOption key={t.id} value={JSON.stringify(t)}>{t.descricao}</IonSelectOption>
+                        <IonSelectOption disabled={isPapelManuscritoDisableb(t.descricao)} key={t.id}
+                                         value={JSON.stringify(t)}>{t.descricao}</IonSelectOption>
                     )
                 })}
             </IonSelect>

@@ -44,7 +44,6 @@ const CODirectaSignPDFPreview: React.FC<IProps> = (props) => {
     const [presentLoad, dismissLoad] = useIonLoading();
     const [presentAlert] = useIonAlert();
 
-
     // START: Request Signatures
     const [openPopoverSignatures, setOpenPopoverSignatures] = useState(false);
     const requestSignatures = (e: any) => {
@@ -60,6 +59,8 @@ const CODirectaSignPDFPreview: React.FC<IProps> = (props) => {
     const [tipoAssinaturaArguido, setTipoAssinaturaArguido] = useState<any>();
     const [signatureManuscrito_arguido, setSignatureManuscrito_arguido] = useState<any>();
     const [arguidoNaoAssinouNotificacao, setArguidoNaoAssinouNotificacao] = useState(false);
+    const [isDisablebAssinaturaPapelManuscritoArguido, setIsDisablebAssinaturaPapelManuscritoArguido] = useState(false);
+
     React.useEffect(() => {
 
         if (!_.isEmpty(tipoAssinaturaArguido)) {
@@ -72,6 +73,19 @@ const CODirectaSignPDFPreview: React.FC<IProps> = (props) => {
             } else {
                 setToggleModalAssinaturaManuscrita(false);
             }
+            // Se for assinatura Qualificada bloquea todas as outras assinaturas
+            if (cleanString(_tipoAssinaturaArguido.descricao).includes(cleanString(assinaturaQualificada))) {
+                setIsDisablebAssinaturaPapelManuscritoAgente(true)
+                setIsDisablebAssinaturaPapelManuscritoTestemunha_1(true)
+                setIsDisablebAssinaturaPapelManuscritoTestemunha_2(true)
+                setIsDisablebAssinaturaPapelManuscritoArguido(false)
+            } else {
+                setIsDisablebAssinaturaPapelManuscritoAgente(false)
+                setIsDisablebAssinaturaPapelManuscritoTestemunha_1(false)
+                setIsDisablebAssinaturaPapelManuscritoTestemunha_2(false)
+                setIsDisablebAssinaturaPapelManuscritoArguido(false)
+            }
+
 
         }
 
@@ -82,6 +96,7 @@ const CODirectaSignPDFPreview: React.FC<IProps> = (props) => {
     const testemunhaRef_1 = 1;
     const [assinaturaManuscritaTestemunha_1, setAssinaturaManuscritaTestemunha_1] = useState<string>()
     const [tipoAssinaturaTestemunha_1, setTipoAssinaturaTestemunha_1] = useState<any>();
+    const [isDisablebAssinaturaPapelManuscritoTestemunha_1, setIsDisablebAssinaturaPapelManuscritoTestemunha_1] = useState(false);
     React.useEffect(() => {
 
         if (!_.isEmpty(tipoAssinaturaTestemunha_1)) {
@@ -94,6 +109,19 @@ const CODirectaSignPDFPreview: React.FC<IProps> = (props) => {
             } else {
                 setToggleModalAssinaturaManuscrita(false);
             }
+            // Se for assinatura Qualificada bloquea todas as outras assinaturas
+            if (cleanString(_tipoAssinaturaTestemunha_1.descricao).includes(cleanString(assinaturaQualificada))) {
+                setIsDisablebAssinaturaPapelManuscritoAgente(true)
+                setIsDisablebAssinaturaPapelManuscritoArguido(true)
+                setIsDisablebAssinaturaPapelManuscritoTestemunha_1(true)
+                setIsDisablebAssinaturaPapelManuscritoTestemunha_2(false)
+            }  else {
+                setIsDisablebAssinaturaPapelManuscritoAgente(false)
+                setIsDisablebAssinaturaPapelManuscritoTestemunha_1(false)
+                setIsDisablebAssinaturaPapelManuscritoTestemunha_2(false)
+                setIsDisablebAssinaturaPapelManuscritoArguido(false)
+            }
+
 
         }
 
@@ -103,6 +131,8 @@ const CODirectaSignPDFPreview: React.FC<IProps> = (props) => {
     const testemunhaRef_2 = 2;
     const [assinaturaManuscritaTestemunha_2, setAssinaturaManuscritaTestemunha_2] = useState<string>()
     const [tipoAssinaturaTestemunha_2, setTipoAssinaturaTestemunha_2] = useState<any>();
+    const [isDisablebAssinaturaPapelManuscritoTestemunha_2, setIsDisablebAssinaturaPapelManuscritoTestemunha_2] = useState(false);
+
     React.useEffect(() => {
 
         if (!_.isEmpty(tipoAssinaturaTestemunha_2)) {
@@ -116,6 +146,19 @@ const CODirectaSignPDFPreview: React.FC<IProps> = (props) => {
                 setToggleModalAssinaturaManuscrita(false);
             }
 
+            // Se for assinatura Qualificada bloquea todas as outras assinaturas
+            if (cleanString(_tipoAssinaturaTestemunha_2.descricao).includes(cleanString(assinaturaQualificada))) {
+                setIsDisablebAssinaturaPapelManuscritoAgente(true)
+                setIsDisablebAssinaturaPapelManuscritoArguido(true)
+                setIsDisablebAssinaturaPapelManuscritoTestemunha_1(true)
+                setIsDisablebAssinaturaPapelManuscritoTestemunha_2(false)
+            } else {
+                setIsDisablebAssinaturaPapelManuscritoAgente(false)
+                setIsDisablebAssinaturaPapelManuscritoTestemunha_1(false)
+                setIsDisablebAssinaturaPapelManuscritoTestemunha_2(false)
+                setIsDisablebAssinaturaPapelManuscritoArguido(false)
+            }
+
         }
 
     }, [tipoAssinaturaTestemunha_2])
@@ -124,7 +167,43 @@ const CODirectaSignPDFPreview: React.FC<IProps> = (props) => {
     // START: Handler assinatura Agente
     const [assinaturaManuscritaAgente, setAssinaturaManuscritaAgente] = useState<string>();
     const [tipoAssinaturaAgente, setTipoAssinaturaAgente] = useState<any>();
+    const [isDisablebAssinaturaPapelManuscritoAgente, setIsDisablebAssinaturaPapelManuscritoAgente] = useState(false);
 
+    React.useEffect(() => {
+        if (!_.isEmpty(tipoAssinaturaAgente)) {
+            const _tipoAssinaturaAgente = JSON.parse(tipoAssinaturaAgente);
+
+            // Assinatura Manuscrito'
+            if (cleanString(_tipoAssinaturaAgente.descricao).includes(cleanString(assinaturaManuscrito))) {
+                setToggleModalAssinaturaManuscrita(true);
+                setWhoIsSigningManuscrito('agente');
+            } else {
+                setToggleModalAssinaturaManuscrita(false);
+            }
+
+            // Se for assinatura Qualificada bloquea todas as outras assinaturas
+            if (cleanString(_tipoAssinaturaAgente.descricao).includes(cleanString(assinaturaQualificada))) {
+                setIsDisablebAssinaturaPapelManuscritoAgente(false)
+                setIsDisablebAssinaturaPapelManuscritoArguido(true)
+                setIsDisablebAssinaturaPapelManuscritoTestemunha_1(true)
+                setIsDisablebAssinaturaPapelManuscritoTestemunha_2(true)
+            } else {
+                setIsDisablebAssinaturaPapelManuscritoAgente(false)
+                setIsDisablebAssinaturaPapelManuscritoTestemunha_1(false)
+                setIsDisablebAssinaturaPapelManuscritoTestemunha_2(false)
+                setIsDisablebAssinaturaPapelManuscritoArguido(false)
+            }
+
+        }
+    }, [tipoAssinaturaAgente])
+
+
+    // START: Assinatura Qualificada
+    const [PDF_BLOB_SIGNED, SET_PDF_BLOB_SIGNED] = useState<any>();
+    const [assinaturaQualificadaAgente, setAssinaturaQualificadaAgente] = useState<string | ArrayBuffer | undefined>()
+    const [assinaturaQualificadaArguido, setAssinaturaQualificadaArguido] = useState<string | ArrayBuffer | undefined>()
+    const [assinaturaQualificadaTestemunha_1, setAssinaturaQualificadaTestemunha_1] = useState<string | ArrayBuffer | undefined>()
+    const [assinaturaQualificadaTestemunha_2, setAssinaturaQualificadaTestemunha_2] = useState<string | ArrayBuffer | undefined>()
     const handlerAssinaturaQualificada = async (formatoAssinaturaQualificada: any, whoIsSigningQualificada: string, chaveDigitalPhoneNumber?: number) => {
         if (!_.isEmpty(formatoAssinaturaQualificada)) {
             const _data = JSON.parse(formatoAssinaturaQualificada);
@@ -138,7 +217,11 @@ const CODirectaSignPDFPreview: React.FC<IProps> = (props) => {
 
                 try {
                     let responseData;
-                    const base64PDF = await getPDFBase64_HTML();
+                    let base64PDF = await getPDFBase64_HTML();
+                    if (PDF_BLOB_SIGNED && !_.isEmpty(PDF_BLOB_SIGNED)) {
+                        base64PDF = PDF_BLOB_SIGNED
+                    }
+
                     const assinaturaInstance = new Assinatura(base64PDF.replace(/^data:application\/[a-z]+;base64,/, ""));
 
                     // Chave Móvel Digital
@@ -164,7 +247,7 @@ const CODirectaSignPDFPreview: React.FC<IProps> = (props) => {
                             setAssinaturaQualificadaAgente(_signedPdf);
                         }
 
-
+                        SET_PDF_BLOB_SIGNED(_signedPdf);
                     } else {
                         throw new Error("Unknow error")
                     }
@@ -197,29 +280,6 @@ const CODirectaSignPDFPreview: React.FC<IProps> = (props) => {
         }
     }
 
-    React.useEffect(() => {
-        if (!_.isEmpty(tipoAssinaturaAgente)) {
-            const _tipoAssinaturaAgente = JSON.parse(tipoAssinaturaAgente);
-
-            // Assinatura Manuscrito'
-            if (cleanString(_tipoAssinaturaAgente.descricao).includes(cleanString(assinaturaManuscrito))) {
-                setToggleModalAssinaturaManuscrita(true);
-                setWhoIsSigningManuscrito('agente');
-            } else {
-                setToggleModalAssinaturaManuscrita(false);
-            }
-
-        }
-    }, [tipoAssinaturaAgente])
-
-
-    // START: Assinatura Qualificada
-    const [PDF_BLOB_SIGNED, SET_PDF_BLOB_SIGNED] = useState<any>();
-    const [assinaturaQualificadaAgente, setAssinaturaQualificadaAgente] = useState<string | ArrayBuffer | undefined>()
-    const [assinaturaQualificadaArguido, setAssinaturaQualificadaArguido] = useState<string | ArrayBuffer | undefined>()
-    const [assinaturaQualificadaTestemunha_1, setAssinaturaQualificadaTestemunha_1] = useState<string | ArrayBuffer | undefined>()
-    const [assinaturaQualificadaTestemunha_2, setAssinaturaQualificadaTestemunha_2] = useState<string | ArrayBuffer | undefined>()
-
 
     // START: Assinatura Manuscrita
     const [toggleModalAssinaturaManuscrita, setToggleModalAssinaturaManuscrita] = useState(false);
@@ -242,7 +302,6 @@ const CODirectaSignPDFPreview: React.FC<IProps> = (props) => {
 
     const onPrint = async (e: any) => {
         const fileName = `co-directa-[name]-${(new Date()).toDateString()}.pdf`;
-
 
         if (PDF_BLOB_SIGNED && !_.isEmpty(PDF_BLOB_SIGNED)) {
             console.log('FInd it')
@@ -333,6 +392,7 @@ const CODirectaSignPDFPreview: React.FC<IProps> = (props) => {
                                        setArguidoNaoAssinouNotificacao={setArguidoNaoAssinouNotificacao}
                                        assinaturaQualificadaArguido={assinaturaQualificadaArguido}
                                        setAssinaturaQualificadaArguido={setAssinaturaQualificadaArguido}
+                                       isDisablebAssinaturaPapelManuscrito={isDisablebAssinaturaPapelManuscritoArguido}
                                        handlerSignPDF={handlerAssinaturaQualificada}
                     />
                     {/*  Arguido assinatura */}
@@ -345,6 +405,7 @@ const CODirectaSignPDFPreview: React.FC<IProps> = (props) => {
                                           assinaturaQualificadaTestemunha={assinaturaQualificadaTestemunha_1}
                                           setAssinaturaQualificadaTestemunha={setAssinaturaQualificadaTestemunha_1}
                                           testemunhaRef={testemunhaRef_1}
+                                          isDisablebAssinaturaPapelManuscrito={isDisablebAssinaturaPapelManuscritoTestemunha_1}
                                           handlerSignPDF={handlerAssinaturaQualificada}
                     />
                     {/* Testemunha 1 assinatura*/}
@@ -357,6 +418,7 @@ const CODirectaSignPDFPreview: React.FC<IProps> = (props) => {
                                           assinaturaQualificadaTestemunha={assinaturaQualificadaTestemunha_2}
                                           setAssinaturaQualificadaTestemunha={setAssinaturaQualificadaTestemunha_2}
                                           testemunhaRef={testemunhaRef_2}
+                                          isDisablebAssinaturaPapelManuscrito={isDisablebAssinaturaPapelManuscritoTestemunha_2}
                                           handlerSignPDF={handlerAssinaturaQualificada}
                     />
                     {/* Testemunha 2 assinatura*/}
@@ -368,6 +430,7 @@ const CODirectaSignPDFPreview: React.FC<IProps> = (props) => {
                                       setAssinaturaQualificadaAgente={setAssinaturaQualificadaAgente}
                                       setTipoAssinaturaAgente={setTipoAssinaturaAgente}
                                       tipoAssinaturaAgente={tipoAssinaturaAgente}
+                                      isDisablebAssinaturaPapelManuscrito={isDisablebAssinaturaPapelManuscritoAgente}
                                       handlerSignPDF={handlerAssinaturaQualificada}
 
                     />

@@ -18,10 +18,12 @@ interface IProps {
     setAssinaturaManuscritaTestemunha?: any
     assinaturaQualificadaTestemunha?: any
     setAssinaturaQualificadaTestemunha?: any
+    isDisablebAssinaturaPapelManuscrito: boolean
     handlerSignPDF: (value1: string, value2: string, value3?: number) => void
 }
 
 const AssinaturaTestemunha: React.FC<IProps> = (props) => {
+    const {isDisablebAssinaturaPapelManuscrito} = props;
     const {
         testemunhaRef,
         assinaturaManuscritaTestemunha,
@@ -130,7 +132,9 @@ const AssinaturaTestemunha: React.FC<IProps> = (props) => {
                         <IonCol size-sm="12" size-md="5" size-lg="5">
                             <TipoAssinaturas interface={"popover"} inputName={"tipoAssinaturaTestemunha"}
                                              selected={tipoAssinaturaTestemunha}
-                                             setSelected={setTipoAssinaturaTestemunha}/>
+                                             setSelected={setTipoAssinaturaTestemunha}
+                                             isDisablebAssinaturaPapelManuscrito={isDisablebAssinaturaPapelManuscrito}
+                            />
                         </IonCol>
                         {/*END: Tipo assinatura*/}
 

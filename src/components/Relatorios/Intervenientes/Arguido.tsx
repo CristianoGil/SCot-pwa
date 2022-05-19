@@ -19,10 +19,12 @@ interface IProps {
     setAssinaturaManuscritaArguido?: any
     assinaturaQualificadaArguido?: any
     setAssinaturaQualificadaArguido?: any
+    isDisablebAssinaturaPapelManuscrito: boolean
     handlerSignPDF: (value1: string, value2: string, value3?: number) => void
 }
 
 const AssinaturaArguido: React.FC<IProps> = (props) => {
+    const {isDisablebAssinaturaPapelManuscrito} = props;
     const {
         arguidoNaoAssinouNotificacao,
         setArguidoNaoAssinouNotificacao,
@@ -149,7 +151,9 @@ const AssinaturaArguido: React.FC<IProps> = (props) => {
                                 <IonCol size-sm="12" size-md="5" size-lg="5">
                                     <TipoAssinaturas interface={"popover"} inputName={"tipoAssinaturaArguido"}
                                                      selected={tipoAssinaturaArguido}
-                                                     setSelected={setTipoAssinaturaArguido}/>
+                                                     setSelected={setTipoAssinaturaArguido}
+                                                     isDisablebAssinaturaPapelManuscrito={isDisablebAssinaturaPapelManuscrito}
+                                    />
                                 </IonCol>
                                 {/*END: Tipo assinatura*/}
                                 

@@ -18,10 +18,11 @@ interface IProps {
     assinaturaQualificadaAgente?: any
     setAssinaturaQualificadaAgente?: any
     handlerSignPDF: (value1: string, value2: string, value3?: number) => void
+    isDisablebAssinaturaPapelManuscrito: boolean
 }
 
 const AssinaturaAgente: React.FC<IProps> = (props) => {
-
+const {isDisablebAssinaturaPapelManuscrito} = props;
     // START: Manuscrito
     const {
         assinaturaManuscritaAgente,
@@ -46,7 +47,7 @@ const AssinaturaAgente: React.FC<IProps> = (props) => {
             if (_.isObject(_data)) {
                 if (cleanString(_data.descricao) === cleanString("Qualificada")) {
                     _is = true
-                }  else {
+                } else {
                     setFormatoAssinaturaQualificada('')
                 }
             }
@@ -90,7 +91,7 @@ const AssinaturaAgente: React.FC<IProps> = (props) => {
             } else {
                 return !chaveDigitalPhoneNumber
             }
-        } else if(_.isEmpty(formatoAssinaturaQualificada)) {
+        } else if (_.isEmpty(formatoAssinaturaQualificada)) {
             return true
         }
 
@@ -129,7 +130,9 @@ const AssinaturaAgente: React.FC<IProps> = (props) => {
                         <IonCol size-sm="12" size-md="5" size-lg="5">
                             <TipoAssinaturas interface={"popover"} inputName={"tipoAssinaturaAgente"}
                                              selected={tipoAssinaturaAgente}
-                                             setSelected={setTipoAssinaturaAgente}/>
+                                             setSelected={setTipoAssinaturaAgente}
+                                             isDisablebAssinaturaPapelManuscrito={isDisablebAssinaturaPapelManuscrito}
+                            />
                         </IonCol>
                         {/*END: Tipo assinatura*/}
 
@@ -161,7 +164,7 @@ const AssinaturaAgente: React.FC<IProps> = (props) => {
                                         <IonButton
                                             disabled={isSignBtnDisabled(isFormatoQualificada_digital, chaveDigitalPhoneNumber, assinaturaQualificadaAgente)}
                                             fill="outline" strong={true} color="primary"
-                                            onClick={_.throttle((e:any) => {
+                                            onClick={_.throttle((e: any) => {
                                                 handlerSignPDF(formatoAssinaturaQualificada, 'agente', chaveDigitalPhoneNumber)
                                             }, 2000)}>
 

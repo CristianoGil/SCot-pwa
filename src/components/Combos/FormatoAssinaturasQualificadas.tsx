@@ -4,6 +4,7 @@ import {IonLabel, IonItem, IonSelect, IonSelectOption} from '@ionic/react';
 import {Contraordenacao} from "../../api/Contraordenacao";
 import _ from "underscore";
 import {IID_DESCRICAO} from "../../model/extendable";
+import { cleanString } from "../../utils/apex-formatters";
 
 const tipoAssinaturaOpcao = [
     {id: 0, descricao: 'Chave Móvel Digital'},
@@ -28,8 +29,28 @@ const getCombos = async (): Promise<IPROS_COMBOS | null> => await new Contraorde
 
 const FormatoAssinaturasQualificadas: React.FC<IModelo> = (props) => {
 
+
+    const [networkState, setNetworkState] = useState<string>(navigator.onLine ? 'online' : 'offline');
+
+    window.addEventListener('offline', function () {
+        setNetworkState('offline')
+    });
+
+    window.addEventListener('online', function () {
+        setNetworkState('online')
+    });
+
     const [combos, setCombos] = useState<IID_DESCRICAO[] | undefined>([]);
     const {selected, setSelected} = props;
+
+    const isChaveDigitalDisableb = (descricao: string): boolean => {
+        if (cleanString(descricao) === cleanString('Chave Móvel Digital')) {
+            if (networkState === 'offline') {
+                return true
+            }
+        }
+        return false
+    }
 
     React.useEffect(() => {
         getCombos().then((combos) => {
@@ -55,7 +76,8 @@ const FormatoAssinaturasQualificadas: React.FC<IModelo> = (props) => {
                        }>
                 {(combos || tipoAssinaturaOpcao).map((t) => {
                     return (
-                        <IonSelectOption key={t.id} value={JSON.stringify(t)}>{t.descricao}</IonSelectOption>
+
+                        <IonSelectOption disabled={isChaveDigitalDisableb(t.descricao)} key={t.id} value={JSON.stringify(t)}>{t.descricao}</IonSelectOption>
                     )
                 })}
             </IonSelect>
