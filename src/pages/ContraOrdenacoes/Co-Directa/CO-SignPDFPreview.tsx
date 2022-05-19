@@ -175,6 +175,7 @@ const CODirectaSignPDFPreview: React.FC<IProps> = (props) => {
 
             // Se for assinatura Papel abre o form e baixa a CO para ser assinada
             if (cleanString(_tipoAssinaturaTestemunha_1.descricao).includes(cleanString(assinaturaPapel))) {
+
                 setToggleInputCardAssinaturaPapel(true);
                 setWhoIsSigningPapel('testemunha1');
 
@@ -397,6 +398,7 @@ const CODirectaSignPDFPreview: React.FC<IProps> = (props) => {
     const [assinaturaPapelAgente, setAssinaturaPapelAgente] = useState<any>();
 
     const uploadFileCO = async () => {
+        dismissLoad();
         const inputFile = document.getElementById('fileUploadCO');
         if (inputFile) {
             // @ts-ignore
@@ -406,16 +408,24 @@ const CODirectaSignPDFPreview: React.FC<IProps> = (props) => {
                     message: 'A carregar... isto pode demorar!',
                 })
                 try {
+                    console.log('file: ', file)
                     const base64PDF = await blobToBase64(file);
-                    if (whoIsSigningManuscrito === 'arguido') {
-                        setAssinaturaPapelArguido(base64PDF)
-                    } else if (whoIsSigningPapel === 'testemunha1') {
-                        setAssinaturaPapelTestemunha_1(base64PDF)
-                    } else if (whoIsSigningPapel === 'testemunha2') {
-                        setAssinaturaPapelTestemunha_2(base64PDF)
-                    } else if (whoIsSigningPapel === 'agente') {
-                        setAssinaturaPapelAgente(base64PDF)
+                    console.log('base64PDF: ', base64PDF)
+                    if(base64PDF) {
+                        if (whoIsSigningPapel === 'arguido') {
+                            setAssinaturaPapelArguido(base64PDF)
+                        } else if (whoIsSigningPapel === 'testemunha1') {
+                            setAssinaturaPapelTestemunha_1(base64PDF)
+                        } else if (whoIsSigningPapel === 'testemunha2') {
+                            setAssinaturaPapelTestemunha_2(base64PDF)
+                        } else if (whoIsSigningPapel === 'agente') {
+                            setAssinaturaPapelAgente(base64PDF)
+                        }
+
+                        setToggleInputCardAssinaturaPapel(false)
+                        SET_PDF_BLOB_SIGNED(`${base64PDF}`.replace(/^data:application\/[a-z]+;base64,/, ""))
                     }
+
                 } catch (e) {
                     presentAlert({
                         header: 'Erro!',
@@ -429,6 +439,14 @@ const CODirectaSignPDFPreview: React.FC<IProps> = (props) => {
                 }
 
 
+            } else {
+                presentAlert({
+                    header: 'Erro!',
+                    message: 'Ocorreu um erro ao carregar o ficheiro. Tente novamente mais tarde e se o problema persistir reinicie o aplicativo',
+                    buttons: [
+                        {text: 'Fechar'},
+                    ]
+                })
             }
 
         }
