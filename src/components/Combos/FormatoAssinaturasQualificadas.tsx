@@ -4,12 +4,12 @@ import {IonLabel, IonItem, IonSelect, IonSelectOption} from '@ionic/react';
 import {Contraordenacao} from "../../api/Contraordenacao";
 import _ from "underscore";
 import {IID_DESCRICAO} from "../../model/extendable";
-import {cleanString} from "../../utils/apex-formatters";
+import { cleanString } from "../../utils/apex-formatters";
 
 const tipoAssinaturaOpcao = [
-    {id: 0, descricao: 'Papel'},
-    {id: 1, descricao: 'Qualificada'},
-    {id: 2, descricao: 'Manuscrito'}
+    {id: 0, descricao: 'Chave Móvel Digital'},
+    {id: 1, descricao: 'Cartão Cidadão'},
+    {id: 2, descricao: 'Cartão CEGER'}
 ]
 
 interface IModelo {
@@ -18,7 +18,6 @@ interface IModelo {
     selected?: any
     setSelected?: any
     textLabel?: string
-    isDisablebAssinaturaPapelManuscrito: boolean
 }
 
 interface IPROS_COMBOS {
@@ -28,16 +27,35 @@ interface IPROS_COMBOS {
 
 const getCombos = async (): Promise<IPROS_COMBOS | null> => await new Contraordenacao().carregarCombosAssinaturas();
 
+const FormatoAssinaturasQualificadas: React.FC<IModelo> = (props) => {
 
-const TipoAssinaturas: React.FC<IModelo> = (props) => {
+
+    const [networkState, setNetworkState] = useState<string>(navigator.onLine ? 'online' : 'offline');
+
+    window.addEventListener('offline', function () {
+        setNetworkState('offline')
+    });
+
+    window.addEventListener('online', function () {
+        setNetworkState('online')
+    });
 
     const [combos, setCombos] = useState<IID_DESCRICAO[] | undefined>([]);
-    const {selected, setSelected, isDisablebAssinaturaPapelManuscrito} = props;
+    const {selected, setSelected} = props;
+
+    const isChaveDigitalDisableb = (descricao: string): boolean => {
+        if (cleanString(descricao) === cleanString('Chave Móvel Digital')) {
+            if (networkState === 'offline') {
+                return true
+            }
+        }
+        return false
+    }
 
     React.useEffect(() => {
         getCombos().then((combos) => {
-            if (_.has(combos, 'opcoesAssinaturas')) {
-                setCombos(combos?.opcoesAssinaturas);
+            if (_.has(combos, 'opcoesAssinaturasQualificadas')) {
+                setCombos(combos?.opcoesAssinaturasQualificadas);
             } else {
                 setCombos(undefined)
             }
@@ -46,17 +64,9 @@ const TipoAssinaturas: React.FC<IModelo> = (props) => {
         })
     }, []);
 
-    const isPapelManuscritoDisableb = (descricao: string): boolean => {
-        if (cleanString(descricao) === cleanString('Papel') || cleanString(descricao) === cleanString('Manuscrito')) {
-            return isDisablebAssinaturaPapelManuscrito
-        }
-        return false
-    }
-
-
     return (
         <IonItem>
-            <IonLabel>Tipo de Assinatura</IonLabel>
+            <IonLabel>Formato de Assinatura</IonLabel>
             <IonSelect value={selected} interface={props.interface}
                        name={props.inputName}
                        placeholder="Seleciona a assinatura"
@@ -66,8 +76,8 @@ const TipoAssinaturas: React.FC<IModelo> = (props) => {
                        }>
                 {(combos || tipoAssinaturaOpcao).map((t) => {
                     return (
-                        <IonSelectOption disabled={isPapelManuscritoDisableb(t.descricao)} key={t.id}
-                                         value={JSON.stringify(t)}>{t.descricao}</IonSelectOption>
+
+                        <IonSelectOption disabled={isChaveDigitalDisableb(t.descricao)} key={t.id} value={JSON.stringify(t)}>{t.descricao}</IonSelectOption>
                     )
                 })}
             </IonSelect>
@@ -75,4 +85,4 @@ const TipoAssinaturas: React.FC<IModelo> = (props) => {
     )
 }
 
-export default React.memo(TipoAssinaturas);
+export default React.memo(FormatoAssinaturasQualificadas);
