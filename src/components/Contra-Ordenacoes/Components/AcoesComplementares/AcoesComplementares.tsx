@@ -1,5 +1,6 @@
 import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCheckbox, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonPopover, IonRow, IonSelect, IonSelectOption, IonToolbar } from "@ionic/react";
 import { open, trash, remove, bookOutline } from "ionicons/icons";
+import { resolve } from "path";
 import React from "react";
 import { useState } from "react";
 import DataTable from 'react-data-table-component';
@@ -123,13 +124,13 @@ const AcoesComplementares: React.FC = () => {
         },
     ];
 
-    interface MotivoApreensaoTable{
-            id: number,
-            _id: number,
-            motivo: string,
-            accoes:string,       
+    interface MotivoApreensaoTable {
+        id: number,
+        _id: number,
+        motivo: string,
+        accoes: string,
     }
-    const dataMotivosApreensao:MotivoApreensaoTable[] = []
+    const dataMotivosApreensao: MotivoApreensaoTable[] = []
     //-------------------------[Dados Apreensao Documentos]
 
     const columnsDadosApreensaoDocumentos = [
@@ -159,26 +160,26 @@ const AcoesComplementares: React.FC = () => {
         },
     ];
 
-    interface DadosApreensaoDocumentos{
+    interface DadosApreensaoDocumentos {
         id: number,
         numero: number,
         documento: string,
-        accoes:string,       
-}
-    const dataDadosApreensaoDocumentos:DadosApreensaoDocumentos[] = []
+        accoes: string,
+    }
+    const dataDadosApreensaoDocumentos: DadosApreensaoDocumentos[] = []
 
 
     const [combos, setCombos] = useState<MotivosApreensao[]>();
     const [dadosApreensaoDocumento, setDadosApreensaoDocumento] = useState<MotivosApreensao[]>();
     const [documento, setDocumento] = useState('');
-    const [motivoApreensao,setMotivoApreensao] = useState('');
-    const [idMotivoApreensao,setIdMotivoApreensao] = useState(0);
-    const [tamanhoMotivoApreensao,setTamanhoMotivoApreensao] = useState(0);
-    const [ numDocumento,  setNumDocumento] = useState('');
-    const [ localApresentacao,  setLocalApresentacao] = useState('');
+    const [motivoApreensao, setMotivoApreensao] = useState('');
+    const [idMotivoApreensao, setIdMotivoApreensao] = useState(0);
+    const [tamanhoMotivoApreensao, setTamanhoMotivoApreensao] = useState(0);
+    const [numDocumento, setNumDocumento] = useState('');
+    const [localApresentacao, setLocalApresentacao] = useState('');
     const getCombos = async (): Promise<CarregarCombosApreensaoDocumento> => await new Contraordenacao().carregarCombosMotivoApreensao()
-    
-    
+
+
     // CarregarCombosApreensaoDocumento
     React.useEffect(() => {
         getCombos().then((combos) => {
@@ -189,60 +190,102 @@ const AcoesComplementares: React.FC = () => {
         })
     }, []);
 
-    const onClick_addAMotivoApreensao=()=>{
+    const onClick_addAMotivoApreensao = () => {
 
-        const _idMotivoApreensao:any= combos?.find(motivo => motivo?.descricao ===motivoApreensao )?.id
+        const _idMotivoApreensao: any = combos?.find(motivo => motivo?.descricao === motivoApreensao)?.id
         setIdMotivoApreensao(_idMotivoApreensao)
-        
+
         dataMotivosApreensao.push({
-            _id:idMotivoApreensao,
+            _id: idMotivoApreensao,
             id: idMotivoApreensao,
-            motivo:motivoApreensao,
-            accoes:"null"
+            motivo: motivoApreensao,
+            accoes: "null"
         })
 
         setTamanhoMotivoApreensao(dataMotivosApreensao?.length)
 
     }
 
-    const onClick_addDadosDocumentoApreensao=()=>{
-        const id:any= dadosApreensaoDocumento?.find(doc => doc?.descricao ===documento )?.id
+    const onClick_addDadosDocumentoApreensao = () => {
+        const id: any = dadosApreensaoDocumento?.find(doc => doc?.descricao === documento)?.id
 
-           dataDadosApreensaoDocumentos.push({
-               accoes:"",
-               documento:documento,
-               id:id, 
-               numero:+numDocumento
-           })
+        dataDadosApreensaoDocumentos.push({
+            accoes: "",
+            documento: documento,
+            id: id,
+            numero: +numDocumento
+        })
 
     }
 
-    const keyup_numDocumento =(e:any)=>{
+    const keyup_numDocumento = (e: any) => {
         setNumDocumento(e.target.value);
 
-    
+
     }
-     const keyup_localApresentacao =(e:any)=>{
+    const keyup_localApresentacao = (e: any) => {
         setLocalApresentacao(e.target.value);
 
-    }  
-    
-    const keyup_regularSituacaoLocal =(e:any)=>{
+    }
+
+    const keyup_regularSituacaoLocal = (e: any) => {
         setRegularSituacaoLocal(e.target.value);
     }
-    
-  
-    const keyup_levantarDocsDiaUtilLocal=(e:any)=>{
+
+
+    const keyup_levantarDocsDiaUtilLocal = (e: any) => {
         setLevantarDocsDiaUtilLocal(e.target.value);
     }
 
     // checkbox handlers constants 
-const [regularSituacaoCheckbox,setRegularSituacaoCheckbox ] = useState(false);
-const [regularSituacaoLocal,setRegularSituacaoLocal ] = useState('');
+    const [regularSituacaoCheckbox, setRegularSituacaoCheckbox] = useState(false);
+    const [regularSituacaoLocal, setRegularSituacaoLocal] = useState('');
+
+    const [levantarDocsDiaCheckbox, setLevantarDocsDiaCheckbox] = useState(false);
+    const [levantarDocsDiaUtilLocal, setLevantarDocsDiaUtilLocal] = useState('');
 
 
-const [levantarDocsDiaCheckbox,setLevantarDocsDiaCheckbox] = useState(false);
-const [levantarDocsDiaUtilLocal,setLevantarDocsDiaUtilLocal ] = useState('');
+    const [enviaCamaraMunicipal, setEnviaCamaraMunicipal] = useState(false);
+    const [camaraMunicipal, setCamaraMunicipal] = useState('');
+
+
+    const [podeLevantarTituloConducao, setPodeLevantarTituloConducao] = useState(false);
+    const [tituloConducao, setTituloConducao] = useState('');
+
+    const keyup_tituloConducao = (e: any) => {
+        setTituloConducao(e.target.value);
+    }
+
+    interface CamaraMunicipal {
+        id: any,
+        descricao: any
+    }
+    const camarasMunicipais: CamaraMunicipal[] = [];
+
+    const [isDiaPagamento, setIsDiaPagamento] = useState(false);
+    const [diaPagamento, setDiaPagamento] = useState('');
+
+
+    interface DiaPagamento {
+        id: any,
+        descricao: any
+    }
+    const diasPagamentos: DiaPagamento[] = [];
+
+
+
+
+    const [aplicarSansao, setAplicarSansao] = useState(false);
+    const [sancaoAplicada, setSancaoAplicada] = useState('');
+    const keyup_sancaoAplicada = (e: any) => {
+        setSancaoAplicada(e.target.value);
+    }
+
+
+    const [numeroDocumento, setNumeroDocumento] = useState('');
+    const keyup_numeroDocumento =(e: any) => {
+        setNumeroDocumento(e.target.value)
+    }
 
     return (
 
@@ -310,7 +353,7 @@ const [levantarDocsDiaUtilLocal,setLevantarDocsDiaUtilLocal ] = useState('');
                                     <IonCol size-sm="9" size-md="10" size-lg="9" style={{ marginTop: 16 }}>
                                         <IonItem>
                                             <IonLabel>Motivos da Apreensão *</IonLabel>
-                                            <IonSelect interface="popover"  onIonChange={e => setMotivoApreensao(e.detail.value)}>
+                                            <IonSelect interface="popover" onIonChange={e => setMotivoApreensao(e.detail.value)}>
                                                 {combos?.map((local: any) => {
                                                     return (
                                                         <IonSelectOption key={`${local.id}`}
@@ -352,9 +395,9 @@ const [levantarDocsDiaUtilLocal,setLevantarDocsDiaUtilLocal ] = useState('');
                                     <IonCol size-sm='12' size-md='10' size-lg='6'>
                                         <IonItem>
                                             <IonLabel position="floating" itemType="text" placeholder="Nome infringida">Nº da Apreensão de Documentos *</IonLabel>
-                                            <IonInput 
-                                            disabled
-                                            value={tamanhoMotivoApreensao}></IonInput>
+                                            <IonInput
+                                                disabled
+                                                value={tamanhoMotivoApreensao}></IonInput>
                                         </IonItem>
                                     </IonCol>
                                 </IonRow>
@@ -377,15 +420,13 @@ const [levantarDocsDiaUtilLocal,setLevantarDocsDiaUtilLocal ] = useState('');
                                     <IonCol size-sm="9" size-md="10" size-lg="5" style={{ marginTop: 16 }}>
                                         <IonItem>
                                             <IonLabel>Documento *</IonLabel>
-                                            <IonSelect interface="popover">
-                                            <IonSelect interface="popover"  onIonChange={e => setDocumento(e.detail.value)}>
+                                            <IonSelect interface="popover" onIonChange={e => setDocumento(e.detail.value)}>
                                                 {combos?.map((local: any) => {
                                                     return (
                                                         <IonSelectOption key={`${local.id}`}
                                                             value={local.id}>{`${local.descricao}`}</IonSelectOption>
                                                     )
                                                 })}
-                                            </IonSelect>
                                             </IonSelect>
                                         </IonItem>
                                     </IonCol>
@@ -424,8 +465,8 @@ const [levantarDocsDiaUtilLocal,setLevantarDocsDiaUtilLocal ] = useState('');
                                         <IonItem>
                                             <IonLabel position="floating" itemType="text" placeholder="Nome infringida">Local de Apresentação</IonLabel>
                                             <IonInput
-                                            value={localApresentacao}
-                                            onKeyUp={keyup_localApresentacao}>
+                                                value={localApresentacao}
+                                                onKeyUp={keyup_localApresentacao}>
 
                                             </IonInput>
                                         </IonItem>
@@ -469,9 +510,9 @@ const [levantarDocsDiaUtilLocal,setLevantarDocsDiaUtilLocal ] = useState('');
                                         <IonItem>
                                             <IonLabel position="floating" itemType="text" placeholder="Nome infringida">Descreva aqui o local</IonLabel>
                                             <IonInput
-                                            disabled={!regularSituacaoCheckbox}
-                                             value={regularSituacaoLocal}
-                                             onKeyUp={keyup_regularSituacaoLocal}
+                                                disabled={!regularSituacaoCheckbox}
+                                                value={regularSituacaoLocal}
+                                                onKeyUp={keyup_regularSituacaoLocal}
                                             ></IonInput>
                                         </IonItem>
 
@@ -489,10 +530,10 @@ const [levantarDocsDiaUtilLocal,setLevantarDocsDiaUtilLocal ] = useState('');
 
                                         <IonItem lines='none'>
 
-                                            <IonCheckbox 
-                                            
-                                            checked={levantarDocsDiaCheckbox}
-                                            onIonChange={e => setLevantarDocsDiaCheckbox(e.detail.checked)} />
+                                            <IonCheckbox
+
+                                                checked={levantarDocsDiaCheckbox}
+                                                onIonChange={e => setLevantarDocsDiaCheckbox(e.detail.checked)} />
                                             <IonLabel class="ion-margin-start">
                                                 os Documentos do Veículo poderão ser levantados nos primeiros cinco dias úteis no
                                             </IonLabel>
@@ -507,10 +548,10 @@ const [levantarDocsDiaUtilLocal,setLevantarDocsDiaUtilLocal ] = useState('');
                                         <IonItem>
                                             <IonLabel position="floating" itemType="text" placeholder="Nome infringida">Descreva aqui o local</IonLabel>
                                             <IonInput
-                                                         
-                                            disabled={!levantarDocsDiaCheckbox}
-                                            value={levantarDocsDiaUtilLocal}
-                                            onKeyUp={keyup_levantarDocsDiaUtilLocal}
+
+                                                disabled={!levantarDocsDiaCheckbox}
+                                                value={levantarDocsDiaUtilLocal}
+                                                onKeyUp={keyup_levantarDocsDiaUtilLocal}
                                             ></IonInput>
                                         </IonItem>
 
@@ -522,34 +563,6 @@ const [levantarDocsDiaUtilLocal,setLevantarDocsDiaUtilLocal ] = useState('');
 
 
                                 {/* radioButton input */}
-                                <IonRow>
-
-                                    <IonCol size-sm='12' size-md='10' size-lg='12' style={{ marginTop: 10 }}>
-
-                                        <IonItem lines='none'>
-
-                                            <IonCheckbox checked={checked} onIonChange={e => setChecked(e.detail.checked)} />
-                                            <IonLabel class="ion-margin-start">
-                                                a partir do oitavo dia útil, até ao pagamento integral,
-                                            </IonLabel>
-                                        </IonItem>
-
-                                    </IonCol>
-
-                                </IonRow>
-                                <IonRow>
-                                    <IonCol size-sm='12' size-md='10' size-lg='12'>
-
-                                        <IonItem>
-                                            <IonLabel></IonLabel>
-                                            <IonSelect interface="popover">
-                                                <IonSelectOption value="Unidade_Comando">Dado 1</IonSelectOption>
-                                            </IonSelect>
-                                        </IonItem>
-
-                                    </IonCol>
-
-                                </IonRow>
 
                                 {/* radioButton input */}
 
@@ -560,7 +573,7 @@ const [levantarDocsDiaUtilLocal,setLevantarDocsDiaUtilLocal ] = useState('');
 
                                         <IonItem lines='none'>
 
-                                            <IonCheckbox checked={checked} onIonChange={e => setChecked(e.detail.checked)} />
+                                            <IonCheckbox checked={enviaCamaraMunicipal} onIonChange={e => setEnviaCamaraMunicipal(e.detail.checked)} />
                                             <IonLabel class="ion-margin-start">
                                                 ou envio a Câmara Municipal de
                                             </IonLabel>
@@ -574,8 +587,14 @@ const [levantarDocsDiaUtilLocal,setLevantarDocsDiaUtilLocal ] = useState('');
 
                                         <IonItem>
                                             <IonLabel></IonLabel>
-                                            <IonSelect interface="popover">
-                                                <IonSelectOption value="Unidade_Comando">Dado 1</IonSelectOption>
+
+                                            <IonSelect interface="popover" disabled={!enviaCamaraMunicipal} onIonChange={e => setCamaraMunicipal(e.detail.value)}>
+                                                {camarasMunicipais?.map((local: any) => {
+                                                    return (
+                                                        <IonSelectOption key={`${local.id}`}
+                                                            value={local.id}>{`${local.descricao}`}</IonSelectOption>
+                                                    )
+                                                })}
                                             </IonSelect>
                                         </IonItem>
 
@@ -593,7 +612,7 @@ const [levantarDocsDiaUtilLocal,setLevantarDocsDiaUtilLocal ] = useState('');
 
                                         <IonItem lines='none'>
 
-                                            <IonCheckbox checked={checked} onIonChange={e => setChecked(e.detail.checked)} />
+                                            <IonCheckbox checked={podeLevantarTituloConducao} onIonChange={e => setPodeLevantarTituloConducao(e.detail.checked)} />
                                             <IonLabel class="ion-margin-start">
                                                 O Título de Condução poderá ser levantado nos primeiros cinco dias úteis no
                                             </IonLabel>
@@ -607,7 +626,10 @@ const [levantarDocsDiaUtilLocal,setLevantarDocsDiaUtilLocal ] = useState('');
 
                                         <IonItem>
                                             <IonLabel position="floating" itemType="text" placeholder="Nome infringida"></IonLabel>
-                                            <IonInput></IonInput>
+                                            <IonInput value={tituloConducao}
+                                                disabled={!podeLevantarTituloConducao}
+                                                onKeyUp={keyup_tituloConducao}
+                                            ></IonInput>
                                         </IonItem>
 
                                     </IonCol>
@@ -623,7 +645,7 @@ const [levantarDocsDiaUtilLocal,setLevantarDocsDiaUtilLocal ] = useState('');
 
                                         <IonItem lines='none'>
 
-                                            <IonCheckbox checked={checked} onIonChange={e => setChecked(e.detail.checked)} />
+                                            <IonCheckbox checked={isDiaPagamento} onIonChange={e => setIsDiaPagamento(e.detail.checked)} />
                                             <IonLabel class="ion-margin-start">
                                                 a partir do oitavo dia útil, até ao pagamento integral,
                                             </IonLabel>
@@ -637,8 +659,15 @@ const [levantarDocsDiaUtilLocal,setLevantarDocsDiaUtilLocal ] = useState('');
 
                                         <IonItem>
                                             <IonLabel></IonLabel>
-                                            <IonSelect interface="popover">
-                                                <IonSelectOption value="Unidade_Comando">Dado 1</IonSelectOption>
+                                            <IonSelect interface="popover" disabled={!isDiaPagamento} onIonChange={e => setDiaPagamento(e.detail.value)} >
+                                                {diasPagamentos?.map((local: any) => {
+                                                    return (
+                                                        <IonSelectOption key={`${local.id}`}
+                                                            value={local.id}>{`${local.descricao}`}</IonSelectOption>
+                                                    )
+                                                })}
+
+
                                             </IonSelect>
                                         </IonItem>
 
@@ -649,45 +678,14 @@ const [levantarDocsDiaUtilLocal,setLevantarDocsDiaUtilLocal ] = useState('');
                                 {/* radioButton input */}
 
                                 {/* radioButton input */}
+
                                 <IonRow>
 
                                     <IonCol size-sm='12' size-md='10' size-lg='12' style={{ marginTop: 10 }}>
 
                                         <IonItem lines='none'>
 
-                                            <IonCheckbox checked={checked} onIonChange={e => setChecked(e.detail.checked)} />
-                                            <IonLabel class="ion-margin-start">
-                                                ou envio a Câmara Municipal de
-                                            </IonLabel>
-                                        </IonItem>
-
-                                    </IonCol>
-
-                                </IonRow>
-                                <IonRow>
-                                    <IonCol size-sm='12' size-md='10' size-lg='12'>
-
-                                        <IonItem>
-                                            <IonLabel></IonLabel>
-                                            <IonSelect interface="popover">
-                                                <IonSelectOption value="Unidade_Comando">Dado 1</IonSelectOption>
-                                            </IonSelect>
-                                        </IonItem>
-
-                                    </IonCol>
-
-                                </IonRow>
-
-                                {/* radioButton input */}
-
-                                {/* radioButton input */}
-                                <IonRow>
-
-                                    <IonCol size-sm='12' size-md='10' size-lg='12' style={{ marginTop: 10 }}>
-
-                                        <IonItem lines='none'>
-
-                                            <IonCheckbox checked={checked} onIonChange={e => setChecked(e.detail.checked)} />
+                                            <IonCheckbox checked={aplicarSansao} onIonChange={e => setAplicarSansao(e.detail.checked)} />
                                             <IonLabel class="ion-margin-start">
                                                 A condução do veículo com o documento de identificação apreendido é sancionada nos termos do nº8 do art. 161 CE com coima de 300 a 1500 euros, sendo o veículo apreendido nos termos do art. 162º nº1 alínea a) do mesmo diploma.
                                             </IonLabel>
@@ -701,7 +699,9 @@ const [levantarDocsDiaUtilLocal,setLevantarDocsDiaUtilLocal ] = useState('');
 
                                         <IonItem>
                                             <IonLabel position="floating" itemType="text" placeholder="Nome infringida"></IonLabel>
-                                            <IonInput></IonInput>
+                                            <IonInput value={sancaoAplicada}
+                                                disabled={!aplicarSansao}
+                                                onKeyUp={keyup_sancaoAplicada}></IonInput>
                                         </IonItem>
 
                                     </IonCol>
@@ -717,7 +717,32 @@ const [levantarDocsDiaUtilLocal,setLevantarDocsDiaUtilLocal ] = useState('');
 
                     {/* Número de Documentos */}
                     <IonCard style={{ margin: 30 }}>
-                        <NumeroDocumento />
+                        <IonCardContent>
+                            <IonGrid>
+                                <IonRow>
+
+                                    <IonCol size-sm='12' size-md='10' size-lg='12'>
+                                        <p style={{ color: 'red' }}>Apenas deverá preencher este número caso não tenha sido possível imprimir o documento e o tenha registado manualmente em pré-impresso(Não será gerado o respectivo expediente).</p>
+                                    </IonCol>
+
+                                </IonRow>
+                                <IonRow>
+
+                                    <IonCol size-sm='12' size-md='10' size-lg='4'>
+
+                                        <IonItem>
+                                            <IonLabel position="floating" itemType="text" placeholder="Número de Documento">Número de Documento</IonLabel>
+                                            <IonInput
+                                             value={numeroDocumento}
+                                             onKeyUp={keyup_numeroDocumento}
+                                             ></IonInput>
+                                        </IonItem>
+
+                                    </IonCol>
+
+                                </IonRow>
+                            </IonGrid>
+                        </IonCardContent>
                     </IonCard>
                     {/* Número de Documentos */}
                 </IonContent>
