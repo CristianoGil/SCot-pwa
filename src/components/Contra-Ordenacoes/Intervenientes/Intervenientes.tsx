@@ -70,6 +70,14 @@ const Intervenientes: React.FC<IProps> = (props) => {
         <IonGrid className="intervenientes">
             <IonRow>
                 <IonCol size-sm='12' size-md="12" size-lg="11">
+                    {/* Veículo */}
+                    <Veiculo setParentVeiculoData={setVeiculoData}/>
+                    {/* Veículo */}
+                </IonCol>
+            </IonRow>
+            
+            <IonRow>
+                <IonCol size-sm='12' size-md="12" size-lg="11">
                     {/*START: ARGUIDO*/}
                     <Arguido setParentArguidoData={setArguidoData}/>
                     {/*END: ARGUIDO*/}
@@ -103,13 +111,6 @@ const Intervenientes: React.FC<IProps> = (props) => {
                 </IonCol>
             </IonRow>
 
-            <IonRow>
-                <IonCol size-sm='12' size-md="12" size-lg="11">
-                    {/* Veículo */}
-                    <Veiculo setParentVeiculoData={setVeiculoData}/>
-                    {/* Veículo */}
-                </IonCol>
-            </IonRow>
 
         </IonGrid>
     )
