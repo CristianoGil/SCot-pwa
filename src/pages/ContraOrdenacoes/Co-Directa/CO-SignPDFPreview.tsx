@@ -1,10 +1,17 @@
 import {
     IonButton,
+    IonCard,
+    IonCardContent,
+    IonCardHeader,
+    IonCardTitle,
+    IonCol,
     IonContent,
+    IonGrid,
     IonHeader,
     IonLabel,
     IonPage,
     IonPopover,
+    IonRow,
     IonToolbar, useIonAlert, useIonLoading
 } from "@ionic/react";
 import Menu from "../../../components/Menu/Menu";
@@ -115,7 +122,7 @@ const CODirectaSignPDFPreview: React.FC<IProps> = (props) => {
                 setIsDisablebAssinaturaPapelManuscritoArguido(true)
                 setIsDisablebAssinaturaPapelManuscritoTestemunha_1(true)
                 setIsDisablebAssinaturaPapelManuscritoTestemunha_2(false)
-            }  else {
+            } else {
                 setIsDisablebAssinaturaPapelManuscritoAgente(false)
                 setIsDisablebAssinaturaPapelManuscritoTestemunha_1(false)
                 setIsDisablebAssinaturaPapelManuscritoTestemunha_2(false)
@@ -299,6 +306,8 @@ const CODirectaSignPDFPreview: React.FC<IProps> = (props) => {
         }
     };
 
+    // START: Assinatura Papel
+
 
     const onPrint = async (e: any) => {
         const fileName = `co-directa-[name]-${(new Date()).toDateString()}.pdf`;
@@ -435,6 +444,32 @@ const CODirectaSignPDFPreview: React.FC<IProps> = (props) => {
 
                     />
                     {/*O AGENTE*/}
+
+                    {/*Input papel*/}
+
+                    <IonCard style={{margin: 30}}>
+                        <IonCardHeader>
+                            <IonCardTitle style={{paddingLeft: 15}}> Carregar o registo da CO assinado </IonCardTitle>
+                        </IonCardHeader>
+
+                        <IonCardContent style={{paddingTop: 0}}>
+                            <IonGrid>
+                                <IonRow>
+                                    <IonCol size-sm="12" size-md="6" size-lg="4">
+                                        <input type="file" onChange={(file) => {
+                                            console.log(file)
+                                        }}/>
+                                    </IonCol>
+                                    <IonCol size-sm="12" size-md="4" size-lg="2">
+                                        <IonButton disabled={true} className="btn-close" fill="solid" color="primary" onClick={() => {
+                                        }} > Carregar </IonButton>
+                                    </IonCol>
+                                </IonRow>
+                            </IonGrid>
+                        </IonCardContent>
+                    </IonCard>
+
+                    {/*Input papel*/}
                 </IonContent>
 
             </IonPopover>
