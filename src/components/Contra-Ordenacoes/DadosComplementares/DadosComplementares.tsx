@@ -1,6 +1,5 @@
-import { IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCol, IonGrid, IonHeader, IonInput, IonItem, IonLabel, IonRadio, IonRadioGroup, IonRow } from "@ionic/react";
+import { IonCard, IonCardContent, IonCol, IonGrid, IonHeader, IonInput, IonItem, IonLabel, IonRadio, IonRadioGroup, IonRow } from "@ionic/react";
 import React, { useEffect, useState } from "react";
-import { Deposito48hrService } from "../../../api/Deposito48hrService";
 import { DepositoRequest, DepositoResponse, DepositosNaoPago } from "../../../model/deposito";
 import AcoesComplementares from "../Components/AcoesComplementares/AcoesComplementares";
 import InfraccoesAdicionais from "../Components/InfraccoesAdicionais/InfraccoesAdicionais";
@@ -22,10 +21,10 @@ interface Infracao{
 const DadosComplementares: React.FC<IProps> = (props) => {
     const [tipoProprietario, setTipoProprietario]= useState<String>();
     const [refArguido, setRefArguido]= useState('');
+    const [arquidoNif, setArguidoNif]= useState('');
     const [infracoes, setInfracoes]= useState<Infracao[]>();
     const [depositoRequest, setDepositoRequest]= useState<DepositoRequest>();
-    const [apreensaoDocumento, setApreensaoDocumento]= useState(false);
-
+    const [accoesComplementaresParentData, setAccoesComplementaresParentData] = useState<any>();
     const keyup_refArguido = (e: any) => {
         setRefArguido(e.target.value);
     }
@@ -34,10 +33,11 @@ const DadosComplementares: React.FC<IProps> = (props) => {
         const data = {
             tipoProprietario: tipoProprietario,
             refArguido: refArguido,
-            infracoes: infracoes,        }
-        
-            props.setCoDirectaData(data);
-
+            depositoRequest:depositoRequest,
+            infracoes: infracoes,   
+            accoesComplementaresParentData: accoesComplementaresParentData
+        }
+        setArguidoNif(refArguido)
     },[])
 
 
@@ -106,7 +106,7 @@ const DadosComplementares: React.FC<IProps> = (props) => {
             <IonRow>
                 <IonCol size-sm='12' size-md="12" size-lg="11">
                     {/*START: Pagamento*/}
-                    <Pagamento setParentDeposito48hr={setDepositoRequest} />
+                    <Pagamento setParentDeposito48hr={setDepositoRequest} arguidoNif={setArguidoNif} />
                     {/*END: Pagamento*/}
                 </IonCol>
             </IonRow>
@@ -114,7 +114,7 @@ const DadosComplementares: React.FC<IProps> = (props) => {
             <IonRow>
                 <IonCol size-sm='12' size-md="12" size-lg="11">
                     {/*START: Ações Complementares*/}
-                    <AcoesComplementares />
+                    <AcoesComplementares setAccoesComplementaresParentData={setAccoesComplementaresParentData}/>
                     {/*END: Ações Complementares*/}
                 </IonCol>
             </IonRow>

@@ -8,9 +8,11 @@ import { Contraordenacao } from "../../../../api/Contraordenacao";
 import { CarregarCombosApreensaoDocumento, MotivosApreensao } from "../../../../model/documentoapreendido";
 import NumeroDocumento from "../../../NumeroDocumento/NumeroDocumento";
 
+interface IProps {
+    setAccoesComplementaresParentData?:any
+}
 
-
-const AcoesComplementares: React.FC = () => {
+const AcoesComplementares: React.FC<IProps> = (props) => {
 
     const [openPopoverApreensaoDocumentosData, setOpenPopoverApreensaoDocumentosData] = useState(false);
     const [checked, setChecked] = useState(false);
@@ -170,6 +172,7 @@ const AcoesComplementares: React.FC = () => {
 
 
     const [combos, setCombos] = useState<MotivosApreensao[]>();
+    const [motivosApreensao, setMotivosApreensao] = useState<MotivosApreensao[]>();
     const [dadosApreensaoDocumento, setDadosApreensaoDocumento] = useState<MotivosApreensao[]>();
     const [documento, setDocumento] = useState('');
     const [motivoApreensao, setMotivoApreensao] = useState('');
@@ -201,7 +204,6 @@ const AcoesComplementares: React.FC = () => {
             motivo: motivoApreensao,
             accoes: "null"
         })
-
         setTamanhoMotivoApreensao(dataMotivosApreensao?.length)
 
     }
@@ -286,6 +288,27 @@ const AcoesComplementares: React.FC = () => {
     const keyup_numeroDocumento =(e: any) => {
         setNumeroDocumento(e.target.value)
     }
+
+
+    React.useEffect(()=>{
+        const data = {
+            dataMotivosApreensao:dataMotivosApreensao,
+            tamanhoMotivoApreensao: tamanhoMotivoApreensao,
+            dataDadosApreensaoDocumentos: dataDadosApreensaoDocumentos,
+            numDocumento: numDocumento,
+            localApresentacao:localApresentacao,
+            levantarDocsDiaUtilLocal:levantarDocsDiaUtilLocal,
+            regularSituacaoLocal: regularSituacaoLocal,
+            camaraMunicipal: camaraMunicipal,
+            tituloConducao:tituloConducao,
+            diaPagamento: diaPagamento,
+            sancaoAplicada:sancaoAplicada,
+            numeroDocumento: numeroDocumento
+        }
+        
+        props.setAccoesComplementaresParentData(data);
+    },[])
+
 
     return (
 
@@ -558,15 +581,6 @@ const AcoesComplementares: React.FC = () => {
                                     </IonCol>
 
                                 </IonRow>
-
-                                {/* radioButton input */}
-
-
-                                {/* radioButton input */}
-
-                                {/* radioButton input */}
-
-                                {/* radioButton input */}
                                 <IonRow>
 
                                     <IonCol size-sm='12' size-md='10' size-lg='12' style={{ marginTop: 10 }}>
@@ -588,7 +602,7 @@ const AcoesComplementares: React.FC = () => {
                                         <IonItem>
                                             <IonLabel></IonLabel>
 
-                                            <IonSelect interface="popover" disabled={!enviaCamaraMunicipal} onIonChange={e => setCamaraMunicipal(e.detail.value)}>
+                                            <IonSelect interface="popover"  value={camaraMunicipal} disabled={!enviaCamaraMunicipal} onIonChange={e => setCamaraMunicipal(e.detail.value)}>
                                                 {camarasMunicipais?.map((local: any) => {
                                                     return (
                                                         <IonSelectOption key={`${local.id}`}
@@ -602,10 +616,6 @@ const AcoesComplementares: React.FC = () => {
 
                                 </IonRow>
 
-                                {/* radioButton input */}
-
-
-                                {/* radioButton input */}
                                 <IonRow>
 
                                     <IonCol size-sm='12' size-md='10' size-lg='12' style={{ marginTop: 10 }}>
@@ -636,9 +646,6 @@ const AcoesComplementares: React.FC = () => {
 
                                 </IonRow>
 
-                                {/* radioButton input */}
-
-                                {/* radioButton input */}
                                 <IonRow>
 
                                     <IonCol size-sm='12' size-md='10' size-lg='12' style={{ marginTop: 10 }}>
@@ -675,10 +682,6 @@ const AcoesComplementares: React.FC = () => {
 
                                 </IonRow>
 
-                                {/* radioButton input */}
-
-                                {/* radioButton input */}
-
                                 <IonRow>
 
                                     <IonCol size-sm='12' size-md='10' size-lg='12' style={{ marginTop: 10 }}>
@@ -713,9 +716,7 @@ const AcoesComplementares: React.FC = () => {
 
                         </IonCardContent>
                     </IonCard>
-                    {/* Acções Associadas */}
-
-                    {/* Número de Documentos */}
+               
                     <IonCard style={{ margin: 30 }}>
                         <IonCardContent>
                             <IonGrid>

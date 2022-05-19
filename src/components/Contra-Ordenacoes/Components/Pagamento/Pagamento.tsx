@@ -8,6 +8,7 @@ import Deposito from "./Depositos";
 
 interface IDeposito48hr {
     setParentDeposito48hr?: any
+    arguidoNif?: any
 }
 
 const Pagamento: React.FC<IDeposito48hr> = (props) => {
@@ -19,7 +20,7 @@ const Pagamento: React.FC<IDeposito48hr> = (props) => {
         await depositosService.pesquisarDepositos48hrsEmAtraso({
             forca: "user.teste",
             idUtilizador: "user.teste",
-            numDocumento: "42343423",
+            numDocumento: props.arguidoNif,
             tipoDocumento: "7"
         }).then((_response: DepositoResponse) => {
             const depositosResponse = _response.depositosNaoPagos;

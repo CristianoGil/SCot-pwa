@@ -1,10 +1,11 @@
 import { IonCard, IonCardContent, IonCol, IonGrid, IonHeader, IonItem, IonLabel, IonRadio, IonRadioGroup, IonRow } from "@ionic/react";
-import React from "react";
+import React, { useState } from "react";
 import AcoesComplementares from "../../../components/Contra-Ordenacoes/Components/AcoesComplementares/AcoesComplementares";
 import './DadosComplementares.scss';
 
 const DadosComplementares: React.FC = () => {
 
+    const [accoesComplementaresParentData,setAccoesComplementaresParentData] = useState<any>();
     return (
 
         <IonGrid className="dadosComplementares">
@@ -59,7 +60,7 @@ const DadosComplementares: React.FC = () => {
             <IonRow>
                 <IonCol size-sm='12' size-md="12" size-lg="11">
                     {/*START: Ações Complementares*/}
-                    <AcoesComplementares />
+                    <AcoesComplementares setAccoesComplementaresParentData={setAccoesComplementaresParentData}/>
                     {/*END: Ações Complementares*/}
                 </IonCol>
             </IonRow>
