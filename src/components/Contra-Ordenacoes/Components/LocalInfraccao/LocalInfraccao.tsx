@@ -75,14 +75,14 @@ const LocalInfraccao: React.FC = () => {
     const [localidades, setLocalidades] = useState<ComonResult[]>();
     const [tipos, setTipos] = useState<ComonResult[]>();
     
-    const [distrito, setDistrito] = useState('');
-    const [concelho, setConcelho] = useState('');
-    const [freguesia, setFreguesia] = useState('');
-    const [localidade, setLocalidade] = useState('');
-    const [tipo, setTipo] = useState('');
-    const [zona, setZona] = useState('');
-    const [arruamento, setArruamento] = useState('');
-    const [nrPolicia, setNrPolicia] = useState('');
+    const [distrito, setDistrito] = useState();
+    const [concelho, setConcelho] = useState();
+    const [freguesia, setFreguesia] = useState();
+    const [localidade, setLocalidade] = useState();
+    const [tipo, setTipo] = useState();
+    const [zona, setZona] = useState();
+    const [arruamento, setArruamento] = useState();
+    const [nrPolicia, setNrPolicia] = useState();
 
   
 
