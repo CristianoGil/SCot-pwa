@@ -8,31 +8,32 @@ import _ from 'underscore';
 interface UnidadeData {
     setUnidadeParentData?: any
 }
+  
+
+interface UnidadeResponse {
+    comandos: Comando[];
+    divisoes: Comando[];
+    esquadras: Comando[];
+    destacamentos: Comando[];
+    subdestacamentos: Comando[];
+  }
+  
+  interface Comando {
+    id: number;
+    descricao: string;
+  }
+
+  interface IPROPSLocalEmissao {
+    inputName: string
+    textLabel?: string
+    selected?: any
+    setSelected?: any
+}
+
 
 const Unidade: React.FC<UnidadeData> = (props) => {
 
-    
-
-    interface UnidadeResponse {
-        comandos: Comando[];
-        divisoes: Comando[];
-        esquadras: Comando[];
-        destacamentos: Comando[];
-        subdestacamentos: Comando[];
-      }
-      
-      interface Comando {
-        id: number;
-        descricao: string;
-      }
-
-      interface IPROPSLocalEmissao {
-        inputName: string
-        textLabel?: string
-        selected?: any
-        setSelected?: any
-    }
-
+  
  const [unidadeImt, setUnidadeImt] = useState('');
  const [unidadesImt, setUnidadesImt] = useState<Comando[]>();
  const [dataHoraInfraccao, setDataHoraInfraccao] =  useState<string | number>();

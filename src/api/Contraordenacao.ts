@@ -11,6 +11,7 @@ import { CarregarCombosApreensaoDocumento } from "../model/documentoapreendido";
 export class Contraordenacao {
 
     prefix_url: string = 'v1/contraOrdenacao'
+    prefix_local_url: string = 'v1/locais'
 
     private connectPostAPI(service_url: string, data: any): Promise<any> {
 
@@ -244,4 +245,33 @@ export class Contraordenacao {
         })
     }
 
+
+
+    public carregarCombosLocalizacao(): Promise<any> {
+        return new Promise((resolve, reject) => {
+
+            // if (!_.contains(getPlatforms(), 'desktop')) { // Load offline data
+
+            //     const instanceOfflineData = new LoadOfflineData();
+            //     instanceOfflineData.fetch_combos('contraOrdenacao_carregarCombosApreensaoDocumentos'.toLowerCase()).then((data: any) => {
+            //         resolve(data);
+            //     }).catch((error: AxiosError) => {
+            //         reject(error);
+            //     })
+
+            // } 
+            // else { // Go to the internet for load data
+
+                const service_url = 'carregarCombosLocal';
+                this.connectGetAPI(`${this.prefix_local_url}/${service_url}`).then((response) => {
+                    const data = response.data;
+                    resolve(data);
+                }).catch((error: AxiosError) => {
+                    reject(error);
+                })
+
+            // }
+        })
+    }
+    
 }
