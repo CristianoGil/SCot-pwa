@@ -3,13 +3,15 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { Contraordenacao } from "../../../../api/Contraordenacao";
 import DatePicker from "../../../Combos/DatePicker";
+import _ from 'underscore';
 
-const Unidade: React.FC = () => {
+interface UnidadeData {
+    setUnidadeParentData?: any
+}
 
-    interface UnidadeImt{
-        id:any
-        descricao:string
-    }
+const Unidade: React.FC<UnidadeData> = (props) => {
+
+    
 
     interface UnidadeResponse {
         comandos: Comando[];
@@ -52,6 +54,19 @@ const Unidade: React.FC = () => {
         }, []);
 
 
+        
+    React.useEffect(()=>{
+        const _data = {
+            unidadeImt: unidadeImt,
+            dataHoraInfraccao: dataHoraInfraccao,
+            numTalao: numTalao,
+        }
+        if (_.has(props, 'setUnidadeParentData')) {
+            props.setUnidadeParentData(_data)
+        }
+
+    },[])
+        
     return (
 
         <IonCard className={'co-unidade'}>
