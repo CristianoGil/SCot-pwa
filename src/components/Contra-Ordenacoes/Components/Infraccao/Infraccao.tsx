@@ -5,6 +5,9 @@ import { useState } from "react";
 import { Contraordenacao } from "../../../../api/Contraordenacao";
 import './Infraccao.scss';
 
+interface parentSharedData{
+
+}
 const Infraccao: React.FC = () => {
 
     interface InfracaoResponse {
@@ -29,6 +32,7 @@ const Infraccao: React.FC = () => {
        montanteDaCoimaMinima:number; //valorMinCoima;
        normaQuePreveContraOrdenacao:string; //descNormasCo;
        sancaoAcessoria:string; //descSancoes;
+       normaPrevista:string;
        normaQuePreveSancaoAcessoria:string; //descNormasSancoes;
        observacoes:string;
        codigoDgv:number;
@@ -42,25 +46,29 @@ const Infraccao: React.FC = () => {
     const [entidades, setEntidades] = useState<ComonResult[]>();
     const [tiposInfracao, setTiposInfracao] = useState<ComonResult[]>();
     const [subtiposInfracao, setSubTiposInfracao] = useState<Subtificacao[]>();
+    const [subtiposInfracaoPadrao, setSubtiposInfracaoPadrao] = useState<Subtificacao[]>();
 
-    const [autuante, setAutuante] = useState('');
-    const [tipoAutuante, setTipoAutuante] = useState('');
-    const [arguidoNif, setArguidoNif] = useState('');
-    const [nomeInfrigida, setNomeInfrigida] = useState();
-    const [descricao, setDescricao] = useState('');
-    const [minValor, setMinValor] = useState('');
-    const [maxValor, setMaxValor] = useState('');
-    const [normaPrevista, setNormaPrevista] = useState('');
-    const [sancaoAcessoria, setSancaoAcessoria] = useState('');
-    const [observacao, setObservacao] = useState('');
-    const [normaSancaoAcessoria, setNormaSancaoAcessoria] = useState('');
+    const [autuante, setAutuante] = useState();
+    const [tipoAutuante, setTipoAutuante] = useState();
+    const [arguidoNif, setArguidoNif] = useState();
+    const [nomeInfrigida, setNomeInfrigida] =useState<string | undefined>();
+    const [descricao, setDescricao] = useState<string | undefined>();
+    const [minValor, setMinValor] = useState<number | undefined>();
+    const [maxValor, setMaxValor] =  useState<number | undefined>();
+    const [normaPrevista, setNormaPrevista] =  useState<string | undefined>();
+    const [sancaoAcessoria, setSancaoAcessoria] =  useState<string | undefined>();
+    const [observacao, setObservacao] = useState<string | undefined>();
+    const [normaSancaoAcessoria, setNormaSancaoAcessoria] =  useState<string | undefined>();
 
     const getInfracao = async (): Promise<InfracaoResponse>=> await new Contraordenacao().carregarCombosInfracao()
     React.useEffect(() => {
         getInfracao().then((response_infracao) => {
+            console.log(response_infracao)
+           
             setEntidades(response_infracao?.entidades)
             setComarcas(response_infracao?.comarcas)
             setTiposInfracao(response_infracao?.tipificacoes)
+            setSubtiposInfracaoPadrao(response_infracao?.subtipificacoes)
             setSubTiposInfracao(response_infracao?.subtipificacoes)
         }).catch((error) => {
             console.error("Load infracao combos: \n", error);
@@ -71,10 +79,24 @@ const Infraccao: React.FC = () => {
     
     const onchange_subtificacao = (e:any)=>{
         const subtificaoId = e.target.value
-        const subtificacao:Subtificacao | undefined= subtiposInfracao?.find(subtipo=>subtipo.id === subtificaoId)
-        // const nomeInfrigida: string | undefined = ''
-        // setNomeInfrigida(subtificacao?.normaInfringida)
+        let subtificacao:Subtificacao | undefined= subtiposInfracao?.find(subtipo=>subtipo.id === subtificaoId)
+         setDescricao(subtificacao?.observacoes)
+         setMinValor(subtificacao?.montanteDaCoimaMinima)
+         setMaxValor(subtificacao?.montanteDaCoimaMaxima)
+         setNomeInfrigida(subtificacao?.normaInfringida)
+         setNormaPrevista(subtificacao?.normaPrevista)
+         setSancaoAcessoria(subtificacao?.sancaoAcessoria)
+         setNormaSancaoAcessoria(subtificacao?.normaQuePreveSancaoAcessoria)
+         setObservacao(subtificacao?.observacoes)
+        
     }
+
+    const onchange_filtrarSubtificacaoPorTipificacao = (e:any)=>{
+        const infracaoId = e.target.value
+        const subTipos= subtiposInfracaoPadrao?.filter(sub=>{ return sub.tipificacao.id === infracaoId})
+        setSubTiposInfracao(subTipos)
+    }
+
     return (
         <IonCard className={'co-infraccao'}>
             <IonCardHeader>
@@ -175,7 +197,7 @@ const Infraccao: React.FC = () => {
                         <IonCol size-sm='12' size-md='10' size-lg='3'>
                             <IonItem>
                                 <IonLabel>Tipificação da Infracção</IonLabel>
-                                <IonSelect interface="popover">
+                                <IonSelect interface="popover" onIonChange={onchange_filtrarSubtificacaoPorTipificacao}>
                                     {tiposInfracao?.map((local: any) => {
                                         return (
                                             <IonSelectOption key={`${local.id}`}

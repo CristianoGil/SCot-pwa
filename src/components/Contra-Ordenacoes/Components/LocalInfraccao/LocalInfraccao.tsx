@@ -2,7 +2,7 @@ import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCol
 import { search, location } from "ionicons/icons";
 import { GoogleMap } from '@capacitor/google-maps';
 import { Geolocation } from '@capacitor/geolocation';
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Contraordenacao } from "../../../../api/Contraordenacao";
 import React from "react";
 
@@ -20,8 +20,10 @@ interface ComonResult {
     id:number
     idTipoLocal?:number;
     idConcelho?:number;
+    idFreguesia?:number;
     descricao:string
 }
+
 
 const LocalInfraccao: React.FC = () => {
 
@@ -41,8 +43,8 @@ const LocalInfraccao: React.FC = () => {
             apiKey: apiKey,//process.env.REACT_APP_YOUR_API_KEY_HERE as string,
             config: {
                 center: {
-                    lat: -19.831996961440094,
-                    lng: 34.83581986832666
+                    lat: -8.044996,
+                    lng: 37.0177228
                 },
                 zoom: 8
             }
@@ -69,9 +71,12 @@ const LocalInfraccao: React.FC = () => {
     };
 
     const carregarCombosLocalizacao = async (): Promise<any>=> await new Contraordenacao().carregarCombosLocalizacao()
+    const carregarComboLocalidade = async (idFreguesia:any): Promise<any>=> await new Contraordenacao().carregarComboLocalidades(idFreguesia)
     const [distritos, setDistritos] = useState<ComonResult[]>();
     const [concelhos, setConcelhos] = useState<ComonResult[]>();
+    const [concelhosPadrao, setConcelhosPadrao] = useState<ComonResult[]>();
     const [freguesias, setFreguesias] = useState<ComonResult[]>();
+    const [freguesiasPadrao, setFreguesiasPadrao] = useState<ComonResult[]>();
     const [localidades, setLocalidades] = useState<ComonResult[]>();
     const [tipos, setTipos] = useState<ComonResult[]>();
     
@@ -84,30 +89,52 @@ const LocalInfraccao: React.FC = () => {
     const [arruamento, setArruamento] = useState();
     const [nrPolicia, setNrPolicia] = useState();
 
-  
-
     useEffect(() => {
         createMap();
     }, []);
 
-    React.useEffect(() => {
+    useEffect(() => {
         carregarCombosLocalizacao().then((response_local) => {
             const _local = response_local as LocalResponse
             setDistritos(_local?.distritos)
             setConcelhos(_local?.concelhos)
-            setFreguesias(_local?.freguesias)
+            setConcelhosPadrao(_local?.concelhos)
+            setFreguesiasPadrao(_local?.freguesias)
             setTipos(_local.tipos)
-            setLocalidades(_local.localidades)
         }).catch((error) => {
             console.error("Load localizacao combos: \n", error);
         })
     }, []);
 
+    const onchange_filterConcelhoByDistritoId = (e:any)=>{
+        const id = e.target.value;
+        const filteredConcelhos: ComonResult[] | undefined = concelhosPadrao?.filter(concelho=>{return concelho.id === id })
+        setConcelhos(filteredConcelhos)
+    }
+
     const onchange_filterFreguesiasByConcelhoId = (e:any)=>{
         const id = e.target.value;
-        setFreguesias(freguesias?.filter(freguesia=>{ return freguesia.idConcelho === id}))
-        
+        const result:ComonResult[] | undefined = freguesiasPadrao?.filter(freguesia=>{ return freguesia.idConcelho === id});
+        setFreguesias(result)
+    } 
+    
+ 
+    const onchange_filterLocalidadesByFreguesiaId = (e:any)=>{
+        const id = e.target.value;
+        carregarComboLocalidade(id).then((response_local) => {
+            const _local = response_local as LocalResponse
+            setLocalidades(_local.localidades)
+        }).catch((error) => {
+            console.error("Load localizacao combos: \n", error);
+        })
+
     }
+
+
+
+
+
+
     const keyup_nrPolicia =(e:any)=>{
         setNrPolicia(e.target.value)
     }
@@ -148,7 +175,7 @@ const LocalInfraccao: React.FC = () => {
                         <IonCol size-sm="9" size-md="8" size-lg="4" style={{ marginTop: 16 }}>
                             <IonItem>
                                 <IonLabel>Distrito</IonLabel>
-                                <IonSelect interface="popover" value={distrito}>
+                                <IonSelect interface="popover" onIonChange={onchange_filterConcelhoByDistritoId}>
                                 {distritos?.map((local: any) => {
                                                     return (
                                                         <IonSelectOption key={`${local.id}`}
@@ -162,7 +189,7 @@ const LocalInfraccao: React.FC = () => {
                         <IonCol size-sm="9" size-md="8" size-lg="4" style={{ marginTop: 16 }}>
                             <IonItem>
                                 <IonLabel>Concelho</IonLabel>
-                                <IonSelect interface="popover" value={concelho} onIonChange={onchange_filterFreguesiasByConcelhoId}>
+                                <IonSelect interface="popover" onIonChange={onchange_filterFreguesiasByConcelhoId}>
                                 {concelhos?.map((local: any) => {
                                                     return (
                                                         <IonSelectOption key={`${local.id}`}
@@ -176,7 +203,7 @@ const LocalInfraccao: React.FC = () => {
                         <IonCol size-sm="9" size-md="8" size-lg="4" style={{ marginTop: 16 }}>
                             <IonItem>
                                 <IonLabel>Freguesia</IonLabel>
-                                <IonSelect interface="popover"  value={freguesia}>
+                                <IonSelect interface="popover" onIonChange={onchange_filterLocalidadesByFreguesiaId}>
                                 {freguesias?.map((local: any) => {
                                                     return (
                                                         <IonSelectOption key={`${local.id}`}
