@@ -1,5 +1,5 @@
 import type {AxiosError, AxiosResponse} from "axios";
-import type { IPesquisarPessoaRequest, IPesquisarPessoaResponse, IPesquisarVeiculoResponse} from "../model/contraordenacao";
+import type {ICoDirecta, IPesquisarPessoaRequest, IPesquisarPessoaResponse, IPesquisarVeiculoResponse} from "../model/contraordenacao";
 import {URL_API_SCOT} from "../utils/const";
 import axios from '../config/axios.config';
 import { getPlatforms } from "@ionic/react";
@@ -42,6 +42,9 @@ export class Contraordenacao {
         })
     }
 
+    public guardar(requestData: ICoDirecta) {
+        
+    }
 
     public pesquisarPessoa(requestData: IPesquisarPessoaRequest): Promise<IPesquisarPessoaResponse> {   
         return new Promise((resolve, reject) => {
@@ -163,17 +166,17 @@ export class Contraordenacao {
     public carregarCombosMotivoApreensao(): Promise<CarregarCombosApreensaoDocumento> {
         return new Promise((resolve, reject) => {
 
-            // if (!_.contains(getPlatforms(), 'desktop')) { // Load offline data
+            if (!_.contains(getPlatforms(), 'desktop')) { // Load offline data
 
-            //     const instanceOfflineData = new LoadOfflineData();
-            //     instanceOfflineData.fetch_combos('contraOrdenacao_carregarCombosApreensaoDocumentos'.toLowerCase()).then((data: any) => {
-            //         resolve(data);
-            //     }).catch((error: AxiosError) => {
-            //         reject(error);
-            //     })
+                const instanceOfflineData = new LoadOfflineData();
+                instanceOfflineData.fetch_combos('contraOrdenacao_carregarCombosApreensaoDocumentos'.toLowerCase()).then((data: any) => {
+                    resolve(data);
+                }).catch((error: AxiosError) => {
+                    reject(error);
+                })
 
-            // } 
-            // else { // Go to the internet for load data
+            }
+            else { // Go to the internet for load data
 
                 const service_url = 'carregarCombosApreensaoDocumentos';
                 this.connectGetAPI(`${this.prefix_url}/${service_url}`).then((response) => {
@@ -183,7 +186,7 @@ export class Contraordenacao {
                     reject(error);
                 })
 
-            // }
+            }
         })
     }
     
