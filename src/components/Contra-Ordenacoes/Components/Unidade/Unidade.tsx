@@ -8,7 +8,7 @@ import _ from 'underscore';
 interface UnidadeData {
     setUnidadeParentData?: any
 }
-  
+
 
 interface UnidadeResponse {
     comandos: Comando[];
@@ -16,14 +16,14 @@ interface UnidadeResponse {
     esquadras: Comando[];
     destacamentos: Comando[];
     subdestacamentos: Comando[];
-  }
-  
-  interface Comando {
-    id: number;
-    descricao: string;
-  }
+}
 
-  interface IPROPSLocalEmissao {
+interface Comando {
+    id: number;
+    designacao: string;
+}
+
+interface IPROPSLocalEmissao {
     inputName: string
     textLabel?: string
     selected?: any
@@ -33,30 +33,30 @@ interface UnidadeResponse {
 
 const Unidade: React.FC<UnidadeData> = (props) => {
 
-  
- const [unidadeImt, setUnidadeImt] = useState('');
- const [unidadesImt, setUnidadesImt] = useState<Comando[]>();
- const [dataHoraInfraccao, setDataHoraInfraccao] =  useState<string | number>();
- const [numTalao, setNumTalao] = useState('');
+
+    const [unidadeImt, setUnidadeImt] = useState('');
+    const [unidadesImt, setUnidadesImt] = useState<Comando[]>();
+    const [dataHoraInfraccao, setDataHoraInfraccao] = useState<string | number>();
+    const [numTalao, setNumTalao] = useState('');
 
     const keyUp_numTalao = (e: any) => {
         setNumTalao(e.target.value);
     }
-  const getUnidades = async (): Promise<any>=> await new Contraordenacao().carregarCombosUnidade()
-
-   
-        React.useEffect(() => {
-            getUnidades().then((response_unidade) => {
-                const unidades = response_unidade as UnidadeResponse
-                   setUnidadesImt(unidades?.comandos)
-            }).catch((error) => {
-                console.error("Load unidade combos: \n", error);
-            })
-        }, []);
+    const getUnidades = async (): Promise<any> => await new Contraordenacao().carregarCombosUnidade()
 
 
-        
-    React.useEffect(()=>{
+    React.useEffect(() => {
+        getUnidades().then((response_unidade) => {
+            const unidades = response_unidade as UnidadeResponse
+            setUnidadesImt(unidades?.comandos)
+        }).catch((error) => {
+            console.error("Load unidade combos: \n", error);
+        })
+    }, []);
+
+
+
+    React.useEffect(() => {
         const _data = {
             unidadeImt: unidadeImt,
             dataHoraInfraccao: dataHoraInfraccao,
@@ -66,8 +66,8 @@ const Unidade: React.FC<UnidadeData> = (props) => {
             props.setUnidadeParentData(_data)
         }
 
-    },[])
-        
+    }, [])
+
     return (
 
         <IonCard className={'co-unidade'}>
@@ -80,31 +80,31 @@ const Unidade: React.FC<UnidadeData> = (props) => {
                     <IonRow>
                         <IonCol size-sm="9" size-md="8" size-lg="4" style={{ marginTop: 16 }}>
                             <IonItem>
-                                <IonLabel>Unidade/Comando</IonLabel>
+                                <IonLabel>Unidade/Comando *</IonLabel>
                                 <IonSelect interface="popover">
-                                {unidadesImt?.map((local: any) => {
-                                                    return (
-                                                        <IonSelectOption key={`${local.id}`}
-                                                            value={local.id}>{`${local.descricao}`}</IonSelectOption>
-                                                    )
-                                                })}
+                                    {unidadesImt?.map((local: any) => {
+                                        return (
+                                            <IonSelectOption key={`${local.id}`}
+                                                value={local.id}>{`${local.descricao}`}</IonSelectOption>
+                                        )
+                                    })}
                                 </IonSelect>
                             </IonItem>
                         </IonCol>
                     </IonRow>
 
                     <IonRow>
-                        <IonCol size-sm='12' size-md='10' size-lg='4'  style={{ marginTop: 16 }}>
+                        <IonCol size-sm='12' size-md='10' size-lg='4' style={{ marginTop: 16 }}>
                             <DatePicker inputName={'unidade-data_horaInfraccao'} textLabel="Data/Hora da infracção" setSelected={setDataHoraInfraccao}
-                            selected={dataHoraInfraccao}/>
+                                selected={dataHoraInfraccao} />
                         </IonCol>
 
                         <IonCol size-sm="3" size-md="3" size-lg="3">
                             <IonItem>
                                 <IonLabel position="floating" itemType="number"
-                                          placeholder="Enter Number">Número do Talão</IonLabel>
+                                    placeholder="Enter Number">Número do Talão</IonLabel>
                                 <IonInput value={numTalao}
-                                onKeyUp={keyUp_numTalao}
+                                    onKeyUp={keyUp_numTalao}
                                 ></IonInput>
                             </IonItem>
                         </IonCol>

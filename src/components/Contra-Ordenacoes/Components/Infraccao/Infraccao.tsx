@@ -194,7 +194,7 @@ const Infraccao: React.FC = () => {
 
                             </IonItem>
                         </IonCol>
-                        <IonCol size-sm='12' size-md='10' size-lg='3'>
+                        <IonCol size-sm='12' size-md='10' size-lg='6'>
                             <IonItem>
                                 <IonLabel>Tipificação da Infracção</IonLabel>
                                 <IonSelect interface="popover" onIonChange={onchange_filtrarSubtificacaoPorTipificacao}>
@@ -206,7 +206,7 @@ const Infraccao: React.FC = () => {
                                     })}                                  </IonSelect>
                             </IonItem>
                         </IonCol>
-                        <IonCol size-sm='12' size-md='10' size-lg='3'>
+                        <IonCol size-sm='12' size-md='10' size-lg='6' offset="6">
                             <IonItem>
                                 <IonLabel>Subtipificação da Infracção</IonLabel>
                                 <IonSelect interface="popover" onIonChange={onchange_subtificacao}>

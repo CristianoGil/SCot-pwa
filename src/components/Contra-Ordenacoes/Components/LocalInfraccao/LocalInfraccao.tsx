@@ -7,22 +7,22 @@ import { Contraordenacao } from "../../../../api/Contraordenacao";
 import React from "react";
 
 interface LocalResponse {
-    tiposArruamento:ComonResult[];
-    tipos:ComonResult[];
-    subtipos:ComonResult[];
-    paises:ComonResult[];
-    distritos:ComonResult[];
-    concelhos:ComonResult[];
-    freguesias:ComonResult[];
-    localidades:ComonResult[];
+    tiposArruamento: ComonResult[];
+    tipos: ComonResult[];
+    subtipos: ComonResult[];
+    paises: ComonResult[];
+    distritos: ComonResult[];
+    concelhos: ComonResult[];
+    freguesias: ComonResult[];
+    localidades: ComonResult[];
 }
 interface ComonResult {
-    id:number
-    idTipoLocal?:number;
-    idConcelho?:number;
-    idDistrito?:number;
-    idFreguesia?:number;
-    descricao:string
+    id: number
+    idTipoLocal?: number;
+    idConcelho?: number;
+    idDistrito?: number;
+    idFreguesia?: number;
+    descricao: string
 }
 
 
@@ -70,8 +70,8 @@ const LocalInfraccao: React.FC = () => {
         });
     };
 
-    const carregarCombosLocalizacao = async (): Promise<any>=> await new Contraordenacao().carregarCombosLocalizacao()
-    const carregarComboLocalidade = async (idFreguesia:any): Promise<any>=> await new Contraordenacao().carregarComboLocalidades(idFreguesia)
+    const carregarCombosLocalizacao = async (): Promise<any> => await new Contraordenacao().carregarCombosLocalizacao()
+    const carregarComboLocalidade = async (idFreguesia: any): Promise<any> => await new Contraordenacao().carregarComboLocalidades(idFreguesia)
     const [distritos, setDistritos] = useState<ComonResult[]>();
     const [concelhos, setConcelhos] = useState<ComonResult[]>();
     const [concelhosPadrao, setConcelhosPadrao] = useState<ComonResult[]>();
@@ -79,7 +79,7 @@ const LocalInfraccao: React.FC = () => {
     const [freguesiasPadrao, setFreguesiasPadrao] = useState<ComonResult[]>();
     const [localidades, setLocalidades] = useState<ComonResult[]>();
     const [tipos, setTipos] = useState<ComonResult[]>();
-    
+
     const [distrito, setDistrito] = useState();
     const [concelho, setConcelho] = useState();
     const [freguesia, setFreguesia] = useState();
@@ -106,20 +106,20 @@ const LocalInfraccao: React.FC = () => {
         })
     }, []);
 
-    const onchange_filterConcelhoByDistritoId = (e:any)=>{
+    const onchange_filterConcelhoByDistritoId = (e: any) => {
         const id = e.target.value;
-        const filteredConcelhos: ComonResult[] | undefined = concelhosPadrao?.filter(concelho=>{return concelho.idDistrito === id })
+        const filteredConcelhos: ComonResult[] | undefined = concelhosPadrao?.filter(concelho => { return concelho.idDistrito === id })
         setConcelhos(filteredConcelhos)
     }
 
-    const onchange_filterFreguesiasByConcelhoId = (e:any)=>{
+    const onchange_filterFreguesiasByConcelhoId = (e: any) => {
         const id = e.target.value;
-        const result:ComonResult[] | undefined = freguesiasPadrao?.filter(freguesia=>{ return freguesia.idConcelho === id});
+        const result: ComonResult[] | undefined = freguesiasPadrao?.filter(freguesia => { return freguesia.idConcelho === id });
         setFreguesias(result)
-    } 
-    
- 
-    const onchange_filterLocalidadesByFreguesiaId = (e:any)=>{
+    }
+
+
+    const onchange_filterLocalidadesByFreguesiaId = (e: any) => {
         const id = e.target.value;
         carregarComboLocalidade(id).then((response_local) => {
             const _local = response_local as LocalResponse
@@ -130,16 +130,11 @@ const LocalInfraccao: React.FC = () => {
 
     }
 
-
-
-
-
-
-    const keyup_nrPolicia =(e:any)=>{
+    const keyup_nrPolicia = (e: any) => {
         setNrPolicia(e.target.value)
     }
-    const onClick_pesquisar =()=>{
-        
+    const onClick_pesquisar = () => {
+
     }
     return (
 
@@ -176,12 +171,12 @@ const LocalInfraccao: React.FC = () => {
                             <IonItem>
                                 <IonLabel>Distrito</IonLabel>
                                 <IonSelect interface="popover" onIonChange={onchange_filterConcelhoByDistritoId}>
-                                {distritos?.map((local: any) => {
-                                                    return (
-                                                        <IonSelectOption key={`${local.id}`}
-                                                            value={local.id}>{`${local.descricao}`}</IonSelectOption>
-                                                    )
-                                                })}
+                                    {distritos?.map((local: any) => {
+                                        return (
+                                            <IonSelectOption key={`${local.id}`}
+                                                value={local.id}>{`${local.descricao}`}</IonSelectOption>
+                                        )
+                                    })}
                                 </IonSelect>
                             </IonItem>
                         </IonCol>
@@ -190,12 +185,12 @@ const LocalInfraccao: React.FC = () => {
                             <IonItem>
                                 <IonLabel>Concelho</IonLabel>
                                 <IonSelect interface="popover" onIonChange={onchange_filterFreguesiasByConcelhoId}>
-                                {concelhos?.map((local: any) => {
-                                                    return (
-                                                        <IonSelectOption key={`${local.id}`}
-                                                            value={local.id}>{`${local.descricao}`}</IonSelectOption>
-                                                    )
-                                                })}
+                                    {concelhos?.map((local: any) => {
+                                        return (
+                                            <IonSelectOption key={`${local.id}`}
+                                                value={local.id}>{`${local.descricao}`}</IonSelectOption>
+                                        )
+                                    })}
                                 </IonSelect>
                             </IonItem>
                         </IonCol>
@@ -204,13 +199,13 @@ const LocalInfraccao: React.FC = () => {
                             <IonItem>
                                 <IonLabel>Freguesia</IonLabel>
                                 <IonSelect interface="popover" onIonChange={onchange_filterLocalidadesByFreguesiaId}>
-                                {freguesias?.map((local: any) => {
-                                                    return (
-                                                        <IonSelectOption key={`${local.id}`}
-                                                            value={local.id}>{`${local.descricao}`}</IonSelectOption>
-                                                    )
-                                                })}
-                               
+                                    {freguesias?.map((local: any) => {
+                                        return (
+                                            <IonSelectOption key={`${local.id}`}
+                                                value={local.id}>{`${local.descricao}`}</IonSelectOption>
+                                        )
+                                    })}
+
                                 </IonSelect>
                             </IonItem>
                         </IonCol>
@@ -220,13 +215,13 @@ const LocalInfraccao: React.FC = () => {
                         <IonCol size-sm="9" size-md="8" size-lg="4" style={{ marginTop: 16 }}>
                             <IonItem>
                                 <IonLabel>Localidade</IonLabel>
-                                <IonSelect interface="popover"  value={localidade}>
-                                {localidades?.map((local: any) => {
-                                                    return (
-                                                        <IonSelectOption key={`${local.id}`}
-                                                            value={local.id}>{`${local.descricao}`}</IonSelectOption>
-                                                    )
-                                                })}
+                                <IonSelect interface="popover" value={localidade}>
+                                    {localidades?.map((local: any) => {
+                                        return (
+                                            <IonSelectOption key={`${local.id}`}
+                                                value={local.id}>{`${local.descricao}`}</IonSelectOption>
+                                        )
+                                    })}
                                 </IonSelect>
                             </IonItem>
                         </IonCol>
@@ -234,8 +229,8 @@ const LocalInfraccao: React.FC = () => {
                         <IonCol size-sm="9" size-md="8" size-lg="4">
                             <IonItem>
                                 <IonLabel position="floating" itemType="number" placeholder="Nº Polícia">Nº Polícia/km</IonLabel>
-                                <IonInput  value={nrPolicia}
-                                onKeyUp={keyup_nrPolicia}></IonInput>
+                                <IonInput value={nrPolicia}
+                                    onKeyUp={keyup_nrPolicia}></IonInput>
                             </IonItem>
                         </IonCol>
 
@@ -252,12 +247,12 @@ const LocalInfraccao: React.FC = () => {
                             <IonItem>
                                 <IonLabel>Tipo</IonLabel>
                                 <IonSelect interface="popover" value={tipo}>
-                                {tipos?.map((local: any) => {
-                                                    return (
-                                                        <IonSelectOption key={`${local.id}`}
-                                                            value={local.id}>{`${local.descricao}`}</IonSelectOption>
-                                                    )
-                                                })}
+                                    {tipos?.map((local: any) => {
+                                        return (
+                                            <IonSelectOption key={`${local.id}`}
+                                                value={local.id}>{`${local.descricao}`}</IonSelectOption>
+                                        )
+                                    })}
                                 </IonSelect>
                             </IonItem>
                         </IonCol>
@@ -273,7 +268,7 @@ const LocalInfraccao: React.FC = () => {
                                     required={true}
                                     clearInput={true}
                                     name='arguido-nif'
-                                     value={arruamento}
+                                    value={arruamento}
                                     //   onKeyUp={}
                                     placeholder='Arruamento' />
                             </IonItem>

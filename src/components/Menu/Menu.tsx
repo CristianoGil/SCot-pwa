@@ -16,7 +16,7 @@ import {
     IonToggle,
     IonToolbar
 } from '@ionic/react';
-import {list, person, wifi, apps, close, moon} from 'ionicons/icons';
+import {list, person, wifi, apps, close, moon, settings} from 'ionicons/icons';
 import {useContext, useState} from 'react';
 import './Menu.css'
 import {Link, useHistory} from 'react-router-dom';
@@ -129,10 +129,10 @@ const Menu: React.FC<IProps> = (props) => {
                     <IonButton
                         className='btnRound'
                         style={{
-                            backgroundColor: "#EBF2FF",
+                            backgroundColor: "#FFFFFF",
                             color: "#003E7E",
                         }}>
-                        <IonIcon icon={apps}></IonIcon>
+                        <IonIcon icon={settings}></IonIcon>
 
                     </IonButton>
                 </IonButtons>

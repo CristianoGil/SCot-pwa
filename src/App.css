@@ -1,34 +1,39 @@
 ion-modal.fullscreen {
-    --width: 100%;
-    --height: 100%;
-    --border-radius: 0;
+  --width: 100%;
+  --height: 100%;
+  --border-radius: 0;
 }
 
 ion-popover.menu#popoverMenu {
-    --width: 540px;
-    --max-width: 100%;
+  --width: 540px;
+  --max-width: 100%;
 }
 
 ion-popover.menu::part(content) {
-    top: 0 !important;
-    left: inherit !important;
-    right: 0;
-    transform-origin: right top !important;
-    --min-height: 100%;
-    background: white;
-    box-shadow: -8px 0 16px rgba(0, 0, 0, 0.12);
-    border-radius: 0;
+  top: 0 !important;
+  left: inherit !important;
+  right: 0;
+  transform-origin: right top !important;
+  --min-height: 100%;
+  background: white;
+  box-shadow: -8px 0 16px rgba(0, 0, 0, 0.12);
+  border-radius: 0;
 }
 
 ion-card-header {
-    border-bottom: 1px solid #ddd;
-    font-weight: bold !important;
+  border-bottom: 1px solid #ddd;
+  font-weight: bold !important;
 }
 
 ion-card-title {
-    font-weight: bold !important;
+  font-weight: bold !important;
 }
 
 .text-center {
-    text-align: center;
+  text-align: center;
+}
+
+.item.sc-ion-label-md-h,
+.item .sc-ion-label-md-h {
+  white-space: normal !important;
 }
