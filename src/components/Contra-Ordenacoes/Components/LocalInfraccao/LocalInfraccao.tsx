@@ -30,8 +30,7 @@ const LocalInfraccao: React.FC = () => {
 
     const [coordenadas, setCoordenadas] = useState({ "latitude": -19.831996961440094, "longitude": 34.83581986832666 });
 
-    //const apiKey = 'AIzaSyAj5vVYw4tPa-GkA99WJRZ_NeiTcUI2688';
-    const apiKey = 'AIzaSyCYy0Et8LID7WqxJxJOwFJ4_ejnepbKxAM'; //chave temporária
+    const apiKey = 'AIzaSyBaOBxDiMCrEgbfIOU6Wau_gjhXdZ6GBXE';
     const mapRef = useRef<HTMLElement>();
     let newMap: GoogleMap;
 
