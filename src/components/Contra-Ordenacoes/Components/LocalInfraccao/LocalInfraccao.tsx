@@ -20,6 +20,7 @@ interface ComonResult {
     id:number
     idTipoLocal?:number;
     idConcelho?:number;
+    idDistrito?:number;
     idFreguesia?:number;
     descricao:string
 }
@@ -43,8 +44,8 @@ const LocalInfraccao: React.FC = () => {
             apiKey: apiKey,//process.env.REACT_APP_YOUR_API_KEY_HERE as string,
             config: {
                 center: {
-                    lat: -8.044996,
-                    lng: 37.0177228
+                    lat: 38.710833,
+                    lng: -9.164948
                 },
                 zoom: 8
             }
@@ -108,7 +109,7 @@ const LocalInfraccao: React.FC = () => {
 
     const onchange_filterConcelhoByDistritoId = (e:any)=>{
         const id = e.target.value;
-        const filteredConcelhos: ComonResult[] | undefined = concelhosPadrao?.filter(concelho=>{return concelho.id === id })
+        const filteredConcelhos: ComonResult[] | undefined = concelhosPadrao?.filter(concelho=>{return concelho.idDistrito === id })
         setConcelhos(filteredConcelhos)
     }
 
