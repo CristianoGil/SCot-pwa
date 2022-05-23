@@ -248,6 +248,8 @@ http://ionicframework.com/docs/theming/ */
  */
 
  body.dark {
+  --ion-toolbar-segment-background:#121212;
+  --ion-toolbar-segment-background-checked:#121212;
   --ion-color-primary: #003e7e;
   --ion-color-primary-rgb: 66, 140, 255;
   --ion-color-primary-contrast: #ffffff;
