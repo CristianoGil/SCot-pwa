@@ -16,7 +16,7 @@ import {
     IonToggle,
     IonToolbar
 } from '@ionic/react';
-import { list, person, wifi, apps, close, moon, settings } from 'ionicons/icons';
+import { person, wifi, moon, settings } from 'ionicons/icons';
 import { useContext, useState } from 'react';
 import './Menu.css'
 import { Link, useHistory } from 'react-router-dom';

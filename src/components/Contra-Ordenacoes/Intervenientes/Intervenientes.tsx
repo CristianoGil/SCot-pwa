@@ -5,7 +5,6 @@ import {
 } from '@ionic/react';
 import {useState} from 'react';
 import {format, parseISO} from 'date-fns';
-import {useAppSelector, useAppDispatch} from '../../../app/hooks';
 import React from 'react';
 import Arguido from '../../../components/Contra-Ordenacoes/Components/Arguido/Arguido';
 import {IDocumentoPessoa, IPerson} from '../../../model/person';
@@ -26,8 +25,6 @@ const Intervenientes: React.FC<IProps> = (props) => {
     const [popoverDate1, setPopoverDate1] = useState('');
     const [popoverDate2, setPopoverDate2] = useState('');
     const [popoverDate3, setPopoverDate3] = useState('');
-
-    const dispatch = useAppDispatch()
 
     const formatDate = (value: string) => {
         return format(parseISO(value), 'MMM dd yyyy');
