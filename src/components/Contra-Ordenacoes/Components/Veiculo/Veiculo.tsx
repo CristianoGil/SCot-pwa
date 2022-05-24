@@ -30,8 +30,6 @@ import {
 import {useContext, useState} from 'react';
 import {bookOutline, checkboxOutline, search, star} from 'ionicons/icons';
 import React from 'react';
-import {useAppSelector} from '../../../../app/hooks';
-import {setVisiblePopoverIndentVeiculo} from '../../../Menu/popoverIndentVeiculoSlice';
 import './Veiculo.scss';
 import Pais from '../../../Combos/Veiculo/Pais';
 import {AlertNetworkOfflineContext} from '../../../../Context/AlertNetworkOfflineContext';
