@@ -21,7 +21,7 @@ interface IProps {
     isDisablebAssinaturaPapelManuscrito: boolean
     setAssinaturaPapelTestemunha: any
     assinaturaPapelTestemunha: any
-    handlerSignPDF: (value1: string, value2: string, value3?: number) => void
+    handlerSignPDF: (value1: string, value2: string, value3?: string) => void
 }
 
 const AssinaturaTestemunha: React.FC<IProps> = (props) => {
@@ -40,7 +40,7 @@ const AssinaturaTestemunha: React.FC<IProps> = (props) => {
     //START: Qualificada
     const {handlerSignPDF, assinaturaQualificadaTestemunha} = props;
     const [formatoAssinaturaQualificada, setFormatoAssinaturaQualificada] = useState<any>();
-    const [chaveDigitalPhoneNumber, setChaveDigitalPhoneNumber] = useState<number | undefined>(undefined);
+    const [chaveDigitalPhoneNumber, setChaveDigitalPhoneNumber] = useState<string | undefined>(undefined);
 
     // Mostrar Formato assinatura
     const [isTipoAssinatura_qualificada, setIsTipoAssinatura_qualificada] = useState(false);
@@ -91,7 +91,7 @@ const AssinaturaTestemunha: React.FC<IProps> = (props) => {
 
     }, [assinaturaManuscritaTestemunha, assinaturaQualificadaTestemunha])
 
-    const isSignBtnDisabled = (_isFormatoQualificada_digital: boolean, _chaveDigitalPhoneNumber: number | undefined, _assinaturaQualificadaTestemunha: any): boolean => {
+    const isSignBtnDisabled = (_isFormatoQualificada_digital: boolean, _chaveDigitalPhoneNumber: string | undefined, _assinaturaQualificadaTestemunha: any): boolean => {
         if (isFormatoQualificada_digital) {
             if (!_.isEmpty(_assinaturaQualificadaTestemunha)) {
                 return true
@@ -156,7 +156,7 @@ const AssinaturaTestemunha: React.FC<IProps> = (props) => {
 
                                 {isFormatoQualificada_digital ?
                                     <IonCol size-sm="12" size-md="3" size-lg="3">
-                                        <IonInput required={true} value={chaveDigitalPhoneNumber} type="number"
+                                        <IonInput required={true} value={chaveDigitalPhoneNumber} type="text"
                                                   autofocus={true}
                                                   placeholder="Número de telefone" onIonChange={(e: any) => {
                                             setChaveDigitalPhoneNumber(e.detail.value)

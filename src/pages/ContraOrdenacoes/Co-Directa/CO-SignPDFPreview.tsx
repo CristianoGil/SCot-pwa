@@ -294,7 +294,8 @@ const CODirectaSignPDFPreview: React.FC<IProps> = (props) => {
     const [assinaturaQualificadaArguido, setAssinaturaQualificadaArguido] = useState<string | ArrayBuffer | undefined>()
     const [assinaturaQualificadaTestemunha_1, setAssinaturaQualificadaTestemunha_1] = useState<string | ArrayBuffer | undefined>()
     const [assinaturaQualificadaTestemunha_2, setAssinaturaQualificadaTestemunha_2] = useState<string | ArrayBuffer | undefined>()
-    const handlerAssinaturaQualificada = async (formatoAssinaturaQualificada: any, whoIsSigningQualificada: string, chaveDigitalPhoneNumber?: number) => {
+    const handlerAssinaturaQualificada = async (formatoAssinaturaQualificada: any, whoIsSigningQualificada: string, chaveDigitalPhoneNumber?: string) => {
+        dismissLoad();
         if (!_.isEmpty(formatoAssinaturaQualificada)) {
             const _data = JSON.parse(formatoAssinaturaQualificada);
 
@@ -307,9 +308,12 @@ const CODirectaSignPDFPreview: React.FC<IProps> = (props) => {
 
                 try {
                     let responseData;
-                    let base64PDF = await getPDFBase64_HTML();
+                    let base64PDF = "";
                     if (PDF_BLOB_SIGNED && !_.isEmpty(PDF_BLOB_SIGNED)) {
                         base64PDF = PDF_BLOB_SIGNED
+                    }
+                    else{
+                        base64PDF = await getPDFBase64_HTML();
                     }
 
                     const assinaturaInstance = new Assinatura(base64PDF.replace(/^data:application\/[a-z]+;base64,/, ""));
@@ -338,6 +342,7 @@ const CODirectaSignPDFPreview: React.FC<IProps> = (props) => {
                         }
 
                         SET_PDF_BLOB_SIGNED(_signedPdf);
+                        dismissLoad();
                     } else {
                         throw new Error("Unknow error")
                     }

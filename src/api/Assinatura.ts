@@ -12,7 +12,7 @@ export default class Assinatura {
      * @param base64Pdf
      */
     constructor(base64Pdf: string) {
-        this.base64Pdf = base64Pdf
+        this.base64Pdf = encodeURIComponent(base64Pdf as string);
     }
 
     /**

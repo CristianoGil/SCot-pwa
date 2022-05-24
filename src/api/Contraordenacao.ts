@@ -11,7 +11,11 @@ import { CarregarCombosApreensaoDocumento } from "../model/documentoapreendido";
 export class Contraordenacao {
 
     prefix_url: string = 'v1/contraOrdenacao'
+    prefix_local_url: string = 'v1/locais'
+    prefix_dominio_url: string = 'v1/dominio'
 
+    // scot-plus-bff/v1/dominio/carregarComboLocalidade/2364
+// carregarCombosInfracao
     private connectPostAPI(service_url: string, data: any): Promise<any> {
 
         return new Promise((resolve, reject) => {
@@ -163,6 +167,34 @@ export class Contraordenacao {
     public carregarCombosMotivoApreensao(): Promise<CarregarCombosApreensaoDocumento> {
         return new Promise((resolve, reject) => {
 
+            if (!_.contains(getPlatforms(), 'desktop')) { // Load offline data
+
+                const instanceOfflineData = new LoadOfflineData();
+                instanceOfflineData.fetch_combos('contraOrdenacao_carregarCombosApreensaoDocumentos'.toLowerCase()).then((data: any) => {
+                    resolve(data);
+                }).catch((error: AxiosError) => {
+                    reject(error);
+                })
+
+            } 
+            else { // Go to the internet for load data
+
+                const service_url = 'carregarCombosApreensaoDocumentos';
+                this.connectGetAPI(`${this.prefix_url}/${service_url}`).then((response) => {
+                    const data = response.data;
+                    resolve(data);
+                }).catch((error: AxiosError) => {
+                    reject(error);
+                })
+
+            }
+        })
+    }
+
+
+    public carregarCombosInfracao(): Promise<any> {
+        return new Promise((resolve, reject) => {
+
             // if (!_.contains(getPlatforms(), 'desktop')) { // Load offline data
 
             //     const instanceOfflineData = new LoadOfflineData();
@@ -174,8 +206,8 @@ export class Contraordenacao {
 
             // } 
             // else { // Go to the internet for load data
-
-                const service_url = 'carregarCombosApreensaoDocumentos';
+// carregarCombosInfracao
+                const service_url = 'carregarCombosInfracao';
                 this.connectGetAPI(`${this.prefix_url}/${service_url}`).then((response) => {
                     const data = response.data;
                     resolve(data);
@@ -188,4 +220,88 @@ export class Contraordenacao {
     }
     
 
+
+    public carregarCombosUnidade(): Promise<any> {
+        return new Promise((resolve, reject) => {
+
+            // if (!_.contains(getPlatforms(), 'desktop')) { // Load offline data
+
+            //     const instanceOfflineData = new LoadOfflineData();
+            //     instanceOfflineData.fetch_combos('contraOrdenacao_carregarCombosApreensaoDocumentos'.toLowerCase()).then((data: any) => {
+            //         resolve(data);
+            //     }).catch((error: AxiosError) => {
+            //         reject(error);
+            //     })
+
+            // } 
+            // else { // Go to the internet for load data
+
+                const service_url = 'carregarCombosUnidade';
+                this.connectGetAPI(`${this.prefix_url}/${service_url}`).then((response) => {
+                    const data = response.data;
+                    resolve(data);
+                }).catch((error: AxiosError) => {
+                    reject(error);
+                })
+
+            // }
+        })
+    }
+
+
+
+    public carregarCombosLocalizacao(): Promise<any> {
+        return new Promise((resolve, reject) => {
+
+            // if (!_.contains(getPlatforms(), 'desktop')) { // Load offline data
+
+            //     const instanceOfflineData = new LoadOfflineData();
+            //     instanceOfflineData.fetch_combos('contraOrdenacao_carregarCombosApreensaoDocumentos'.toLowerCase()).then((data: any) => {
+            //         resolve(data);
+            //     }).catch((error: AxiosError) => {
+            //         reject(error);
+            //     })
+
+            // } 
+            // else { // Go to the internet for load data
+
+                const service_url = 'carregarCombosLocal';
+                this.connectGetAPI(`${this.prefix_local_url}/${service_url}`).then((response) => {
+                    const data = response.data;
+                    resolve(data);
+                }).catch((error: AxiosError) => {
+                    reject(error);
+                })
+
+            // }
+        })
+    }
+
+    public carregarComboLocalidades(idFreguesia:any): Promise<any> {
+        return new Promise((resolve, reject) => {
+
+            // if (!_.contains(getPlatforms(), 'desktop')) { // Load offline data
+
+            //     const instanceOfflineData = new LoadOfflineData();
+            //     instanceOfflineData.fetch_combos('contraOrdenacao_carregarCombosApreensaoDocumentos'.toLowerCase()).then((data: any) => {
+            //         resolve(data);
+            //     }).catch((error: AxiosError) => {
+            //         reject(error);
+            //     })
+
+            // } 
+            // else { // Go to the internet for load data
+
+                const service_url = 'carregarComboLocalidade';
+                this.connectGetAPI(`${this.prefix_dominio_url}/${service_url}/${idFreguesia}`).then((response) => {
+                    const data = response.data;
+                    resolve(data);
+                }).catch((error: AxiosError) => {
+                    reject(error);
+                })
+
+            // }
+        })
+    }
+    
 }
