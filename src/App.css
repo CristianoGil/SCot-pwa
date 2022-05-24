@@ -37,3 +37,7 @@ ion-card-title {
 .item .sc-ion-label-md-h {
   white-space: normal !important;
 }
+
+ion-button {
+  text-transform: none;
+}
