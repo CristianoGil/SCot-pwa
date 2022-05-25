@@ -1,14 +1,17 @@
 import _ from 'underscore'
+import {dateFormat} from '../../../../utils/apex-formatters';
 
 interface IProps {
     assinaturaArguido?: string
     assinaturaTestemunha_1?: string
     assinaturaTestemunha_2?: string
     assinaturaAgente?: string
+    coData: any,
+    typeCopy?: string
 }
 
 export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
-    const {assinaturaArguido, assinaturaTestemunha_1, assinaturaTestemunha_2, assinaturaAgente} = props;
+    const {assinaturaArguido, assinaturaTestemunha_1, assinaturaTestemunha_2, assinaturaAgente, typeCopy, coData} = props;
     return (
         <table
             id="CO_DIRECTA_JR_PAGE_ANCHOR_0_1"
@@ -145,7 +148,7 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
                   lineHeight: "1.1640625"
               }}
           >
-            ORIGINAL
+            {typeCopy}
           </span>
                 </td>
                 <td></td>
@@ -413,7 +416,7 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
                                             verticalAlign: "bottom",
                                             textAlign: "left"
                                         }}
-                                    ></td>
+                                    >{coData?.arguido?.nome}</td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -442,7 +445,7 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
                 <td
                     colSpan={26}
                     style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-                ></td>
+                >{dateFormat(coData?.arguido.dataNascimento, 'YYYY/MM/DD')}</td>
                 <td></td>
                 <td
                     colSpan={5}
@@ -466,7 +469,7 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
                 <td
                     colSpan={15}
                     style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-                ></td>
+                >{coData.arguido.nif}</td>
                 <td></td>
             </tr>
             <tr style={{height: 20}}>

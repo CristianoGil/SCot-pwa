@@ -31,9 +31,9 @@ const RenderSegment = (props: { segment: string, setCoDirectaData: any }) => {
 
 const instanceCoDirecta = new Contraordenacao();
 
-const handlerCoDirectaRequestData = (data: any = {arguido: {}, veiculo: {}}): ICoDirecta => {
-
-    return {
+const handlerCoDirectaRequestData = (data: any): ICoDirecta => {
+    console.log(data)
+    const dataReturn =  {
         id: null,
         tipoContraordenacao: 'directa',
         isTerminada: false,
@@ -164,6 +164,8 @@ const handlerCoDirectaRequestData = (data: any = {arguido: {}, veiculo: {}}): IC
 
         base64Assinatura: null,
     }
+
+    return dataReturn
 }
 
 const CoDirecta: React.FC = () => {
@@ -175,6 +177,7 @@ const CoDirecta: React.FC = () => {
     const history = useHistory();
     const [activeSegment, setActiveSegment] = useState('intervenientes');
     const [coDirecta, setCoDirecta] = useState<any>();
+    const [coSaved, setCoSaved] = useState<any>({});
     const [isCOSaved, setIsCOSaved] = useState(false);
 
     const handlerSegment = (e: any) => {
@@ -188,6 +191,8 @@ const CoDirecta: React.FC = () => {
 
 
         instanceCoDirecta.guardarCODirectaGeneric(handlerCoDirectaRequestData(coDirecta)).then((responseData) => {
+
+            setCoSaved(responseData);
 
             presentAlert({
                 header: 'Sucesso!',
@@ -216,12 +221,12 @@ const CoDirecta: React.FC = () => {
     }
 
     const onEmit = (e: any) => {
-        history.push("/CODirectaSignPDFPreview")
+        history.push("/CODirectaSignPDFPreview/" + JSON.stringify({co: coSaved}))
     }
 
     return (
         <IonPage>
-            <Menu actionsCOBtn={<MenuActionsBtnSave isCOSaved={isCOSaved} onEmit={(e: any) => {
+            <Menu  actionsCOBtn={<MenuActionsBtnSave  isCOSaved={isCOSaved} onEmit={(e: any) => {
                 onEmit(e);
             }} onSave={(e: any) => {
                 onSave(e)

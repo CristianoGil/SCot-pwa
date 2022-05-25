@@ -31,23 +31,27 @@ import {base64ToArrayBuffer, blobToBase64, cleanString, downloadFile} from "../.
 import {generatePDF_HTML, getPDFBase64_HTML} from "../../../app/SignPDF_HTML";
 import Assinatura from "../../../api/Assinatura";
 import {Document} from 'react-pdf';
+import {useParams} from "react-router";
 
 const assinaturaManuscrito = 'Manuscrito';
 const assinaturaQualificada = 'Qualificada';
 const assinaturaPapel = 'Papel';
 
 
-interface IProps {
-    data?: any
-}
-
 const onSourceError_PDF = (error: any) => {
     console.log(error)
 }
 
 const fileName = `co-directa-[name]-${(new Date()).toDateString()}.pdf`;
-const CODirectaSignPDFPreview: React.FC<IProps> = (props) => {
+const CODirectaSignPDFPreview: React.FC = () => {
 
+
+    // @ts-ignore
+    let {coData} = useParams();
+
+    if (!_.isEmpty(coData)) {
+        coData = JSON.parse(coData);
+    }
 
     const [presentLoad, dismissLoad] = useIonLoading();
     const [presentAlert] = useIonAlert();
@@ -311,8 +315,7 @@ const CODirectaSignPDFPreview: React.FC<IProps> = (props) => {
                     let base64PDF = "";
                     if (PDF_BLOB_SIGNED && !_.isEmpty(PDF_BLOB_SIGNED)) {
                         base64PDF = PDF_BLOB_SIGNED
-                    }
-                    else{
+                    } else {
                         base64PDF = await getPDFBase64_HTML();
                     }
 
@@ -416,7 +419,7 @@ const CODirectaSignPDFPreview: React.FC<IProps> = (props) => {
                     console.log('file: ', file)
                     const base64PDF = await blobToBase64(file);
                     console.log('base64PDF: ', base64PDF)
-                    if(base64PDF) {
+                    if (base64PDF) {
                         if (whoIsSigningPapel === 'arguido') {
                             setAssinaturaPapelArguido(base64PDF)
                         } else if (whoIsSigningPapel === 'testemunha1') {
@@ -510,7 +513,8 @@ const CODirectaSignPDFPreview: React.FC<IProps> = (props) => {
                     <object data={`data:application/pdf;base64,${PDF_BLOB_SIGNED}`}
                             style={{overflow: "hidden", minHeight: "100%", width: "100vw"}}></object>
                     :
-                    <CoDirectaTemplateMarkup assinaturaArguido={assinaturaManuscritaArguido}
+                    <CoDirectaTemplateMarkup coData={coData.co}
+                                             assinaturaArguido={assinaturaManuscritaArguido}
                                              assinaturaTestemunha_1={assinaturaManuscritaTestemunha_1}
                                              assinaturaTestemunha_2={assinaturaManuscritaTestemunha_2}
                                              assinaturaAgente={assinaturaManuscritaAgente}/>)
