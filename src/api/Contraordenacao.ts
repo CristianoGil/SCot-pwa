@@ -219,7 +219,8 @@ export class Contraordenacao {
                     reject(error);
                 })
 
-            } else { // Go to the internet for load data
+            }
+            else { // Go to the internet for load data
 
                 const service_url = 'carregarCombosApreensaoDocumentos';
                 this.connectGetAPI(`${this.prefix_url}/${service_url}`).then((response) => {
@@ -232,6 +233,35 @@ export class Contraordenacao {
             }
         })
     }
+
+
+    public carregarCombosInfracao(): Promise<any> {
+        return new Promise((resolve, reject) => {
+
+            // if (!_.contains(getPlatforms(), 'desktop')) { // Load offline data
+
+            //     const instanceOfflineData = new LoadOfflineData();
+            //     instanceOfflineData.fetch_combos('contraOrdenacao_carregarCombosApreensaoDocumentos'.toLowerCase()).then((data: any) => {
+            //         resolve(data);
+            //     }).catch((error: AxiosError) => {
+            //         reject(error);
+            //     })
+
+            // }
+            // else { // Go to the internet for load data
+
+                const service_url = 'carregarCombosInfracao';
+                this.connectGetAPI(`${this.prefix_url}/${service_url}`).then((response) => {
+                    const data = response.data;
+                    resolve(data);
+                }).catch((error: AxiosError) => {
+                    reject(error);
+                })
+
+            // }
+        })
+    }
+
 
 
 }
