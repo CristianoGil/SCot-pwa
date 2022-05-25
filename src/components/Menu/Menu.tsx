@@ -364,7 +364,9 @@ const Menu: React.FC<IProps> = (props) => {
                 showBackdrop={true}
                 onDidDismiss={() => {
                     setShowPopover(false);
-                }}>
+                }}
+                style={{'--width': '540px', '--max-width': '100%'}}
+                >
 
 
                 <IonHeader className="ion-no-border">

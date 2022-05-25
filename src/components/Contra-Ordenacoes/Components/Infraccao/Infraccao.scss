@@ -5,12 +5,12 @@ ion-row {
   }
 }
 
-ion-popover::part(content) {
+ion-popover.select-popover::part(content) {
   --width: 95%;
   --max-width: 400px;
 }
 
-ion-radio-group {
+ion-popover ion-select-popover ion-radio-group {
   ion-item {
     margin-bottom: 20px;
   }
