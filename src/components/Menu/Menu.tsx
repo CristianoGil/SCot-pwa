@@ -300,6 +300,7 @@ const Menu: React.FC<IProps> = (props) => {
                                         </IonRow>
                                     </IonGrid>
                                 </IonCol>
+                                <IonCol sizeLg='4'></IonCol>
                             </IonRow>
                             {/* Linha 2 */}
 
@@ -343,6 +344,7 @@ const Menu: React.FC<IProps> = (props) => {
                                         </IonRow>
                                     </IonGrid>
                                 </IonCol>
+                                <IonCol sizeLg='4'></IonCol>
                             </IonRow>
                             {/* Linha 3 */}
                         </IonGrid>
