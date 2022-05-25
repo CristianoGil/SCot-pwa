@@ -37,6 +37,8 @@ import { IPesquisarPessoaResponse } from '../../../../model/contraordenacao';
 import CardListItem from '../../../CardListItem';
 import { ICoimasEmAtraso, IDocumentoPessoa, IMoradaPessoa, IPerson } from '../../../../model/person';
 import { dateFormat } from '../../../../utils/apex-formatters';
+import * as yup from 'yup';
+import { arguidoSchema } from '../../../../Validations/ArguidoValidation';
 
 interface IArguido {
     setParentArguidoData?: any
@@ -60,20 +62,21 @@ const Arguido: React.FC<IArguido> = (props) => {
 
     const [inputNif_color, setInputNif_color] = useState<string>();
     const inputNif_canSearch = () => {
-        const chartsLength = arguidoNif.length;
+
+        const nif_IsValid = arguidoSchema.isValidSync({ nif: arguidoNif })
         let inputColor: string;
 
-        if (chartsLength > 0 && (chartsLength > 9 || 9 > chartsLength)) {
-            inputColor = 'danger';
-        } else if (chartsLength === 9) {
+        if (nif_IsValid) {
             inputColor = 'success';
+        } else {
+            inputColor = 'danger';
         }
 
         setTimeout(() => {
             setInputNif_color(inputColor)
         });
 
-        return chartsLength !== 9;
+        return !nif_IsValid;
     }
 
     const handler_arguidoSearchByNif = (e: any) => {
