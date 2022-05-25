@@ -5,42 +5,42 @@ import { useState } from "react";
 import { Contraordenacao } from "../../../../api/Contraordenacao";
 import './Infraccao.scss';
 
-interface parentSharedData{
+interface parentSharedData {
 
 }
 const Infraccao: React.FC = () => {
 
     interface InfracaoResponse {
-        comarcas:ComonResult[]
-        entidades:ComonResult[]
-        tipificacoes:ComonResult[]
-        subtipificacoes:Subtificacao[]
+        comarcas: ComonResult[]
+        entidades: ComonResult[]
+        tipificacoes: ComonResult[]
+        subtipificacoes: Subtificacao[]
     }
     interface ComonResult {
         id: number;
         descricao: string;
-        codigoSegmentoInfracao?:number
-      }
+        codigoSegmentoInfracao?: number
+    }
 
-      interface Subtificacao{
-       id:number;
-       descricao:string;
-       tipificacao:ComonResult;
-       normaInfringida:string; //descNormasInfracao;
-       descricaoSumaria:string; //descInfracao;
-       montanteDaCoimaMaxima:number; //valorMaxCoima;
-       montanteDaCoimaMinima:number; //valorMinCoima;
-       normaQuePreveContraOrdenacao:string; //descNormasCo;
-       sancaoAcessoria:string; //descSancoes;
-       normaPrevista:string;
-       normaQuePreveSancaoAcessoria:string; //descNormasSancoes;
-       observacoes:string;
-       codigoDgv:number;
-       recaiSobreProprietario:boolean;
-       valorAberto:boolean;
-       responsabilidadeMunicipio:boolean;
-       ativo:boolean;
-      }
+    interface Subtificacao {
+        id: number;
+        descricao: string;
+        tipificacao: ComonResult;
+        normaInfringida: string; //descNormasInfracao;
+        descricaoSumaria: string; //descInfracao;
+        montanteDaCoimaMaxima: number; //valorMaxCoima;
+        montanteDaCoimaMinima: number; //valorMinCoima;
+        normaQuePreveContraOrdenacao: string; //descNormasCo;
+        sancaoAcessoria: string; //descSancoes;
+        normaPrevista: string;
+        normaQuePreveSancaoAcessoria: string; //descNormasSancoes;
+        observacoes: string;
+        codigoDgv: number;
+        recaiSobreProprietario: boolean;
+        valorAberto: boolean;
+        responsabilidadeMunicipio: boolean;
+        ativo: boolean;
+    }
 
     const [comarcas, setComarcas] = useState<ComonResult[]>();
     const [entidades, setEntidades] = useState<ComonResult[]>();
@@ -51,20 +51,20 @@ const Infraccao: React.FC = () => {
     const [autuante, setAutuante] = useState();
     const [tipoAutuante, setTipoAutuante] = useState();
     const [arguidoNif, setArguidoNif] = useState();
-    const [nomeInfrigida, setNomeInfrigida] =useState<string | undefined>();
+    const [nomeInfrigida, setNomeInfrigida] = useState<string | undefined>();
     const [descricao, setDescricao] = useState<string | undefined>();
     const [minValor, setMinValor] = useState<number | undefined>();
-    const [maxValor, setMaxValor] =  useState<number | undefined>();
-    const [normaPrevista, setNormaPrevista] =  useState<string | undefined>();
-    const [sancaoAcessoria, setSancaoAcessoria] =  useState<string | undefined>();
+    const [maxValor, setMaxValor] = useState<number | undefined>();
+    const [normaPrevista, setNormaPrevista] = useState<string | undefined>();
+    const [sancaoAcessoria, setSancaoAcessoria] = useState<string | undefined>();
     const [observacao, setObservacao] = useState<string | undefined>();
-    const [normaSancaoAcessoria, setNormaSancaoAcessoria] =  useState<string | undefined>();
+    const [normaSancaoAcessoria, setNormaSancaoAcessoria] = useState<string | undefined>();
 
-    const getInfracao = async (): Promise<InfracaoResponse>=> await new Contraordenacao().carregarCombosInfracao()
+    const getInfracao = async (): Promise<InfracaoResponse> => await new Contraordenacao().carregarCombosInfracao()
     React.useEffect(() => {
         getInfracao().then((response_infracao) => {
             console.log(response_infracao)
-           
+
             setEntidades(response_infracao?.entidades)
             setComarcas(response_infracao?.comarcas)
             setTiposInfracao(response_infracao?.tipificacoes)
@@ -76,24 +76,24 @@ const Infraccao: React.FC = () => {
     }, []);
 
 
-    
-    const onchange_subtificacao = (e:any)=>{
+
+    const onchange_subtificacao = (e: any) => {
         const subtificaoId = e.target.value
-        let subtificacao:Subtificacao | undefined= subtiposInfracao?.find(subtipo=>subtipo.id === subtificaoId)
-         setDescricao(subtificacao?.observacoes)
-         setMinValor(subtificacao?.montanteDaCoimaMinima)
-         setMaxValor(subtificacao?.montanteDaCoimaMaxima)
-         setNomeInfrigida(subtificacao?.normaInfringida)
-         setNormaPrevista(subtificacao?.normaPrevista)
-         setSancaoAcessoria(subtificacao?.sancaoAcessoria)
-         setNormaSancaoAcessoria(subtificacao?.normaQuePreveSancaoAcessoria)
-         setObservacao(subtificacao?.observacoes)
-        
+        let subtificacao: Subtificacao | undefined = subtiposInfracao?.find(subtipo => subtipo.id === subtificaoId)
+        setDescricao(subtificacao?.observacoes)
+        setMinValor(subtificacao?.montanteDaCoimaMinima)
+        setMaxValor(subtificacao?.montanteDaCoimaMaxima)
+        setNomeInfrigida(subtificacao?.normaInfringida)
+        setNormaPrevista(subtificacao?.normaPrevista)
+        setSancaoAcessoria(subtificacao?.sancaoAcessoria)
+        setNormaSancaoAcessoria(subtificacao?.normaQuePreveSancaoAcessoria)
+        setObservacao(subtificacao?.observacoes)
+
     }
 
-    const onchange_filtrarSubtificacaoPorTipificacao = (e:any)=>{
+    const onchange_filtrarSubtificacaoPorTipificacao = (e: any) => {
         const infracaoId = e.target.value
-        const subTipos= subtiposInfracaoPadrao?.filter(sub=>{ return sub.tipificacao.id === infracaoId})
+        const subTipos = subtiposInfracaoPadrao?.filter(sub => { return sub.tipificacao.id === infracaoId })
         setSubTiposInfracao(subTipos)
     }
 
@@ -112,7 +112,7 @@ const Infraccao: React.FC = () => {
                             </IonHeader>
                             <IonRadioGroup
                                 value={tipoAutuante}
-                                >
+                            >
                                 <IonRow>
                                     <IonCol size='6'>
                                         <IonItem lines='none' className="veiculo-proprietario-radio radio-item">
@@ -133,7 +133,7 @@ const Infraccao: React.FC = () => {
                         <IonCol size-sm='12' size-md='10' size-lg='3'>
                             <IonItem>
                                 <IonLabel position="floating" itemType="text" placeholder="Autuante">Autuante</IonLabel>
-                                <IonInput   value={autuante}></IonInput>
+                                <IonInput value={autuante}></IonInput>
                             </IonItem>
                         </IonCol>
 
@@ -225,7 +225,7 @@ const Infraccao: React.FC = () => {
                             <IonItem>
                                 <IonLabel position="floating" itemType="text" placeholder="Nome infringida">Nome infringida</IonLabel>
                                 <IonInput
-                                value={nomeInfrigida}
+                                    value={nomeInfrigida}
                                 ></IonInput>
                             </IonItem>
                         </IonCol>
@@ -280,7 +280,7 @@ const Infraccao: React.FC = () => {
                         <IonCol size-sm='12' size-md='10' size-lg='6'>
                             <IonItem>
                                 <IonLabel position="floating" itemType="text" placeholder="Norma que prevê a Sanção Acessória">Norma que prevê a Sanção Acessória</IonLabel>
-                                <IonInput  value={normaSancaoAcessoria}></IonInput>
+                                <IonInput value={normaSancaoAcessoria}></IonInput>
                             </IonItem>
                         </IonCol>
                     </IonRow>

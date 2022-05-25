@@ -300,6 +300,7 @@ const Menu: React.FC<IProps> = (props) => {
                                         </IonRow>
                                     </IonGrid>
                                 </IonCol>
+                                <IonCol sizeLg='4'></IonCol>
                             </IonRow>
                             {/* Linha 2 */}
 
@@ -343,6 +344,7 @@ const Menu: React.FC<IProps> = (props) => {
                                         </IonRow>
                                     </IonGrid>
                                 </IonCol>
+                                <IonCol sizeLg='4'></IonCol>
                             </IonRow>
                             {/* Linha 3 */}
                         </IonGrid>
@@ -362,7 +364,9 @@ const Menu: React.FC<IProps> = (props) => {
                 showBackdrop={true}
                 onDidDismiss={() => {
                     setShowPopover(false);
-                }}>
+                }}
+                style={{'--width': '540px', '--max-width': '100%'}}
+                >
 
 
                 <IonHeader className="ion-no-border">
