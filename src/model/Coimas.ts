@@ -27,3 +27,19 @@
     lawsuitCod: string;
     notifDate: string;
   }
+  export interface ICoima {
+    id: number | null;
+    idPessoa: number | null;
+    idVeiculo: number | null;
+    data: string | null;
+    dataPrazo: string | null;
+    numeroAuto: string | null;
+    codigoInfracao: string | null;
+    valor: number | null;
+    custas: number | null;
+    total: number | null;
+    valorChecado: boolean | null;
+    custasChecada: boolean | null;
+    isPago: boolean | null;
+    sancaoAcessoria: string | null;
+  }

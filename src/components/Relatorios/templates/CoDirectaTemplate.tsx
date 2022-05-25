@@ -4,6 +4,7 @@ import {CoDirectaMarkupTable3} from './helpers/CoDirectaMarkupTable3';
 
 
 interface IProps {
+    coData: any,
     assinaturaArguido?: string,
     assinaturaTestemunha_1?: string
     assinaturaTestemunha_2?:string
@@ -12,7 +13,7 @@ interface IProps {
 
 export const CoDirectaTemplateMarkup: React.FC<IProps> = (props) => {
 
-    const {assinaturaArguido, assinaturaTestemunha_1, assinaturaTestemunha_2, assinaturaAgente} = props;
+    const {assinaturaArguido, assinaturaTestemunha_1, assinaturaTestemunha_2, assinaturaAgente, coData} = props;
 
     return (
         <table width="100%" cellPadding={0} cellSpacing={0} id={"htmlWrapperForPDF"}>
@@ -20,13 +21,13 @@ export const CoDirectaTemplateMarkup: React.FC<IProps> = (props) => {
             <tr>
                 <td width="50%" style={{backgroundColor: "rgb(82, 86, 89)"}}>&nbsp;</td>
                 <td align="center">
-                    <CoDirectaMarkupTable1 assinaturaAgente={assinaturaAgente} assinaturaArguido={assinaturaArguido} assinaturaTestemunha_1={assinaturaTestemunha_1}  assinaturaTestemunha_2={assinaturaTestemunha_2} />
+                    <CoDirectaMarkupTable1 coData={coData} typeCopy={"ORIGINAL"} assinaturaAgente={assinaturaAgente} assinaturaArguido={assinaturaArguido} assinaturaTestemunha_1={assinaturaTestemunha_1}  assinaturaTestemunha_2={assinaturaTestemunha_2} />
                     <br/>
                     <br/>
-                    <CoDirectaMarkupTable2/>
+                    <CoDirectaMarkupTable2 />
                     <br/>
                     <br/>
-                    <CoDirectaMarkupTable3 assinaturaAgente={assinaturaAgente}  assinaturaArguido={assinaturaArguido} assinaturaTestemunha_1={assinaturaTestemunha_1}  assinaturaTestemunha_2={assinaturaTestemunha_2}/>
+                    <CoDirectaMarkupTable1 coData={coData} typeCopy={"DUPLICADO"} assinaturaAgente={assinaturaAgente} assinaturaArguido={assinaturaArguido} assinaturaTestemunha_1={assinaturaTestemunha_1}  assinaturaTestemunha_2={assinaturaTestemunha_2} />
                 </td>
                 <td width="50%" style={{backgroundColor: "rgb(82, 86, 89)"}}>&nbsp;</td>
             </tr>

@@ -2,6 +2,7 @@ import {IonButton, IonButtons} from "@ionic/react"
 import {Link} from "react-router-dom"
 
 interface IProps {
+    params?: any,
     onSave?: any,
     onEmit?: any,
     isCOSaved?: boolean

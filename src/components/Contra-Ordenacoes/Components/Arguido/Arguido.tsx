@@ -25,6 +25,7 @@ import {
     useIonAlert,
     useIonLoading,
 } from '@ionic/react';
+
 import { useContext, useState } from 'react';
 import { bookOutline, checkboxOutline, search } from 'ionicons/icons';
 import React from 'react';
@@ -53,7 +54,7 @@ const Arguido: React.FC<IArguido> = (props) => {
     const [isProprietarioVeiculo, setIsProprietarioVeiculo] = useState(false);
     const [arguidoVeiculoSingularColetivo, setArguidoVeiculoSingularColetivo] = useState<string>('singular');
     const [openPopoverArguidoData, setOpenPopoverArguidoData] = useState(false);
-
+    const [currentArguidoData, setCurrentArguidoData] = useState<any>()
     //START:  INPUT NIF
     const [arguidoNif, setArguidoNif] = useState('');
     const keyup_arguidoNif = (e: any) => {
@@ -137,7 +138,10 @@ const Arguido: React.FC<IArguido> = (props) => {
     // END: INPUT NIF
 
     const handlerFullfillForm = () => {
+
         props.setParentArguidoData(arguidoData);
+
+        setCurrentArguidoData(arguidoData);
 
         const _data = arguidoData || ({} as unknown as IPerson);
 
@@ -162,13 +166,17 @@ const Arguido: React.FC<IArguido> = (props) => {
     React.useEffect(() => {
         const _data = {
             isProprietarioVeiculo: isProprietarioVeiculo,
-            arguidoNif: arguidoNif,
+            nif: arguidoNif,
             arguidoVeiculoSingularColetivo: arguidoVeiculoSingularColetivo,
             paisEmissao: paisEmissao
         }
 
         if (_.has(props, 'setParentArguidoData')) {
-            props.setParentArguidoData(_data)
+            let __data = _data;
+            if (currentArguidoData) {
+                __data = Object.assign(__data, currentArguidoData)
+            }
+            props.setParentArguidoData(__data)
         }
 
     }, [isProprietarioVeiculo, arguidoNif, arguidoVeiculoSingularColetivo, paisEmissao])
@@ -243,7 +251,8 @@ const Arguido: React.FC<IArguido> = (props) => {
                     <IonRow>
                         <IonCol size-sm='12' size-md='8' size-lg='4'>
 
-                            <IonRadioGroup value={arguidoVeiculoSingularColetivo} onIonChange={e => setArguidoVeiculoSingularColetivo(e.detail.value)}>
+                            <IonRadioGroup value={arguidoVeiculoSingularColetivo}
+                                           onIonChange={e => setArguidoVeiculoSingularColetivo(e.detail.value)}>
                                 <IonRow>
 
                                     <IonCol size='6'>
