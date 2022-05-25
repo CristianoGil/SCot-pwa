@@ -1,7 +1,7 @@
 import type {IID_DESCRICAO} from "./extendable";
 
 export interface IVeiculo {
-    id: number
+    id?: number
     matricula?: string
     chassi?: string
     ano?: number
