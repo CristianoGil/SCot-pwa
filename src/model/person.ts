@@ -1,7 +1,7 @@
 import {IID_DESCRICAO} from "./extendable";
 
 export interface IPerson {
-    id: number
+    id?: number
     nif: number
     nome: string
     dataNascimento: Date

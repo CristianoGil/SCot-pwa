@@ -1,3 +1,6 @@
+import { ICoima } from "./Coimas";
+import { IID_DESCRICAO } from "./extendable";
+
 export interface PagamentoTpaRequest{
     anonpp: number;
     dataOperacao: string;
@@ -88,3 +91,21 @@ interface CoimasListSiga {
     errorMessage: string;
     resultado: boolean;
   }
+export interface ICombosPagamento {
+
+    entidades: IID_DESCRICAO[],
+    tiposPagamento: IID_DESCRICAO[],
+    meiosPagamento: IID_DESCRICAO[],
+    bancosEmissores: IID_DESCRICAO[]
+}
+
+
+export interface IPagamento {
+    id: number | null,
+    tipoPagamento: IID_DESCRICAO | null,
+    meioPagamento: IID_DESCRICAO | null,
+    numeroCheque: string | null,
+    bancoEmissor: IID_DESCRICAO | null,
+    coimas: ICoima[] | null,
+    dataPagamento: string | null
+}
