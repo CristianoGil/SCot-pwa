@@ -5,7 +5,7 @@ ion-row {
   }
 }
 
-ion-popover::part(content) {
+ion-popover.co-infraccao::part(content) {
   --width: 95%;
   --max-width: 400px;
 }
