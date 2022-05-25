@@ -15,4 +15,11 @@ ion-popover.popoverArguido {
   .btn-catalogo, .btn-use-data {
     margin-right: 15px;
   }
+
+  .btn-use-data {
+    position: absolute;
+    top: -50px;
+    right: 30px;
+
+  }
 }

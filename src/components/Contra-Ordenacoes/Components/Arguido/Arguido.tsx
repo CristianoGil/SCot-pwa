@@ -40,6 +40,272 @@ import { ICoimasEmAtraso, IDocumentoPessoa, IMoradaPessoa, IPerson } from '../..
 import { dateFormat } from '../../../../utils/apex-formatters';
 import * as yup from 'yup';
 import { arguidoSchema } from '../../../../Validations/ArguidoValidation';
+import { informationCircle } from "ionicons/icons";
+import DataTable from 'react-data-table-component';
+
+const columnsCoimasAtraso = [
+    {
+        name: 'Número auto',
+        selector: (row: { numeroAuto: any; }) => row.numeroAuto,
+    },
+    {
+        name: 'Código infração',
+        selector: (row: { codigoInfracao: any; }) => row.codigoInfracao,
+    },
+    {
+        name: 'Valor a pagar',
+        selector: (row: { valorPagar: any; }) => row.valorPagar,
+    },
+    {
+        name: 'Data primeira notificação',
+        selector: (row: { valorPagar: any; }) => row.valorPagar,
+    },
+    {
+        name: 'Mais info',
+        cell: (row: { accoes: any }) => (
+            <IonButton onClick={() => {}} size="small" color="primary" >
+                <IonIcon slot="start" icon={informationCircle} />
+            </IonButton>
+        )
+    },
+
+];
+
+const dataCoimasAtraso = [
+    {
+        id: 1,
+        numeroAuto: 'null',
+        codigoInfracao: 'null',
+        valorPagar: 'null',
+        accoes: 'null',
+    },
+
+]
+
+//--------------------------------------
+
+const columnsSancoesAcessorias = [
+    {
+        name: 'Auto',
+        selector: (row: { auto: any; }) => row.auto,
+    },
+    {
+        name: 'Código processo',
+        selector: (row: { codigoProcesso: any; }) => row.codigoProcesso,
+    },
+    {
+        name: 'Tribunal',
+        selector: (row: { tribunal: any; }) => row.tribunal,
+    },
+    {
+        name: 'Juízo',
+        selector: (row: { juizo: any; }) => row.juizo,
+    },
+    {
+        name: 'Data de inibição',
+        selector: (row: { dataInibicao: any; }) => row.dataInibicao,
+    },
+    {
+        name: 'Carta Entrada',
+        selector: (row: { cartaEntrada: any; }) => row.cartaEntrada,
+    },
+    {
+        name: 'Mais info',
+        cell: (row: { accoes: any }) => (
+            <IonButton onClick={() => {}} size="small" color="primary" >
+                <IonIcon slot="start" icon={informationCircle} />
+            </IonButton>
+        )
+    },
+
+];
+
+const dataSancoesAcessorias = [
+    {
+        id: 1,
+        auto: 'null',
+        codigoProcesso: 'null',
+        tribunal: 'null',
+        juizo: 'null',
+        dataInibicao: 'null',
+        cartaEntrada: 'null',
+        accoes: 'null',
+    },
+
+]
+
+//--------------------------------------
+
+const columnsDocumentosApreendidos = [
+    {
+        name: 'Auto',
+        selector: (row: { auto: any; }) => row.auto,
+    },
+    {
+        name: 'Documento',
+        selector: (row: { documento: any; }) => row.documento,
+    },
+    {
+        name: 'Localização de documento',
+        selector: (row: { localizacaoDocumento: any; }) => row.localizacaoDocumento,
+    },
+
+];
+
+const dataDocumentosApreendidos = [
+    {
+        id: 1,
+        auto: 'null',
+        documento: 'null',
+        localizacaoDocumento: 'null',
+    },
+
+]
+
+//--------------------------------------
+
+const columnsTituloConducao = [
+    {
+        name: 'Tipo',
+        selector: (row: { tipo: any; }) => row.tipo,
+    },
+    {
+        name: 'Número',
+        selector: (row: { numero: any; }) => row.numero,
+    },
+    {
+        name: 'Entidade',
+        selector: (row: { entidade: any; }) => row.entidade,
+    },
+    {
+        name: 'Data Emissão',
+        selector: (row: { dataEmissao: any; }) => row.dataEmissao,
+    },
+    {
+        name: 'Situação',
+        selector: (row: { situacao: any; }) => row.situacao,
+    },
+    {
+        name: 'Mais info',
+        cell: (row: { accoes: any }) => (
+            <IonButton onClick={() => {}} size="small" color="primary" >
+                <IonIcon slot="start" icon={informationCircle} />
+            </IonButton>
+        )
+    },
+
+];
+
+const dataTituloConducao = [
+    {
+        id: 1,
+        tipo: 'null',
+        numero: 'null',
+        entidade: 'null',
+        dataEmissao: 'null',
+        situacao: 'null',
+        accoes: 'null',
+    },
+
+]
+
+//--------------------------------------
+
+const columnsTituloConducao_Categorias = [
+    {
+        name: 'Categoria',
+        selector: (row: { categoria: any; }) => row.categoria,
+    },
+    {
+        name: 'Desc Categoria',
+        selector: (row: { descCategoria: any; }) => row.descCategoria,
+    },
+    {
+        name: 'Data Início',
+        selector: (row: { dataInicio: any; }) => row.dataInicio,
+    },
+    {
+        name: 'Restrições',
+        selector: (row: { restricoes: any; }) => row.restricoes,
+    },
+
+];
+
+const dataTituloConducao_Categorias = [
+    {
+        id: 1,
+        categoria: 'null',
+        descCategoria: 'null',
+        dataInicio: 'null',
+        restricoes: 'null',
+    },
+
+]
+
+
+//--------------------------------------
+
+const columnsOutrosDocumentos = [
+    {
+        name: 'Tipo',
+        selector: (row: { tipo: any; }) => row.tipo,
+    },
+    {
+        name: 'Número',
+        selector: (row: { numero: any; }) => row.numero,
+    },
+    {
+        name: 'Entidade',
+        selector: (row: { entidade: any; }) => row.entidade,
+    },
+    {
+        name: 'Data Emissão',
+        selector: (row: { dataEmissao: any; }) => row.dataEmissao,
+    },
+    {
+        name: 'Data Limite',
+        selector: (row: { dataLimite: any; }) => row.dataLimite,
+    },
+    {
+        name: 'Mais info',
+        cell: (row: { accoes: any }) => (
+            <IonButton onClick={() => {}} size="small" color="primary" >
+                <IonIcon slot="start" icon={informationCircle} />
+            </IonButton>
+        )
+    },
+
+];
+
+const dataOutrosDocumentos = [
+    {
+        id: 1,
+        tipo: 'null',
+        numero: 'null',
+        entidade: 'null',
+        dataEmissao: 'null',
+        dataLimite: 'null',
+        accoes: 'null',
+    },
+
+]
+
+//--------------------------------------
+
+const columnsMoradas = [
+    {
+        name: 'Morada',
+        selector: (row: { morada: any; }) => row.morada,
+    },
+];
+
+const dataMoradas = [
+    {
+        id: 1,
+        morada: 'null',
+    },
+
+]
 
 interface IArguido {
     setParentArguidoData?: any
@@ -294,15 +560,9 @@ const Arguido: React.FC<IArguido> = (props) => {
                     <IonToolbar color='transparent'>
                         <IonLabel slot='start'>
                             <h1>
-                                Identificação do Arguido
+                                Identificação do arguido
                             </h1>
                         </IonLabel>
-
-                        <IonButton className="btn-use-data" fill="outline" color="primary" slot="end"
-                            onClick={handlerFullfillForm}
-                        >
-                            AT/IRN <IonIcon slot="start" icon={checkboxOutline} />
-                        </IonButton>
 
                         <IonButton className="btn-catalogo" fill="outline" color="medium" slot="end">
                             Catálogo <IonIcon slot="start" icon={bookOutline} />
@@ -322,15 +582,24 @@ const Arguido: React.FC<IArguido> = (props) => {
                     <IonCard style={{ margin: 30 }}>
 
                         <IonCardHeader>
-                            <IonCardTitle>Informação pessoal</IonCardTitle>
+                            <IonCardTitle>Informação IMT
+                            </IonCardTitle>
                         </IonCardHeader>
 
                         <IonCardContent>
+                            <IonButton className="btn-use-data" fill="solid" color="primary" slot="end"
+                                onClick={handlerFullfillForm}>
+                                Utilizar estes dados <IonIcon slot="start" icon={bookOutline} />
+                            </IonButton>
                             <IonGrid>
                                 <CardListItem
-                                    c1={{ titulo: 'NIF', valor: arguidoData?.nif }}
-                                    c2={{ titulo: 'Nome', valor: arguidoData?.nome }}
+                                    c1={{ titulo: 'Nome Próprio', valor: arguidoData?.nome }}
+                                    c2={{ titulo: 'Apelido', valor: arguidoData?.nome }}
                                     c3={{
+                                        titulo: 'Local de Nascimento',
+                                        valor: 'null'
+                                    }}
+                                    c4={{
                                         titulo: 'Data de Nascimento',
                                         valor: dateFormat(`${arguidoData?.dataNascimento}`, 'yyyy-MM-DD')
                                     }}
@@ -351,255 +620,135 @@ const Arguido: React.FC<IArguido> = (props) => {
 
                         <IonCardContent>
                             <IonGrid>
-                                {arguidoData?.isCoimasEmAtraso ?
-                                    (arguidoData?.coimasEmAtraso || []).map((coimas: ICoimasEmAtraso, index) => {
-                                        return (
-                                            <IonCardContent key={`${coimas.id}-${coimas.data}-${index}`}>
-
-                                                <IonCardHeader>
-                                                    <IonCardSubtitle>Coima - {++index}</IonCardSubtitle>
-                                                </IonCardHeader>
-
-                                                < CardListItem
-                                                    c1={{
-                                                        titulo: 'Data',
-                                                        valor: dateFormat(`${coimas?.data}`, 'yyyy-MM-DD[ ]hh[h]mm')
-                                                    }}
-                                                    c2={{ titulo: 'Número de Infração', valor: coimas?.numeroAuto }}
-                                                    c3={{ titulo: 'Codigo de Infração', valor: coimas?.codInfracao }}
-                                                    c4={{
-                                                        titulo: 'Valor',
-                                                        valor: coimas?.valor
-                                                    }}
-
-                                                />
-
-                                                < CardListItem
-                                                    c1={{
-                                                        titulo: 'Valor Checado',
-                                                        valor: coimas?.valorChecado ? 'Sim' : 'Não'
-                                                    }}
-                                                    c2={{ titulo: 'Custas', valor: coimas?.custas }}
-                                                    c3={{
-                                                        titulo: 'Custas Checada',
-                                                        valor: coimas?.valorChecado ? 'Sim' : 'Não'
-                                                    }}
-                                                    c4={{
-                                                        titulo: 'Total',
-                                                        valor: coimas?.total
-                                                    }}
-
-                                                />
-                                            </IonCardContent>
-                                        )
-                                    }
-                                    )
-                                    :
-                                    <CardListItem
-                                        c1={{
-                                            titulo: 'Nota:',
-                                            valor: 'Não tem coimas em atraso',
-                                            tamCol: '12'
-                                        }}
-                                    />
-                                }
+                            <DataTable
+                                columns={columnsCoimasAtraso}
+                                data={dataCoimasAtraso}
+                            />
                             </IonGrid>
 
                         </IonCardContent>
                     </IonCard>
                     {/* END: Coimas */}
 
-                    {/* START: Morada  */}
+                    {/* START: Sanções acessórias */}
                     <IonCard style={{ margin: 30 }}>
-                        <IonGrid>
-                            <IonRow>
-                                <IonCol size-sm="12" size-md="12" size-lg="8">
-                                    <IonToolbar>
-                                        <IonSegment slot="start"
-                                            onIonChange={(e: any) => setSegmentMorada(e.detail.value)}
-                                            value={segmentMorada}>
-                                            <IonSegmentButton value="morada">Morada</IonSegmentButton>
-                                            <IonSegmentButton value="historico_da_morada">Histórico da
-                                                Morada</IonSegmentButton>
-                                        </IonSegment>
-                                    </IonToolbar>
-                                </IonCol>
-                            </IonRow>
-                        </IonGrid>
 
-                        {segmentMorada === 'morada' ?
+                        <IonCardHeader>
+                            <IonCardTitle>Sanções acessórias</IonCardTitle>
+                        </IonCardHeader>
 
-                            (arguidoData?.moradas || []).map((morada: IMoradaPessoa, index) => {
-                                return (
-                                    <IonCardContent style={{ margin: 30, marginTop: 0, paddingTop: 0 }}
-                                        key={`${morada.id}-${morada.morada}-${index}`}>
+                        <IonCardContent>
+                            <IonGrid>
 
-                                        <IonCardHeader>
-                                            <IonCardSubtitle>Morada - {morada.morada}</IonCardSubtitle>
-                                        </IonCardHeader>
+                            <DataTable
+                                columns={columnsSancoesAcessorias}
+                                data={dataSancoesAcessorias}
+                            />
+                            </IonGrid>
 
-                                        < CardListItem
-                                            c1={{
-                                                titulo: 'Local',
-                                                valor: morada.local.descricao
-                                            }}
-
-                                            c2={{ titulo: 'Localidade', valor: morada?.localidade }}
-                                            c3={{ titulo: 'Principal', valor: morada?.principal ? 'Sim' : 'Não' }}
-                                            c4={{
-                                                titulo: 'Código postal',
-                                                valor: morada?.codigoPostal
-                                            }}
-
-                                        />
-
-                                    </IonCardContent>
-                                )
-                            })
-
-                            :
-
-                            (arguidoData?.historicoMoradas || []).map((morada: IMoradaPessoa, index) => {
-                                return (
-                                    <IonCardContent style={{ margin: 30, marginTop: 0, paddingTop: 0 }}
-                                        key={`${morada.id}-${morada.morada}-${index}`}>
-
-                                        <IonCardHeader>
-                                            <IonCardSubtitle>Morada - {morada.morada}</IonCardSubtitle>
-                                        </IonCardHeader>
-
-                                        < CardListItem
-                                            c1={{
-                                                titulo: 'Local',
-                                                valor: morada.local.descricao
-                                            }}
-
-                                            c2={{ titulo: 'Localidade', valor: morada?.localidade }}
-                                            c3={{ titulo: 'Principal', valor: morada?.principal ? 'Sim' : 'Não' }}
-                                            c4={{
-                                                titulo: 'Código postal',
-                                                valor: morada?.codigoPostal
-                                            }}
-
-                                        />
-
-                                    </IonCardContent>
-                                )
-                            })
-
-                        }
-
-
+                        </IonCardContent>
                     </IonCard>
-                    {/* END: Morada  */}
+                    {/* END: Sanções acessórias */}
 
-
-                    {/* START: Documentos  */}
+                    {/* START: Documentos apreendidos */}
                     <IonCard style={{ margin: 30 }}>
-                        <IonGrid>
-                            <IonRow>
-                                <IonCol size-sm="12" size-md="12" size-lg="8">
-                                    <IonToolbar>
-                                        <IonSegment slot="start"
-                                            onIonChange={(e: any) => setSegmentDocumentos(e.detail.value)}
-                                            value={segmentDocumentos}>
-                                            <IonSegmentButton value="documentos">Documentos</IonSegmentButton>
-                                            <IonSegmentButton value="historico_da_documentos">Histórico de
-                                                Documentos</IonSegmentButton>
-                                        </IonSegment>
-                                    </IonToolbar>
-                                </IonCol>
-                            </IonRow>
-                        </IonGrid>
 
-                        {segmentDocumentos === 'documentos' ?
+                        <IonCardHeader>
+                            <IonCardTitle>Documentos apreendidos</IonCardTitle>
+                        </IonCardHeader>
 
-                            (arguidoData?.documentos || []).map((documento: IDocumentoPessoa, index) => {
-                                return (
-                                    <IonCardContent style={{ margin: 30, marginTop: 0, paddingTop: 0 }}
-                                        key={`${documento.id}-${documento.dataValidade}-${index}`}>
+                        <IonCardContent>
+                            <IonGrid>
+                            <DataTable
+                                columns={columnsDocumentosApreendidos}
+                                data={dataDocumentosApreendidos}
+                            />
 
-                                        <IonCardHeader>
-                                            <IonCardSubtitle>Documento - {++index}</IonCardSubtitle>
-                                        </IonCardHeader>
+                            </IonGrid>
 
-                                        < CardListItem
-                                            c1={{
-                                                titulo: 'Tipo',
-                                                valor: documento.tipoDocumento.descricao
-                                            }}
-
-                                            c2={{ titulo: 'Número', valor: documento?.numero }}
-                                            c3={{
-                                                titulo: 'Entidade de Emissão',
-                                                valor: documento?.entidadeEmissao.descricao
-                                            }}
-                                            c4={{
-                                                titulo: 'Data Validade',
-                                                valor: dateFormat(`${documento?.dataValidade}`, 'yyyy-MM-DD')
-                                            }}
-
-                                        />
-                                        < CardListItem
-                                            c1={{
-                                                titulo: 'Visualizado',
-                                                valor: documento.visualizado ? 'Sim' : 'Nâo'
-                                            }}
-
-                                            c2={{ titulo: 'Principal', valor: documento?.principal ? 'Sim' : 'Nâo' }}
-
-                                        />
-                                    </IonCardContent>
-                                )
-                            })
-
-                            :
-
-                            (arguidoData?.historicoDocumentos || []).map((documento: IDocumentoPessoa, index) => {
-                                return (
-                                    <IonCardContent style={{ margin: 30, marginTop: 0, paddingTop: 0 }}
-                                        key={`${documento.id}-${documento.dataValidade}-${index}`}>
-                                        <IonCardHeader>
-                                            <IonCardSubtitle>Documento - {++index}</IonCardSubtitle>
-                                        </IonCardHeader>
-
-                                        < CardListItem
-                                            c1={{
-                                                titulo: 'Tipo',
-                                                valor: documento.tipoDocumento.descricao
-                                            }}
-
-                                            c2={{ titulo: 'Número', valor: documento?.numero }}
-                                            c3={{
-                                                titulo: 'Entidade de Emissão',
-                                                valor: documento?.entidadeEmissao.descricao
-                                            }}
-                                            c4={{
-                                                titulo: 'Data Validade',
-                                                valor: dateFormat(`${documento?.dataValidade}`, 'yyyy-MM-DD')
-                                            }}
-
-                                        />
-                                        < CardListItem
-                                            c1={{
-                                                titulo: 'Visualizado',
-                                                valor: documento.visualizado ? 'Sim' : 'Nâo'
-                                            }}
-
-                                            c2={{ titulo: 'Principal', valor: documento?.principal ? 'Sim' : 'Nâo' }}
-
-                                        />
-
-                                    </IonCardContent>
-                                )
-                            })
-
-                        }
-
+                        </IonCardContent>
                     </IonCard>
-                    {/* END: Documentos  */}
+                    {/* END: Documentos apreendidos */}
 
+                    {/* START: Título de condução */}
+                    <IonCard style={{ margin: 30 }}>
 
+                        <IonCardHeader>
+                            <IonCardTitle>Título de condução</IonCardTitle>
+                        </IonCardHeader>
+
+                        <IonCardContent>
+                            <IonGrid>
+                            <DataTable
+                                columns={columnsTituloConducao}
+                                data={dataTituloConducao}
+                            />
+
+                            </IonGrid>
+
+                        </IonCardContent>
+                    </IonCard>
+                    {/* END: Título de condução */}
+
+                    {/* START: Título de condução - Categorias */}
+                    <IonCard style={{ margin: 30 }}>
+
+                        <IonCardHeader>
+                            <IonCardTitle>Título de condução - Categorias</IonCardTitle>
+                        </IonCardHeader>
+
+                        <IonCardContent>
+                            <IonGrid>
+                            <DataTable
+                                columns={columnsTituloConducao_Categorias}
+                                data={dataTituloConducao_Categorias}
+                            />
+
+                            </IonGrid>
+
+                        </IonCardContent>
+                    </IonCard>
+                    {/* END: Título de condução - Categorias */}
+
+                    {/* START: Outros Documentos */}
+                    <IonCard style={{ margin: 30 }}>
+
+                        <IonCardHeader>
+                            <IonCardTitle>Outros Documentos</IonCardTitle>
+                        </IonCardHeader>
+
+                        <IonCardContent>
+                            <IonGrid>
+                            <DataTable
+                                columns={columnsOutrosDocumentos}
+                                data={dataOutrosDocumentos}
+                            />
+
+                            </IonGrid>
+
+                        </IonCardContent>
+                    </IonCard>
+                    {/* END: Outros Documentos */}
+
+                    {/* START: Moradas */}
+                    <IonCard style={{ margin: 30 }}>
+
+                        <IonCardHeader>
+                            <IonCardTitle>Moradas</IonCardTitle>
+                        </IonCardHeader>
+
+                        <IonCardContent>
+                            <IonGrid>
+                            <DataTable
+                                columns={columnsMoradas}
+                                data={dataMoradas}
+                            />
+
+                            </IonGrid>
+
+                        </IonCardContent>
+                    </IonCard>
+                    {/* END: Moradas */}
                 </IonContent>
 
             </IonPopover>
