@@ -81,7 +81,7 @@ const App: React.FC = () => {
                         <CoDirecta />
                     </Route>
 
-                    <Route path={"/CODirectaSignPDFPreview"} exact={true}>
+                    <Route path={"/CODirectaSignPDFPreview/:coData"}  exact={true}>
                         <CODirectaSignPDFPreview />
                     </Route>
                     {/*</ProtectedRoute>*/}
