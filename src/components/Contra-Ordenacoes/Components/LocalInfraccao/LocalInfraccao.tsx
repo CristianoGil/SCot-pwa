@@ -54,12 +54,13 @@ const LocalInfraccao: React.FC = () => {
                 },
                 zoom: 8
             }
+            
         });
     }
     const [presentAlert, dismissAlert] = useIonAlert();
     const [presentOnLoading, dismissOnLoading] = useIonLoading();
 
-    const getCurrentPosition = async () => {
+    const getCurrentPosition =  () => {
       
         presentOnLoading({
             message: 'Carregando a sua localização...'
@@ -68,20 +69,22 @@ const LocalInfraccao: React.FC = () => {
         if ("geolocation" in navigator) {
             navigator.geolocation.getCurrentPosition((position)=>{
                 console.log(position, "coords")
-                 newMap.setCamera({
+                dismissOnLoading();
+         newMap.setCamera({
             coordinate: {
                 lat: position.coords.latitude,
                 lng: position.coords.longitude
             }
         });
 
-             newMap.addMarker({
+              newMap.addMarker({
             coordinate: {
                 lat: position.coords.latitude,
                 lng: position.coords.longitude
             }
         });
-                dismissOnLoading();
+
+         
     
             }, (error)=>{
                 dismissOnLoading();
