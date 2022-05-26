@@ -1,11 +1,17 @@
-import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCol, IonGrid, IonIcon, IonInput, IonItem, IonLabel, IonListHeader, IonRow, IonSelect, IonSelectOption } from "@ionic/react";
+import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCol, IonGrid, IonIcon, IonInput, IonItem, IonLabel, IonListHeader, IonRow, IonSelect, IonSelectOption, useIonAlert, useIonLoading } from "@ionic/react";
 import { search, location } from "ionicons/icons";
 import { GoogleMap } from '@capacitor/google-maps';
 import { Geolocation } from '@capacitor/geolocation';
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Contraordenacao } from "../../../../api/Contraordenacao";
 import React from "react";
-
+import '@mobiscroll/react/dist/css/mobiscroll.min.css';
+import { Select, Page, setOptions, getJson } from '@mobiscroll/react';
+import { ApiUtils } from "../../../../api/ApiUtils";
+setOptions({
+    theme: 'ios',
+    themeVariant: 'light'
+});
 interface LocalResponse {
     tiposArruamento: ComonResult[];
     tipos: ComonResult[];
@@ -50,24 +56,93 @@ const LocalInfraccao: React.FC = () => {
             }
         });
     }
+    const [presentAlert, dismissAlert] = useIonAlert();
+    const [presentOnLoading, dismissOnLoading] = useIonLoading();
 
     const getCurrentPosition = async () => {
-        const coordinates = await Geolocation.getCurrentPosition();
-        setCoordenadas({ "latitude": coordinates.coords.latitude, "longitude": coordinates.coords.longitude });
+      
+        presentOnLoading({
+            message: 'Carregando a sua localização...'
+        });
+
+        if ("geolocation" in navigator) {
+            navigator.geolocation.getCurrentPosition((position)=>{
+                console.log(position, "coords")
+                 newMap.setCamera({
+            coordinate: {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            }
+        });
+
+             newMap.addMarker({
+            coordinate: {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            }
+        });
+                dismissOnLoading();
+    
+            }, (error)=>{
+                dismissOnLoading();
+
+                presentAlert({
+                    header: 'Atenção!',
+                    message: `Não foi possivel carregar a localização \n ${error.message} \n tente novamente.`,
+                    buttons: [
+                        { text: 'Fechar' },
+                    ]
+                })
+            })
+      
+          } else {
+            dismissOnLoading();
+
+            presentAlert({
+                header: 'Atenção!',
+                message: 'Ativar a localização do dispositivo \n tente novamente.',
+                buttons: [
+                    { text: 'Fechar' },
+                ]
+            })
+      
+      
+          }
+
+            
+     
+        // const canRequestMap = Geolocation.checkPermissions();
+        // canRequestMap.then(c=>{
+        //     Geolocation.getCurrentPosition().then(success =>{
+        //         console.log("sss", success)
+
+        //     }).catch(err=>{
+        //         console.log("###", err)
+
+        //     })
+        // }).catch(err=>{
+        //     console.log("err", err)
+        // })
+        // const coordinates = await Geolocation.getCurrentPosition();
+        
+        // console.log(coordinates, "positions")
+        // setCoordenadas({ "latitude": coordinates.coords.latitude, "longitude": coordinates.coords.longitude });
         // Move the map programmatically
-        await newMap.setCamera({
-            coordinate: {
-                lat: coordinates.coords.latitude,
-                lng: coordinates.coords.longitude
-            }
-        });
-        // Add a marker to the map
-        await newMap.addMarker({
-            coordinate: {
-                lat: coordinates.coords.latitude,
-                lng: coordinates.coords.longitude
-            }
-        });
+         
+        // await newMap.setCamera({
+        //     coordinate: {
+        //         lat: coordinates.coords.latitude,
+        //         lng: coordinates.coords.longitude
+        //     }
+        // });
+        // // Add a marker to the map
+        // await newMap.addMarker({
+        //     coordinate: {
+        //         lat: coordinates.coords.latitude,
+        //         lng: coordinates.coords.longitude
+        //     }
+        // });
+
     };
 
     const carregarCombosLocalizacao = async (): Promise<any> => await new Contraordenacao().carregarCombosLocalizacao()
@@ -104,12 +179,15 @@ const LocalInfraccao: React.FC = () => {
         }).catch((error) => {
             console.error("Load localizacao combos: \n", error);
         })
+
     }, []);
 
     const onchange_filterConcelhoByDistritoId = (e: any) => {
         const id = e.target.value;
         const filteredConcelhos: ComonResult[] | undefined = concelhosPadrao?.filter(concelho => { return concelho.idDistrito === id })
+        
         setConcelhos(filteredConcelhos)
+        
     }
 
     const onchange_filterFreguesiasByConcelhoId = (e: any) => {
@@ -136,6 +214,34 @@ const LocalInfraccao: React.FC = () => {
     const onClick_pesquisar = () => {
 
     }
+
+
+
+    // const [remoteData, setRemoteData] = useState<any>();
+
+
+    // const remoteFiltering = React.useCallback((filterText: string | number | boolean) => {
+    //     getJson('https://trial.mobiscroll.com/airports/' + encodeURIComponent(filterText), (data) => {
+    //         const airports: {
+    //             text: any;
+    //             value: any;
+    //         }[]   =[] 
+    //                 for (const item of data) {
+    //           airports.push({ text: item.name, value: item.code });
+    //         }
+    //         setRemoteData(airports);
+    //         console.table(remoteData)
+    //     }, 'jsonp');
+    // }, []);
+
+    // const onFilter = React.useCallback((ev: { filterText: string | number | boolean; }) => {
+    //     remoteFiltering(ev.filterText);
+    //     return false;
+    // }, []);
+
+    // React.useEffect(() => {
+    //     remoteFiltering('');
+    // });
     return (
 
         <IonCard className={'co-localInfraccao'}>
@@ -158,18 +264,23 @@ const LocalInfraccao: React.FC = () => {
                     </IonRow>
                     <IonRow>
                         <IonCol size-sm="12" size-md="12" size-lg="12" style={{ marginTop: 16 }}>
-                            <IonItem lines="none">
-                                <span className="ion-padding-end">Lat: {coordenadas.latitude}</span>
-                                <span>Lng: {coordenadas.longitude}</span>
-                            </IonItem>
 
-                            <IonButton onClick={getCurrentPosition}>USAR MINHA POSIÇÃO ATUAL  <IonIcon icon={location} slot='start' /></IonButton>
+                            <IonButton onClick={getCurrentPosition}>Usar minha posição atual  <IonIcon icon={location} slot='start' /></IonButton>
                         </IonCol>
                     </IonRow>
                     <IonRow>
                         <IonCol size-sm="9" size-md="8" size-lg="4" style={{ marginTop: 16 }}>
+
+
+                        {/* <Select
+                            data={distritos}
+                            display="anchored"
+                            filter={true}
+                            label="Distrito"
+                        /> */}
                             <IonItem>
-                                <IonLabel>Distrito</IonLabel>
+
+                                                         <IonLabel>Distrito</IonLabel>
                                 <IonSelect interface="popover" onIonChange={onchange_filterConcelhoByDistritoId}>
                                     {distritos?.map((local: any) => {
                                         return (
@@ -177,8 +288,9 @@ const LocalInfraccao: React.FC = () => {
                                                 value={local.id}>{`${local.descricao}`}</IonSelectOption>
                                         )
                                     })}
-                                </IonSelect>
-                            </IonItem>
+
+                                </IonSelect> 
+                                                                </IonItem>
                         </IonCol>
 
                         <IonCol size-sm="9" size-md="8" size-lg="4" style={{ marginTop: 16 }}>
@@ -193,6 +305,12 @@ const LocalInfraccao: React.FC = () => {
                                     })}
                                 </IonSelect>
                             </IonItem>
+                              {/* <Select
+                            data={concelhos}
+                            display="anchored"
+                            filter={true}
+                            label="Conselho"
+                        /> */}
                         </IonCol>
 
                         <IonCol size-sm="9" size-md="8" size-lg="4" style={{ marginTop: 16 }}>
@@ -229,8 +347,8 @@ const LocalInfraccao: React.FC = () => {
                         <IonCol size-sm="9" size-md="8" size-lg="4">
                             <IonItem>
                                 <IonLabel position="floating" itemType="number" placeholder="Nº Polícia">Nº Polícia/km</IonLabel>
-                                <IonInput value={nrPolicia}
-                                    onKeyUp={keyup_nrPolicia}></IonInput>
+                                <IonInput
+                                   value={nrPolicia}></IonInput>
                             </IonItem>
                         </IonCol>
 
