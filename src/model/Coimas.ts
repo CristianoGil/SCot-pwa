@@ -6,10 +6,10 @@
     password: string;
     docType: string;
     docId: string;
-    sibs: string;
-    entId: string;
-    valPag: string;
-    countryId: string;
+    sibs?: string;
+    entId?: string;
+    valPag?: string;
+    countryId?: string;
   }
 
   

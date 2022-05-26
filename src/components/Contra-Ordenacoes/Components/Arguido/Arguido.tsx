@@ -42,6 +42,8 @@ import * as yup from 'yup';
 import { arguidoSchema } from '../../../../Validations/ArguidoValidation';
 import { informationCircle } from "ionicons/icons";
 import DataTable from 'react-data-table-component';
+import Pessoa from '../../../../pages/RI-Catalogo/Pessoa/Pessoa';
+import { CoimasService } from '../../../../api/CoimasService';
 
 const columnsCoimasAtraso = [
     {
@@ -58,26 +60,19 @@ const columnsCoimasAtraso = [
     },
     {
         name: 'Data primeira notificação',
-        selector: (row: { valorPagar: any; }) => row.valorPagar,
+        selector: (row: { primeiraNotificacao: any; }) => row.primeiraNotificacao,
     },
-    {
-        name: 'Mais info',
-        cell: (row: { accoes: any }) => (
-            <IonButton onClick={() => {}} size="small" color="primary" >
-                <IonIcon slot="start" icon={informationCircle} />
-            </IonButton>
-        )
-    },
+
 
 ];
 
 const dataCoimasAtraso = [
     {
-        id: 1,
+     
         numeroAuto: 'null',
         codigoInfracao: 'null',
         valorPagar: 'null',
-        accoes: 'null',
+        primeiraNotificacao: 'null',
     },
 
 ]
@@ -446,6 +441,54 @@ const Arguido: React.FC<IArguido> = (props) => {
         }
 
     }, [isProprietarioVeiculo, arguidoNif, arguidoVeiculoSingularColetivo, paisEmissao])
+
+
+   const carregarInformacoesServico =()=>{
+    presentOnLoanding({
+        message: 'Por favor aguarde...'
+    });   
+    
+    new Contraordenacao().pesquisarPessoa({nif:+arguidoNif, consultarWebService: true}).then(response=>{
+        setArguidoData(response.pessoa);
+        new CoimasService().getCoimasVoluntEmAtraso({
+    companyId: "ANSR",
+    userId: "loggedUser",
+    password: "loggedUserPassword",
+    docType: "NIF",
+    docId: arguidoNif,
+    
+}).then(wscoimasresponse=>{
+    console.table(wscoimasresponse.occurs)
+    dataCoimasAtraso.pop()
+     wscoimasresponse.occurs.forEach(coima=>{
+         const coimaLine = {
+            numeroAuto: coima.lawsuitCod,
+            codigoInfracao: coima.infrctCod,
+            valorPagar: coima.debtValue,
+            primeiraNotificacao: coima.notifDate
+
+         }
+         dataCoimasAtraso.push(coimaLine)
+    })
+    
+}).catch(wscoimaserror=>{
+    console.assert(wscoimaserror)
+})
+
+        dismissOnLoanding()
+    }).catch(e=>{
+        dismissOnLoanding()
+        presentAlert({
+            header: 'Error!',
+            message: 'Operação sem sucesso!\n' + e.message,
+            buttons: [
+                { text: 'Fechar' },
+            ]
+        })
+
+    })
+
+    }
     return (
         <IonCard className={'co-arguido'}>
 
@@ -565,7 +608,7 @@ const Arguido: React.FC<IArguido> = (props) => {
                         </IonLabel>
 
                         <IonButton className="btn-catalogo" fill="outline" color="medium" slot="end">
-                            Catálogo <IonIcon slot="start" icon={bookOutline} />
+                            Catálogo <IonIcon slot="start" icon={bookOutline} onClick={carregarInformacoesServico} />
                         </IonButton>
 
                         <IonButton className="btn-close" fill="outline" color="medium" slot="end" onClick={() => {
