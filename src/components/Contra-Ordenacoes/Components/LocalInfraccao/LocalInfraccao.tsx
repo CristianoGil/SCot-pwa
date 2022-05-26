@@ -99,7 +99,7 @@ const LocalInfraccao: React.FC = () => {
                     }
                 });
 
-                carregarDistritoByCoords({ lat: coordenadas.latitude, lng: coordenadas.longitude }).then(response => {
+                carregarDistritoByCoords({ lat: geo.coords.latitude, lng: geo.coords.longitude }).then(response => {
                     const zonaCapturadaPeloMapa = response.data.results[0].formatted_address
                     dismissOnLoading();
                     console.log(zonaCapturadaPeloMapa)
