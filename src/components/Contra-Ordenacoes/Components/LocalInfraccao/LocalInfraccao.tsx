@@ -5,13 +5,9 @@ import { Geolocation } from '@capacitor/geolocation';
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Contraordenacao } from "../../../../api/Contraordenacao";
 import React from "react";
-import '@mobiscroll/react/dist/css/mobiscroll.min.css';
-import { Select, Page, setOptions, getJson } from '@mobiscroll/react';
 import { ApiUtils } from "../../../../api/ApiUtils";
-setOptions({
-    theme: 'ios',
-    themeVariant: 'light'
-});
+import { position } from "html2canvas/dist/types/css/property-descriptors/position";
+
 interface LocalResponse {
     tiposArruamento: ComonResult[];
     tipos: ComonResult[];
@@ -33,124 +29,13 @@ interface ComonResult {
 
 
 const LocalInfraccao: React.FC = () => {
-
-    const [coordenadas, setCoordenadas] = useState({ "latitude": -19.831996961440094, "longitude": 34.83581986832666 });
-
     const apiKey = 'AIzaSyBaOBxDiMCrEgbfIOU6Wau_gjhXdZ6GBXE';
     const mapRef = useRef<HTMLElement>();
     let newMap: GoogleMap;
 
-    async function createMap() {
-        if (!mapRef.current) return;
-
-        newMap = await GoogleMap.create({
-            id: 'my-cool-map',
-            element: mapRef.current,
-            apiKey: apiKey,//process.env.REACT_APP_YOUR_API_KEY_HERE as string,
-            config: {
-                center: {
-                    lat: 38.710833,
-                    lng: -9.164948
-                },
-                zoom: 8
-            }
-            
-        });
-    }
-    const [presentAlert, dismissAlert] = useIonAlert();
-    const [presentOnLoading, dismissOnLoading] = useIonLoading();
-
-    const getCurrentPosition =  () => {
-      
-        presentOnLoading({
-            message: 'Carregando a sua localização...'
-        });
-
-        if ("geolocation" in navigator) {
-            navigator.geolocation.getCurrentPosition((position)=>{
-                console.log(position, "coords")
-                dismissOnLoading();
-         newMap.setCamera({
-            coordinate: {
-                lat: position.coords.latitude,
-                lng: position.coords.longitude
-            }
-        });
-
-              newMap.addMarker({
-            coordinate: {
-                lat: position.coords.latitude,
-                lng: position.coords.longitude
-            }
-        });
-
-         
-    
-            }, (error)=>{
-                dismissOnLoading();
-
-                presentAlert({
-                    header: 'Atenção!',
-                    message: `Não foi possivel carregar a localização \n ${error.message} \n tente novamente.`,
-                    buttons: [
-                        { text: 'Fechar' },
-                    ]
-                })
-            })
-      
-          } else {
-            dismissOnLoading();
-
-            presentAlert({
-                header: 'Atenção!',
-                message: 'Ativar a localização do dispositivo \n tente novamente.',
-                buttons: [
-                    { text: 'Fechar' },
-                ]
-            })
-      
-      
-          }
-
-            
-     
-        // const canRequestMap = Geolocation.checkPermissions();
-        // canRequestMap.then(c=>{
-        //     Geolocation.getCurrentPosition().then(success =>{
-        //         console.log("sss", success)
-
-        //     }).catch(err=>{
-        //         console.log("###", err)
-
-        //     })
-        // }).catch(err=>{
-        //     console.log("err", err)
-        // })
-        // const coordinates = await Geolocation.getCurrentPosition();
-        
-        // console.log(coordinates, "positions")
-        // setCoordenadas({ "latitude": coordinates.coords.latitude, "longitude": coordinates.coords.longitude });
-        // Move the map programmatically
-         
-        // await newMap.setCamera({
-        //     coordinate: {
-        //         lat: coordinates.coords.latitude,
-        //         lng: coordinates.coords.longitude
-        //     }
-        // });
-        // // Add a marker to the map
-        // await newMap.addMarker({
-        //     coordinate: {
-        //         lat: coordinates.coords.latitude,
-        //         lng: coordinates.coords.longitude
-        //     }
-        // });
-
-    };
-
-    const carregarCombosLocalizacao = async (): Promise<any> => await new Contraordenacao().carregarCombosLocalizacao()
-    const carregarComboLocalidade = async (idFreguesia: any): Promise<any> => await new Contraordenacao().carregarComboLocalidades(idFreguesia)
+    const [coordenadas, setCoordenadas] = useState({ "latitude": -19.831996961440094, "longitude": 34.83581986832666 });
     const [distritos, setDistritos] = useState<ComonResult[]>();
+    const [distritosPadrao, setDistritosPadrao] = useState<ComonResult[]>();
     const [concelhos, setConcelhos] = useState<ComonResult[]>();
     const [concelhosPadrao, setConcelhosPadrao] = useState<ComonResult[]>();
     const [freguesias, setFreguesias] = useState<ComonResult[]>();
@@ -166,6 +51,104 @@ const LocalInfraccao: React.FC = () => {
     const [zona, setZona] = useState();
     const [arruamento, setArruamento] = useState();
     const [nrPolicia, setNrPolicia] = useState();
+    const [presentAlert, dismissAlert] = useIonAlert();
+    const [presentOnLoading, dismissOnLoading] = useIonLoading();
+    const carregarCombosLocalizacao = async (): Promise<any> => await new Contraordenacao().carregarCombosLocalizacao()
+    const carregarComboLocalidade = async (idFreguesia: any): Promise<any> => await new Contraordenacao().carregarComboLocalidades(idFreguesia)
+    const carregarDistritoByCoords = async (position: { lat: any, lng: any }): Promise<any> => await new Contraordenacao().getMapAddressByPosition({ position: position, apiKey: apiKey })
+
+    
+
+    async function createMap() {
+        if (!mapRef.current) return;
+
+        newMap = await GoogleMap.create({
+            id: 'my-cool-map',
+            element: mapRef.current,
+            apiKey: apiKey,//process.env.REACT_APP_YOUR_API_KEY_HERE as string,
+            config: {
+                center: {
+                    lat: 38.710833,
+                    lng: -9.164948
+                },
+                zoom: 8
+            }
+
+        });
+    }
+   
+    const getCurrentPosition = () => {
+
+        presentOnLoading({
+            message: 'Carregando a sua localização...'
+        });
+
+        if ("geolocation" in navigator) {
+            navigator.geolocation.getCurrentPosition((geo) => {
+                newMap.setCamera({
+                    coordinate: {
+                        lat: geo.coords.latitude,
+                        lng: geo.coords.longitude
+                    }
+                });
+
+                newMap.addMarker({
+                    coordinate: {
+                        lat: geo.coords.latitude,
+                        lng: geo.coords.longitude
+                    }
+                });
+
+                carregarDistritoByCoords({ lat: coordenadas.latitude, lng: coordenadas.longitude }).then(response => {
+                    const zonaCapturadaPeloMapa = response.data.results[0].formatted_address
+                    dismissOnLoading();
+                    console.log(zonaCapturadaPeloMapa)
+                    const distritosFiltrados = distritos?.filter(distrito => { return distrito.descricao.includes(zonaCapturadaPeloMapa) })
+                    console.log(distritosFiltrados)
+                    setDistritos(distritosFiltrados)
+
+                }).catch(err => {
+                    dismissOnLoading();
+                    presentAlert({
+                        header: 'Atenção!',
+                        message: `Não foi possivel carregar a localização \n ${err.message} \n tente novamente.`,
+                        buttons: [
+                            { text: 'Fechar' },
+                        ]
+                    })
+
+
+                })
+
+
+            }, (error) => {
+                dismissOnLoading();
+
+                presentAlert({
+                    header: 'Atenção!',
+                    message: `Não foi possivel carregar a localização \n ${error.message} \n tente novamente.`,
+                    buttons: [
+                        { text: 'Fechar' },
+                    ]
+                })
+            })
+
+        } else {
+            dismissOnLoading();
+
+            presentAlert({
+                header: 'Atenção!',
+                message: 'Ativar a localização do dispositivo \n tente novamente.',
+                buttons: [
+                    { text: 'Fechar' },
+                ]
+            })
+
+
+        }
+
+
+    };
 
     useEffect(() => {
         createMap();
@@ -175,6 +158,7 @@ const LocalInfraccao: React.FC = () => {
         carregarCombosLocalizacao().then((response_local) => {
             const _local = response_local as LocalResponse
             setDistritos(_local?.distritos)
+            setDistritosPadrao(_local?.distritos)
             setConcelhos(_local?.concelhos)
             setConcelhosPadrao(_local?.concelhos)
             setFreguesiasPadrao(_local?.freguesias)
@@ -188,9 +172,9 @@ const LocalInfraccao: React.FC = () => {
     const onchange_filterConcelhoByDistritoId = (e: any) => {
         const id = e.target.value;
         const filteredConcelhos: ComonResult[] | undefined = concelhosPadrao?.filter(concelho => { return concelho.idDistrito === id })
-        
+
         setConcelhos(filteredConcelhos)
-        
+
     }
 
     const onchange_filterFreguesiasByConcelhoId = (e: any) => {
@@ -218,33 +202,6 @@ const LocalInfraccao: React.FC = () => {
 
     }
 
-
-
-    // const [remoteData, setRemoteData] = useState<any>();
-
-
-    // const remoteFiltering = React.useCallback((filterText: string | number | boolean) => {
-    //     getJson('https://trial.mobiscroll.com/airports/' + encodeURIComponent(filterText), (data) => {
-    //         const airports: {
-    //             text: any;
-    //             value: any;
-    //         }[]   =[] 
-    //                 for (const item of data) {
-    //           airports.push({ text: item.name, value: item.code });
-    //         }
-    //         setRemoteData(airports);
-    //         console.table(remoteData)
-    //     }, 'jsonp');
-    // }, []);
-
-    // const onFilter = React.useCallback((ev: { filterText: string | number | boolean; }) => {
-    //     remoteFiltering(ev.filterText);
-    //     return false;
-    // }, []);
-
-    // React.useEffect(() => {
-    //     remoteFiltering('');
-    // });
     return (
 
         <IonCard className={'co-localInfraccao'}>
@@ -274,16 +231,9 @@ const LocalInfraccao: React.FC = () => {
                     <IonRow>
                         <IonCol size-sm="9" size-md="8" size-lg="4" style={{ marginTop: 16 }}>
 
-
-                        {/* <Select
-                            data={distritos}
-                            display="anchored"
-                            filter={true}
-                            label="Distrito"
-                        /> */}
                             <IonItem>
 
-                                                         <IonLabel>Distrito</IonLabel>
+                                <IonLabel>Distrito</IonLabel>
                                 <IonSelect interface="popover" onIonChange={onchange_filterConcelhoByDistritoId}>
                                     {distritos?.map((local: any) => {
                                         return (
@@ -292,8 +242,8 @@ const LocalInfraccao: React.FC = () => {
                                         )
                                     })}
 
-                                </IonSelect> 
-                                                                </IonItem>
+                                </IonSelect>
+                            </IonItem>
                         </IonCol>
 
                         <IonCol size-sm="9" size-md="8" size-lg="4" style={{ marginTop: 16 }}>
@@ -308,12 +258,7 @@ const LocalInfraccao: React.FC = () => {
                                     })}
                                 </IonSelect>
                             </IonItem>
-                              {/* <Select
-                            data={concelhos}
-                            display="anchored"
-                            filter={true}
-                            label="Conselho"
-                        /> */}
+
                         </IonCol>
 
                         <IonCol size-sm="9" size-md="8" size-lg="4" style={{ marginTop: 16 }}>
@@ -351,7 +296,7 @@ const LocalInfraccao: React.FC = () => {
                             <IonItem>
                                 <IonLabel position="floating" itemType="number" placeholder="Nº Polícia">Nº Polícia/km</IonLabel>
                                 <IonInput
-                                   value={nrPolicia}></IonInput>
+                                    value={nrPolicia}></IonInput>
                             </IonItem>
                         </IonCol>
 
