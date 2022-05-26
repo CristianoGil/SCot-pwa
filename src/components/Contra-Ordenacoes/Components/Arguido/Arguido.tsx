@@ -44,6 +44,7 @@ import { informationCircle } from "ionicons/icons";
 import DataTable from 'react-data-table-component';
 import Pessoa from '../../../../pages/RI-Catalogo/Pessoa/Pessoa';
 import { CoimasService } from '../../../../api/CoimasService';
+import { SancoesService } from '../../../../api/SancoesService';
 
 const columnsCoimasAtraso = [
     {
@@ -66,16 +67,7 @@ const columnsCoimasAtraso = [
 
 ];
 
-const dataCoimasAtraso = [
-    {
-     
-        numeroAuto: 'null',
-        codigoInfracao: 'null',
-        valorPagar: 'null',
-        primeiraNotificacao: 'null',
-    },
-
-]
+const dataCoimasAtraso :{numeroAuto:string,codigoInfracao:string, valorPagar:string, primeiraNotificacao:string }[]=[]
 
 //--------------------------------------
 
@@ -115,18 +107,17 @@ const columnsSancoesAcessorias = [
 
 ];
 
-const dataSancoesAcessorias = [
-    {
-        id: 1,
-        auto: 'null',
-        codigoProcesso: 'null',
-        tribunal: 'null',
-        juizo: 'null',
-        dataInibicao: 'null',
-        cartaEntrada: 'null',
-        accoes: 'null',
-    },
-
+const dataSancoesAcessorias:  {
+    id: string,
+    auto: string | null,
+    codigoProcesso: string |null,
+    tribunal: string | null,
+    juizo: string |null,
+    dataInibicao: string | null,
+    cartaEntrada: string,
+    accoes: string
+}[
+] = [
 ]
 
 //--------------------------------------
@@ -450,6 +441,7 @@ const Arguido: React.FC<IArguido> = (props) => {
     
     new Contraordenacao().pesquisarPessoa({nif:+arguidoNif, consultarWebService: true}).then(response=>{
         setArguidoData(response.pessoa);
+
         new CoimasService().getCoimasVoluntEmAtraso({
     companyId: "ANSR",
     userId: "loggedUser",
@@ -475,6 +467,29 @@ const Arguido: React.FC<IArguido> = (props) => {
     console.assert(wscoimaserror)
 })
 
+new SancoesService().pesquisarSancoesAcessorias({
+    countryId: "PT",
+    entityCode: 'PT',
+    entityType: 'S',
+    forca: 'loggedUserForca',
+    idUtilizador: 'loggedUserId',
+    numeroDocumento: arguidoNif,
+    tipoDocumento: '7'
+}).then(sancoeswsresponse=>{
+    const sancao = {
+        id: sancoeswsresponse.totalDiasInibicao,
+        auto: sancoeswsresponse.codigoAuto,
+        codigoProcesso: sancoeswsresponse.codigoProcesso,
+        tribunal: sancoeswsresponse.tribunal,
+        juizo: sancoeswsresponse.juizo,
+        dataInibicao: sancoeswsresponse.dataIniCump,
+        cartaEntrada: sancoeswsresponse.cartaEntregue,
+        accoes: "null"
+    }
+    
+    dataSancoesAcessorias.push(sancao)
+
+})
         dismissOnLoanding()
     }).catch(e=>{
         dismissOnLoanding()
@@ -485,6 +500,7 @@ const Arguido: React.FC<IArguido> = (props) => {
                 { text: 'Fechar' },
             ]
         })
+
 
     })
 
