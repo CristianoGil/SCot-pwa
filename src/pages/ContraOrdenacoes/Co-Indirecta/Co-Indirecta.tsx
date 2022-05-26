@@ -2,18 +2,24 @@ import {
     IonCol, IonContent, IonGrid, IonHeader, IonItem, IonLabel, IonPage, IonRadio, IonRadioGroup, IonRow,
 } from '@ionic/react';
 import Menu from '../../../components/Menu/Menu';
-import React from 'react';
+import React, { useState } from 'react';
 import './Co-Indirecta.scss';
 import Veiculo from '../../../components/Contra-Ordenacoes/Components/Veiculo/Veiculo';
 import Unidade from '../../../components/Contra-Ordenacoes/Components/Unidade/Unidade';
 import Infraccao from '../../../components/Contra-Ordenacoes/Components/Infraccao/Infraccao';
+import { MenuActionsBtnSave } from '../../../components/Contra-Ordenacoes/MenuActionsBtn';
 
 const CoIndirecta: React.FC = () => {
 
+    const [isCISaved, setIsCISaved] = useState(false);
 
     return (
         <IonPage>
-            <Menu />
+            <Menu  actionsCOBtn={<MenuActionsBtnSave  isCOSaved={isCISaved} onEmit={(e: any) => {
+                onEmit(e);
+            }} onSave={(e: any) => {
+                onSave(e)
+            }}/>}/>
             <IonContent className="coindirecta">
 
                 <IonGrid id="gridGeral" style={{ marginBottom: 40 }}>
@@ -84,3 +90,11 @@ const CoIndirecta: React.FC = () => {
 };
 
 export default CoIndirecta;
+function onEmit(e: any) {
+    throw new Error('Function not implemented.');
+}
+
+function onSave(e: any) {
+    throw new Error('Function not implemented.');
+}
+

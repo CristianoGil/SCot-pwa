@@ -33,11 +33,15 @@ ion-card-title {
   text-align: center;
 }
 
-ion-select-popover .item.sc-ion-label-md-h, ion-select-popover
-.item .sc-ion-label-md-h {
+ion-select-popover .item.sc-ion-label-md-h,
+ion-select-popover .item .sc-ion-label-md-h {
   white-space: normal !important;
 }
 
 ion-button {
   text-transform: none;
+}
+
+ion-segment-button {
+  color: black;
 }
