@@ -15,10 +15,25 @@ import {CarregarCombosApreensaoDocumento} from "../model/documentoapreendido";
 import database from "../database";
 
 export class Contraordenacao {
+ 
 
     prefix_url: string = 'v1/contraOrdenacao'
     prefix_local_url: string = 'v1/locais'
     prefix_dominio_url: string = 'v1/dominio'
+    
+    getMapAddressByPosition(arg0: { position: { lat: any; lng: any; }; apiKey: string; }) {
+        return new Promise((resolve, reject) => {
+
+            axios
+                .get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${arg0.position.lat},${arg0.position.lng}&key=${arg0.apiKey}`)
+                .then((response: AxiosResponse<any>) => {
+                    resolve(response)
+                })
+                .catch((error: AxiosError) => {
+                    reject(error)
+                })
+        })
+    }
 
     private connectPostAPI(service_url: string, data: any): Promise<any> {
 

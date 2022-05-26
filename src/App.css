@@ -41,3 +41,7 @@ ion-select-popover .item.sc-ion-label-md-h, ion-select-popover
 ion-button {
   text-transform: none;
 }
+
+.segment-button-checked{
+  color:var(--ion-color-favorite-contrast);
+}
