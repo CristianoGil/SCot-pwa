@@ -45,6 +45,8 @@ import DataTable from 'react-data-table-component';
 import Pessoa from '../../../../pages/RI-Catalogo/Pessoa/Pessoa';
 import { CoimasService } from '../../../../api/CoimasService';
 import { SancoesService } from '../../../../api/SancoesService';
+import { DocumentoApreendido } from '../../../../api/DocumentoApreendido';
+import { CartaConducaoService } from '../../../../api/CartaConducaoService';
 
 const columnsCoimasAtraso = [
     {
@@ -67,7 +69,7 @@ const columnsCoimasAtraso = [
 
 ];
 
-const dataCoimasAtraso :{numeroAuto:string,codigoInfracao:string, valorPagar:string, primeiraNotificacao:string }[]=[]
+const dataCoimasAtraso: { numeroAuto: string, codigoInfracao: string, valorPagar: string, primeiraNotificacao: string }[] = []
 
 //--------------------------------------
 
@@ -99,7 +101,7 @@ const columnsSancoesAcessorias = [
     {
         name: 'Mais info',
         cell: (row: { accoes: any }) => (
-            <IonButton onClick={() => {}} size="small" color="primary" >
+            <IonButton onClick={() => { }} size="small" color="primary" >
                 <IonIcon slot="start" icon={informationCircle} />
             </IonButton>
         )
@@ -107,18 +109,18 @@ const columnsSancoesAcessorias = [
 
 ];
 
-const dataSancoesAcessorias:  {
+const dataSancoesAcessorias: {
     id: string,
     auto: string | null,
-    codigoProcesso: string |null,
+    codigoProcesso: string | null,
     tribunal: string | null,
-    juizo: string |null,
+    juizo: string | null,
     dataInibicao: string | null,
     cartaEntrada: string,
     accoes: string
 }[
 ] = [
-]
+    ]
 
 //--------------------------------------
 
@@ -135,18 +137,20 @@ const columnsDocumentosApreendidos = [
         name: 'Localização de documento',
         selector: (row: { localizacaoDocumento: any; }) => row.localizacaoDocumento,
     },
+    {
+        name: 'Mais info',
+        selector: (row: { localizacaoDocumento: any; }) => row.localizacaoDocumento,
+    },
+
 
 ];
 
-const dataDocumentosApreendidos = [
-    {
-        id: 1,
-        auto: 'null',
-        documento: 'null',
-        localizacaoDocumento: 'null',
-    },
-
-]
+const dataDocumentosApreendidos: {
+    id: number;
+    auto: string;
+    documento: string;
+    localizacaoDocumento: string;
+}[] = []
 
 //--------------------------------------
 
@@ -174,7 +178,7 @@ const columnsTituloConducao = [
     {
         name: 'Mais info',
         cell: (row: { accoes: any }) => (
-            <IonButton onClick={() => {}} size="small" color="primary" >
+            <IonButton onClick={() => { }} size="small" color="primary" >
                 <IonIcon slot="start" icon={informationCircle} />
             </IonButton>
         )
@@ -182,18 +186,15 @@ const columnsTituloConducao = [
 
 ];
 
-const dataTituloConducao = [
-    {
-        id: 1,
-        tipo: 'null',
-        numero: 'null',
-        entidade: 'null',
-        dataEmissao: 'null',
-        situacao: 'null',
-        accoes: 'null',
-    },
-
-]
+const dataTituloConducao: {
+    id: number;
+    tipo: string;
+    numero: string;
+    entidade: string;
+    dataEmissao: string;
+    situacao: string;
+    accoes: string;
+  }[] = []
 
 //--------------------------------------
 
@@ -217,16 +218,13 @@ const columnsTituloConducao_Categorias = [
 
 ];
 
-const dataTituloConducao_Categorias = [
-    {
-        id: 1,
-        categoria: 'null',
-        descCategoria: 'null',
-        dataInicio: 'null',
-        restricoes: 'null',
-    },
-
-]
+const dataTituloConducao_Categorias:{
+    id: number;
+    categoria: string;
+    descCategoria: string;
+    dataInicio: string;
+    restricoes: string;
+}[]= []
 
 
 //--------------------------------------
@@ -255,7 +253,7 @@ const columnsOutrosDocumentos = [
     {
         name: 'Mais info',
         cell: (row: { accoes: any }) => (
-            <IonButton onClick={() => {}} size="small" color="primary" >
+            <IonButton onClick={() => { }} size="small" color="primary" >
                 <IonIcon slot="start" icon={informationCircle} />
             </IonButton>
         )
@@ -263,18 +261,16 @@ const columnsOutrosDocumentos = [
 
 ];
 
-const dataOutrosDocumentos = [
-    {
-        id: 1,
-        tipo: 'null',
-        numero: 'null',
-        entidade: 'null',
-        dataEmissao: 'null',
-        dataLimite: 'null',
-        accoes: 'null',
-    },
-
-]
+const dataOutrosDocumentos:
+{
+    id: number;
+    tipo: string;
+    numero: string;
+    entidade: string;
+    dataEmissao: string;
+    dataLimite: string;
+    accoes: string;
+}[] = []
 
 //--------------------------------------
 
@@ -283,15 +279,10 @@ const columnsMoradas = [
         name: 'Morada',
         selector: (row: { morada: any; }) => row.morada,
     },
+    
 ];
 
-const dataMoradas = [
-    {
-        id: 1,
-        morada: 'null',
-    },
-
-]
+const dataMoradas:{  id: number; morada: string;}[] = []
 
 interface IArguido {
     setParentArguidoData?: any
@@ -434,75 +425,154 @@ const Arguido: React.FC<IArguido> = (props) => {
     }, [isProprietarioVeiculo, arguidoNif, arguidoVeiculoSingularColetivo, paisEmissao])
 
 
-   const carregarInformacoesServico =()=>{
-    presentOnLoanding({
-        message: 'Por favor aguarde...'
-    });   
-    
-    new Contraordenacao().pesquisarPessoa({nif:+arguidoNif, consultarWebService: true}).then(response=>{
-        setArguidoData(response.pessoa);
+    const carregarInformacoesServico = () => {
+        presentOnLoanding({
+            message: 'Por favor aguarde...'
+        });
 
-        new CoimasService().getCoimasVoluntEmAtraso({
-    companyId: "ANSR",
-    userId: "loggedUser",
-    password: "loggedUserPassword",
-    docType: "NIF",
-    docId: arguidoNif,
-    
-}).then(wscoimasresponse=>{
-    console.table(wscoimasresponse.occurs)
-    dataCoimasAtraso.pop()
-     wscoimasresponse.occurs.forEach(coima=>{
-         const coimaLine = {
-            numeroAuto: coima.lawsuitCod,
-            codigoInfracao: coima.infrctCod,
-            valorPagar: coima.debtValue,
-            primeiraNotificacao: coima.notifDate
+        new Contraordenacao().pesquisarPessoa({ nif: +arguidoNif, consultarWebService: true }).then(response => {
+            setArguidoData(response.pessoa);
+            for (let index = 0; index < response.pessoa.historicoMoradas.length; index++) {
+                dataMoradas.push(...[{
+                    id:index+1, 
+                    morada:response.pessoa.historicoMoradas[index].morada  + "" +response.pessoa.historicoMoradas[index].principal
+                }])
+            }
+            
+            new CoimasService().getCoimasVoluntEmAtraso({
+                companyId: "ANSR",
+                userId: "loggedUser",
+                password: "loggedUserPassword",
+                docType: "NIF",
+                docId: arguidoNif,
 
-         }
-         dataCoimasAtraso.push(coimaLine)
-    })
-    
-}).catch(wscoimaserror=>{
-    console.assert(wscoimaserror)
-})
+            }).then(wscoimasresponse => {
+                console.table(wscoimasresponse.occurs)
+                dataCoimasAtraso.pop()
+                wscoimasresponse.occurs.forEach(coima => {
+                    const coimaLine = {
+                        numeroAuto: coima.lawsuitCod,
+                        codigoInfracao: coima.infrctCod,
+                        valorPagar: coima.debtValue,
+                        primeiraNotificacao: coima.notifDate
 
-new SancoesService().pesquisarSancoesAcessorias({
-    countryId: "PT",
-    entityCode: 'PT',
-    entityType: 'S',
-    forca: 'loggedUserForca',
-    idUtilizador: 'loggedUserId',
-    numeroDocumento: arguidoNif,
-    tipoDocumento: '7'
-}).then(sancoeswsresponse=>{
-    const sancao = {
-        id: sancoeswsresponse.totalDiasInibicao,
-        auto: sancoeswsresponse.codigoAuto,
-        codigoProcesso: sancoeswsresponse.codigoProcesso,
-        tribunal: sancoeswsresponse.tribunal,
-        juizo: sancoeswsresponse.juizo,
-        dataInibicao: sancoeswsresponse.dataIniCump,
-        cartaEntrada: sancoeswsresponse.cartaEntregue,
-        accoes: "null"
-    }
-    
-    dataSancoesAcessorias.push(sancao)
+                    }
+                    dataCoimasAtraso.push(coimaLine)
+                })
 
-})
-        dismissOnLoanding()
-    }).catch(e=>{
-        dismissOnLoanding()
-        presentAlert({
-            header: 'Error!',
-            message: 'Operação sem sucesso!\n' + e.message,
-            buttons: [
-                { text: 'Fechar' },
-            ]
+            }).catch(wscoimaserror => {
+                console.assert(wscoimaserror)
+            })
+
+            new SancoesService().pesquisarSancoesAcessorias({
+                countryId: "PT",
+                entityCode: 'PT',
+                entityType: 'S',
+                forca: 'loggedUserForca',
+                idUtilizador: 'loggedUserId',
+                numeroDocumento: arguidoNif,
+                tipoDocumento: '7'
+            }).then(sancoeswsresponse => {
+                const sancao = {
+                    id: sancoeswsresponse.totalDiasInibicao,
+                    auto: sancoeswsresponse.codigoAuto,
+                    codigoProcesso: sancoeswsresponse.codigoProcesso,
+                    tribunal: sancoeswsresponse.tribunal,
+                    juizo: sancoeswsresponse.juizo,
+                    dataInibicao: sancoeswsresponse.dataIniCump,
+                    cartaEntrada: sancoeswsresponse.cartaEntregue,
+                    accoes: "ver detalhes"
+                }
+
+                dataSancoesAcessorias.push(sancao)
+
+            }).catch(sancoeserror => {
+                console.assert(sancoeserror)
+            })
+
+            new DocumentoApreendido().consultaDocumentosApreendidos(
+                {
+                    designacao: '',
+                    entidade: '',
+                    nomeUtilizador: '',
+                    sistema: '',
+                    utilizador: '',
+                    numeroDocumento: '',
+                    paisDocumento: '',
+                    tipoDocumento: 0,
+                    tipoContribuinte: 0
+                }
+            ).then(docsresponse => {
+                dataDocumentosApreendidos.push(...[{
+                    auto: docsresponse.indActivo,
+                    documento: docsresponse.descTipo,
+                    localizacaoDocumento: docsresponse.textoLocal,
+                    id: docsresponse.idItem
+                }])
+            }).catch(docserr => {
+                console.assert(docserr)
+
+
+            })
+
+            new CartaConducaoService().obterDadosCartaConducao({
+                idSistema: 0,
+                codPaisNIF: '',
+                numNIF: '',
+                idTipoDocumento: 0,
+                codPaisDocumento: '',
+                numDocumento: '',
+                flObterImagensExterno: ''
+            }).then(ccresponse => {
+                      dataTituloConducao.push(...[{
+                        id: 1,
+                        tipo: ccresponse.nomesProprios,
+                        numero: ccresponse.numeroCarta,
+                        entidade: ccresponse.entidadeEmissora,
+                        dataEmissao: ccresponse.dataEmissao,
+                        situacao: ccresponse.dscSituacao,
+                        accoes: "Ver detalhes" 
+                      }])
+
+                      interface Restricoes {
+                        restricao: Restricao[];
+                      }
+                       interface Restricao {
+                        codRestricao: string;
+                        dscRestricao: string;
+                        txAnotacao: string;
+                      }
+                     const categorias:{ codCategoria: string;
+                        dscCategoria: string;
+                        dataInicio: string;
+                        dataValidade: string;
+                        restricoes: Restricoes;}[] =  ccresponse.categoria.categoria
+                      
+                        for (let index = 0; index < categorias.length; index++) {
+                            dataTituloConducao_Categorias.push({
+                                id: index+1,
+                                categoria: categorias[index].codCategoria,
+                                descCategoria: categorias[index].dscCategoria,
+                                dataInicio: categorias[index].dataInicio,
+                                restricoes: categorias[index].restricoes.restricao[0].dscRestricao
+                            })   
+                        }
+            }).catch(ccerror => {
+                console.assert(ccerror)
+            })
+            dismissOnLoanding()
+        }).catch(e => {
+            dismissOnLoanding()
+            presentAlert({
+                header: 'Error!',
+                message: 'Operação sem sucesso!\n' + e.message,
+                buttons: [
+                    { text: 'Fechar' },
+                ]
+            })
+
+
         })
-
-
-    })
 
     }
     return (
@@ -577,7 +647,7 @@ new SancoesService().pesquisarSancoesAcessorias({
                         <IonCol size-sm='12' size-md='8' size-lg='4'>
 
                             <IonRadioGroup value={arguidoVeiculoSingularColetivo}
-                                           onIonChange={e => setArguidoVeiculoSingularColetivo(e.detail.value)}>
+                                onIonChange={e => setArguidoVeiculoSingularColetivo(e.detail.value)}>
                                 <IonRow>
 
                                     <IonCol size='6'>
@@ -679,10 +749,10 @@ new SancoesService().pesquisarSancoesAcessorias({
 
                         <IonCardContent>
                             <IonGrid>
-                            <DataTable
-                                columns={columnsCoimasAtraso}
-                                data={dataCoimasAtraso}
-                            />
+                                <DataTable
+                                    columns={columnsCoimasAtraso}
+                                    data={dataCoimasAtraso}
+                                />
                             </IonGrid>
 
                         </IonCardContent>
@@ -699,10 +769,10 @@ new SancoesService().pesquisarSancoesAcessorias({
                         <IonCardContent>
                             <IonGrid>
 
-                            <DataTable
-                                columns={columnsSancoesAcessorias}
-                                data={dataSancoesAcessorias}
-                            />
+                                <DataTable
+                                    columns={columnsSancoesAcessorias}
+                                    data={dataSancoesAcessorias}
+                                />
                             </IonGrid>
 
                         </IonCardContent>
@@ -718,10 +788,10 @@ new SancoesService().pesquisarSancoesAcessorias({
 
                         <IonCardContent>
                             <IonGrid>
-                            <DataTable
-                                columns={columnsDocumentosApreendidos}
-                                data={dataDocumentosApreendidos}
-                            />
+                                <DataTable
+                                    columns={columnsDocumentosApreendidos}
+                                    data={dataDocumentosApreendidos}
+                                />
 
                             </IonGrid>
 
@@ -738,10 +808,10 @@ new SancoesService().pesquisarSancoesAcessorias({
 
                         <IonCardContent>
                             <IonGrid>
-                            <DataTable
-                                columns={columnsTituloConducao}
-                                data={dataTituloConducao}
-                            />
+                                <DataTable
+                                    columns={columnsTituloConducao}
+                                    data={dataTituloConducao}
+                                />
 
                             </IonGrid>
 
@@ -758,10 +828,10 @@ new SancoesService().pesquisarSancoesAcessorias({
 
                         <IonCardContent>
                             <IonGrid>
-                            <DataTable
-                                columns={columnsTituloConducao_Categorias}
-                                data={dataTituloConducao_Categorias}
-                            />
+                                <DataTable
+                                    columns={columnsTituloConducao_Categorias}
+                                    data={dataTituloConducao_Categorias}
+                                />
 
                             </IonGrid>
 
@@ -778,10 +848,10 @@ new SancoesService().pesquisarSancoesAcessorias({
 
                         <IonCardContent>
                             <IonGrid>
-                            <DataTable
-                                columns={columnsOutrosDocumentos}
-                                data={dataOutrosDocumentos}
-                            />
+                                <DataTable
+                                    columns={columnsOutrosDocumentos}
+                                    data={dataOutrosDocumentos}
+                                />
 
                             </IonGrid>
 
@@ -798,10 +868,10 @@ new SancoesService().pesquisarSancoesAcessorias({
 
                         <IonCardContent>
                             <IonGrid>
-                            <DataTable
-                                columns={columnsMoradas}
-                                data={dataMoradas}
-                            />
+                                <DataTable
+                                    columns={columnsMoradas}
+                                    data={dataMoradas}
+                                />
 
                             </IonGrid>
 
