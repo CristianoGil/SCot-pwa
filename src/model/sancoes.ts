@@ -20,3 +20,8 @@ export interface SancoesRequest {
     totalDiasInibicao: string;
     tribunal: string;
   }
+
+  export interface SancoesResponseList {
+    acessoriasResponses:SancoesResponse[]
+  }
+

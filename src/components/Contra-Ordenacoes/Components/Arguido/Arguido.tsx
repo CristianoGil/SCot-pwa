@@ -69,8 +69,10 @@ const columnsCoimasAtraso = [
 
 ];
 
-const dataCoimasAtraso: { numeroAuto: string, codigoInfracao: string, valorPagar: string, primeiraNotificacao: string }[] = []
-
+interface CoimasDto {
+    numeroAuto: string, codigoInfracao: string, valorPagar: string, primeiraNotificacao: string
+}
+const dataCoimasAtraso: CoimasDto[] = []
 //--------------------------------------
 
 const columnsSancoesAcessorias = [
@@ -119,8 +121,7 @@ const dataSancoesAcessorias: {
     cartaEntrada: string,
     accoes: string
 }[
-] = [
-    ]
+] = []
 
 //--------------------------------------
 
@@ -194,7 +195,7 @@ const dataTituloConducao: {
     dataEmissao: string;
     situacao: string;
     accoes: string;
-  }[] = []
+}[] = []
 
 //--------------------------------------
 
@@ -218,13 +219,13 @@ const columnsTituloConducao_Categorias = [
 
 ];
 
-const dataTituloConducao_Categorias:{
+const dataTituloConducao_Categorias: {
     id: number;
     categoria: string;
     descCategoria: string;
     dataInicio: string;
     restricoes: string;
-}[]= []
+}[] = []
 
 
 //--------------------------------------
@@ -262,15 +263,15 @@ const columnsOutrosDocumentos = [
 ];
 
 const dataOutrosDocumentos:
-{
-    id: number;
-    tipo: string;
-    numero: string;
-    entidade: string;
-    dataEmissao: string;
-    dataLimite: string;
-    accoes: string;
-}[] = []
+    {
+        id: number;
+        tipo: string;
+        numero: string;
+        entidade: string;
+        dataEmissao: string;
+        dataLimite: string;
+        accoes: string;
+    }[] = []
 
 //--------------------------------------
 
@@ -279,10 +280,10 @@ const columnsMoradas = [
         name: 'Morada',
         selector: (row: { morada: any; }) => row.morada,
     },
-    
+
 ];
 
-const dataMoradas:{  id: number; morada: string;}[] = []
+const moradas: { id: number; morada: string; }[] = []
 
 interface IArguido {
     setParentArguidoData?: any
@@ -291,6 +292,12 @@ interface IArguido {
 const Arguido: React.FC<IArguido> = (props) => {
 
     const alertOfflineContext = useContext<any>(AlertNetworkOfflineContext)
+
+    const [dataCoimas, setDataCoimas] = useState(dataCoimasAtraso);
+
+    const [dataSancoes, setDataSancoes] = useState(dataSancoesAcessorias)
+    const [dataMoradas, setDataMoradas] = useState(moradas)
+    const [dataDocumentos, setDataDocumentos] = useState(dataDocumentosApreendidos)
 
     const [presentAlert, dismissAlert] = useIonAlert();
     const [presentOnLoanding, dismissOnLoanding] = useIonLoading();
@@ -426,19 +433,22 @@ const Arguido: React.FC<IArguido> = (props) => {
 
 
     const carregarInformacoesServico = () => {
+
         presentOnLoanding({
             message: 'Por favor aguarde...'
         });
 
         new Contraordenacao().pesquisarPessoa({ nif: +arguidoNif, consultarWebService: true }).then(response => {
+            console.log(response.pessoa)
             setArguidoData(response.pessoa);
-            for (let index = 0; index < response.pessoa.historicoMoradas.length; index++) {
-                dataMoradas.push(...[{
-                    id:index+1, 
-                    morada:response.pessoa.historicoMoradas[index].morada  + "" +response.pessoa.historicoMoradas[index].principal
+
+            for (let index = 0; index < response.pessoa.moradas.length; index++) {
+                setDataMoradas([...dataMoradas, {
+                    id: index + 1,
+                    morada: response.pessoa.moradas[index].fracao + " " + response.pessoa.moradas[index].principal
                 }])
             }
-            
+
             new CoimasService().getCoimasVoluntEmAtraso({
                 companyId: "ANSR",
                 userId: "loggedUser",
@@ -448,7 +458,6 @@ const Arguido: React.FC<IArguido> = (props) => {
 
             }).then(wscoimasresponse => {
                 console.table(wscoimasresponse.occurs)
-                dataCoimasAtraso.pop()
                 wscoimasresponse.occurs.forEach(coima => {
                     const coimaLine = {
                         numeroAuto: coima.lawsuitCod,
@@ -457,11 +466,13 @@ const Arguido: React.FC<IArguido> = (props) => {
                         primeiraNotificacao: coima.notifDate
 
                     }
-                    dataCoimasAtraso.push(coimaLine)
+                 
+                    setDataCoimas([...dataCoimas, coimaLine])
+
                 })
 
             }).catch(wscoimaserror => {
-                console.assert(wscoimaserror)
+                console.log(wscoimaserror)
             })
 
             new SancoesService().pesquisarSancoesAcessorias({
@@ -473,18 +484,20 @@ const Arguido: React.FC<IArguido> = (props) => {
                 numeroDocumento: arguidoNif,
                 tipoDocumento: '7'
             }).then(sancoeswsresponse => {
-                const sancao = {
-                    id: sancoeswsresponse.totalDiasInibicao,
-                    auto: sancoeswsresponse.codigoAuto,
-                    codigoProcesso: sancoeswsresponse.codigoProcesso,
-                    tribunal: sancoeswsresponse.tribunal,
-                    juizo: sancoeswsresponse.juizo,
-                    dataInibicao: sancoeswsresponse.dataIniCump,
-                    cartaEntrada: sancoeswsresponse.cartaEntregue,
-                    accoes: "ver detalhes"
-                }
+                    for (let index = 0; index < sancoeswsresponse.acessoriasResponses.length; index++) {
+                        const element = sancoeswsresponse.acessoriasResponses[index];
+                        const sancao = {
+                            id: String(index+1),
+                            auto: element.codigoAuto,
+                            codigoProcesso: element.codigoProcesso,
+                            tribunal: element.tribunal,
+                            juizo: element.juizo,
+                            dataInibicao: element.dataIniCump,
+                            cartaEntrada: element.cartaEntregue,
+                            accoes: "ver detalhes"
+                        }  
+                        setDataSancoes([...dataSancoes, sancao]);                    }
 
-                dataSancoesAcessorias.push(sancao)
 
             }).catch(sancoeserror => {
                 console.assert(sancoeserror)
@@ -492,26 +505,26 @@ const Arguido: React.FC<IArguido> = (props) => {
 
             new DocumentoApreendido().consultaDocumentosApreendidos(
                 {
-                    designacao: '',
-                    entidade: '',
-                    nomeUtilizador: '',
-                    sistema: '',
-                    utilizador: '',
-                    numeroDocumento: '',
-                    paisDocumento: '',
-                    tipoDocumento: 0,
-                    tipoContribuinte: 0
+                    designacao: 'focas.kandulo@ambisig.com',
+                    entidade: 'loggerUser',
+                    nomeUtilizador: 'loggedUser',
+                    sistema: 'SCOT',
+                    utilizador: 'loggedUser',
+                    numeroDocumento: '4234234',
+                    paisDocumento: 'PT',
+                    tipoDocumento: 5,
+                    tipoContribuinte: 1
                 }
             ).then(docsresponse => {
-                dataDocumentosApreendidos.push(...[{
+                setDataDocumentos([...dataDocumentos,{
                     auto: docsresponse.indActivo,
                     documento: docsresponse.descTipo,
                     localizacaoDocumento: docsresponse.textoLocal,
                     id: docsresponse.idItem
-                }])
+                } ])
+             
             }).catch(docserr => {
-                console.assert(docserr)
-
+console.log("error due", docserr)
 
             })
 
@@ -524,39 +537,41 @@ const Arguido: React.FC<IArguido> = (props) => {
                 numDocumento: '',
                 flObterImagensExterno: ''
             }).then(ccresponse => {
-                      dataTituloConducao.push(...[{
-                        id: 1,
-                        tipo: ccresponse.nomesProprios,
-                        numero: ccresponse.numeroCarta,
-                        entidade: ccresponse.entidadeEmissora,
-                        dataEmissao: ccresponse.dataEmissao,
-                        situacao: ccresponse.dscSituacao,
-                        accoes: "Ver detalhes" 
-                      }])
+                dataTituloConducao.push(...[{
+                    id: 1,
+                    tipo: ccresponse.nomesProprios,
+                    numero: ccresponse.numeroCarta,
+                    entidade: ccresponse.entidadeEmissora,
+                    dataEmissao: ccresponse.dataEmissao,
+                    situacao: ccresponse.dscSituacao,
+                    accoes: "Ver detalhes"
+                }])
 
-                      interface Restricoes {
-                        restricao: Restricao[];
-                      }
-                       interface Restricao {
-                        codRestricao: string;
-                        dscRestricao: string;
-                        txAnotacao: string;
-                      }
-                     const categorias:{ codCategoria: string;
-                        dscCategoria: string;
-                        dataInicio: string;
-                        dataValidade: string;
-                        restricoes: Restricoes;}[] =  ccresponse.categoria.categoria
-                      
-                        for (let index = 0; index < categorias.length; index++) {
-                            dataTituloConducao_Categorias.push({
-                                id: index+1,
-                                categoria: categorias[index].codCategoria,
-                                descCategoria: categorias[index].dscCategoria,
-                                dataInicio: categorias[index].dataInicio,
-                                restricoes: categorias[index].restricoes.restricao[0].dscRestricao
-                            })   
-                        }
+                interface Restricoes {
+                    restricao: Restricao[];
+                }
+                interface Restricao {
+                    codRestricao: string;
+                    dscRestricao: string;
+                    txAnotacao: string;
+                }
+                const categorias: {
+                    codCategoria: string;
+                    dscCategoria: string;
+                    dataInicio: string;
+                    dataValidade: string;
+                    restricoes: Restricoes;
+                }[] = ccresponse.categoria.categoria
+
+                for (let index = 0; index < categorias.length; index++) {
+                    dataTituloConducao_Categorias.push({
+                        id: index + 1,
+                        categoria: categorias[index].codCategoria,
+                        descCategoria: categorias[index].dscCategoria,
+                        dataInicio: categorias[index].dataInicio,
+                        restricoes: categorias[index].restricoes.restricao[0].dscRestricao
+                    })
+                }
             }).catch(ccerror => {
                 console.assert(ccerror)
             })
@@ -693,8 +708,8 @@ const Arguido: React.FC<IArguido> = (props) => {
                             </h1>
                         </IonLabel>
 
-                        <IonButton className="btn-catalogo" fill="outline" color="medium" slot="end">
-                            Catálogo <IonIcon slot="start" icon={bookOutline} onClick={carregarInformacoesServico} />
+                        <IonButton onClick={carregarInformacoesServico} className="btn-catalogo" fill="outline" color="medium" slot="end">
+                            Catálogo <IonIcon slot="start" icon={bookOutline} />
                         </IonButton>
 
                         <IonButton className="btn-close" fill="outline" color="medium" slot="end" onClick={() => {
@@ -751,7 +766,7 @@ const Arguido: React.FC<IArguido> = (props) => {
                             <IonGrid>
                                 <DataTable
                                     columns={columnsCoimasAtraso}
-                                    data={dataCoimasAtraso}
+                                    data={dataCoimas}
                                 />
                             </IonGrid>
 
@@ -771,7 +786,7 @@ const Arguido: React.FC<IArguido> = (props) => {
 
                                 <DataTable
                                     columns={columnsSancoesAcessorias}
-                                    data={dataSancoesAcessorias}
+                                    data={dataSancoes}
                                 />
                             </IonGrid>
 
@@ -790,7 +805,7 @@ const Arguido: React.FC<IArguido> = (props) => {
                             <IonGrid>
                                 <DataTable
                                     columns={columnsDocumentosApreendidos}
-                                    data={dataDocumentosApreendidos}
+                                    data={dataDocumentos}
                                 />
 
                             </IonGrid>
