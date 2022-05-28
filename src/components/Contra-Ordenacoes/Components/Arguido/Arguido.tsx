@@ -24,7 +24,7 @@ import {
 } from '@ionic/react';
 
 import { useContext, useState } from 'react';
-import { bookOutline, checkboxOutline, search } from 'ionicons/icons';
+import { bookOutline, search } from 'ionicons/icons';
 import React from 'react';
 import './Arguido.scss';
 import Pais from '../../../Combos/Pessoa/Pais';
@@ -33,13 +33,11 @@ import _ from 'underscore';
 import { Contraordenacao } from '../../../../api/Contraordenacao';
 import { IPesquisarPessoaResponse } from '../../../../model/contraordenacao';
 import CardListItem from '../../../CardListItem';
-import { ICoimasEmAtraso, IDocumentoPessoa, IMoradaPessoa, IPerson } from '../../../../model/person';
+import { IPerson } from '../../../../model/person';
 import { dateFormat } from '../../../../utils/apex-formatters';
-import * as yup from 'yup';
 import { arguidoSchema } from '../../../../Validations/ArguidoValidation';
 import { informationCircle } from "ionicons/icons";
 import DataTable from 'react-data-table-component';
-import Pessoa from '../../../../pages/RI-Catalogo/Pessoa/Pessoa';
 import { CoimasService } from '../../../../api/CoimasService';
 import { SancoesService } from '../../../../api/SancoesService';
 import { DocumentoApreendido } from '../../../../api/DocumentoApreendido';

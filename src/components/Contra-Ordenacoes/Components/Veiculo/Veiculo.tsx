@@ -29,7 +29,7 @@ import Pais from '../../../Combos/Veiculo/Pais';
 import { AlertNetworkOfflineContext } from '../../../../Context/AlertNetworkOfflineContext';
 import _ from 'underscore';
 import { Contraordenacao } from '../../../../api/Contraordenacao';
-import { IPesquisarPessoaResponse, IPesquisarVeiculoResponse } from '../../../../model/contraordenacao';
+import { IPesquisarVeiculoResponse } from '../../../../model/contraordenacao';
 import CardListItem from '../../../CardListItem';
 import DataTable from 'react-data-table-component';
 import { dateFormat } from '../../../../utils/apex-formatters';
