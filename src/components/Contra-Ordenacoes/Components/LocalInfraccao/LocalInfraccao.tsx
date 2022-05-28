@@ -291,7 +291,7 @@ const LocalInfraccao: React.FC<LocalInfracaoData> = (props) => {
                         <IonCol size-sm="9" size-md="12" size-lg="4" style={{ marginTop: 16 }}>
                             <IonItem>
                                 <IonLabel>Localidade *</IonLabel>
-                                <IonSelect interface="popover" value={localidade}>
+                                <IonSelect interface="popover" value={localidade} onIonChange={(e)=>{ setLocalidade(e.detail.value)}}>
                                     {localidades?.map((local: any) => {
                                         return (
                                             <IonSelectOption key={`${local.id}`}
@@ -306,7 +306,7 @@ const LocalInfraccao: React.FC<LocalInfracaoData> = (props) => {
                         <IonCol size-sm="9" size-md="12" size-lg="4">
                             <IonItem>
                                 <IonLabel position="floating" itemType="number" placeholder="Nº Polícia">Nº Polícia/km</IonLabel>
-                                <IonInput
+                                <IonInput 
                                     value={nrPolicia}></IonInput>
                             </IonItem>
                         </IonCol>

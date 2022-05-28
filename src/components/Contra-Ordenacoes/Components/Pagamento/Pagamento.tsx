@@ -1,4 +1,4 @@
-import { IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCol, IonGrid, IonHeader, IonInput, IonItem, IonLabel, IonRadio, IonRadioGroup, IonRow, IonSelect, IonSelectOption } from "@ionic/react";
+import { IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCol, IonGrid, IonHeader, IonInput, IonItem, IonLabel, IonRadio, IonRadioGroup, IonRow, IonSelect, IonSelectOption, useIonAlert, useIonLoading } from "@ionic/react";
 import { useEffect, useState } from "react";
 import { Deposito48hrService } from "../../../../api/Deposito48hrService";
 import { DepositosNaoPago, DepositoResponse } from "../../../../model/deposito";
@@ -14,8 +14,13 @@ interface IDeposito48hr {
 const Pagamento: React.FC<IDeposito48hr> = (props) => {
     const [depositosNaoPagos, setDepositosNaoPagos] = useState<DepositosNaoPago[]>();
     const [errorMsg, setErrorMsg] = useState('');
-
+    const [presentAlert, dismissAlert] = useIonAlert();
+    const [presentOnLoading, dismissOnLoading] = useIonLoading();
+    
     const getDepositos48Hr = async () => {
+        // presentOnLoading({
+        //     message: 'Carregando dados...'
+        // });
         const depositosService = new Deposito48hrService();
         await depositosService.pesquisarDepositos48hrsEmAtraso({
             forca: "user.teste",
@@ -26,11 +31,19 @@ const Pagamento: React.FC<IDeposito48hr> = (props) => {
             const depositosResponse = _response.depositosNaoPagos;
             setDepositosNaoPagos(depositosResponse)
             props.setParentDeposito48hr(depositosNaoPagos)
-        }).catch((reason: any) => {
+        }).catch(reason => {
+           
             setErrorMsg(reason?.message)
         })
+        // dismissOnLoading()
+
 
     };
+
+    const onClick_refreshDataDepositos = ()=>{
+        getDepositos48Hr();
+
+    }
     useEffect(() => {
         getDepositos48Hr();
         if (depositosNaoPagos?.length===0) {
@@ -63,8 +76,11 @@ const Pagamento: React.FC<IDeposito48hr> = (props) => {
                          tipoId={deposito?.tipoId} 
                          unidadeOrganica={deposito?.unidadeOrganica}/>
                 ))}
-              {errorMsg}
-              
+               <div style={{justifyContent:"center"}}>
+               {`Ocorreu uma anomalia na consulta (${errorMsg})\n`}
+              {errorMsg ? <p> <span style={{cursor: "pointer" }} onClick={onClick_refreshDataDepositos} >Clique aqui para tentar novamente</span></p> : " "}
+          
+              </div>
                 </IonGrid>
             </IonCardContent>
         </IonCard>
