@@ -8,7 +8,7 @@ export class DocumentoApreendido{
 
     public consultaDocumentosApreendidos(requestData:DocumentoApreendidoRequest): Promise<DocumentoApreendidoResponse> {
         return new Promise((resolve, reject) => {
-            this.apiUtils.connectPostAPI(`${CONSULTAR_DOCUMENTOS}`, requestData).then((response) => {
+            this.apiUtils.connectPostAPI(`${DOCUMENTOS_APREENDIDOS_PREFIX}`, requestData).then((response) => {
                 resolve(response.data);
             }).catch((error: AxiosError) => {
                 reject(error)
