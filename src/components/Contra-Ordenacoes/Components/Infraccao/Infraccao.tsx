@@ -116,7 +116,7 @@ const Infraccao: React.FC = () => {
                                 <IonRow>
                                     <IonCol size='6'>
                                         <IonItem lines='none' className="veiculo-proprietario-radio radio-item">
-                                            <IonRadio value="singular"/>
+                                            <IonRadio value="singular" />
                                             <IonLabel className="radioBox">Sim</IonLabel>
                                         </IonItem>
                                     </IonCol>
@@ -132,14 +132,14 @@ const Infraccao: React.FC = () => {
 
                         <IonCol size-sm='12' size-md='10' size-lg='3'>
                             <IonItem>
-                                <IonLabel position="floating" itemType="text" placeholder="Autuante">Autuante</IonLabel>
+                                <IonLabel position="floating" itemType="text" placeholder="Autuante">Autuante *</IonLabel>
                                 <IonInput value={autuante}></IonInput>
                             </IonItem>
                         </IonCol>
 
                         <IonCol size-sm='12' size-md='10' size-lg='3' style={{ marginTop: 16 }}>
                             <IonItem>
-                                <IonLabel>Comarca</IonLabel>
+                                <IonLabel>Comarca *</IonLabel>
                                 <IonSelect interface="popover">
                                     {comarcas?.map((local: any) => {
                                         return (
@@ -149,6 +149,7 @@ const Infraccao: React.FC = () => {
                                     })}
                                 </IonSelect>
                             </IonItem>
+                            <IonItem className="componentError" lines="none" hidden={false}>Campo obrigatório</IonItem>
                         </IonCol>
 
                         <IonCol size-sm='12' size-md='10' size-lg='3' style={{ marginTop: 16 }}>
@@ -163,6 +164,7 @@ const Infraccao: React.FC = () => {
                                     })}
                                 </IonSelect>
                             </IonItem>
+                            <IonItem className="componentError" lines="none" hidden={false}>Campo obrigatório</IonItem>
                         </IonCol>
                     </IonRow>
 
@@ -196,7 +198,7 @@ const Infraccao: React.FC = () => {
                         </IonCol>
                         <IonCol size-sm='12' size-md='10' size-lg='6'>
                             <IonItem>
-                                <IonLabel>Tipificação da Infracção</IonLabel>
+                                <IonLabel>Tipificação da Infracção *</IonLabel>
                                 <IonSelect interface="popover" onIonChange={onchange_filtrarSubtificacaoPorTipificacao}>
                                     {tiposInfracao?.map((local: any) => {
                                         return (
@@ -205,10 +207,11 @@ const Infraccao: React.FC = () => {
                                         )
                                     })}                                  </IonSelect>
                             </IonItem>
+                            <IonItem className="componentError" lines="none" hidden={false}>Campo obrigatório</IonItem>
                         </IonCol>
                         <IonCol size-sm='12' size-md='10' size-lg='6' offset="6">
                             <IonItem>
-                                <IonLabel>Subtipificação da Infracção</IonLabel>
+                                <IonLabel>Subtipificação da Infracção *</IonLabel>
                                 <IonSelect interface="popover" onIonChange={onchange_subtificacao}>
                                     {subtiposInfracao?.map((local: any) => {
                                         return (
@@ -217,6 +220,7 @@ const Infraccao: React.FC = () => {
                                         )
                                     })}                                  </IonSelect>
                             </IonItem>
+                            <IonItem className="componentError" lines="none" hidden={false}>Campo obrigatório</IonItem>
                         </IonCol>
                     </IonRow>
 
@@ -231,11 +235,12 @@ const Infraccao: React.FC = () => {
                         </IonCol>
                         <IonCol size-sm='12' size-md='10' size-lg='6'>
                             <IonItem lines="none">
-                                <IonLabel position="stacked">Descrição Sumária</IonLabel>
+                                <IonLabel position="stacked">Descrição Sumária *</IonLabel>
                                 <IonTextarea rows={6} cols={10} placeholder="" value={descricao} onIonChange={e => () => { }}>
 
                                 </IonTextarea>
                             </IonItem>
+                            <IonItem className="componentError" lines="none" hidden={false}>Campo obrigatório</IonItem>
                         </IonCol>
                     </IonRow>
 
