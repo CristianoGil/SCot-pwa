@@ -4,6 +4,7 @@ export interface IPerson {
     id?: number
     nif : number
     nome: string 
+    apelidos?: string 
     dataNascimento: Date 
     tipoPessoa: string 
     isCoimasEmAtraso: boolean 

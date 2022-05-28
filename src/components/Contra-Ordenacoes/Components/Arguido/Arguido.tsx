@@ -372,6 +372,19 @@ const Arguido: React.FC<IArguido> = (props) => {
         const instanceContraordenacao = new Contraordenacao();
         await instanceContraordenacao.pesquisarPessoa({ nif: +arguidoNif }).then((_arguidoData: IPesquisarPessoaResponse) => {
        const pessoa: IPerson = _arguidoData.pessoa
+       try {
+        //    let apelido = ""
+        //    const apelidosPartes=  _arguidoData.pessoa.apelidos?.split(" ")
+        //    apelidosPartes?.forEach(ap=>{
+        //     apelido+=apelido + ap
+        //    })
+
+            pessoa.apelidos = pessoa.nome.split(" ").at(-1)
+
+
+       } catch (error) {
+           console.assert(error)
+       }
        const moradasDto:{id:number, morada:string} [] = []
        for (let index = 0; index < pessoa.moradas.length; index++) {
            moradasDto.push({
@@ -626,6 +639,7 @@ const Arguido: React.FC<IArguido> = (props) => {
                 
                 pessoa.dataNascimento = new Date(ccresponse.dataNascimento)
                 pessoa.localNascimento = ccresponse.localNascimento
+                pessoa.apelidos =ccresponse.apelidos
                 pessoa.documentos.push({ 
                     idPessoa: pessoa.id,
                     idOrganizacao: 0,
@@ -839,10 +853,10 @@ const Arguido: React.FC<IArguido> = (props) => {
                             <IonGrid>
                                 <CardListItem
                                     c1={{ titulo: 'Nome Próprio', valor: arguidoData?.nome }}
-                                    c2={{ titulo: 'Apelido', valor: arguidoData?.nome }}
+                                    c2={{ titulo: 'Apelido', valor: arguidoData?.apelidos }}
                                     c3={{
                                         titulo: 'Local de Nascimento',
-                                        valor: ''
+                                        valor: arguidoData?.localNascimento
                                     }}
                                     c4={{
                                         titulo: 'Data de Nascimento',
