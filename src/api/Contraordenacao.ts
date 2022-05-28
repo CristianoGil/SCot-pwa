@@ -5,22 +5,36 @@ import type {
     IPesquisarPessoaResponse,
     IPesquisarVeiculoResponse
 } from "../model/contraordenacao";
-import {URL_API_SCOT} from "../utils/const";
+import {URL_API_SCOT, VEICULOS_SEMELHANTES} from "../utils/const";
 import axios from '../config/axios.config';
 import {getPlatforms} from "@ionic/react";
 import {LoadOfflineData} from "./LoadOfflineData";
 import _ from "underscore";
-import {IVeiculoRequest} from "../model/veiculo";
+import {IVeiculo, IVeiculoRequest, IVeiculoResponse} from "../model/veiculo";
 import {CarregarCombosApreensaoDocumento} from "../model/documentoapreendido";
 import database from "../database";
+import { ApiUtils } from "./ApiUtils";
+import Veiculo from "../pages/RI-Catalogo/Veiculo/Veiculo";
 
 export class Contraordenacao {
- 
+   
 
     prefix_url: string = 'v1/contraOrdenacao'
     prefix_local_url: string = 'v1/locais'
     prefix_dominio_url: string = 'v1/dominio'
-    
+     apiUtils= new ApiUtils()
+
+    pesquisarVeiculosSemelhantes(veiculo: IVeiculoRequest): Promise<IVeiculoResponse>  {
+        return new Promise((resolve, reject) => {
+                this.apiUtils.connectPostAPI(`${VEICULOS_SEMELHANTES}`,veiculo).then((response) => {
+                    resolve(response.data);
+                }).catch((error: AxiosError) => {
+                    reject(error)
+                })
+
+        })
+    }
+ 
     getMapAddressByPosition(arg0: { position: { lat: any; lng: any; }; apiKey: string; }) {
         return new Promise((resolve, reject) => {
 

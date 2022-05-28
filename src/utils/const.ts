@@ -1,4 +1,5 @@
-export const URL_API_SCOT = "http://10.0.30.90:8080/scot-plus-bff";
+export const URL_API_SCOT = "http://localhost:8081/scot-plus-bff";
+// export const URL_API_SCOT = "http://10.0.30.90:8080/scot-plus-bff";
 export const URL_ASSINATURAS = {
     CC: 'http://localhost:8081/LoadSCOT', // Cartao do cidadao
     CEGER: 'http://localhost:8081/LoadCeger', //Cartao CEGER
@@ -26,6 +27,7 @@ export const LOAD_COMBOS_PATH = [
     'veiculos/carregarCombosVeiculo'
 ];  
 
+export const VEICULOS_SEMELHANTES='v1/veiculos/pesquisarVeiculo'
 export const COIMAS_PREFIX='v1/coimas'
 export const PESQUISAR_COIMAS_EM_ATRASO_ENDPOINT= `${COIMAS_PREFIX}/pesquisarCoimasEmAtraso`
 export const PESQUISAR_COIMAS_VOLUNT_EM_ATRASO_ENDPOINT=`${COIMAS_PREFIX}/pesquisarCoimasVoluntEmAtraso`

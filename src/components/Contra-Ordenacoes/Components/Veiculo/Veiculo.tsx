@@ -40,7 +40,7 @@ import Categoria from '../../../Combos/Veiculo/Categoria';
 import Classe from '../../../Combos/Veiculo/Classe';
 import Tipo from '../../../Combos/Veiculo/Tipo';
 import Subclasse from '../../../Combos/Veiculo/Subclasse';
-import { ICoimaVeiculo, IVeiculo } from '../../../../model/veiculo';
+import { ICoimaVeiculo, IVeiculo, IVeiculoRequest } from '../../../../model/veiculo';
 import { veiculoSchema } from '../../../../Validations/VeiculoValidation';
 import { LivreteService } from '../../../../api/LivreteService';
 
@@ -69,21 +69,25 @@ const columnsSemelhantes = [
         name: 'Ano origem',
         selector: (row: { anoOrigem: any; }) => row.anoOrigem,
     },
+    {
+        name: 'Ação',
+        selector: (row: { accao: any; }) => row.accao,
+    }
 
 ];
 
-const dataSemelhantes = [
-    {
-        id: 1,
-        categoria: 'null',
-        classe: 'null',
-        tipo: 'null',
-        matricula: 'null',
-        nChassis: 'null',
-        anoOrigem: 'null',
-    },
+interface VeiculoSemelhante {
+    id: number | undefined;
+    categoria: string | undefined;
+    classe: string | undefined;
+    tipo: string | undefined;
+    matricula: string | undefined;
+    nChassis: string | undefined;
+    anoOrigem: string | undefined;
+    accao: string | undefined;
+  }
 
-]
+const dataSemelhantes:VeiculoSemelhante[] = []
 
 
 interface IPROPS {
@@ -116,6 +120,7 @@ const Veiculo: React.FC<IPROPS> = (props) => {
     const [presentAlert, dismissAlert] = useIonAlert();
     const [presentOnLoanding, dismissOnLoanding] = useIonLoading();
     const [paisDeEmissao, setPaisDeEmissao] = useState<string>();
+    const [veiculosSemelhantes, setVeiculosSemelhantes] = useState(dataSemelhantes);
     const [isConduzidoVeiculo, setIsConduzidoVeiculo] = useState(false);
     const [VeiculoVeiculoSingularColetivo, setVeiculoVeiculoSingularColetivo] = useState<string>('singular');
     const [openPopoverVeiculoData, setOpenPopoverVeiculoData] = useState(false);
@@ -257,15 +262,9 @@ const Veiculo: React.FC<IPROPS> = (props) => {
     matricula: veiculoMatricula,
     numQuadro: ''
 }).then(_livreteInfo=>{
-        dismissOnLoanding()
-            // setMarca(_livreteInfo.d1Marca);
-            // setCor(_livreteInfo.rcores);
-            // setCategoria(_livreteInfo.j1CategoriaNacional);
-            // setModelo(_livreteInfo.d2Modelo);
-            // setTipo(_livreteInfo.j2Tipo);
             const veiculo: IVeiculo ={
                 
-                matricula:_livreteInfo.amatricula,
+                matricula:_livreteInfo.j1CategoriaNacional,
                 chassi:"",
                 ano:0,
                 classe:{
@@ -298,14 +297,50 @@ const Veiculo: React.FC<IPROPS> = (props) => {
                 },
                 estadoPolicial:{
                     descricao:_livreteInfo.dscSituacao
-                }
-
-
-                
-
-             
+                },
+                ipo: false,
             }
             setVeiculoData(veiculo)
+
+
+     const veiculoRequest:IVeiculoRequest = {
+               matricula: _livreteInfo.amatricula
+           }
+           
+new Contraordenacao().pesquisarVeiculosSemelhantes(veiculoRequest).then(veiculosResponse=>{
+    const veiculosSemelhantesDto: VeiculoSemelhante[] = []
+    const veiculosDto: IVeiculo[] = veiculosResponse.veiculos
+    for (let index = 0; index < veiculosDto.length; index++) {
+        const v = veiculosDto[index];
+        const veiculoDto:VeiculoSemelhante ={
+            id: index,
+            categoria: v.categoria?.descricao,
+            classe: v.classe?.descricao,
+            tipo: v.tipo?.descricao,
+            matricula: v.matricula,
+            nChassis: v.chassi,
+            anoOrigem: String(v.ano),
+            accao:"Mais Info"
+        }
+        veiculosSemelhantesDto.push(veiculoDto)
+        
+    }
+    
+    setVeiculosSemelhantes([...dataSemelhantes, ...veiculosSemelhantesDto ])
+    
+}).catch(veiculosError=>{
+    presentAlert({
+        header: 'Error!',
+        message: 'Operação sem sucesso!\n' + veiculosError.message,
+        buttons: [
+            { text: 'Fechar' },
+        ]
+    })
+})
+
+dismissOnLoanding()
+
+
 }).catch(e=>{
     dismissOnLoanding()
 
@@ -521,13 +556,13 @@ const Veiculo: React.FC<IPROPS> = (props) => {
                             <IonGrid>
 
                                 <CardListItem
-                                    c1={{ titulo: 'Estado da viatura', valor: 'null' }}
+                                    c1={{ titulo: 'Estado da viatura', valor:""}}
                                     c2={{ titulo: 'Inspeção em Atraso-IPO', valor: veiculoData?.ipo ? 'Sim' : 'Não' }}
-                                    c3={{
-                                        titulo: 'Coimas em Atraso',
-                                        valor: veiculoData?.isCoimasEmAtraso ? 'Sim' : 'Não'
-                                    }}
-                                    c4={{ titulo: 'Sanções acessórias', valor: 'n/d' }}
+                                    // c3={{
+                                    //     titulo: 'Coimas em Atraso',
+                                    //     valor: veiculoData?.isCoimasEmAtraso ? 'Sim' : 'Não'
+                                    // }}
+                                    // c4={{ titulo: 'Sanções acessórias', valor: 'n/d' }}
                                 />
 
                                 <IonCardContent>
@@ -616,7 +651,7 @@ const Veiculo: React.FC<IPROPS> = (props) => {
                             <IonGrid>
                                 <DataTable
                                     columns={columnsSemelhantes}
-                                    data={dataSemelhantes}
+                                    data={veiculosSemelhantes}
                                 />
                             </IonGrid>
 
