@@ -298,7 +298,9 @@ const Arguido: React.FC<IArguido> = (props) => {
     const [dataSancoes, setDataSancoes] = useState(dataSancoesAcessorias)
     const [dataMoradas, setDataMoradas] = useState(moradas)
     const [dataDocumentos, setDataDocumentos] = useState(dataDocumentosApreendidos)
-
+    const [dataCConducao, setDataConducao] = useState(dataTituloConducao)
+    const [dataCConducaoCategorias, setDataConducaoCategorias] = useState(dataTituloConducao_Categorias)
+    const [dataDocumentosContribuente, setDataDocumentosContribuente] = useState(dataOutrosDocumentos)
     const [presentAlert, dismissAlert] = useIonAlert();
     const [presentOnLoanding, dismissOnLoanding] = useIonLoading();
     const [isProprietarioVeiculo, setIsProprietarioVeiculo] = useState(false);
@@ -439,7 +441,6 @@ const Arguido: React.FC<IArguido> = (props) => {
         });
 
         new Contraordenacao().pesquisarPessoa({ nif: +arguidoNif, consultarWebService: true }).then(response => {
-            console.log(response.pessoa)
             setArguidoData(response.pessoa);
 
             for (let index = 0; index < response.pessoa.moradas.length; index++) {
@@ -448,6 +449,8 @@ const Arguido: React.FC<IArguido> = (props) => {
                     morada: response.pessoa.moradas[index].fracao + " " + response.pessoa.moradas[index].principal
                 }])
             }
+
+            
 
             new CoimasService().getCoimasVoluntEmAtraso({
                 companyId: "ANSR",
@@ -529,15 +532,15 @@ console.log("error due", docserr)
             })
 
             new CartaConducaoService().obterDadosCartaConducao({
-                idSistema: 0,
-                codPaisNIF: '',
-                numNIF: '',
-                idTipoDocumento: 0,
-                codPaisDocumento: '',
-                numDocumento: '',
+                idSistema: 4,
+                codPaisNIF: 'PT',
+                numNIF: arguidoNif,
+                idTipoDocumento: 1,
+                codPaisDocumento: 'PT',
+                numDocumento: arguidoNif,
                 flObterImagensExterno: ''
             }).then(ccresponse => {
-                dataTituloConducao.push(...[{
+                setDataConducao([...dataCConducao, {
                     id: 1,
                     tipo: ccresponse.nomesProprios,
                     numero: ccresponse.numeroCarta,
@@ -546,6 +549,10 @@ console.log("error due", docserr)
                     situacao: ccresponse.dscSituacao,
                     accoes: "Ver detalhes"
                 }])
+               
+
+                // ccresponse.localNascimento
+                // ccresponse.dataNascimento
 
                 interface Restricoes {
                     restricao: Restricao[];
@@ -564,14 +571,15 @@ console.log("error due", docserr)
                 }[] = ccresponse.categoria.categoria
 
                 for (let index = 0; index < categorias.length; index++) {
-                    dataTituloConducao_Categorias.push({
+                    setDataConducaoCategorias([...dataCConducaoCategorias,{
                         id: index + 1,
                         categoria: categorias[index].codCategoria,
                         descCategoria: categorias[index].dscCategoria,
                         dataInicio: categorias[index].dataInicio,
                         restricoes: categorias[index].restricoes.restricao[0].dscRestricao
-                    })
+                    } ])
                 }
+                
             }).catch(ccerror => {
                 console.assert(ccerror)
             })
@@ -825,7 +833,7 @@ console.log("error due", docserr)
                             <IonGrid>
                                 <DataTable
                                     columns={columnsTituloConducao}
-                                    data={dataTituloConducao}
+                                    data={dataCConducao}
                                 />
 
                             </IonGrid>
@@ -845,7 +853,7 @@ console.log("error due", docserr)
                             <IonGrid>
                                 <DataTable
                                     columns={columnsTituloConducao_Categorias}
-                                    data={dataTituloConducao_Categorias}
+                                    data={dataCConducaoCategorias}
                                 />
 
                             </IonGrid>
@@ -865,7 +873,7 @@ console.log("error due", docserr)
                             <IonGrid>
                                 <DataTable
                                     columns={columnsOutrosDocumentos}
-                                    data={dataOutrosDocumentos}
+                                    data={dataDocumentosContribuente}
                                 />
 
                             </IonGrid>
