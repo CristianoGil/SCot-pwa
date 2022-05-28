@@ -257,7 +257,7 @@ const Veiculo: React.FC<IPROPS> = (props) => {
             <IonCardContent>
                 <IonGrid>
                     <IonRow>
-                        <IonCol size-sm='12' size-md='10' size-lg='4'>
+                        <IonCol size-sm='12' size-md='12' size-lg='4'>
                             <IonItem lines={'none'}>
                                 <IonLabel>O Veiculo é conduzido pelo arguido?</IonLabel>
                                 <IonToggle
@@ -318,38 +318,38 @@ const Veiculo: React.FC<IPROPS> = (props) => {
 
 
                     <IonRow>
-                        <IonCol size-sm='12' size-md='10' size-lg='3'>
+                        <IonCol size-sm='12' size-md='12' size-lg='3'>
                             <Pais selected={pais} setSelected={setPais} inputName={'veiculo-pais'} textLabel={'País'}
                                 interface="popover" />
                         </IonCol>
 
-                        <IonCol size-sm='12' size-md='10' size-lg='3'>
+                        <IonCol size-sm='12' size-md='12' size-lg='3'>
                             <Marca selected={marca} setSelected={setMarca} inputName={'veiculo-marca'}
                                 textLabel={'Marca'} interface="popover" />
                         </IonCol>
 
-                        <IonCol size-sm='12' size-md='10' size-lg='3'>
+                        <IonCol size-sm='12' size-md='12' size-lg='3'>
                             <Modelo selected={modelo} setSelected={setModelo} inputName={'veiculo-modelo'} textLabel={'Modelo'} interface="popover" />
                         </IonCol>
-                        <IonCol size-sm='12' size-md='10' size-lg='3'>
+                        <IonCol size-sm='12' size-md='12' size-lg='3'>
                             <Cor selected={cor} setSelected={setCor} inputName={'veiculo-cor'} textLabel={'Cor'} />
                         </IonCol>
                     </IonRow>
 
                     <IonRow>
-                        <IonCol size-sm='12' size-md='10' size-lg='3'>
+                        <IonCol size-sm='12' size-md='12' size-lg='3'>
                             <Categoria selected={categoria} setSelected={setCategoria} inputName={'veiculo-categoria'} textLabel={'Categoria'} interface="popover" />
                         </IonCol>
 
-                        <IonCol size-sm='12' size-md='10' size-lg='3'>
+                        <IonCol size-sm='12' size-md='12' size-lg='3'>
                             <Classe selected={classe} setSelected={setClasse} inputName={'veiculo-classe'} textLabel={'Classe'} interface="popover" />
                         </IonCol>
 
-                        <IonCol size-sm='12' size-md='10' size-lg='3'>
+                        <IonCol size-sm='12' size-md='12' size-lg='3'>
                             <Tipo selected={tipo} setSelected={setTipo} inputName={'veiculo-tipo'} textLabel={'Tipo'} interface="popover" />
                         </IonCol>
 
-                        <IonCol size-sm='12' size-md='10' size-lg='3'>
+                        <IonCol size-sm='12' size-md='12' size-lg='3'>
                             <Subclasse selected={subclasse} setSelected={setSubclasse} inputName={'veiculo-subclasse'} textLabel={'Subclasse'} interface="popover" />
                         </IonCol>
 

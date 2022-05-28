@@ -107,12 +107,12 @@ const columnsSancoesAcessorias = [
 
 ];
 
-const dataSancoesAcessorias:  {
+const dataSancoesAcessorias: {
     id: string,
     auto: string | null,
-    codigoProcesso: string |null,
+    codigoProcesso: string | null,
     tribunal: string | null,
-    juizo: string |null,
+    juizo: string | null,
     dataInibicao: string | null,
     cartaEntrada: string,
     accoes: string
@@ -446,7 +446,7 @@ const Arguido: React.FC<IArguido> = (props) => {
                 }])
             }
 
-            
+
 
             new CoimasService().getCoimasVoluntEmAtraso({
                 companyId: "ANSR",
@@ -465,7 +465,7 @@ const Arguido: React.FC<IArguido> = (props) => {
                         primeiraNotificacao: coima.notifDate
 
                     }
-                 
+
                     setDataCoimas([...dataCoimas, coimaLine])
 
                 })
@@ -483,19 +483,20 @@ const Arguido: React.FC<IArguido> = (props) => {
                 numeroDocumento: arguidoNif,
                 tipoDocumento: '7'
             }).then(sancoeswsresponse => {
-                    for (let index = 0; index < sancoeswsresponse.acessoriasResponses.length; index++) {
-                        const element = sancoeswsresponse.acessoriasResponses[index];
-                        const sancao = {
-                            id: String(index+1),
-                            auto: element.codigoAuto,
-                            codigoProcesso: element.codigoProcesso,
-                            tribunal: element.tribunal,
-                            juizo: element.juizo,
-                            dataInibicao: element.dataIniCump,
-                            cartaEntrada: element.cartaEntregue,
-                            accoes: "ver detalhes"
-                        }  
-                        setDataSancoes([...dataSancoes, sancao]);                    }
+                for (let index = 0; index < sancoeswsresponse.acessoriasResponses.length; index++) {
+                    const element = sancoeswsresponse.acessoriasResponses[index];
+                    const sancao = {
+                        id: String(index + 1),
+                        auto: element.codigoAuto,
+                        codigoProcesso: element.codigoProcesso,
+                        tribunal: element.tribunal,
+                        juizo: element.juizo,
+                        dataInibicao: element.dataIniCump,
+                        cartaEntrada: element.cartaEntregue,
+                        accoes: "ver detalhes"
+                    }
+                    setDataSancoes([...dataSancoes, sancao]);
+                }
 
 
             }).catch(sancoeserror => {
@@ -515,15 +516,15 @@ const Arguido: React.FC<IArguido> = (props) => {
                     tipoContribuinte: 1
                 }
             ).then(docsresponse => {
-                setDataDocumentos([...dataDocumentos,{
+                setDataDocumentos([...dataDocumentos, {
                     auto: docsresponse.indActivo,
                     documento: docsresponse.descTipo,
                     localizacaoDocumento: docsresponse.textoLocal,
                     id: docsresponse.idItem
-                } ])
-             
+                }])
+
             }).catch(docserr => {
-console.log("error due", docserr)
+                console.log("error due", docserr)
 
             })
 
@@ -545,7 +546,7 @@ console.log("error due", docserr)
                     situacao: ccresponse.dscSituacao,
                     accoes: "Ver detalhes"
                 }])
-               
+
 
                 // ccresponse.localNascimento
                 // ccresponse.dataNascimento
@@ -567,15 +568,15 @@ console.log("error due", docserr)
                 }[] = ccresponse.categoria.categoria
 
                 for (let index = 0; index < categorias.length; index++) {
-                    setDataConducaoCategorias([...dataCConducaoCategorias,{
+                    setDataConducaoCategorias([...dataCConducaoCategorias, {
                         id: index + 1,
                         categoria: categorias[index].codCategoria,
                         descCategoria: categorias[index].dscCategoria,
                         dataInicio: categorias[index].dataInicio,
                         restricoes: categorias[index].restricoes.restricao[0].dscRestricao
-                    } ])
+                    }])
                 }
-                
+
             }).catch(ccerror => {
                 console.assert(ccerror)
             })
@@ -604,7 +605,7 @@ console.log("error due", docserr)
             <IonCardContent>
                 <IonGrid>
                     <IonRow>
-                        <IonCol size-sm='12' size-md='10' size-lg='4'>
+                        <IonCol size-sm='12' size-md='12' size-lg='4'>
                             <IonItem lines={'none'}>
                                 <IonLabel>O arguido é proprietário do veículo?</IonLabel>
                                 <IonToggle
@@ -624,7 +625,8 @@ console.log("error due", docserr)
                                 <IonButton color='medium' fill="clear" id="open-search-input-1">
                                     <IonIcon icon={search} />
                                 </IonButton>
-                                <IonInput maxlength={9}
+                                <IonInput
+                                    maxlength={9}
                                     minlength={9}
                                     color={inputNif_color}
                                     required={true}
@@ -686,7 +688,7 @@ console.log("error due", docserr)
                                 </IonRow>
                             </IonRadioGroup>
                         </IonCol>
-                        <IonCol size-sm='12' size-md='10' size-lg='4'>
+                        <IonCol size-sm='12' size-md='12' size-lg='4'>
                             <Pais selected={paisEmissao} setSelected={setPaisEmissao} inputName={'arguido-paisEmissao'} textLabel={'País de emissão'} interface="popover" />
                         </IonCol>
                     </IonRow>

@@ -1,14 +1,11 @@
 import {
-    IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCol, IonDatetime, IonGrid,
-    IonIcon, IonInput, IonItem, IonLabel, IonPopover, IonRow,
-    IonSelect, IonSelectOption, IonToggle
+    IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCol, IonGrid, IonInput, IonItem, IonLabel, IonPopover, IonRow, IonToggle
 } from "@ionic/react"
-import {calendar} from "ionicons/icons"
 import React from "react";
-import {useState} from "react";
+import { useState } from "react";
 import _ from "underscore";
-import {IDocumentoPessoa} from "../../../../model/person"
-import {dateFormat} from "../../../../utils/apex-formatters";
+import { IDocumentoPessoa } from "../../../../model/person"
+import { dateFormat } from "../../../../utils/apex-formatters";
 import DatePicker from "../../../Combos/DatePicker";
 import EntidadeEmissora from "../../../Combos/Pessoa/EntidadeEmissora";
 import LocalEmissao from "../../../Combos/Pessoa/LocalEmissao";
@@ -74,7 +71,7 @@ const TituloConducao: React.FC<ITituloConducao> = (props) => {
         if (_.has(props, 'setParentTituloConducaoData')) {
             props.setParentTituloConducaoData(_data)
         }
-        
+
     }, [isPresentedTituloConducao, tituloConducao, numero, paisEmissao, entidadeEmissora, localEmissoa, dataEmissao])
 
     return (
@@ -104,58 +101,58 @@ const TituloConducao: React.FC<ITituloConducao> = (props) => {
 
                     <IonRow>
 
-                        <IonCol size-sm="9" size-md="8" size-lg="4" style={{marginTop: 16}}>
+                        <IonCol size-sm="9" size-md="8" size-lg="4" style={{ marginTop: 16 }}>
                             <TituloConducaoCombo
                                 selected={tituloConducao}
                                 setSelected={setTituloConducao}
                                 inputName={'tituloConducao-tipos'}
                                 textLabel={'Título de condução'}
-                                interface="popover"/>
+                                interface="popover" />
                         </IonCol>
 
                         <IonCol size-sm="3" size-md="3" size-lg="3">
                             <IonItem>
                                 <IonLabel position="floating" itemType="number"
-                                          placeholder="Enter Number">Número</IonLabel>
+                                    placeholder="Enter Number">Número</IonLabel>
                                 <IonInput value={numero} onIonChange={e => setNumero(e.detail.value!)}></IonInput>
                             </IonItem>
                         </IonCol>
                     </IonRow>
 
                     <IonRow>
-                        <IonCol size-sm='12' size-md='10' size-lg='4'>
+                        <IonCol size-sm='12' size-md='12' size-lg='4'>
                             <Pais
                                 selected={paisEmissao}
                                 setSelected={setPaisEmissao}
                                 inputName={'tituloConducao-paisEmissao'}
                                 textLabel={'País de emissão'}
-                                interface="popover"/>
+                                interface="popover" />
                         </IonCol>
 
-                        <IonCol size-sm='12' size-md='10' size-lg='4'>
+                        <IonCol size-sm='12' size-md='12' size-lg='4'>
                             <EntidadeEmissora
                                 selected={entidadeEmissora}
                                 setSelected={setEntidadeEmissora}
                                 inputName={'tituloConducao-entidadeEmissora'}
                                 textLabel={'Entidade de Emissora'}
-                                interface="popover"/>
+                                interface="popover" />
                         </IonCol>
 
-                        <IonCol size-sm='12' size-md='10' size-lg='4'>
+                        <IonCol size-sm='12' size-md='12' size-lg='4'>
                             <LocalEmissao
                                 selected={localEmissoa}
                                 setSelected={setLocalEmissao}
                                 inputName={'tituloConducao-localEmissao'}
                                 textLabel={'Local de Emissão'}
-                                interface="popover"/>
+                                interface="popover" />
                         </IonCol>
 
-                        <IonCol size-sm='12' size-md='10' size-lg='4'>
+                        <IonCol size-sm='12' size-md='12' size-lg='4'>
                             <DatePicker
                                 selected={dataEmissao}
                                 setSelected={setDataEmissao}
                                 inputName={'tituloConducao-dataEmissao'}
-                                textLabel="Data de Emissão"/>
+                                textLabel="Data de Emissão" />
                         </IonCol>
 
                     </IonRow>

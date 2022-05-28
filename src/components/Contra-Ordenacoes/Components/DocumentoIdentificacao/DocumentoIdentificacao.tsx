@@ -101,7 +101,7 @@ const DocumentoIdentificacao: React.FC<IDocumentoIdentificacao> = (props) => {
                     </IonRow>
 
                     <IonRow>
-                        <IonCol size-sm='12' size-md='10' size-lg='4'>
+                        <IonCol size-sm='12' size-md='12' size-lg='4'>
                             <Pais
                                 selected={paisDeEmissao}
                                 setSelected={setPaisDeEmissao}
@@ -110,7 +110,7 @@ const DocumentoIdentificacao: React.FC<IDocumentoIdentificacao> = (props) => {
                                   interface="popover"/>
                         </IonCol>
 
-                        <IonCol size-sm='12' size-md='10' size-lg='4'>
+                        <IonCol size-sm='12' size-md='12' size-lg='4'>
                             <EntidadeEmissora
                                 selected={entidadeEmissora}
                                 setSelected={setEntidadeEmissora}
@@ -119,7 +119,7 @@ const DocumentoIdentificacao: React.FC<IDocumentoIdentificacao> = (props) => {
                                 interface="popover"/>
                         </IonCol>
 
-                        <IonCol size-sm='12' size-md='10' size-lg='4'>
+                        <IonCol size-sm='12' size-md='12' size-lg='4'>
                             <LocalEmissao
                                 selected={localEmissao}
                                 setSelected={setLocalEmissao}
@@ -128,7 +128,7 @@ const DocumentoIdentificacao: React.FC<IDocumentoIdentificacao> = (props) => {
                                 interface="popover"/>
                         </IonCol>
 
-                        <IonCol size-sm='12' size-md='10' size-lg='4'>
+                        <IonCol size-sm='12' size-md='12' size-lg='4'>
                             <DatePicker
                                 selected={dataEmissao}
                                 setSelected={setDataEmissao}
