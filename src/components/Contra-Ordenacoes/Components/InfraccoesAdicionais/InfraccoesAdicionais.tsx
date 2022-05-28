@@ -40,7 +40,7 @@ const data:Infracao[] = []
 
 
 const InfraccoesAdicionais:React.FC<IInfraccoesAdicionais> = (props) => {
-    const [infracoesData, setInfracoesData] = useState<Infracao[]>();
+    const [infracoesData, setInfracoesData] = useState(data);
     const [nomeInfrigida, setNomeInfrigida] = useState('');
     const [descricaoInfrigida, setDescricaoInfrigida] = useState('');
     let [index, setIndex] = useState(1);
@@ -54,18 +54,25 @@ const InfraccoesAdicionais:React.FC<IInfraccoesAdicionais> = (props) => {
     }
 
     const onClick_addInfracaoAdicional = () => {
-        setIndex(index+1)
-        const temp_data = {
-            id:+index,
-            _id:+index,
-            entidade:nomeInfrigida,
-            infraccoesAdicionais:descricaoInfrigida,
-            acoes:"null"
+       let index: number = 1
+        if(infracoesData.length==0){
+        index = 1;        
+        }
+        else{
+            index = infracoesData.length+1 
         } 
-        data.push(temp_data)
-        setInfracoesData(data)
-        props.setParentInfracoesData(infracoesData)
-        console.table(infracoesData)
+        
+        const temp_data = {
+                id:index,
+                _id:index,
+                entidade:nomeInfrigida,
+                infraccoesAdicionais:descricaoInfrigida,
+                acoes:"null"
+            }
+            data.push(...infracoesData)
+
+            setInfracoesData([...data, temp_data]) 
+
     
     }
 
@@ -77,7 +84,7 @@ const InfraccoesAdicionais:React.FC<IInfraccoesAdicionais> = (props) => {
             props.setParentInfracoesData(_data)
         }
                 
-    },[infracoesData]);
+    },[]);
 
     return (
 
@@ -130,7 +137,7 @@ const InfraccoesAdicionais:React.FC<IInfraccoesAdicionais> = (props) => {
                         <IonCol size-sm='12' size-md='10' size-lg='12'>
                             <DataTable
                                 columns={columns}
-                                data={data}
+                                data={infracoesData}
                             />
                         </IonCol>
                     </IonRow>
