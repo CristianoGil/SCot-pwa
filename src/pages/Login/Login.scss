@@ -68,7 +68,7 @@ ion-row#rowLogin {
   border-end-start-radius: 10px;
   border-start-start-radius: 10px;
   background-color: #FFFFFF;
-  box-shadow: 5px 10px 12px #333333;
+  box-shadow: 5px 10px 12px rgba(33, 33, 33, 0.1);
   width: 550px;
   height: 520px;
 }
@@ -128,7 +128,7 @@ ion-col#colRight {
   border-start-end-radius: 10px;
   border-end-end-radius: 10px;
   background-color: #FFFFFF;
-  box-shadow: 5px 10px 12px #888888;
+  box-shadow: 5px 10px 12px rgba(88, 88, 88, 0.1);
   width: 430px;
   height: 520px;
 }

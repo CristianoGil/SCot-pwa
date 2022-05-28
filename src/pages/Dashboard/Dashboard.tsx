@@ -11,7 +11,7 @@ import Menu from '../../components/Menu/Menu';
 
 import LoggedUser from '../../components/Dashboard/LoggedUser';
 import Cards from '../../components/Dashboard/Cards';
-import React, {useState} from 'react';
+import React from 'react';
 
 
 class Dashboard extends React.Component {
@@ -61,11 +61,6 @@ class Dashboard extends React.Component {
 
     }
 
-   greetingMsgGenerator = ():string=>{
-        let hora= new Date().getHours();
-       return  (hora < 12)? "Bom dia" :((hora <= 18 && hora >= 12 ) ? "Boa tarde" : "Boa noite");
-       
-    }
     // @ts-ignore
     render() {
         return (
@@ -79,7 +74,7 @@ class Dashboard extends React.Component {
                     fullscreen={true}>
                     <IonGrid className="dashboard-grid">
                         <IonRow class="ion-justify-content-start dashboard-grid-row">
-                            <IonCol>  {this.greetingMsgGenerator()} <LoggedUser/></IonCol>
+                            <IonCol><LoggedUser/></IonCol>
                         </IonRow>
 
                         <IonRow class="ion-justify-content-start dashboard-grid-row dashboard-grid-row-card ">

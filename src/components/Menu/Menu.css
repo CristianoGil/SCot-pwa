@@ -70,3 +70,8 @@ body.dark ion-toolBar, body.dark :host(.ion-color) .toolbar-background {
     --background:  rgb(18 18 18 / 80%);
     background:  rgb(18 18 18 / 80%);
 }
+
+ion-item#modoDark::part(native) {
+    background-color: #1F1F1F;
+    color: white
+}

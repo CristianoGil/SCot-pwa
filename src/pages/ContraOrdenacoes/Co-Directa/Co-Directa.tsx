@@ -236,8 +236,8 @@ const CoDirecta: React.FC = () => {
 
                     <IonRow style={{marginBottom: 40, marginLeft:10}}>
                         <IonCol size="12">
-                            <h1>Registro de contraordenações Directas</h1>
-                            <p>Registro de contraordenações Directas</p>
+                            <h1>Registo de contraordenações Directas</h1>
+                            <p>Registo de contraordenações Directas</p>
                         </IonCol>
                         <IonCol size-sm="12" size-md="12" size-lg="6">
                             <IonToolbar>

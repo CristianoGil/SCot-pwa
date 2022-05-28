@@ -116,7 +116,7 @@ const Infraccao: React.FC = () => {
                                 <IonRow>
                                     <IonCol size='6'>
                                         <IonItem lines='none' className="veiculo-proprietario-radio radio-item">
-                                            <IonRadio value="singular" />
+                                            <IonRadio value="singular"/>
                                             <IonLabel className="radioBox">Sim</IonLabel>
                                         </IonItem>
                                     </IonCol>
@@ -223,7 +223,7 @@ const Infraccao: React.FC = () => {
                     <IonRow>
                         <IonCol size-sm='12' size-md='10' size-lg='6'>
                             <IonItem>
-                                <IonLabel position="floating" itemType="text" placeholder="Nome infringida">Nome infringida</IonLabel>
+                                <IonLabel position="floating" itemType="text" placeholder="Norma infringida">Norma infringida</IonLabel>
                                 <IonInput
                                     value={nomeInfrigida}
                                 ></IonInput>
@@ -242,7 +242,7 @@ const Infraccao: React.FC = () => {
                     <IonRow>
                         <IonCol size-sm='12' size-md='10' size-lg='6'>
                             <IonHeader>
-                                <IonLabel>Montante da Coima (EUR)</IonLabel>
+                                <IonLabel>Montante da coima (EUR)</IonLabel>
                             </IonHeader>
 
                             <IonRow>

@@ -16,7 +16,7 @@ import {
     IonToggle,
     IonToolbar
 } from '@ionic/react';
-import { person, wifi, moon, settings } from 'ionicons/icons';
+import { person, wifi, settings } from 'ionicons/icons';
 import { useContext, useState } from 'react';
 import './Menu.css'
 import { Link, useHistory } from 'react-router-dom';
@@ -365,18 +365,16 @@ const Menu: React.FC<IProps> = (props) => {
                 onDidDismiss={() => {
                     setShowPopover(false);
                 }}
-                style={{'--width': '540px', '--max-width': '100%'}}
-                >
+                style={{ '--width': '540px', '--max-width': '100%' }}
+            >
 
 
                 <IonHeader className="ion-no-border">
                     <IonToolbar>
                         <IonLabel slot='start'>
 
-                            <h1>
-                                <IonItem lines='none'>
-                                    Aplicação
-                                </IonItem>
+                            <h1 style={{fontWeight: 'bold'}}>
+                                Aplicação
                             </h1>
 
                         </IonLabel>
@@ -391,10 +389,12 @@ const Menu: React.FC<IProps> = (props) => {
 
                 <IonContent>
 
-                    <IonItem className="ion-margin-top" style={{ margin: 24 }}>
-                        <IonIcon slot="start" icon={moon} />
-                        <IonLabel>Modo escuro</IonLabel>
-                        <small>Reduzir exposição à luz e poupança de bateria</small>
+                    <IonItem className="ion-margin-top" style={{ margin: 24, borderRadius: 4 }} id='modoDark'>
+                        <div style={{ padding: 10 }}>
+                            <IonLabel style={{ marginBottom: 10 }}>Modo escuro</IonLabel>
+                            <span style={{ fontSize: 14 }}>Reduzir exposição à luz e poupança de bateria</span>
+                        </div>
+
                         <IonToggle
                             slot="end"
                             name="darkMode"
@@ -407,7 +407,7 @@ const Menu: React.FC<IProps> = (props) => {
                     </IonItem>
 
 
-                    <IonItem className="ion-margin-top" style={{ margin: 24 }} lines='none'>
+                    <IonItem lines='none'>
                         <div style={{ width: '-webkit-fill-available' }}>
                             <IonGrid>
                                 <IonRow>
@@ -458,7 +458,7 @@ const Menu: React.FC<IProps> = (props) => {
                     </IonItem>
 
 
-                    <IonItem style={{ padding: '0px 30px 0px 30px' }} lines='none'>
+                    <IonItem style={{ padding: '0px 10px 0px 10px' }} lines='none'>
                         <div style={{
                             borderRadius: 10,
                             background: '#F0FFF6',
@@ -474,7 +474,7 @@ const Menu: React.FC<IProps> = (props) => {
                         </div>
                     </IonItem>
 
-                    <IonItem style={{ padding: '0px 30px 0px 30px', marginTop: 20 }} lines='none'>
+                    <IonItem style={{ padding: '0px 10px 0px 10px', marginTop: 20, marginBottom:20 }} lines='none'>
                         <div style={{
                             borderRadius: 10,
                             background: '#FFF0FA',
@@ -493,7 +493,7 @@ const Menu: React.FC<IProps> = (props) => {
                 </IonContent>
                 <IonFooter>
                     <IonItem lines='none'>
-                        <div id='imgModelosBarras' className='ion-text-center' style={{ padding: 12 }}>
+                        <div id='imgModelosBarras' style={{ padding: 12 }}>
                             <small>Copyright @ 2021 SCOT+. Todos os direitos reservados.</small><br />
                             <IonImg className='ion-margin-top ion-margin-bottom'
                                 src={'assets/images/Group 4529.png'} style={{ height: 40, marginTop: 36 }} />

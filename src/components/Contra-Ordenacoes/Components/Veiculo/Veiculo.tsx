@@ -22,7 +22,7 @@ import {
     useIonLoading,
 } from '@ionic/react';
 import { useContext, useState } from 'react';
-import { bookOutline, search } from 'ionicons/icons';
+import { bookSharp, search, newspaperSharp } from 'ionicons/icons';
 import React from 'react';
 import './Veiculo.scss';
 import Pais from '../../../Combos/Veiculo/Pais';
@@ -331,7 +331,7 @@ const Veiculo: React.FC<IPROPS> = (props) => {
                     <IonRow>
                         <IonCol size-sm='12' size-md='12' size-lg='4'>
                             <IonItem lines={'none'}>
-                                <IonLabel>O Veiculo é conduzido pelo arguido?</IonLabel>
+                                <IonLabel>O veículo é conduzido pelo arguido?</IonLabel>
                                 <IonToggle
                                     slot="end"
                                     name="veiculo-conduzidoVeiculo"
@@ -451,7 +451,7 @@ const Veiculo: React.FC<IPROPS> = (props) => {
                         </IonLabel>
 
                         <IonButton className="btn-catalogo" fill="outline" color="medium" slot="end" onClick={carregarInformacaoLivreve}>
-                            Catálogo <IonIcon slot="start" icon={bookOutline} />
+                            Catálogo <IonIcon slot="start" icon={bookSharp} />
                         </IonButton>
 
                         <IonButton className="btn-close" fill="outline" color="medium" slot="end" onClick={() => {
@@ -477,7 +477,7 @@ const Veiculo: React.FC<IPROPS> = (props) => {
 
                             <IonButton className="btn-apply-info" fill="solid" color="primary" slot="end"
                                 onClick={handlerFullfillForm}>
-                                Utilizar estes dados <IonIcon slot="start" icon={bookOutline} />
+                                Utilizar estes dados <IonIcon slot="start" icon={newspaperSharp} />
                             </IonButton>
 
                             <IonGrid>
@@ -637,7 +637,7 @@ const Veiculo: React.FC<IPROPS> = (props) => {
 
                             <IonButton className="btn-apply-info" fill="solid" color="primary" slot="end"
                                 onClick={handlerFullfillForm}>
-                                Utilizar estes dados <IonIcon slot="start" icon={bookOutline} />
+                                Utilizar estes dados <IonIcon slot="start" icon={newspaperSharp} />
                             </IonButton>
 
                             <IonGrid>

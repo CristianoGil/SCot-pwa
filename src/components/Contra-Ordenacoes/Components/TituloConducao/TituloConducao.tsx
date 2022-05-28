@@ -134,7 +134,7 @@ const TituloConducao: React.FC<ITituloConducao> = (props) => {
                                 selected={entidadeEmissora}
                                 setSelected={setEntidadeEmissora}
                                 inputName={'tituloConducao-entidadeEmissora'}
-                                textLabel={'Entidade de Emissora'}
+                                textLabel={'Entidade de emissora'}
                                 interface="popover" />
                         </IonCol>
 
@@ -152,7 +152,7 @@ const TituloConducao: React.FC<ITituloConducao> = (props) => {
                                 selected={dataEmissao}
                                 setSelected={setDataEmissao}
                                 inputName={'tituloConducao-dataEmissao'}
-                                textLabel="Data de Emissão" />
+                                textLabel="Data de emissão" />
                         </IonCol>
 
                     </IonRow>

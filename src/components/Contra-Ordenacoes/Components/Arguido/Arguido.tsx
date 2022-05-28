@@ -24,7 +24,7 @@ import {
 } from '@ionic/react';
 
 import { useContext, useState } from 'react';
-import { bookOutline, search } from 'ionicons/icons';
+import { bookSharp, search, newspaperSharp } from 'ionicons/icons';
 import React from 'react';
 import './Arguido.scss';
 import Pais from '../../../Combos/Pessoa/Pais';
@@ -715,7 +715,7 @@ const Arguido: React.FC<IArguido> = (props) => {
                         </IonLabel>
 
                         <IonButton onClick={carregarInformacoesServico} className="btn-catalogo" fill="outline" color="medium" slot="end">
-                            Catálogo <IonIcon slot="start" icon={bookOutline} />
+                            Catálogo <IonIcon slot="start" icon={bookSharp} />
                         </IonButton>
 
                         <IonButton className="btn-close" fill="outline" color="medium" slot="end" onClick={() => {
@@ -739,7 +739,7 @@ const Arguido: React.FC<IArguido> = (props) => {
                         <IonCardContent>
                             <IonButton className="btn-use-data" fill="solid" color="primary" slot="end"
                                 onClick={handlerFullfillForm}>
-                                Utilizar estes dados <IonIcon slot="start" icon={bookOutline} />
+                                Utilizar estes dados <IonIcon slot="start" icon={newspaperSharp} />
                             </IonButton>
                             <IonGrid>
                                 <CardListItem

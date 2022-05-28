@@ -60,6 +60,12 @@ ion-grid.dadosComplementares {
   padding-bottom: 100px !important;
 }
 
+.header-md::after {
+
+  background-image: none;
+
+}
+
 .componentError {
   font-size: small;
   color: #f44336;
