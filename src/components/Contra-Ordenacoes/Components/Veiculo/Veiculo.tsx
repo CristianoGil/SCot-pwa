@@ -15,25 +15,18 @@ import {
     IonItem,
     IonLabel,
     IonPopover,
-    IonRadio,
-    IonRadioGroup,
     IonRow,
-    IonSegment,
-    IonSegmentButton,
-    IonSelect,
-    IonSelectOption,
     IonToggle,
     IonToolbar,
     useIonAlert,
     useIonLoading,
 } from '@ionic/react';
 import { useContext, useState } from 'react';
-import { bookOutline, checkboxOutline, search, star } from 'ionicons/icons';
+import { bookOutline, search } from 'ionicons/icons';
 import React from 'react';
 import './Veiculo.scss';
 import Pais from '../../../Combos/Veiculo/Pais';
 import { AlertNetworkOfflineContext } from '../../../../Context/AlertNetworkOfflineContext';
-import { getNetworkState } from '../../../../common/capacitor_global';
 import _ from 'underscore';
 import { Contraordenacao } from '../../../../api/Contraordenacao';
 import { IPesquisarPessoaResponse, IPesquisarVeiculoResponse } from '../../../../model/contraordenacao';
