@@ -53,11 +53,11 @@ const TituloConducao: React.FC<ITituloConducao> = (props) => {
             const tituloCo = getTituloConducaoPrincipal(props.currentDocumentosData);
 
             if (tituloCo) {
-                setTituloConducao(tituloCo?.tipoDocumento.id);
+                setTituloConducao(tituloCo?.tipoDocumento?.id);
                 setNumero(tituloCo?.numero);
-                setPaisEmissao(tituloCo?.paisEmissao.id);
-                setEntidadeEmissora(tituloCo?.entidadeEmissao.id);
-                setLocalEmissao(tituloCo?.localEmissao.id);
+                setPaisEmissao(tituloCo?.paisEmissao?.id);
+                setEntidadeEmissora(tituloCo?.entidadeEmissao?.id);
+                setLocalEmissao(tituloCo?.localEmissao?.id);
                 setDataEmissao(dateFormat(`${tituloCo.dataEmissao}`, 'YYYY/MM/DD'));
             }
         }

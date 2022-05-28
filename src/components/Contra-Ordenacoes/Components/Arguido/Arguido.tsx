@@ -33,7 +33,7 @@ import _ from 'underscore';
 import { Contraordenacao } from '../../../../api/Contraordenacao';
 import { IPesquisarPessoaResponse } from '../../../../model/contraordenacao';
 import CardListItem from '../../../CardListItem';
-import { IPerson } from '../../../../model/person';
+import { ICoimasEmAtraso, IDocumentoPessoa, IPerson } from '../../../../model/person';
 import { dateFormat } from '../../../../utils/apex-formatters';
 import { arguidoSchema } from '../../../../Validations/ArguidoValidation';
 import { informationCircle } from "ionicons/icons";
@@ -43,6 +43,7 @@ import { SancoesService } from '../../../../api/SancoesService';
 import { DocumentoApreendido } from '../../../../api/DocumentoApreendido';
 import { CartaConducaoService } from '../../../../api/CartaConducaoService';
 import { UserContext } from '../../../../Context/UserContext';
+import { Occur, PesquisarCoimasEmAtrasoVoluntResponse } from '../../../../model/Coimas';
 
 const columnsCoimasAtraso = [
     {
@@ -108,16 +109,19 @@ const columnsSancoesAcessorias = [
 
 ];
 
-const dataSancoesAcessorias: {
-    id: string,
-    auto: string | null,
-    codigoProcesso: string | null,
-    tribunal: string | null,
-    juizo: string | null,
-    dataInibicao: string | null,
-    cartaEntrada: string,
-    accoes: string
-}[
+interface SancoesDto{
+    
+        id: string,
+        auto: string | null,
+        codigoProcesso: string | null,
+        tribunal: string | null,
+        juizo: string | null,
+        dataInibicao: string | null,
+        cartaEntrada: string,
+        accoes: string
+    
+}
+const dataSancoesAcessorias: SancoesDto[
 ] = []
 
 //--------------------------------------
@@ -185,13 +189,13 @@ const columnsTituloConducao = [
 ];
 
 const dataTituloConducao: {
-    id: number;
-    tipo: string;
-    numero: string;
-    entidade: string;
-    dataEmissao: string;
-    situacao: string;
-    accoes: string;
+    id: number | undefined;
+    tipo: string| undefined;
+    numero: string | undefined;
+    entidade: string | undefined;
+    dataEmissao: string | undefined;
+    situacao: string | undefined;
+    accoes: string | undefined;
 }[] = []
 
 //--------------------------------------
@@ -216,13 +220,14 @@ const columnsTituloConducao_Categorias = [
 
 ];
 
-const dataTituloConducao_Categorias: {
+interface DataTituloConducao_Categorias{
     id: number;
     categoria: string;
     descCategoria: string;
     dataInicio: string;
     restricoes: string;
-}[] = []
+}
+const dataTituloConducao_Categorias: DataTituloConducao_Categorias[] = []
 
 
 //--------------------------------------
@@ -259,16 +264,17 @@ const columnsOutrosDocumentos = [
 
 ];
 
+interface DataOutrosDocumentosContribuente{
+    id: number | undefined;
+    tipo: string | undefined;
+    numero: string | undefined; 
+    entidade: string | undefined;
+    dataEmissao: string | undefined;
+    dataLimite: string | undefined;
+    accoes: string | undefined;
+}
 const dataOutrosDocumentos:
-    {
-        id: number;
-        tipo: string;
-        numero: string;
-        entidade: string;
-        dataEmissao: string;
-        dataLimite: string;
-        accoes: string;
-    }[] = []
+DataOutrosDocumentosContribuente[] = []
 
 //--------------------------------------
 
@@ -365,11 +371,58 @@ const Arguido: React.FC<IArguido> = (props) => {
 
         const instanceContraordenacao = new Contraordenacao();
         await instanceContraordenacao.pesquisarPessoa({ nif: +arguidoNif }).then((_arguidoData: IPesquisarPessoaResponse) => {
+       const pessoa: IPerson = _arguidoData.pessoa
+       const moradasDto:{id:number, morada:string} [] = []
+       for (let index = 0; index < pessoa.moradas.length; index++) {
+           moradasDto.push({
+               id: index + 1,
+               morada: pessoa.moradas[index].morada + " " +pessoa.moradas[index].local.descricao + " " +pessoa.moradas[index].pais.descricao
+           })
+
+           
+       }
+       setDataMoradas(moradasDto)
+
+       // titulo de conducao 
+       if(pessoa.documentos.length>0){
+        const cartaConducao:IDocumentoPessoa | undefined= pessoa.documentos.find(c=>c.isTituloConducao)
+         const dadosLinhaConducao = {
+             id: cartaConducao?.id,
+             tipo: cartaConducao?.tipoDocumento?.descricao,
+             numero: cartaConducao?.numero,
+             entidade: cartaConducao?.entidadeEmissao?.descricao,
+             dataEmissao: String(cartaConducao?.dataEmissao),
+             situacao:"",
+             accoes:" "
+         }
+         if(dataCConducao.length ==0){
+            setDataConducao([...dataCConducao, dadosLinhaConducao])
+         }
+
+
+       }
+       const outrosDocumento:IDocumentoPessoa[]=pessoa.historicoDocumentos.filter(c=>{ return !c.isTituloConducao})
+       const outrosDocumentoTableData:DataOutrosDocumentosContribuente[] = []
+       outrosDocumento.forEach(doc=>{
+          const outrodocumento:DataOutrosDocumentosContribuente = {
+              id: doc?.id,
+              tipo: doc?.tipoDocumento?.descricao,
+              numero: doc?.numero,
+              entidade: doc?.entidadeEmissao?.descricao,
+              dataEmissao: String(doc?.dataEmissao),
+              accoes: " ",
+              dataLimite: ""
+          }
+          outrosDocumentoTableData.push(outrodocumento)
+       })
+     
+       setDataDocumentosContribuente(outrosDocumentoTableData)
+
 
             setTimeout(() => {
                 setOpenPopoverArguidoData(true);
                 setTimeout(() => {
-                    setArguidoData(_arguidoData.pessoa);
+                    setArguidoData(pessoa);
                 })
                 dismissOnLoanding();
             }, 100)
@@ -440,15 +493,17 @@ const Arguido: React.FC<IArguido> = (props) => {
         });
 
         new Contraordenacao().pesquisarPessoa({ nif: +arguidoNif, consultarWebService: true }).then(response => {
-            setArguidoData(response.pessoa);
-             
+             const pessoa: IPerson =response.pessoa
+                const moradasDto:{id:number, morada:string} [] = []
             for (let index = 0; index < response.pessoa.moradas.length; index++) {
-                setDataMoradas([...dataMoradas, {
+                moradasDto.push({
                     id: index + 1,
-                    morada: response.pessoa.moradas[index].fracao + " " + response.pessoa.moradas[index].principal
-                }])
-            }
+                    morada: response.pessoa.moradas[index].fracao
+                })
 
+                
+            }
+            setDataMoradas(moradasDto)
 
 
             new CoimasService().getCoimasVoluntEmAtraso({
@@ -460,6 +515,7 @@ const Arguido: React.FC<IArguido> = (props) => {
 
             }).then(wscoimasresponse => {
                 console.table(wscoimasresponse.occurs)
+                const coimasDto:CoimasDto[]= []
                 wscoimasresponse.occurs.forEach(coima => {
                     const coimaLine = {
                         numeroAuto: coima.lawsuitCod,
@@ -468,10 +524,26 @@ const Arguido: React.FC<IArguido> = (props) => {
                         primeiraNotificacao: coima.notifDate
 
                     }
-
-                    setDataCoimas([...dataCoimas, coimaLine])
+                    coimasDto.push(coimaLine)
 
                 })
+                pessoa.isCoimasEmAtraso= coimasDto.length>0?true:false
+               const coima:ICoimasEmAtraso[]= []
+               const coimas:Occur[]= wscoimasresponse.occurs
+               coimas.forEach(c => {
+                const coima:ICoimasEmAtraso= {
+                    idPessoa: pessoa.id,
+                    data: new Date(c.notifDate),
+                    numeroAuto: +c.lawsuitCod,
+                    codInfracao: +c.infrctCod,
+                    valor: +c.debtValue
+                }
+
+                pessoa.coimasEmAtraso.push(coima)
+                     
+                 });
+               
+
 
             }).catch(wscoimaserror => {
                 console.log(wscoimaserror)
@@ -486,6 +558,7 @@ const Arguido: React.FC<IArguido> = (props) => {
                 numeroDocumento: arguidoNif,
                 tipoDocumento: '7'
             }).then(sancoeswsresponse => {
+                 const sancoesDto:SancoesDto[] = []
                 for (let index = 0; index < sancoeswsresponse.acessoriasResponses.length; index++) {
                     const element = sancoeswsresponse.acessoriasResponses[index];
                     const sancao = {
@@ -498,9 +571,9 @@ const Arguido: React.FC<IArguido> = (props) => {
                         cartaEntrada: element.cartaEntregue,
                         accoes: "ver detalhes"
                     }
-                    setDataSancoes([...dataSancoes, sancao]);
+                    sancoesDto.push(sancao)
                 }
-
+                setDataSancoes(sancoesDto);
 
             }).catch(sancoeserror => {
                 console.assert(sancoeserror)
@@ -551,8 +624,23 @@ const Arguido: React.FC<IArguido> = (props) => {
                     accoes: "Ver detalhes"
                 }])
                 
-            
-                        
+                pessoa.dataNascimento = new Date(ccresponse.dataNascimento)
+                pessoa.localNascimento = ccresponse.localNascimento
+                pessoa.documentos.push({ 
+                    idPessoa: pessoa.id,
+                    idOrganizacao: 0,
+                    isTituloConducao: true,
+                    numero: ccresponse.numeroCarta,
+                    entidadeEmissao: {
+                      id: 0,
+                      descricao: ccresponse.entidadeEmissora
+                    },
+                    categoria: ccresponse.categoria.categoria[0].dscCategoria,
+                    visualizado: true,
+                    principal: true,
+                    dataEmissao: new Date(ccresponse.dataEmissao),
+                }
+                    )    
                 interface Restricoes {
                     restricao: Restricao[];
                 }
@@ -568,21 +656,26 @@ const Arguido: React.FC<IArguido> = (props) => {
                     dataValidade: string;
                     restricoes: Restricoes;
                 }[] = ccresponse.categoria.categoria
-
+                    const categoriasDto: DataTituloConducao_Categorias[]= []
                 for (let index = 0; index < categorias.length; index++) {
-                    setDataConducaoCategorias([...dataCConducaoCategorias, {
+                    
+                    categoriasDto.push({
                         id: index + 1,
                         categoria: categorias[index].codCategoria,
                         descCategoria: categorias[index].dscCategoria,
                         dataInicio: categorias[index].dataInicio,
                         restricoes: categorias[index].restricoes.restricao[0].dscRestricao
-                    }])
+                    })
                 }
+                setDataConducaoCategorias(categoriasDto)
+
 
             }).catch(ccerror => {
                 console.assert(ccerror)
             })
             dismissOnLoanding()
+            setArguidoData(pessoa);
+
         }).catch(e => {
             dismissOnLoanding()
             presentAlert({
@@ -749,7 +842,7 @@ const Arguido: React.FC<IArguido> = (props) => {
                                     c2={{ titulo: 'Apelido', valor: arguidoData?.nome }}
                                     c3={{
                                         titulo: 'Local de Nascimento',
-                                        valor: 'null'
+                                        valor: ''
                                     }}
                                     c4={{
                                         titulo: 'Data de Nascimento',
