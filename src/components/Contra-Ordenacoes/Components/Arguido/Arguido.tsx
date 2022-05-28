@@ -24,7 +24,7 @@ import {
 } from '@ionic/react';
 
 import { useContext, useState } from 'react';
-import { bookSharp, search, newspaperSharp } from 'ionicons/icons';
+import { bookOutline, search } from 'ionicons/icons';
 import React from 'react';
 import './Arguido.scss';
 import Pais from '../../../Combos/Pessoa/Pais';
@@ -42,6 +42,7 @@ import { CoimasService } from '../../../../api/CoimasService';
 import { SancoesService } from '../../../../api/SancoesService';
 import { DocumentoApreendido } from '../../../../api/DocumentoApreendido';
 import { CartaConducaoService } from '../../../../api/CartaConducaoService';
+import { UserContext } from '../../../../Context/UserContext';
 
 const columnsCoimasAtraso = [
     {
@@ -308,6 +309,8 @@ const Arguido: React.FC<IArguido> = (props) => {
     const keyup_arguidoNif = (e: any) => {
         setArguidoNif(e.target.value);
     }
+    const userInfo = useContext<any>(UserContext);
+
 
     const [inputNif_color, setInputNif_color] = useState<string>();
     const inputNif_canSearch = () => {
@@ -438,7 +441,7 @@ const Arguido: React.FC<IArguido> = (props) => {
 
         new Contraordenacao().pesquisarPessoa({ nif: +arguidoNif, consultarWebService: true }).then(response => {
             setArguidoData(response.pessoa);
-
+             
             for (let index = 0; index < response.pessoa.moradas.length; index++) {
                 setDataMoradas([...dataMoradas, {
                     id: index + 1,
@@ -450,7 +453,7 @@ const Arguido: React.FC<IArguido> = (props) => {
 
             new CoimasService().getCoimasVoluntEmAtraso({
                 companyId: "ANSR",
-                userId: "loggedUser",
+                userId: userInfo.user.userName,
                 password: "loggedUserPassword",
                 docType: "NIF",
                 docId: arguidoNif,
@@ -478,8 +481,8 @@ const Arguido: React.FC<IArguido> = (props) => {
                 countryId: "PT",
                 entityCode: 'PT',
                 entityType: 'S',
-                forca: 'loggedUserForca',
-                idUtilizador: 'loggedUserId',
+                forca: userInfo.user.userName,
+                idUtilizador: userInfo.user.userName,
                 numeroDocumento: arguidoNif,
                 tipoDocumento: '7'
             }).then(sancoeswsresponse => {
@@ -502,14 +505,15 @@ const Arguido: React.FC<IArguido> = (props) => {
             }).catch(sancoeserror => {
                 console.assert(sancoeserror)
             })
+ 
 
             new DocumentoApreendido().consultaDocumentosApreendidos(
                 {
-                    designacao: 'focas.kandulo@ambisig.com',
-                    entidade: 'loggerUser',
-                    nomeUtilizador: 'loggedUser',
+                    designacao: userInfo.user.email,
+                    entidade: userInfo.user.entidade,
+                    nomeUtilizador: userInfo.user.nomeUsuario,
                     sistema: 'SCOT',
-                    utilizador: 'loggedUser',
+                    utilizador: userInfo.user.userName,
                     numeroDocumento: '4234234',
                     paisDocumento: 'PT',
                     tipoDocumento: 5,
@@ -546,11 +550,9 @@ const Arguido: React.FC<IArguido> = (props) => {
                     situacao: ccresponse.dscSituacao,
                     accoes: "Ver detalhes"
                 }])
-
-
-                // ccresponse.localNascimento
-                // ccresponse.dataNascimento
-
+                
+            
+                        
                 interface Restricoes {
                     restricao: Restricao[];
                 }
@@ -715,7 +717,7 @@ const Arguido: React.FC<IArguido> = (props) => {
                         </IonLabel>
 
                         <IonButton onClick={carregarInformacoesServico} className="btn-catalogo" fill="outline" color="medium" slot="end">
-                            Catálogo <IonIcon slot="start" icon={bookSharp} />
+                            Catálogo <IonIcon slot="start" icon={bookOutline} />
                         </IonButton>
 
                         <IonButton className="btn-close" fill="outline" color="medium" slot="end" onClick={() => {
@@ -739,7 +741,7 @@ const Arguido: React.FC<IArguido> = (props) => {
                         <IonCardContent>
                             <IonButton className="btn-use-data" fill="solid" color="primary" slot="end"
                                 onClick={handlerFullfillForm}>
-                                Utilizar estes dados <IonIcon slot="start" icon={newspaperSharp} />
+                                Utilizar estes dados <IonIcon slot="start" icon={bookOutline} />
                             </IonButton>
                             <IonGrid>
                                 <CardListItem
