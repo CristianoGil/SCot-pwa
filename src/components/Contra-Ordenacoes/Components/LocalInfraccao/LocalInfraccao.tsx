@@ -4,6 +4,7 @@ import { GoogleMap } from '@capacitor/google-maps';
 import { useEffect, useRef, useState } from "react";
 import { Contraordenacao } from "../../../../api/Contraordenacao";
 import React from "react";
+import { setTimeout } from "timers";
 
 interface LocalResponse {
     tiposArruamento: ComonResult[];
@@ -23,12 +24,12 @@ interface ComonResult {
     idFreguesia?: number;
     descricao: string
 }
+let newMap: GoogleMap;
 
 
 const LocalInfraccao: React.FC = () => {
     const apiKey = 'AIzaSyBaOBxDiMCrEgbfIOU6Wau_gjhXdZ6GBXE';
     const mapRef = useRef<HTMLElement>();
-    let newMap: GoogleMap;
 
     const [coordenadas, setCoordenadas] = useState({ "latitude": -19.831996961440094, "longitude": 34.83581986832666 });
     const [distritos, setDistritos] = useState<ComonResult[]>();
@@ -96,13 +97,11 @@ const LocalInfraccao: React.FC = () => {
                     }
                 });
 
+    
+
                 carregarDistritoByCoords({ lat: geo.coords.latitude, lng: geo.coords.longitude }).then(response => {
                     const zonaCapturadaPeloMapa = response.data.results[0].formatted_address
                     dismissOnLoading();
-                    console.log(zonaCapturadaPeloMapa)
-                    const distritosFiltrados = distritos?.filter(distrito => { return distrito.descricao.includes(zonaCapturadaPeloMapa) })
-                    console.log(distritosFiltrados)
-                    setDistritos(distritosFiltrados)
 
                 }).catch(err => {
                     dismissOnLoading();
@@ -116,6 +115,7 @@ const LocalInfraccao: React.FC = () => {
 
 
                 })
+             
 
 
             }, (error) => {
