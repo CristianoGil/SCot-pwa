@@ -2,17 +2,18 @@ import {IID_DESCRICAO} from "./extendable";
 
 export interface IPerson {
     id?: number
-    nif: number
-    nome: string
-    dataNascimento: Date
-    tipoPessoa: string
-    isCoimasEmAtraso: boolean
-    coimasEmAtraso: ICoimasEmAtraso[]
-    documentos: IDocumentoPessoa[]
-    historicoDocumentos: IDocumentoPessoa[]
-    moradas: IMoradaPessoa[]
-    historicoMoradas: IMoradaPessoa[]
-    representanteLegal: string
+    nif : number
+    nome: string 
+    dataNascimento: Date 
+    tipoPessoa: string 
+    isCoimasEmAtraso: boolean 
+    coimasEmAtraso: ICoimasEmAtraso[] 
+    documentos: IDocumentoPessoa[] 
+    historicoDocumentos: IDocumentoPessoa[] 
+    moradas: IMoradaPessoa[] 
+    historicoMoradas: IMoradaPessoa[] 
+    representanteLegal: string 
+    localNascimento?:string
 }
 
 export interface IPessoaResponse {
@@ -38,35 +39,35 @@ export interface IPessoaRequest {
 }
 
 export interface ICoimasEmAtraso {
-    id: number
-    idVeiculo: number
-    idPessoa: number
-    data: Date
-    numeroAuto: number
-    codInfracao: number
-    valor: number
-    valorChecado: boolean
-    custas: number
-    custasChecada: boolean
-    total: number
+    id?: number
+    idVeiculo?: number
+    idPessoa?: number | undefined
+    data?: Date
+    numeroAuto?: number
+    codInfracao?: number
+    valor?: number
+    valorChecado?: boolean
+    custas?: number
+    custasChecada?: boolean
+    total?: number
 }
 
 export interface IDocumentoPessoa {
-    id: number
-    idPessoa: number
-    idOrganizacao: number
-    tipoDocumento: ITipoDocumento
-    isTituloConducao: boolean
-    numero: string
-    entidadeEmissao: IEntidade
-    paisEmissao: IPais
-    localEmissao: IDestrito
-    categoria: string
-    visualizado: boolean
-    principal: boolean
-    dataEmissao: Date
-    dataValidade: Date
-    dataEliminacao: Date
+    id?: number
+    idPessoa?: number | undefined
+    idOrganizacao?: number
+    tipoDocumento?: ITipoDocumento
+    isTituloConducao?: boolean
+    numero?: string
+    entidadeEmissao?: IEntidade
+    paisEmissao?: IPais
+    localEmissao?: IDestrito
+    categoria?: string
+    visualizado?: boolean
+    principal?: boolean
+    dataEmissao?: Date
+    dataValidade?: Date
+    dataEliminacao?: Date
 }
 
 
@@ -97,4 +98,6 @@ export interface IMoradaPessoa {
     principal: boolean
     dataEliminacao: Date
 }
-
+ export interface pessoaAuthCredentials{
+     username:string, password:string
+ } 
