@@ -6,6 +6,9 @@ import { Contraordenacao } from "../../../../api/Contraordenacao";
 import React from "react";
 import { setTimeout } from "timers";
 
+interface LocalInfracaoData{
+    setParentLocalInfracaoData?:any
+}
 interface LocalResponse {
     tiposArruamento: ComonResult[];
     tipos: ComonResult[];
@@ -22,12 +25,14 @@ interface ComonResult {
     idConcelho?: number;
     idDistrito?: number;
     idFreguesia?: number;
+    idComarca?: number;
     descricao: string
 }
 let newMap: GoogleMap;
 
 
-const LocalInfraccao: React.FC = () => {
+
+const LocalInfraccao: React.FC<LocalInfracaoData> = (props) => {
     const apiKey = 'AIzaSyBaOBxDiMCrEgbfIOU6Wau_gjhXdZ6GBXE';
     const mapRef = useRef<HTMLElement>();
 
@@ -167,17 +172,20 @@ const LocalInfraccao: React.FC = () => {
     }, []);
 
     const onchange_filterConcelhoByDistritoId = (e: any) => {
+
         const id = e.target.value;
         const filteredConcelhos: ComonResult[] | undefined = concelhosPadrao?.filter(concelho => { return concelho.idDistrito === id })
-
         setConcelhos(filteredConcelhos)
-
+        setDistrito(id)
     }
 
     const onchange_filterFreguesiasByConcelhoId = (e: any) => {
         const id = e.target.value;
         const result: ComonResult[] | undefined = freguesiasPadrao?.filter(freguesia => { return freguesia.idConcelho === id });
         setFreguesias(result)
+        setConcelho(id)
+        props.setParentLocalInfracaoData(concelhos?.find(c=> {return c.id === id})?.idComarca)
+
     }
 
 
@@ -186,6 +194,8 @@ const LocalInfraccao: React.FC = () => {
         carregarComboLocalidade(id).then((response_local) => {
             const _local = response_local as LocalResponse
             setLocalidades(_local.localidades)
+            setFreguesia(id)
+
         }).catch((error) => {
             console.error("Load localizacao combos: \n", error);
         })

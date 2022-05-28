@@ -5,10 +5,10 @@ import { useState } from "react";
 import { Contraordenacao } from "../../../../api/Contraordenacao";
 import './Infraccao.scss';
 
-interface parentSharedData {
-
+interface InfracaoData {
+    currentComarca:any
 }
-const Infraccao: React.FC = () => {
+const Infraccao: React.FC<InfracaoData> = (props) => {
 
     interface InfracaoResponse {
         comarcas: ComonResult[]
@@ -19,7 +19,8 @@ const Infraccao: React.FC = () => {
     interface ComonResult {
         id: number;
         descricao: string;
-        codigoSegmentoInfracao?: number
+        codigoSegmentoInfracao?: number,
+        idConcelho?:any
     }
 
     interface Subtificacao {
@@ -43,6 +44,9 @@ const Infraccao: React.FC = () => {
     }
 
     const [comarcas, setComarcas] = useState<ComonResult[]>();
+    const [comarca, setComarca] = useState<number>();
+    const [comarcaDto, setComarcaDto] = useState<ComonResult>();
+    const [comarcasPadrao, setComarcasPadrao] = useState<ComonResult[]>();
     const [entidades, setEntidades] = useState<ComonResult[]>();
     const [tiposInfracao, setTiposInfracao] = useState<ComonResult[]>();
     const [subtiposInfracao, setSubTiposInfracao] = useState<Subtificacao[]>();
@@ -63,17 +67,23 @@ const Infraccao: React.FC = () => {
     const getInfracao = async (): Promise<InfracaoResponse> => await new Contraordenacao().carregarCombosInfracao()
     React.useEffect(() => {
         getInfracao().then((response_infracao) => {
-            console.log(response_infracao)
-
             setEntidades(response_infracao?.entidades)
             setComarcas(response_infracao?.comarcas)
+            setComarcasPadrao(response_infracao?.comarcas)
             setTiposInfracao(response_infracao?.tipificacoes)
             setSubtiposInfracaoPadrao(response_infracao?.subtipificacoes)
             setSubTiposInfracao(response_infracao?.subtipificacoes)
         }).catch((error) => {
             console.error("Load infracao combos: \n", error);
         })
-    }, []);
+
+        if (props.currentComarca) {
+            // setComarcas(comarcasPadrao?.find(c =>{ return c.id === props.currentComarca}))
+             const comarcaSelecionada = comarcasPadrao?.find(c =>{ return c.id === props.currentComarca})
+            setComarca(comarcaSelecionada?.id)
+            setComarcaDto(comarcaSelecionada)
+        }
+    }, [props.currentComarca]);
 
 
 
@@ -139,14 +149,10 @@ const Infraccao: React.FC = () => {
 
                         <IonCol size-sm='12' size-md='10' size-lg='3' style={{ marginTop: 16 }}>
                             <IonItem>
-                                <IonLabel>Comarca *</IonLabel>
-                                <IonSelect interface="popover">
-                                    {comarcas?.map((local: any) => {
-                                        return (
-                                            <IonSelectOption key={`${local.id}`}
-                                                value={local.id}>{`${local.descricao}`}</IonSelectOption>
-                                        )
-                                    })}
+                            <IonLabel>Comarca *</IonLabel>
+                                <IonSelect interface="popover" selectedText={comarcaDto?.descricao}>
+                                            <IonSelectOption value={comarcaDto?.id}>{comarcaDto?.descricao}</IonSelectOption>
+
                                 </IonSelect>
                             </IonItem>
                             <IonItem className="componentError" lines="none" hidden={false}>Campo obrigatório</IonItem>

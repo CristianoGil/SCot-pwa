@@ -1,11 +1,12 @@
 import { IonCol, IonGrid, IonRow } from "@ionic/react";
-import React from "react";
+import React, { useState } from "react";
 import Infraccao from "../../../components/Contra-Ordenacoes/Components/Infraccao/Infraccao";
 import LocalInfraccao from "../../../components/Contra-Ordenacoes/Components/LocalInfraccao/LocalInfraccao";
 import Unidade from "../../../components/Contra-Ordenacoes/Components/Unidade/Unidade";
 import './DadosInfracao.scss';
 
 const DadosInfracao: React.FC = () => {
+    const [comarcaSelecionada, setComarcaSelecionada] = useState();
 
     return (
 
@@ -29,7 +30,7 @@ const DadosInfracao: React.FC = () => {
             <IonRow>
                 <IonCol size-sm='12' size-md="12" size-lg="11">
                     {/*START: Infracção*/}
-                    <Infraccao />
+                    <Infraccao  currentComarca={comarcaSelecionada} />
                     {/*END: Infracção*/}
                 </IonCol>
             </IonRow>

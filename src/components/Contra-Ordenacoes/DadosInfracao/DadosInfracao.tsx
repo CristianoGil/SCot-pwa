@@ -4,12 +4,16 @@ import Infraccao from "../Components/Infraccao/Infraccao";
 import LocalInfraccao from "../Components/LocalInfraccao/LocalInfraccao";
 import Unidade from "../Components/Unidade/Unidade";
 import './DadosInfracao.scss';
+    
 
 
 const DadosInfracao: React.FC = () => {
     
 
     const [unidadeParentData, setUnidadeParentData] = useState();
+    const [localInfracaoData, setLocalInfracaoData] = useState();
+    const [comarcaSelecionada, setComarcaSelecionada] = useState();
+
     return (
 
         <IonGrid className="dadosInfracao">
@@ -24,15 +28,15 @@ const DadosInfracao: React.FC = () => {
             <IonRow>
                 <IonCol size-sm='12' size-md="12" size-lg="11">
                     {/*START: Local Infracção*/}
-                    <LocalInfraccao />
+                    <LocalInfraccao setParentLocalInfracaoData={setComarcaSelecionada}/>
                     {/*END: Local Infracção*/}
                 </IonCol>
-            </IonRow>
+            </IonRow> 
 
             <IonRow>
                 <IonCol size-sm='12' size-md="12" size-lg="11">
                     {/*START: Infracção*/}
-                    <Infraccao />
+                    <Infraccao currentComarca={comarcaSelecionada} />
                     {/*END: Infracção*/}
                 </IonCol>
             </IonRow>

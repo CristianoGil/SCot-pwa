@@ -12,6 +12,7 @@ import { MenuActionsBtnSave } from '../../../components/Contra-Ordenacoes/MenuAc
 const CoIndirecta: React.FC = () => {
 
     const [isCISaved, setIsCISaved] = useState(false);
+    const [comarcaSelecionada, setComarcaSelecionada] = useState();
 
     return (
         <IonPage>
@@ -78,7 +79,7 @@ const CoIndirecta: React.FC = () => {
                     <IonRow>
                         <IonCol size-sm='12' size-md="12" size-lg="11">
                             {/*START: Infracção*/}
-                            <Infraccao />
+                            <Infraccao  currentComarca={comarcaSelecionada}/>
                             {/*END: Infracção*/}
                         </IonCol>
                     </IonRow>
