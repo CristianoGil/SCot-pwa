@@ -78,7 +78,7 @@ const Unidade: React.FC<UnidadeData> = (props) => {
             <IonCardContent>
                 <IonGrid>
                     <IonRow>
-                        <IonCol size-sm="9" size-md="8" size-lg="4" style={{ marginTop: 16 }}>
+                        <IonCol size-sm="9" size-md="12" size-lg="4" style={{ marginTop: 16 }}>
                             <IonItem>
                                 <IonLabel>Unidade/Comando *</IonLabel>
                                 <IonSelect interface="popover">
@@ -94,7 +94,7 @@ const Unidade: React.FC<UnidadeData> = (props) => {
                     </IonRow>
 
                     <IonRow>
-                        <IonCol size-sm='12' size-md='10' size-lg='4' style={{ marginTop: 16 }}>
+                        <IonCol size-sm='12' size-md='12' size-lg='4' style={{ marginTop: 16 }}>
                             <DatePicker inputName={'unidade-data_horaInfraccao'} textLabel="Data/Hora da infracção" setSelected={setDataHoraInfraccao}
                                 selected={dataHoraInfraccao} />
                         </IonCol>

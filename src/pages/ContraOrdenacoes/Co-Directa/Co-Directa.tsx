@@ -6,7 +6,6 @@ import './Co-Directa.scss';
 import Menu from '../../../components/Menu/Menu';
 import React from 'react';
 // import ReactPDF, {BlobProvider, pdf, PDFDownloadLink } from '@react-pdf/renderer';
-import jsPDF from 'jspdf';
 import Intervenientes from '../../../components/Contra-Ordenacoes/Intervenientes/Intervenientes';
 import {MenuActionsBtnSave} from '../../../components/Contra-Ordenacoes/MenuActionsBtn';
 import DadosInfracao from '../../../components/Contra-Ordenacoes/DadosInfracao/DadosInfracao';
@@ -235,7 +234,7 @@ const CoDirecta: React.FC = () => {
 
                 <IonGrid id="gridGeral" style={{marginBottom: 40}}>
 
-                    <IonRow style={{marginBottom: 40}}>
+                    <IonRow style={{marginBottom: 40, marginLeft:10}}>
                         <IonCol size="12">
                             <h1>Registro de contraordenações Directas</h1>
                             <p>Registro de contraordenações Directas</p>

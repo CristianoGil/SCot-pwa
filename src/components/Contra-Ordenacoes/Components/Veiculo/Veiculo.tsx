@@ -358,7 +358,7 @@ const Veiculo: React.FC<IPROPS> = (props) => {
                                     name='Veiculo-matricula'
                                     value={veiculoMatricula}
                                     onKeyUp={keyup_VeiculoMatricula}
-                                    placeholder='Matrícula' />
+                                    placeholder='Matrícula *' />
                             </IonItem>
                         </IonCol>
                         <IonCol size-sm='4' size-md='5' size-lg='2'>

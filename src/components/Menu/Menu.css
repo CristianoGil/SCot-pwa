@@ -36,12 +36,9 @@ ion-content#modelContent #imgModal {
 
 ion-toolbar {
     padding: 20px;
-    /*background-color: #FCFCFC;*/
 }
 
 ion-toolbar ion-buttons {
-    margin-right: 20px;
-    margin-left: 20px;
     margin-top: 20px;
 }
 
