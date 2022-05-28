@@ -41,6 +41,7 @@ import Classe from '../../../Combos/Veiculo/Classe';
 import Tipo from '../../../Combos/Veiculo/Tipo';
 import Subclasse from '../../../Combos/Veiculo/Subclasse';
 import { ICoimaVeiculo, IVeiculo } from '../../../../model/veiculo';
+import { veiculoSchema } from '../../../../Validations/VeiculoValidation';
 
 const columnsSemelhantes = [
     {
@@ -92,6 +93,25 @@ const Veiculo: React.FC<IPROPS> = (props) => {
 
     const alertOfflineContext = useContext<any>(AlertNetworkOfflineContext)
 
+    const [inputMatricula_color, setInputMatricula_color] = useState<string>();
+    const inputMatricula_canSearch = () => {
+
+        const matricula_IsValid = veiculoSchema.isValidSync({ matricula: veiculoMatricula })
+        let inputColor: string;
+
+        if (matricula_IsValid) {
+            inputColor = 'success';
+        } else {
+            inputColor = 'danger';
+        }
+
+        setTimeout(() => {
+            setInputMatricula_color(inputColor)
+        });
+
+        return !matricula_IsValid;
+    }
+
     const [presentAlert, dismissAlert] = useIonAlert();
     const [presentOnLoanding, dismissOnLoanding] = useIonLoading();
     const [paisDeEmissao, setPaisDeEmissao] = useState<string>();
@@ -109,7 +129,7 @@ const Veiculo: React.FC<IPROPS> = (props) => {
         e.preventDefault();
         dismissOnLoanding();
 
-        if (_.isEmpty(veiculoMatricula)) {
+        if (inputMatricula_canSearch() || _.isEmpty(veiculoMatricula)) {
             presentAlert({
                 header: 'Atenção!',
                 message: 'Matricula inválido.',
@@ -258,6 +278,9 @@ const Veiculo: React.FC<IPROPS> = (props) => {
                                     <IonIcon icon={search} />
                                 </IonButton>
                                 <IonInput
+                                    maxlength={8}
+                                    minlength={8}
+                                    color={inputMatricula_color}
                                     required={true}
                                     clearInput={true}
                                     name='Veiculo-matricula'
@@ -271,6 +294,7 @@ const Veiculo: React.FC<IPROPS> = (props) => {
                                 <IonButton style={{ background: '#084F87', borderRadius: 4 }}
                                     color="#084F87"
                                     slot="start"
+                                    disabled={inputMatricula_canSearch()}
                                     size='default'
                                     onClick={handler_VeiculoSearchByMatricula}> Pesquisar </IonButton>
 
