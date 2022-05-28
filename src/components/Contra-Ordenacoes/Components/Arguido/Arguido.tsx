@@ -69,6 +69,7 @@ const columnsCoimasAtraso = [
 
 ];
 
+
 interface CoimasDto {
     numeroAuto: string, codigoInfracao: string, valorPagar: string, primeiraNotificacao: string
 }
@@ -111,12 +112,12 @@ const columnsSancoesAcessorias = [
 
 ];
 
-const dataSancoesAcessorias: {
+const dataSancoesAcessorias:  {
     id: string,
     auto: string | null,
-    codigoProcesso: string | null,
+    codigoProcesso: string |null,
     tribunal: string | null,
-    juizo: string | null,
+    juizo: string |null,
     dataInibicao: string | null,
     cartaEntrada: string,
     accoes: string
