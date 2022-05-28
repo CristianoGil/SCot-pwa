@@ -41,7 +41,7 @@ export interface IMarcaVeiculo extends IID_DESCRICAO {
 }
 
 export interface IModeloVeiculo extends IID_DESCRICAO {
-    idMarca: number
+    idMarca?: number
 }
 
 export interface ICorVeiculo extends IID_DESCRICAO {

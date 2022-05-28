@@ -42,6 +42,7 @@ import Tipo from '../../../Combos/Veiculo/Tipo';
 import Subclasse from '../../../Combos/Veiculo/Subclasse';
 import { ICoimaVeiculo, IVeiculo } from '../../../../model/veiculo';
 import { veiculoSchema } from '../../../../Validations/VeiculoValidation';
+import { LivreteService } from '../../../../api/LivreteService';
 
 const columnsSemelhantes = [
     {
@@ -246,7 +247,78 @@ const Veiculo: React.FC<IPROPS> = (props) => {
 
     }, [isConduzidoVeiculo, veiculoMatricula, pais, marca, modelo, cor, categoria, classe, tipo, subclasse])
 
+    const carregarInformacaoLivreve =()=>{
+        presentOnLoanding({
+            message: 'A pesquisar...'
+        });
 
+            new LivreteService().obterInfoLivrete({
+    idSistema: 4,
+    matricula: veiculoMatricula,
+    numQuadro: ''
+}).then(_livreteInfo=>{
+        dismissOnLoanding()
+            // setMarca(_livreteInfo.d1Marca);
+            // setCor(_livreteInfo.rcores);
+            // setCategoria(_livreteInfo.j1CategoriaNacional);
+            // setModelo(_livreteInfo.d2Modelo);
+            // setTipo(_livreteInfo.j2Tipo);
+            const veiculo: IVeiculo ={
+                
+                matricula:_livreteInfo.amatricula,
+                chassi:"",
+                ano:0,
+                classe:{
+
+                    descricao:""
+                },
+                categoria:{
+                    descricao: _livreteInfo.j1CategoriaNacional
+                }
+                ,tipo:{
+                    descricao:_livreteInfo.j2Tipo
+
+                }, 
+                subclasse:{
+                    descricao:""
+                },
+                pais:{
+                    descricao:""
+
+                },
+                marca:{
+                    descricao:_livreteInfo.d1Marca
+                }
+                ,
+                modelo:{
+                    descricao:_livreteInfo.d3ModeloComercial
+                },
+                cor:{
+                    descricao:_livreteInfo.rcores
+                },
+                estadoPolicial:{
+                    descricao:_livreteInfo.dscSituacao
+                }
+
+
+                
+
+             
+            }
+            setVeiculoData(veiculo)
+}).catch(e=>{
+    dismissOnLoanding()
+
+    presentAlert({
+        header: 'Error!',
+        message: 'Operação sem sucesso!\n' + e.message,
+        buttons: [
+            { text: 'Fechar' },
+        ]
+    })
+
+})
+    }
     return (
         <IonCard className={'co-veiculo'}>
 
@@ -378,7 +450,7 @@ const Veiculo: React.FC<IPROPS> = (props) => {
                             </h1>
                         </IonLabel>
 
-                        <IonButton className="btn-catalogo" fill="outline" color="medium" slot="end">
+                        <IonButton className="btn-catalogo" fill="outline" color="medium" slot="end" onClick={carregarInformacaoLivreve}>
                             Catálogo <IonIcon slot="start" icon={bookOutline} />
                         </IonButton>
 

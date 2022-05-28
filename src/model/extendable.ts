@@ -1,5 +1,5 @@
 export interface IID_DESCRICAO {
-    id: number
+    id?: number
     descricao: string
 }
 

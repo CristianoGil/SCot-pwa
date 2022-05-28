@@ -27,7 +27,7 @@ export interface CartaConducaoRequest {
     categoria: Categoria[];
   }
   
-  interface Categoria {
+  export interface Categoria {
     codCategoria: string;
     dscCategoria: string;
     dataInicio: string;
