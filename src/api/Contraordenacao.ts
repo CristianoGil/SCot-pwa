@@ -17,6 +17,7 @@ import { ApiUtils } from "./ApiUtils";
 import Veiculo from "../pages/RI-Catalogo/Veiculo/Veiculo";
 
 export class Contraordenacao {
+    
    
 
     prefix_url: string = 'v1/contraOrdenacao'
@@ -48,6 +49,23 @@ export class Contraordenacao {
                 })
         })
     }
+
+    getCoordsByAddress
+        (arg0: { address: string; apiKey: string; }): any {
+            return new Promise((resolve, reject) => {
+                let url = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${arg0.address}&fields=formatted_address,geometry&key=${arg0.apiKey}`;
+                axios
+                    .get(url)
+                    .then((response: AxiosResponse<any>) => {
+                        resolve(response)
+                    })
+                    .catch((error: AxiosError) => {
+                        reject(error)
+                    })
+            })
+         
+    }
+
 
     private connectPostAPI(service_url: string, data: any): Promise<any> {
 

@@ -59,6 +59,7 @@ const LocalInfraccao: React.FC<LocalInfracaoData> = (props) => {
     const carregarCombosLocalizacao = async (): Promise<any> => await new Contraordenacao().carregarCombosLocalizacao()
     const carregarComboLocalidade = async (idFreguesia: any): Promise<any> => await new Contraordenacao().carregarComboLocalidades(idFreguesia)
     const carregarDistritoByCoords = async (position: { lat: any, lng: any }): Promise<any> => await new Contraordenacao().getMapAddressByPosition({ position: position, apiKey: apiKey })
+    const carregarCoordsByAddress = async (address: string ): Promise<any> => await new Contraordenacao().getCoordsByAddress({ address: address, apiKey: apiKey })
 
 
 
@@ -195,7 +196,6 @@ const LocalInfraccao: React.FC<LocalInfracaoData> = (props) => {
             const _local = response_local as LocalResponse
             setLocalidades(_local.localidades)
             setFreguesia(id)
-
         }).catch((error) => {
             console.error("Load localizacao combos: \n", error);
         })
@@ -206,7 +206,24 @@ const LocalInfraccao: React.FC<LocalInfracaoData> = (props) => {
         setNrPolicia(e.target.value)
     }
     const onClick_pesquisar = () => {
+        carregarCoordsByAddress("").then(res=>{
+            let coords:{ lat:any; lng:any}={
+                lat: undefined,
+                lng: undefined
+            }
 
+            const distrito = ""
+            const concelho = ""
+            const freguesia = ""
+            const localidade = ""
+            
+            
+
+
+
+        }).catch(err=>{
+
+        })
     }
 
     return (

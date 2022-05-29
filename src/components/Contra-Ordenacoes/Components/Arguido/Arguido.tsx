@@ -1,4 +1,5 @@
 import {
+    IonBadge,
     IonButton,
     IonCard,
     IonCardContent,
@@ -281,12 +282,21 @@ DataOutrosDocumentosContribuente[] = []
 const columnsMoradas = [
     {
         name: 'Morada',
-        selector: (row: { morada: any; }) => row.morada,
+        selector: (row: { morada: any; }) => row.morada
+
     },
+    {
+        name:"",
+        cell: (row: { principal: any }) => (
+            row.principal?<IonBadge color="success">Principal</IonBadge>: <IonBadge color="warning">Fiscal</IonBadge>
+
+    )
+
+    }
 
 ];
 
-const moradas: { id: number; morada: string; }[] = []
+const moradas: { id: number; morada: string; principal: boolean }[] = []
 
 interface IArguido {
     setParentArguidoData?: any
@@ -373,30 +383,20 @@ const Arguido: React.FC<IArguido> = (props) => {
         await instanceContraordenacao.pesquisarPessoa({ nif: +arguidoNif }).then((_arguidoData: IPesquisarPessoaResponse) => {
        const pessoa: IPerson = _arguidoData.pessoa
        try {
-        //    let apelido = ""
-        //    const apelidosPartes=  _arguidoData.pessoa.apelidos?.split(" ")
-        //    apelidosPartes?.forEach(ap=>{
-        //     apelido+=apelido + ap
-        //    })
-
             pessoa.apelidos = pessoa.nome.split(" ").at(-1)
-
-
        } catch (error) {
            console.assert(error)
        }
-       const moradasDto:{id:number, morada:string} [] = []
+       const moradasDto:{id:number, morada:string, principal:boolean} [] = []
        for (let index = 0; index < pessoa.moradas.length; index++) {
            moradasDto.push({
                id: index + 1,
-               morada: pessoa.moradas[index].morada + " " +pessoa.moradas[index].local.descricao + " " +pessoa.moradas[index].pais.descricao
+               morada: pessoa.moradas[index].morada + " " +pessoa.moradas[index].local.descricao + " " +pessoa.moradas[index].pais.descricao+" ", principal:pessoa.moradas[index].principal
            })
 
            
        }
        setDataMoradas(moradasDto)
-
-       // titulo de conducao 
        if(pessoa.documentos.length>0){
         const cartaConducao:IDocumentoPessoa | undefined= pessoa.documentos.find(c=>c.isTituloConducao)
          const dadosLinhaConducao = {
@@ -411,7 +411,6 @@ const Arguido: React.FC<IArguido> = (props) => {
          if(dataCConducao.length ==0){
             setDataConducao([...dataCConducao, dadosLinhaConducao])
          }
-
 
        }
        const outrosDocumento:IDocumentoPessoa[]=pessoa.historicoDocumentos.filter(c=>{ return !c.isTituloConducao})
@@ -507,11 +506,12 @@ const Arguido: React.FC<IArguido> = (props) => {
 
         new Contraordenacao().pesquisarPessoa({ nif: +arguidoNif, consultarWebService: true }).then(response => {
              const pessoa: IPerson =response.pessoa
-                const moradasDto:{id:number, morada:string} [] = []
+                const moradasDto:{id:number, morada:string, principal:boolean } [] = []
             for (let index = 0; index < response.pessoa.moradas.length; index++) {
                 moradasDto.push({
                     id: index + 1,
-                    morada: response.pessoa.moradas[index].fracao
+                    morada: response.pessoa.moradas[index].fracao, 
+                    principal: response.pessoa.moradas[index].principal
                 })
 
                 

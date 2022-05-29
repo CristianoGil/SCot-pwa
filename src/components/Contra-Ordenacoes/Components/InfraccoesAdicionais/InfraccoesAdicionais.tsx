@@ -1,5 +1,6 @@
-import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCol, IonGrid, IonInput, IonItem, IonLabel, IonRow, IonTextarea } from "@ionic/react";
+import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCol, IonGrid, IonIcon, IonInput, IonItem, IonLabel, IonRow, IonTextarea } from "@ionic/react";
 import { PropertyDescriptorParsingType } from "html2canvas/dist/types/css/IPropertyDescriptor";
+import { informationCircle } from "ionicons/icons";
 import React, { useEffect } from "react";
 import { useState } from "react";
 import DataTable from 'react-data-table-component';
@@ -10,36 +11,45 @@ interface Infracao{
     _id:number,
     entidade:string,
     infraccoesAdicionais:string,
-    acoes: string
+    acoes: any
 
 }
 interface IInfraccoesAdicionais {
     setParentInfracoesData?: any
 }
 
-const columns = [
-    {
-        name: 'id',
-        selector: (row: { _id: number; }) => row._id,
-    },
-    {
-        name: 'Entidade',
-        selector: (row: { entidade: string; }) => row.entidade,
-    },
-    {
-        name: 'Infracções Adicionais',
-        selector: (row: { infraccoesAdicionais: string; }) => row.infraccoesAdicionais,
-    },
-    {
-        name: 'Ações',
-        selector: (row: { acoes: string; }) => row.acoes,
-    },
-];
-
-const data:Infracao[] = []
-
 
 const InfraccoesAdicionais:React.FC<IInfraccoesAdicionais> = (props) => {
+    const columns = [
+        {
+            name: 'id',
+            selector: (row: { _id: number; }) => row._id,
+        },
+        {
+            name: 'Entidade',
+            selector: (row: { entidade: string; }) => row.entidade,
+        },
+        {
+            name: 'Infracções Adicionais',
+            selector: (row: { infraccoesAdicionais: string; }) => row.infraccoesAdicionais,
+        },
+        {
+            name: 'Ações',
+            cell: (row: { acoes: any }) => (
+                <IonButton onClick={(e) =>{
+                    console.log("im clicking" , e)
+                    console.log(row.acoes)
+                    data = infracoesData.filter(item => {return item.id !== row.acoes})
+                    setInfracoesData(data)
+                }}   size="small" color="primary" >
+                    <IonIcon slot="start" icon={informationCircle} />
+                </IonButton>
+            )
+        },
+    ];let data:Infracao[] = []
+    
+
+    
     const [infracoesData, setInfracoesData] = useState(data);
     const [nomeInfrigida, setNomeInfrigida] = useState('');
     const [descricaoInfrigida, setDescricaoInfrigida] = useState('');
@@ -67,13 +77,17 @@ const InfraccoesAdicionais:React.FC<IInfraccoesAdicionais> = (props) => {
                 _id:index,
                 entidade:nomeInfrigida,
                 infraccoesAdicionais:descricaoInfrigida,
-                acoes:"null"
+                acoes:index
             }
             data.push(...infracoesData)
 
             setInfracoesData([...data, temp_data]) 
 
     
+    }
+    const onClick_RemoveInfraccao = (e:any) => {
+      
+
     }
 
     useEffect(()=>{
@@ -98,12 +112,10 @@ const InfraccoesAdicionais:React.FC<IInfraccoesAdicionais> = (props) => {
                     <IonRow>
                         <IonCol size-sm='12' size-md='10' size-lg='4'>
                             <IonItem>
-                                <IonLabel position="floating" itemType="text" placeholder="Nome infringida">Nome infringida</IonLabel>
+                                <IonLabel position="floating" itemType="text" placeholder="Nome infringida">Norma infringida</IonLabel>
                                 <IonInput
                                 value={nomeInfrigida} 
                                 onIonChange={onChange_nomeInfrigida}
-
-
                                 ></IonInput>
                             </IonItem>
                         </IonCol>
