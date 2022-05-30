@@ -40,7 +40,7 @@ const LocalEmissao: React.FC<IPROPSLocalEmissao> = (props: IPROPSLocalEmissao) =
                 {(combos || []).map((local: any) => {
                     return (
                         <IonSelectOption key={`${local.id}`}
-                                         value={local.id}>{`${local.descricao}`}</IonSelectOption>
+                                         value={JSON.stringify(local)}>{`${local.descricao}`}</IonSelectOption>
                     )
                 })}
             </IonSelect>

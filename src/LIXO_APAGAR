@@ -1,0 +1,132 @@
+    private String gerarPdfAutoContraOrdenacao(ContraOrdenacaoEntity contraOrdenacaoEntity) {
+
+        autoDeContraOrdenacaoPDF = new CAutoDeContraOrdenacaoPDF();
+
+        CAutoDeContraOrdenacaoDat dat = new CAutoDeContraOrdenacaoDat();
+        dat.setAuto(contraOrdenacaoEntity.getNumeroAuto());
+        dat.setEa(contraOrdenacaoEntity.getNumeroTalao());
+
+        CPessoaContraOrdenacao arguido = contraOrdenacaoEntity.getArguido();
+
+        if (!isNull(arguido)) {
+            dat.setNome(arguido.getNome());
+            dat.setDataNascimento(arguido.getDataNascimentoString());
+            dat.setNif(arguido.getNifString());
+
+            if (!isNull(arguido.getDocumentoIdentificacao())) {
+                dat.setCc(arguido.getDocumentoIdentificacao().getNumero());
+                dat.setCc_emitido(arguido.getDocumentoIdentificacao().getPaisEmissao().getDescricao());
+                dat.setCc_em(arguido.getDocumentoIdentificacao().getDataEmissao().toString());
+            }
+
+            if (!isNull(arguido.getDocumentoIdentificacao())) {
+                dat.setCc(arguido.getDocumentoIdentificacao().getNumero());
+                dat.setCc_emitido(arguido.getDocumentoIdentificacao().getPaisEmissao().getDescricao());
+                dat.setCc_em(arguido.getDocumentoIdentificacao().getDataEmissao().toString());
+            }
+
+            if (!isNull(arguido.getDocumentoIdentificacao())) {
+                dat.setCc(arguido.getDocumentoIdentificacao().getNumero());
+                dat.setCc_emitido(arguido.getDocumentoIdentificacao().getPaisEmissao().getDescricao());
+                dat.setCc_em(arguido.getDocumentoIdentificacao().getDataEmissao().toString());
+            }
+
+            if (!isNull(arguido.getMorada())) {
+                dat.setDomicilio(arguido.getMorada().getMorada() + " " + arguido.getMorada().getLocal().getDescricao() + ", " + arguido.getMorada().getCodigoPostal() + ", " + arguido.getMorada().getPais().getDescricao());
+            }
+        }
+
+        dat.setDomicilio("");
+
+        CVeiculo veiculo = contraOrdenacaoEntity.getVeiculo();
+        if (!isNull(veiculo)) {
+            dat.setMatricula(veiculo.getMatricula());
+            dat.setPais(veiculo.getPais().getDescricao());
+            String categoriaClasse = "";
+            if (veiculo.getClasse().getDescricao() != null && !veiculo.getClasse().getDescricao().isEmpty()) {
+                categoriaClasse = veiculo.getCategoria().getDescricao() + "/" + veiculo.getClasse().getDescricao();
+            } else {
+                categoriaClasse = veiculo.getCategoria().getDescricao();
+            }
+            dat.setCategoriaClasse(categoriaClasse);
+            String tipoSubclasse = "";
+            if (veiculo.getSubclasse().getDescricao() != null && !veiculo.getSubclasse().getDescricao().isEmpty()) {
+                tipoSubclasse = veiculo.getTipo().getDescricao() + "/" + veiculo.getSubclasse().getDescricao();
+            } else {
+                tipoSubclasse = veiculo.getTipo().getDescricao();
+            }
+            dat.setTipoSubclasse(tipoSubclasse);
+        }
+
+        dat.setConduzido_por(contraOrdenacaoEntity.getIsConduzidoArguido() ? "ARGUIDO" : "CONDUTOR");
+        dat.setNome_condutor(contraOrdenacaoEntity.getIsConduzidoArguido() ? arguido.getNome() : contraOrdenacaoEntity.getCondutor().getNome());
+
+        if (!contraOrdenacaoEntity.getIsConduzidoArguido() && !isNull(contraOrdenacaoEntity.getCondutor()) && !isNull(contraOrdenacaoEntity.getCondutor().getTituloConducao())) {
+            dat.setVeic_cc(contraOrdenacaoEntity.getCondutor().getDocumentoIdentificacao().getNumero());
+            dat.setVeic_cc_emitido(contraOrdenacaoEntity.getCondutor().getDocumentoIdentificacao().getPaisEmissao().getDescricao());
+            dat.setVeic_cc_em(contraOrdenacaoEntity.getCondutor().getDocumentoIdentificacao().getDataEmissao().toString());
+        }
+
+        if (contraOrdenacaoEntity.getIsConduzidoArguido() && !isNull(contraOrdenacaoEntity.getArguido()) && !isNull(arguido.getTituloConducao())) {
+            dat.setVeic_cc(contraOrdenacaoEntity.getArguido().getTituloConducao().getNumero());
+            dat.setVeic_cc_emitido(contraOrdenacaoEntity.getArguido().getTituloConducao().getPaisEmissao().getDescricao());
+            dat.setVeic_cc_em(contraOrdenacaoEntity.getArguido().getTituloConducao().getDataEmissao().toString());
+        }
+
+        dat.setInfr_data(contraOrdenacaoEntity.getDataInfracao().toString());
+        dat.setNome_autuante(contraOrdenacaoEntity.getNomeAutuante());
+        dat.setInfr_hora(null);
+        dat.setInfr_comarca(contraOrdenacaoEntity.getComarca().getDescricao());
+
+        CLocal localInfracao = contraOrdenacaoEntity.getLocalInfracao();
+        if (!isNull(localInfracao)) {
+            dat.setInfr_domicilio(localInfracao.getTipoArruamento().getDescricao() + " " + localInfracao.getArruamento());
+            dat.setInfr_municipio(localInfracao.getConcelho().getDescricao());
+            dat.setInfr_distrito(localInfracao.getDistrito().getDescricao());
+        }
+===========
+        CInfracao infracao = contraOrdenacaoEntity.getInfracao();
+        if (!isNull(infracao)) {
+            dat.setInfr_descricao_sumaria(infracao.getDescricaoSumaria());
+            dat.setInfr_codigo(infracao.getCodigoDgv().toString());
+            dat.setInfr_normas_infringidas(infracao.getNormaInfringida());
+            dat.setMontanteDaCoimaMinima(infracao.getMontanteDaCoimaMinima().setScale(2).toPlainString() + " " + Moeda.EURO.getSimbolo());
+            dat.setMontanteDaCoimaMinima_extenso("(" + extensoService.escreveNumeroPorExtenso(infracao.getMontanteDaCoimaMinima().toString(), Moeda.EURO) + ")");
+            dat.setMontanteDaCoimaEscolhido(infracao.getMontanteDaCoimaMinima().setScale(2).toPlainString() + " " + Moeda.EURO.getSimbolo());
+            dat.setMontanteDaCoimaMaxima(infracao.getMontanteDaCoimaMaxima().setScale(2).toPlainString() + " " + Moeda.EURO.getSimbolo());
+            dat.setMontanteDaCoimaMaxima_extenso("(" + extensoService.escreveNumeroPorExtenso(infracao.getMontanteDaCoimaMaxima().toString(), Moeda.EURO) + ")");
+            dat.setSancaoAcessoria(infracao.getSancaoAcessoria());
+            dat.setNormaQuePreveSancaoAcessoria(infracao.getNormaQuePreveSancaoAcessoria());
+        }
+
+        if (!isNull(infracao) && !isNull(infracao.getValorAberto()) && infracao.getValorAberto()) {
+            dat.setMontanteDaCoimaEscolhido(contraOrdenacaoEntity.getMontanteDaCoimaEscolhido().setScale(2).toPlainString() + " " + Moeda.EURO.getSimbolo());
+        }
+
+        if (!isNull(contraOrdenacaoEntity.getBase64AssinaturaManuscritoAgente()) &&
+                (!contraOrdenacaoEntity.getArguidoNaoAssinouNotificacao() || !contraOrdenacaoEntity.getCondutorNaoAssinouNotificacao())) {
+            dat.setAgente(contraOrdenacaoEntity.getBase64AssinaturaManuscritoAgente());
+        } else {
+            dat.setAgente2(contraOrdenacaoEntity.getBase64AssinaturaManuscritoAgente());
+        }
+        if (!isNull(contraOrdenacaoEntity.getBase64AssinaturaManuscritoArguido())) {
+            dat.setArguido(contraOrdenacaoEntity.getBase64AssinaturaManuscritoArguido());
+        }
+        if (!isNull(contraOrdenacaoEntity.getBase64AssinaturaManuscritoCondutor())) {
+            dat.setCondutor(contraOrdenacaoEntity.getBase64AssinaturaManuscritoCondutor());
+        }
+        if (!isNull(contraOrdenacaoEntity.getBase64AssinaturaManuscritoTestemunha1()) &&
+                (!contraOrdenacaoEntity.getArguidoNaoAssinouNotificacao() || !contraOrdenacaoEntity.getCondutorNaoAssinouNotificacao())) {
+            dat.setTestemunha1(contraOrdenacaoEntity.getBase64AssinaturaManuscritoTestemunha1());
+        } else {
+            dat.setTestemunha3(contraOrdenacaoEntity.getBase64AssinaturaManuscritoTestemunha1());
+        }
+        if (!isNull(contraOrdenacaoEntity.getBase64AssinaturaManuscritoTestemunha2()) &&
+                (!contraOrdenacaoEntity.getArguidoNaoAssinouNotificacao() || !contraOrdenacaoEntity.getCondutorNaoAssinouNotificacao())) {
+            dat.setTestemunha2(contraOrdenacaoEntity.getBase64AssinaturaManuscritoTestemunha2());
+        } else {
+            dat.setTestemunha4(contraOrdenacaoEntity.getBase64AssinaturaManuscritoTestemunha1());
+        }
+
+        return autoDeContraOrdenacaoPDF.gerar(dat);
+    }

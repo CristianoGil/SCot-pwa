@@ -469,7 +469,7 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
                 <td
                     colSpan={15}
                     style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-                >{coData.arguido.nif}</td>
+                >{coData?.arguido?.nif}</td>
                 <td></td>
             </tr>
             <tr style={{height: 20}}>
@@ -492,7 +492,7 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
                 <td
                     colSpan={32}
                     style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-                ></td>
+                >{coData?.arguido?.cc}</td>
                 <td colSpan={4}></td>
                 <td
                     colSpan={10}
@@ -516,7 +516,7 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
                 <td
                     colSpan={10}
                     style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-                ></td>
+                >{coData?.arguido?.cc_emitido}</td>
                 <td
                     colSpan={5}
                     style={{
@@ -538,8 +538,8 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
                 </td>
                 <td
                     colSpan={4}
-                    style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-                ></td>
+                    style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left", fontSize: "80%"}}
+                >{coData?.arguido?.cc_em}</td>
                 <td></td>
             </tr>
             <tr style={{height: 20}}>
@@ -689,7 +689,7 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
                 <td
                     colSpan={22}
                     style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-                ></td>
+                >{coData?.veiculo?.matricula}</td>
                 <td colSpan={3}></td>
                 <td
                     colSpan={5}

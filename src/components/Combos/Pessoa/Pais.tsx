@@ -43,10 +43,10 @@ const Pais: React.FC<IPais> = (props: IPais) => {
             <IonLabel>{props.textLabel}</IonLabel>
             <IonSelect value={props.selected} interface={props.interface} name={props.inputName}
                        onIonChange={e => props.setSelected(e.detail.value)}>
-                {(combos || []).map((pais: any) => {
+                {(combos || []).map((_pais: any) => {
                     return (
-                        <IonSelectOption key={`${pais.id}`}
-                                         value={pais.id}>{`${getFlag(pais.descricao)} ${pais.descricao}`}</IonSelectOption>
+                        <IonSelectOption key={`${_pais.id}`}
+                                         value={JSON.stringify({id: _pais.id,descricao: _pais.descricao })}>{`${getFlag(_pais.descricao)} ${_pais.descricao}`}</IonSelectOption>
                     )
                 })}
             </IonSelect>

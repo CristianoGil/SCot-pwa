@@ -383,6 +383,7 @@ const Arguido: React.FC<IArguido> = (props) => {
         await instanceContraordenacao.pesquisarPessoa({ nif: +arguidoNif }).then((_arguidoData: IPesquisarPessoaResponse) => {
        const pessoa: IPerson = _arguidoData.pessoa
        try {
+           //@ts-ignore
             pessoa.apelidos = pessoa.nome.split(" ").at(-1)
        } catch (error) {
            console.assert(error)
@@ -480,11 +481,14 @@ const Arguido: React.FC<IArguido> = (props) => {
     const [paisEmissao, setPaisEmissao] = useState();
 
     React.useEffect(() => {
+
+
         const _data = {
             isProprietarioVeiculo: isProprietarioVeiculo,
             nif: arguidoNif,
             arguidoVeiculoSingularColetivo: arguidoVeiculoSingularColetivo,
-            paisEmissao: paisEmissao
+            // @ts-ignore
+            paisEmissao: paisEmissao && _.isString(paisEmissao) ? JSON.parse(paisEmissao) : null
         }
 
         if (_.has(props, 'setParentArguidoData')) {
@@ -527,7 +531,7 @@ const Arguido: React.FC<IArguido> = (props) => {
                 docId: arguidoNif,
 
             }).then(wscoimasresponse => {
-                console.table(wscoimasresponse.occurs)
+
                 const coimasDto:CoimasDto[]= []
                 wscoimasresponse.occurs.forEach(coima => {
                     const coimaLine = {

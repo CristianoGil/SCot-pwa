@@ -32,6 +32,7 @@ import {generatePDF_HTML, getPDFBase64_HTML} from "../../../app/SignPDF_HTML";
 import Assinatura from "../../../api/Assinatura";
 import {Document} from 'react-pdf';
 import {useParams} from "react-router";
+import { handlePDFData } from "../../../app/handlePDFData";
 
 const assinaturaManuscrito = 'Manuscrito';
 const assinaturaQualificada = 'Qualificada';
@@ -58,15 +59,18 @@ const signPosition = (whoIsSign: string): { posx: number, posy: number } => {
     return {posx, posy}
 }
 
-const fileName = `co-directa-[name]-${(new Date()).toDateString()}.pdf`;
+const fileName = `co-directa-${(new Date()).toDateString()}.pdf`;
 const CODirectaSignPDFPreview: React.FC = () => {
-
-
+    
     // @ts-ignore
     let {coData} = useParams();
 
+
     if (!_.isEmpty(coData)) {
         coData = JSON.parse(coData);
+
+        // Prepara a imformacao para preencher o pdf
+        coData = handlePDFData(coData.co);
     }
 
     const [presentLoad, dismissLoad] = useIonLoading();
@@ -87,7 +91,7 @@ const CODirectaSignPDFPreview: React.FC = () => {
 
         if (PDF_BLOB_SIGNED && _.isEmpty(PDF_BLOB_SIGNED)) {
 
-            return PDF_BLOB_SIGNED
+            return PDF_BLOB_SIGNED;
         } else {
             try {
 
@@ -322,14 +326,9 @@ const CODirectaSignPDFPreview: React.FC = () => {
             if (_.isObject(_data)) {
                 const formatoAssinatura = cleanString(_data.descricao);
 
-                // Correção para o problema do Loading não desaparecer
-                // https://github.com/ionic-team/ionic-framework/issues/24293
                 await presentLoad({
                     message: 'A assinar... isto pode demorar!',
                 })
-                // presentLoad({
-                //     message: 'A assinar... isto pode demorar!',
-                // })
 
                 try {
                     let responseData;
@@ -535,7 +534,7 @@ const CODirectaSignPDFPreview: React.FC = () => {
                     <object data={`data:application/pdf;base64,${PDF_BLOB_SIGNED}`}
                             style={{overflow: "hidden", minHeight: "100%", width: "100vw"}}></object>
                     :
-                    <CoDirectaTemplateMarkup coData={coData.co}
+                    <CoDirectaTemplateMarkup coData={coData}
                                              assinaturaArguido={assinaturaManuscritaArguido}
                                              assinaturaTestemunha_1={assinaturaManuscritaTestemunha_1}
                                              assinaturaTestemunha_2={assinaturaManuscritaTestemunha_2}

@@ -42,17 +42,16 @@ const DocumentoIdentificacao: React.FC<IDocumentoIdentificacao> = (props) => {
     React.useEffect(() => {
         const _data = {
             isPresentedDocumentoIdentificacao,
-            docIdentificacao,
+            docIdentificacao:  !_.isEmpty(docIdentificacao) && _.isString(docIdentificacao) ? JSON.parse(docIdentificacao) : undefined,
             numero,
-            paisDeEmissao,
-            entidadeEmissora,
-            localEmissao
+            paisEmissao: !_.isEmpty(paisDeEmissao) && _.isString(paisDeEmissao) ? JSON.parse(paisDeEmissao) : undefined,
+            entidadeEmissora: !_.isEmpty(entidadeEmissora) && _.isString(entidadeEmissora) ? JSON.parse(entidadeEmissora) : undefined,
+            localEmissao: !_.isEmpty(localEmissao) && _.isString(localEmissao) ? JSON.parse(localEmissao) : undefined
         }
 
         if (_.has(props, 'setParentDocumentoIdentificacaoData')) {
             props.setParentDocumentoIdentificacaoData(_data)
         }
-        
     }, [isPresentedDocumentoIdentificacao, docIdentificacao,numero,paisDeEmissao,entidadeEmissora, localEmissao]);
 
     return (

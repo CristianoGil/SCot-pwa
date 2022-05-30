@@ -14,7 +14,7 @@ import country from 'country-list-js';
 import {getEmojiFlag} from 'countries-list';
 import {Contraordenacao} from "../../../api/Contraordenacao";
 // @ts-ignore
-import {CompactPicker} from 'react-color';
+import {CirclePicker} from 'react-color';
 import {dateFormat} from "../../../utils/apex-formatters";
 import {colorPaletteOutline} from "ionicons/icons";
 
@@ -53,7 +53,7 @@ const Cor: React.FC<ICor> = (props: ICor) => {
                 <IonIcon icon={colorPaletteOutline}/>
             </IonButton>
             <IonPopover trigger={`open-${props.inputName}`} showBackdrop={false}>
-                <CompactPicker colors={((combos || []).map((e) => e.descricao))}
+                <CirclePicker colors={((combos || []).map((e) => e.descricao))}
                                onSwatchHover={(color: any) => props.setSelected(color.hex)}/>
             </IonPopover>
         </IonItem>

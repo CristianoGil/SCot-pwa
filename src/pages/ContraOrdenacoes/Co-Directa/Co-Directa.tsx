@@ -30,9 +30,40 @@ const RenderSegment = (props: { segment: string, setCoDirectaData: any }) => {
 
 const instanceCoDirecta = new Contraordenacao();
 
+const _handleArguidoDocumentos = (data: any): any => {
+    const docs = [];
+
+    if (data?.documento) {
+        const doc = data.documento;
+        doc.isTituloConducao = true
+        docs.push(doc)
+    }
+
+    if (data?.docIdentificacao) {
+        const doc = data.docIdentificacao
+        doc.isTituloConducao = false
+        docs.push(doc)
+    }
+    return docs.length !== 0 ? docs : null
+}
+
+const _handleArguidoMorada = (info: any) => {
+    if (!info) return null;
+
+    return [{
+        morada: info?.morada,
+        numeroPolicia: info?.numeroPolicia,
+        pais: info?.paisEmissao,
+        fracao: info?.fraccao,
+        localidade: info?.localidade,
+        codigoPostal: info?.codigoPostal,
+        principal: true
+    }]
+}
+
 const handlerCoDirectaRequestData = (data: any): ICoDirecta => {
-    console.log(data)
-    const dataReturn =  {
+
+    const dataReturn = {
         id: null,
         tipoContraordenacao: 'directa',
         isTerminada: false,
@@ -89,23 +120,38 @@ const handlerCoDirectaRequestData = (data: any): ICoDirecta => {
         arguido: {
             id: data?.arguido.id,
             nif: data?.arguido.nif,
-            nome: data?.arguido.nome,
-            dataNascimento: data?.arguido.dataNascimento,
-            tipoPessoa: data?.arguido.tipoPessoa,
+            nome: data?.arguido.nome ? data?.arguido.nome : data?.informacoesAdicionais.firmaNome,
+            dataNascimento: data?.arguido.dataNascimento ? data?.arguido.dataNascimento  : data?.informacoesAdicionais.dataNascimento,
+            tipoPessoa: data?.arguido.arguidoVeiculoSingularColetivo,
             isCoimasEmAtraso: data?.arguido.isCoimasEmAtraso,
             coimasEmAtraso: data?.arguido.coimasEmAtraso,
-            documentos: data?.arguido.documentos,
+            documentos: data?.arguido.documentos ? data?.arguido.documentos : _handleArguidoDocumentos(data),
             historicoDocumentos: data?.arguido.historicoDocumentos,
-            moradas: data?.arguido.moradas,
+            moradas: data?.arguido.moradas ? data?.arguido.moradas : _handleArguidoMorada(data?.informacoesAdicionais),
             historicoMoradas: data?.arguido.historicoMoradas,
-            representanteLegal: data?.arguido.representanteLegal
+            pais: data?.arguido?.paisEmissao,
+            representanteLegal: data?.arguido.representanteLegal ? data?.arguido.representanteLegal : data?.informacoesAdicionais.representanteLegal
         },
-        condutor: null,
+        condutor: {
+            id: data?.arguido.id,
+            nif: data?.arguido.nif,
+            nome: data?.arguido.nome ? data?.arguido.nome : data?.informacoesAdicionais.firmaNome,
+            dataNascimento: data?.arguido.dataNascimento,
+            tipoPessoa: data?.arguido.arguidoVeiculoSingularColetivo,
+            isCoimasEmAtraso: data?.arguido.isCoimasEmAtraso,
+            coimasEmAtraso: data?.arguido.coimasEmAtraso,
+            documentos: data?.arguido.documentos ? data?.arguido.documentos : _handleArguidoDocumentos(data?.arguido),
+            historicoDocumentos: data?.arguido.historicoDocumentos,
+            moradas: data?.arguido.moradas ? data?.arguido.moradas : _handleArguidoMorada(data?.informacoesAdicionais),
+            historicoMoradas: data?.arguido.historicoMoradas,
+            pais: data?.arguido?.paisEmissao,
+            representanteLegal: data?.arguido.representanteLegal ? data?.arguido.representanteLegal : data?.informacoesAdicionais.representanteLegal
+        },
         dataInfracao: null,
         numeroAuto: null,
         numeroTalao: null,
         isPresenciadaAutuante: null,
-        isConduzidoArguido: null,
+        isConduzidoArguido: data?.veiculo ? data.veiculo.isConduzidoVeiculo : null,
         nomeAutuante: null,
         localInfracao: null,
         infracao: null,
@@ -164,6 +210,7 @@ const handlerCoDirectaRequestData = (data: any): ICoDirecta => {
         base64Assinatura: null,
     }
 
+    console.log(dataReturn)
     return dataReturn
 }
 
@@ -225,7 +272,7 @@ const CoDirecta: React.FC = () => {
 
     return (
         <IonPage>
-            <Menu  actionsCOBtn={<MenuActionsBtnSave  isCOSaved={isCOSaved} onEmit={(e: any) => {
+            <Menu actionsCOBtn={<MenuActionsBtnSave isCOSaved={isCOSaved} onEmit={(e: any) => {
                 onEmit(e);
             }} onSave={(e: any) => {
                 onSave(e)
@@ -234,7 +281,7 @@ const CoDirecta: React.FC = () => {
 
                 <IonGrid id="gridGeral" style={{marginBottom: 40}}>
 
-                    <IonRow style={{marginBottom: 40, marginLeft:10}}>
+                    <IonRow style={{marginBottom: 40, marginLeft: 10}}>
                         <IonCol size="12">
                             <h1>Registo de contraordenações Directas</h1>
                             <p>Registo de contraordenações Directas</p>

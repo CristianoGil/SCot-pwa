@@ -38,7 +38,7 @@ const DocIdentificacao: React.FC<IPROPSDocIdentificacao> = (props: IPROPSDocIden
                 {(combos || []).map((docId: any) => {
                     return (
                         <IonSelectOption key={`${docId.id}`}
-                                         value={docId.id}>{`${docId.descricao}`}</IonSelectOption>
+                                         value={JSON.stringify(docId)}>{`${docId.descricao}`}</IonSelectOption>
                     )
                 })}
             </IonSelect>

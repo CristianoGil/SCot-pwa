@@ -76,7 +76,7 @@ const Menu: React.FC<IProps> = (props) => {
                 }}>
 
                     <IonButton style={{ height: 60 }}>
-                        <IonImg src={'assets/images/Menu-Open.png'} />
+                        <IonImg  style={{ width: 50 }} src={'assets/images/Menu-Open.png'} />
                     </IonButton>
 
                 </IonButtons>
