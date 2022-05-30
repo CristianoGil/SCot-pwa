@@ -709,7 +709,7 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
                 <td
                     colSpan={10}
                     style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-                ></td>
+                >{coData?.veiculo?.pais?.descricao}</td>
                 <td colSpan={9}></td>
             </tr>
             <tr style={{height: 1}}>
@@ -735,7 +735,7 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
                 <td
                     colSpan={25}
                     style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-                ></td>
+                >{coData?.veiculo?.categoriaClasse}</td>
                 <td colSpan={3}></td>
                 <td
                     colSpan={10}
@@ -755,7 +755,7 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
                 <td
                     colSpan={13}
                     style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-                ></td>
+                >{coData?.veiculo?.tipoSubClasse}</td>
                 <td></td>
             </tr>
             <tr style={{height: 19}}>
@@ -780,7 +780,7 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
                     colSpan={16}
                     rowSpan={2}
                     style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-                ></td>
+                >{coData?.veiculo?.conduzidoPor} </td>
                 <td
                     colSpan={12}
                     rowSpan={2}
@@ -804,7 +804,7 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
                 <td
                     colSpan={27}
                     style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-                ></td>
+                >{coData?.veiculo?.nomeCondutor}</td>
                 <td></td>
             </tr>
             <tr style={{height: 1}}>
@@ -831,7 +831,7 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
                 <td
                     colSpan={31}
                     style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-                ></td>
+                >{coData?.veiculo?.cc}</td>
                 <td colSpan={5}></td>
                 <td
                     colSpan={10}
@@ -855,7 +855,7 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
                 <td
                     colSpan={10}
                     style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-                ></td>
+                >{coData?.veiculo?.cc_emitido}</td>
                 <td
                     colSpan={5}
                     style={{
@@ -877,8 +877,8 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
                 </td>
                 <td
                     colSpan={4}
-                    style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-                ></td>
+                    style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left", fontSize: "80%"}}
+                >{coData?.veiculo?.cc_em}</td>
                 <td></td>
             </tr>
             <tr style={{height: 2}}>
