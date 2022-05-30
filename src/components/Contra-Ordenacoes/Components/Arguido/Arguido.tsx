@@ -488,7 +488,7 @@ const Arguido: React.FC<IArguido> = (props) => {
             nif: arguidoNif,
             arguidoVeiculoSingularColetivo: arguidoVeiculoSingularColetivo,
             // @ts-ignore
-            paisEmissao: paisEmissao && _.isString(paisEmissao) ? JSON.parse(paisEmissao) : null
+            paisEmissao: paisEmissao
         }
 
         if (_.has(props, 'setParentArguidoData')) {

@@ -34,15 +34,17 @@ const TituloConducaoCombo: React.FC<IProps> = (props) => {
     return (
         <IonItem>
             <IonLabel>{props.textLabel}</IonLabel>
-            <IonSelect name={props.inputName} value={props.selected} interface={props.interface}
-                       onIonChange={e => {
-                           props.setSelected(e.detail.value);
-                       }}>
+            <IonSelect name={props.inputName} value={props.selected?.id} interface={props.interface}
+                       onIonChange={(e) => {
+                           let value = (combos || []).find((d )=> d.id === e.detail.value)
+                           props.setSelected(value)
+                       }}
+            >
 
                 {(combos || []).map((local: any) => {
                     return (
                         <IonSelectOption key={`${local.id}`}
-                                         value={JSON.stringify(local)}>{`${local.descricao}`}</IonSelectOption>
+                                         value={local.id}>{`${local.descricao}`}</IonSelectOption>
                     )
                 })}
             </IonSelect>

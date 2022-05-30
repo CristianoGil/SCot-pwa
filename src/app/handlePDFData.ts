@@ -4,10 +4,11 @@ import {IDocumentoPessoa, IMoradaPessoa} from "../model/person";
 
 export const handlePDFData = (coData: ICoDirecta): any => {
     let pdfData = coData as unknown as any;
+
     // Arguido
     if (coData.arguido) {
         // Documento de Identificacao
-        const doc = arguidoGetDocIdentificacao(coData.arguido.documentos);
+        const doc = arguidoGetDocIdentificacao(coData.arguido?.documentos);
         if (doc) {
             pdfData.arguido.cc = doc.numero;
             pdfData.arguido.cc_emitido = doc.paisEmissao?.descricao;
@@ -17,11 +18,12 @@ export const handlePDFData = (coData: ICoDirecta): any => {
         // Morada
         const morada = arguidoGetMorada(coData.arguido.moradas);
         if (morada) {
-            pdfData.arguido.domicilio = `${morada.morada} ${morada.local.descricao}, ${morada.codigoPostal}, ${morada.pais.descricao}`;
+            pdfData.arguido.domicilio = `${morada?.morada} ${morada?.local?.descricao}, ${morada?.codigoPostal}, ${morada?.pais?.descricao}`;
         }
 
-        pdfData.veiculo.nomeCondutor = coData.arguido.nome
+        pdfData.veiculo.nomeCondutor = coData?.arguido?.nome
     }
+
 
     // Veiculo
     if (coData.veiculo) {
@@ -29,19 +31,19 @@ export const handlePDFData = (coData: ICoDirecta): any => {
         // Categoria e class
         pdfData.veiculo.categoriaClasse = "";
         if (coData.veiculo.categoria && coData.veiculo.classe) {
-            pdfData.veiculo.categoriaClasse = `${coData.veiculo.categoria.descricao}/${coData.veiculo.classe.descricao}`;
+            pdfData.veiculo.categoriaClasse = `${coData.veiculo.categoria?.descricao}/${coData.veiculo.classe?.descricao}`;
         }
         // tipo e subclass
         pdfData.veiculo.tipoSubClasse = "";
         if (coData.veiculo.subclasse && coData.veiculo.tipo) {
-            pdfData.veiculo.tipoSubClasse = `${coData.veiculo.tipo.descricao}/${coData.veiculo.subclasse.descricao}`;
+            pdfData.veiculo.tipoSubClasse = `${coData.veiculo.tipo?.descricao}/${coData.veiculo.subclasse?.descricao}`;
         } else if (coData.veiculo.tipo) {
             pdfData.veiculo.tipoSubClasse = coData.veiculo.tipo.descricao;
         }
     }
 
-    pdfData.veiculo.conduzidoPor = coData.isConduzidoArguido ? "ARGUIDO" : "CONDUTOR";
-    pdfData.veiculo.nomeCondutor = coData.isConduzidoArguido ? coData.arguido?.nome : coData.condutor?.nome;
+    pdfData.veiculo.conduzidoPor = coData?.isConduzidoArguido ? "ARGUIDO" : "CONDUTOR";
+    pdfData.veiculo.nomeCondutor = coData?.isConduzidoArguido ? coData.arguido?.nome : coData.condutor?.nome;
 
     const condutorTituloConducao = coData?.condutor ? getTituloConducao(coData.condutor.documentos) : null;
     if (!coData.isConduzidoArguido && coData.condutor && condutorTituloConducao) {
@@ -56,6 +58,7 @@ export const handlePDFData = (coData: ICoDirecta): any => {
         pdfData.veiculo.cc_emitido = arguidoTituloConducao.paisEmissao?.descricao
         pdfData.veiculo.cc_em = arguidoTituloConducao.dataEmissao?.toString()
     }
+
 
     console.log(pdfData)
 

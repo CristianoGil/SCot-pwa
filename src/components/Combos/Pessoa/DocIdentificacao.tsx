@@ -32,13 +32,17 @@ const DocIdentificacao: React.FC<IPROPSDocIdentificacao> = (props: IPROPSDocIden
     return (
         <IonItem>
             <IonLabel>{props.textLabel}</IonLabel>
-            <IonSelect name={props.inputName} value={props.selected} interface={props.interface}
-                       onIonChange={e => props.setSelected(e.detail.value)}>
+            <IonSelect name={props.inputName} value={props.selected?.id} interface={props.interface}
+                       onIonChange={(e) => {
+                           let value = (combos || []).find((d )=> d.id === e.detail.value)
+                           props.setSelected(value)
+                       }}
+            >
 
                 {(combos || []).map((docId: any) => {
                     return (
                         <IonSelectOption key={`${docId.id}`}
-                                         value={JSON.stringify(docId)}>{`${docId.descricao}`}</IonSelectOption>
+                                         value={docId.id}>{`${docId.descricao}`}</IonSelectOption>
                     )
                 })}
             </IonSelect>

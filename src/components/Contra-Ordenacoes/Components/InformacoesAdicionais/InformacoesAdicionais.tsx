@@ -95,7 +95,7 @@ const InformacoesAdicionais: React.FC<IInformacoesAdicionais> = (props) => {
             fraccao,
             localidade,
             codigoPostal,
-            paisEmissao:  !_.isEmpty(paisEmissao) && _.isString(paisEmissao) ? JSON.parse(paisEmissao) : undefined,
+            paisEmissao:  paisEmissao,
             representanteLegal
         }
 
