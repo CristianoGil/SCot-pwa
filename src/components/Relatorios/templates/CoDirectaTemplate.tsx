@@ -1,6 +1,6 @@
 import {CoDirectaMarkupTable1} from './helpers/CoDirectaMarkupTable1';
 import {CoDirectaMarkupTable2} from './helpers/CoDirectaMarkupTable2';
-import {CoDirectaMarkupTable3} from './helpers/CoDirectaMarkupTable3';
+
 
 
 interface IProps {
