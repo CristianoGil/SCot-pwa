@@ -75,7 +75,7 @@ const CODirectaSignPDFPreview: React.FC = () => {
         } else {
             try {
 
-                presentLoad({
+                await presentLoad({
                     message: 'A baixar o pdf... isto pode demorar!',
                 })
 
@@ -306,7 +306,9 @@ const CODirectaSignPDFPreview: React.FC = () => {
             if (_.isObject(_data)) {
                 const formatoAssinatura = cleanString(_data.descricao);
 
-                presentLoad({
+                // Correção para o problema do Loading não desaparecer
+                // https://github.com/ionic-team/ionic-framework/issues/24293
+                await presentLoad({
                     message: 'A assinar... isto pode demorar!',
                 })
 
@@ -412,7 +414,7 @@ const CODirectaSignPDFPreview: React.FC = () => {
             // @ts-ignore
             const file = inputFile.files[0];
             if (file) {
-                presentLoad({
+                await presentLoad({
                     message: 'A carregar... isto pode demorar!',
                 })
                 try {
@@ -469,7 +471,7 @@ const CODirectaSignPDFPreview: React.FC = () => {
         } else {
             try {
 
-                presentLoad({
+                await presentLoad({
                     message: 'A imprimir... isto pode demorar!',
                 })
 
