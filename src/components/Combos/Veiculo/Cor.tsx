@@ -23,6 +23,7 @@ interface ICor {
     textLabel?: string
     selected?:any
     setSelected?:any
+    interface: any
 }
 
 interface IPROS {
@@ -47,15 +48,18 @@ const Cor: React.FC<ICor> = (props: ICor) => {
     return (
 
         <IonItem>
-            <IonInput readonly={true} clearInput={true} id={props.inputName} color={props.selected} style={{color: `${props.selected}`}}
-                      name={props.inputName} value={props.selected} placeholder={props.textLabel}/>
-            <IonButton color='medium' fill="clear" id={`open-${props.inputName}`}>
-                <IonIcon icon={colorPaletteOutline}/>
-            </IonButton>
-            <IonPopover trigger={`open-${props.inputName}`} showBackdrop={false}>
-                <CirclePicker colors={((combos || []).map((e) => e.descricao))}
-                               onSwatchHover={(color: any) => props.setSelected(color.hex)}/>
-            </IonPopover>
+            <IonLabel>{props.textLabel}</IonLabel>
+            <IonSelect value={props.selected?.id} interface={props.interface} name={props.inputName}
+                       onIonChange={(e) => {
+                           let value = (combos || []).find((d )=> d.id === e.detail.value)
+                           props.setSelected(value)
+                       }}>
+                {(combos || []).map((cor: any) => {
+                    return (
+                        <IonSelectOption key={`${cor.id}`} value={cor.id}>{cor.descricao}</IonSelectOption>
+                    )
+                })}
+            </IonSelect>
         </IonItem>
     )
 }

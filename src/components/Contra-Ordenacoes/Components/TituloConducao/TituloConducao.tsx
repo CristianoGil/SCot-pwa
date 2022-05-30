@@ -31,33 +31,33 @@ const TituloConducao: React.FC<ITituloConducao> = (props) => {
     const [paisDeEmissao, setPaisDeEmissao] = useState<string>();
 
     // tituloConducao
-    const [tituloConducao, setTituloConducao] = useState<number | string | null>();
+    const [tituloConducao, setTituloConducao] = useState<any>();
 
     // numero
-    const [numero, setNumero] = useState<string>();
+    const [numero, setNumero] = useState<any>();
 
     //Pais
-    const [paisEmissao, setPaisEmissao] = useState<string | number>();
+    const [paisEmissao, setPaisEmissao] = useState<any>();
 
     // Entidade Emissora
-    const [entidadeEmissora, setEntidadeEmissora] = useState<string | number>();
+    const [entidadeEmissora, setEntidadeEmissora] = useState<any>();
 
     // Local Emissao
-    const [localEmissao, setLocalEmissao] = useState<string | number>();
+    const [localEmissao, setLocalEmissao] = useState<any>();
 
     // Date
-    const [dataEmissao, setDataEmissao] = useState<string>();
+    const [dataEmissao, setDataEmissao] = useState<any>();
 
     React.useEffect(() => {
         if (props.currentDocumentosData) {
             const tituloCo = getTituloConducaoPrincipal(props.currentDocumentosData);
 
             if (tituloCo) {
-                setTituloConducao(tituloCo?.tipoDocumento?.id);
+                setTituloConducao(tituloCo?.tipoDocumento);
                 setNumero(tituloCo?.numero);
-                setPaisEmissao(tituloCo?.paisEmissao?.id);
-                setEntidadeEmissora(tituloCo?.entidadeEmissao?.id);
-                setLocalEmissao(tituloCo?.localEmissao?.id);
+                setPaisEmissao(tituloCo?.paisEmissao);
+                setEntidadeEmissora(tituloCo?.entidadeEmissao);
+                setLocalEmissao(tituloCo?.localEmissao);
                 setDataEmissao(dateFormat(`${tituloCo.dataEmissao}`, 'YYYY/MM/DD'));
             }
         }
@@ -66,11 +66,11 @@ const TituloConducao: React.FC<ITituloConducao> = (props) => {
     React.useEffect(() => {
         const _data = {
             isPresentedTituloConducao,
-            tituloConducao: !_.isEmpty(tituloConducao) && _.isString(tituloConducao) ? JSON.parse(tituloConducao) : undefined,
+            tituloConducao: tituloConducao,
             numero,
-            paisEmissao:  !_.isEmpty(paisEmissao) && _.isString(paisEmissao) ? JSON.parse(paisEmissao) : undefined, 
-            entidadeEmissora: !_.isEmpty(entidadeEmissora) && _.isString(entidadeEmissora) ? JSON.parse(entidadeEmissora) : undefined,
-            localEmissao: !_.isEmpty(localEmissao) && _.isString(localEmissao) ? JSON.parse(localEmissao) : undefined, 
+            paisEmissao:  paisEmissao,
+            entidadeEmissora: entidadeEmissora,
+            localEmissao: localEmissao,
             dataEmissao
         }
 

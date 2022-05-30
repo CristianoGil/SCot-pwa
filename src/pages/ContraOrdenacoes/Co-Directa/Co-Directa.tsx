@@ -76,43 +76,15 @@ const handlerCoDirectaRequestData = (data: any): ICoDirecta => {
             matricula: data.veiculo.matricula,
             chassi: data.veiculo.chassi,
             ano: data.veiculo.ano,
-            categoria: {
-                id: data.veiculo.categoria?.id,
-                descricao: data.veiculo.categoria?.descricao
-            },
-            classe: {
-                id: data.veiculo.classe?.id,
-                descricao: data.veiculo.classe?.descricao
-            },
-            tipo: {
-                id: data.veiculo.tipo?.id,
-                descricao: data.veiculo.tipo?.descricao
-            },
-            subclasse: {
-                id: data.veiculo.subclasse?.id,
-                descricao: data.veiculo.subclasse?.descricao
-            },
-            pais: {
-                id: data.veiculo.pais?.id,
-                descricao: data.veiculo.pais?.descricao
-            },
-            marca: {
-                id: data.veiculo.marca?.id,
-                descricao: data.veiculo.marca?.descricao
-            },
-            modelo: {
-                id: data.veiculo.modelo?.id,
-                idMarca: data.veiculo.modelo?.idMarca,
-                descricao: data.veiculo.modelo?.descricao
-            },
-            cor: {
-                id: data.veiculo.cor?.id,
-                descricao: data.veiculo.cor?.descricao
-            },
-            estadoPolicial: {
-                id: data.veiculo.estadoPolicial?.id,
-                descricao: data.veiculo.estadoPolicial?.descricao
-            },
+            categoria:data.veiculo.categoria,
+            classe: data.veiculo.classe,
+            tipo: data.veiculo.tipo,
+            subclasse: data.veiculo.subclasse,
+            pais:data.veiculo.pais,
+            marca:data.veiculo.marca,
+            modelo: data.veiculo.modelo,
+            cor: data.veiculo.cor,
+            estadoPolicial: data.veiculo.estadoPolicial,
             isCoimasEmAtraso: undefined,
             coimasEmAtraso: undefined,
             ipo: undefined
@@ -267,7 +239,14 @@ const CoDirecta: React.FC = () => {
     }
 
     const onEmit = (e: any) => {
-        history.push("/CODirectaSignPDFPreview/" + JSON.stringify({co: coSaved}))
+        try {
+
+           const jsonData = encodeURIComponent(JSON.stringify(coSaved));
+            history.push(`/CODirectaSignPDFPreview/${jsonData}`)
+        } catch (e) {
+            console.log('Error stringify json: ', e);
+        }
+
     }
 
     return (

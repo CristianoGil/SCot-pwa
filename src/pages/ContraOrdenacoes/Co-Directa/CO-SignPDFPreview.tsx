@@ -32,7 +32,7 @@ import {generatePDF_HTML, getPDFBase64_HTML} from "../../../app/SignPDF_HTML";
 import Assinatura from "../../../api/Assinatura";
 import {Document} from 'react-pdf';
 import {useParams} from "react-router";
-import { handlePDFData } from "../../../app/handlePDFData";
+import {handlePDFData} from "../../../app/handlePDFData";
 
 const assinaturaManuscrito = 'Manuscrito';
 const assinaturaQualificada = 'Qualificada';
@@ -61,16 +61,22 @@ const signPosition = (whoIsSign: string): { posx: number, posy: number } => {
 
 const fileName = `co-directa-${(new Date()).toDateString()}.pdf`;
 const CODirectaSignPDFPreview: React.FC = () => {
-    
+
     // @ts-ignore
     let {coData} = useParams();
 
+    if (!_.isEmpty(coData) && _.isString(coData)) {
 
-    if (!_.isEmpty(coData)) {
-        coData = JSON.parse(coData);
+        try {
+            coData = JSON.parse(decodeURIComponent(coData));
+        } catch (e) {
+            console.log("error parse json: ", e)
+        }
 
         // Prepara a imformacao para preencher o pdf
-        coData = handlePDFData(coData.co);
+        coData = handlePDFData(coData);
+
+
     }
 
     const [presentLoad, dismissLoad] = useIonLoading();
