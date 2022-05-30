@@ -373,7 +373,7 @@ const Menu: React.FC<IProps> = (props) => {
                     <IonToolbar>
                         <IonLabel slot='start'>
 
-                            <h1 style={{fontWeight: 'bold'}}>
+                            <h1 style={{ fontWeight: 'bold' }}>
                                 Aplicação
                             </h1>
 
@@ -474,7 +474,7 @@ const Menu: React.FC<IProps> = (props) => {
                         </div>
                     </IonItem>
 
-                    <IonItem style={{ padding: '0px 10px 0px 10px', marginTop: 20, marginBottom:20 }} lines='none'>
+                    <IonItem style={{ padding: '0px 10px 0px 10px', marginTop: 20, marginBottom: 20 }} lines='none'>
                         <div style={{
                             borderRadius: 10,
                             background: '#FFF0FA',
@@ -491,7 +491,11 @@ const Menu: React.FC<IProps> = (props) => {
                     </IonItem>
 
                 </IonContent>
-                <IonFooter>
+                <IonFooter style={{
+                    position: 'fixed',
+                    bottom: 0,
+                    width: '100%'
+                }}>
                     <IonItem lines='none'>
                         <div id='imgModelosBarras' style={{ padding: 12 }}>
                             <small>Copyright @ 2021 SCOT+. Todos os direitos reservados.</small><br />
