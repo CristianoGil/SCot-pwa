@@ -43,7 +43,7 @@ const TituloConducao: React.FC<ITituloConducao> = (props) => {
     const [entidadeEmissora, setEntidadeEmissora] = useState<string | number>();
 
     // Local Emissao
-    const [localEmissoa, setLocalEmissao] = useState<string | number>();
+    const [localEmissao, setLocalEmissao] = useState<string | number>();
 
     // Date
     const [dataEmissao, setDataEmissao] = useState<string>();
@@ -65,14 +65,20 @@ const TituloConducao: React.FC<ITituloConducao> = (props) => {
 
     React.useEffect(() => {
         const _data = {
-            isPresentedTituloConducao, tituloConducao, numero, paisEmissao, entidadeEmissora, localEmissoa, dataEmissao
+            isPresentedTituloConducao,
+            tituloConducao: !_.isEmpty(tituloConducao) && _.isString(tituloConducao) ? JSON.parse(tituloConducao) : undefined,
+            numero,
+            paisEmissao:  !_.isEmpty(paisEmissao) && _.isString(paisEmissao) ? JSON.parse(paisEmissao) : undefined, 
+            entidadeEmissora: !_.isEmpty(entidadeEmissora) && _.isString(entidadeEmissora) ? JSON.parse(entidadeEmissora) : undefined,
+            localEmissao: !_.isEmpty(localEmissao) && _.isString(localEmissao) ? JSON.parse(localEmissao) : undefined, 
+            dataEmissao
         }
 
         if (_.has(props, 'setParentTituloConducaoData')) {
             props.setParentTituloConducaoData(_data)
         }
 
-    }, [isPresentedTituloConducao, tituloConducao, numero, paisEmissao, entidadeEmissora, localEmissoa, dataEmissao])
+    }, [isPresentedTituloConducao, tituloConducao, numero, paisEmissao, entidadeEmissora, localEmissao, dataEmissao])
 
     return (
         <IonCard>
@@ -140,7 +146,7 @@ const TituloConducao: React.FC<ITituloConducao> = (props) => {
 
                         <IonCol size-sm='12' size-md='12' size-lg='4'>
                             <LocalEmissao
-                                selected={localEmissoa}
+                                selected={localEmissao}
                                 setSelected={setLocalEmissao}
                                 inputName={'tituloConducao-localEmissao'}
                                 textLabel={'Local de Emissão'}

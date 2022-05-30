@@ -39,7 +39,7 @@ const Classe: React.FC<IClasse> = (props: IClasse) => {
                        onIonChange={e => props.setSelected(e.detail.value)}>
                 {(combos || []).map((classe: any) => {
                     return (
-                        <IonSelectOption key={`${classe.id}`} value={classe.id}>{classe.descricao}</IonSelectOption>
+                        <IonSelectOption key={`${classe.id}`} value={JSON.stringify(classe)}>{classe.descricao}</IonSelectOption>
                     )
                 })}
             </IonSelect>

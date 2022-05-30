@@ -13,9 +13,12 @@ import DocumentoIdentificacao from '../Components/DocumentoIdentificacao/Documen
 import InformacoesAdicionais from '../Components/InformacoesAdicionais/InformacoesAdicionais';
 import Veiculo from '../Components/Veiculo/Veiculo';
 import './Intervenientes.scss';
+import _ from 'underscore';
+
 interface IProps {
     setCoDirectaData?: any
 }
+
 const Intervenientes: React.FC<IProps> = (props) => {
 
     const [paisDeEmissao, setPaisDeEmissao] = useState<string>();
@@ -36,22 +39,23 @@ const Intervenientes: React.FC<IProps> = (props) => {
     // END: ARGUIDO
 
     // START: TITULO CONDUCAO
-    const [tituloDocumentoData, setTituloDocumentoData] = useState();
+    const [tituloDocumentoData, setTituloDocumentoData] = useState<IDocumentoPessoa>();
     // END: TITULO CONDUCAO
 
     // START:  DOCUMENTO IDENTIFICACAO
-    const [docIdentificacaoData, setDocIdentificacaoData] = useState();
+    const [docIdentificacaoData, setDocIdentificacaoData] = useState<IDocumentoPessoa>();
     // END:  DOCUMENTO IDENTIFICACAO
 
     // START:  INFORMACOES ADICIONAIS
-    const [informacoesAdicionaisData, setInformacoesAdicionaisData] = useState();
+    const [informacoesAdicionaisData, setInformacoesAdicionaisData] = useState<any>();
     // END:   INFORMACOES ADICIONAIS
 
     // START: VEICULO
-    const [veiculoData, setVeiculoData] = useState();
+    const [veiculoData, setVeiculoData] = useState<any>();
     // END: VEICULO
 
-    React.useEffect(()=>{
+    React.useEffect(() => {
+
         const data = {
             arguido: arguidoData,
             documento: tituloDocumentoData,
@@ -61,7 +65,7 @@ const Intervenientes: React.FC<IProps> = (props) => {
         }
         
         props.setCoDirectaData(data);
-    },[arguidoData,tituloDocumentoData,docIdentificacaoData,informacoesAdicionaisData,veiculoData])
+    }, [arguidoData, tituloDocumentoData, docIdentificacaoData, informacoesAdicionaisData, veiculoData])
 
     return (
         <IonGrid className="intervenientes">
@@ -72,7 +76,7 @@ const Intervenientes: React.FC<IProps> = (props) => {
                     {/* Veículo */}
                 </IonCol>
             </IonRow>
-            
+
             <IonRow>
                 <IonCol size-sm='12' size-md="12" size-lg="11">
                     {/*START: ARGUIDO*/}
@@ -85,7 +89,8 @@ const Intervenientes: React.FC<IProps> = (props) => {
             <IonRow>
                 <IonCol size-sm='12' size-md="12" size-lg="11">
                     {/* Título de condução */}
-                    <TituloConducao currentDocumentosData={arguidoData?.documentos} setParentTituloConducaoData={setTituloDocumentoData}/>
+                    <TituloConducao currentDocumentosData={arguidoData?.documentos}
+                                    setParentTituloConducaoData={setTituloDocumentoData}/>
                     {/* Título de condução */}
                 </IonCol>
             </IonRow>
@@ -103,7 +108,9 @@ const Intervenientes: React.FC<IProps> = (props) => {
             <IonRow>
                 <IonCol size-sm='12' size-md="12" size-lg="11">
                     {/* Informações adicionais */}
-                    <InformacoesAdicionais currentData={arguidoData?.moradas} representanteLegal={arguidoData?.representanteLegal}  setParentInformacoesAdicionaisData={setInformacoesAdicionaisData}/>
+                    <InformacoesAdicionais currentData={arguidoData?.moradas}
+                                           representanteLegal={arguidoData?.representanteLegal}
+                                           setParentInformacoesAdicionaisData={setInformacoesAdicionaisData}/>
                     {/* Informações adicionais */}
                 </IonCol>
             </IonRow>

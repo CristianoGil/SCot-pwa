@@ -39,7 +39,7 @@ const InformacoesAdicionais: React.FC<IInformacoesAdicionais> = (props) => {
     const [firmaNome, setFirmaNome] = useState<string>();
 
     // Date
-    const [dataEmissao, setDataEmissao] = useState<string>();
+    const [dataNascimento, setDataNascimento] = useState<string>();
 
     // Morada
     const [morada, setMorada] = useState<string>();
@@ -85,16 +85,17 @@ const InformacoesAdicionais: React.FC<IInformacoesAdicionais> = (props) => {
 
     React.useEffect(() => {
 
+
         const _data = {
             firmaNome,
-            dataEmissao,
+            dataNascimento,
             selectedFiscalOutro,
             numeroPolicia,
             morada,
             fraccao,
             localidade,
             codigoPostal,
-            paisEmissao,
+            paisEmissao:  !_.isEmpty(paisEmissao) && _.isString(paisEmissao) ? JSON.parse(paisEmissao) : undefined,
             representanteLegal
         }
 
@@ -102,7 +103,7 @@ const InformacoesAdicionais: React.FC<IInformacoesAdicionais> = (props) => {
             props.setParentInformacoesAdicionaisData(_data)
         }
         
-    }, [firmaNome, dataEmissao, selectedFiscalOutro, numeroPolicia, morada, fraccao, localidade, codigoPostal, paisEmissao, representanteLegal])
+    }, [firmaNome, dataNascimento, selectedFiscalOutro, numeroPolicia, morada, fraccao, localidade, codigoPostal, paisEmissao, representanteLegal])
     return (
         <IonCard className="infoAdicionais">
 
@@ -128,10 +129,10 @@ const InformacoesAdicionais: React.FC<IInformacoesAdicionais> = (props) => {
 
                         <IonCol style={{marginTop: 16}} size-sm='12' size-md="3" size-lg="4">
                             <DatePicker
-                                selected={dataEmissao}
-                                setSelected={setDataEmissao}
-                                inputName={'infoAdicionais-dataEmissao'}
-                                textLabel="Data de Emissão"/>
+                                selected={dataNascimento}
+                                setSelected={setDataNascimento}
+                                inputName={'infoAdicionais-dataNascimento'}
+                                textLabel="Data de nascimento"/>
                         </IonCol>
 
                     </IonRow>
