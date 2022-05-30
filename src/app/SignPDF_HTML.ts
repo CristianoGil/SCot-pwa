@@ -16,6 +16,9 @@ export const generatePDF_HTML = (): Promise<any> => {
         //const JR_PAGE_ANCHOR_0_3 = document.getElementById('CO_DIRECTA_JR_PAGE_ANCHOR_0_3');
 
 
+
+
+
         const iteratorPages: any = new IteratorArray([JR_PAGE_ANCHOR_0_1, JR_PAGE_ANCHOR_0_2, JR_PAGE_ANCHOR_0_1]);
 
         let pagesNumber = 3;

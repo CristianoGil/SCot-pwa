@@ -38,8 +38,24 @@ const assinaturaQualificada = 'Qualificada';
 const assinaturaPapel = 'Papel';
 
 
-const onSourceError_PDF = (error: any) => {
-    console.log(error)
+const signPosition = (whoIsSign: string): { posx: number, posy: number } => {
+    let posx: number = 0, posy: number = 0;
+
+    if (whoIsSign === 'arguido') {
+        posx = 345;
+        posy = 295;
+    } else if (whoIsSign === 'testemunha1') {
+        posx = 60;
+        posy = 260;
+    } else if (whoIsSign === 'testemunha2') {
+        posx = 60;
+        posy = 227;
+    } else if (whoIsSign === 'agente') {
+        posx = 60;
+        posy = 320;
+    }
+
+    return {posx, posy}
 }
 
 const fileName = `co-directa-[name]-${(new Date()).toDateString()}.pdf`;
@@ -311,6 +327,9 @@ const CODirectaSignPDFPreview: React.FC = () => {
                 await presentLoad({
                     message: 'A assinar... isto pode demorar!',
                 })
+                // presentLoad({
+                //     message: 'A assinar... isto pode demorar!',
+                // })
 
                 try {
                     let responseData;
@@ -322,16 +341,17 @@ const CODirectaSignPDFPreview: React.FC = () => {
                     }
 
                     const assinaturaInstance = new Assinatura(base64PDF.replace(/^data:application\/[a-z]+;base64,/, ""));
+                    const pos = signPosition(whoIsSigningQualificada);
 
                     // Chave Móvel Digital
                     if (formatoAssinatura === cleanString('Chave Móvel Digital')) {
-                        responseData = await assinaturaInstance.cmd_sign(undefined, undefined, undefined, undefined, escape(`${chaveDigitalPhoneNumber}`));
+                        responseData = await assinaturaInstance.cmd_sign(pos.posx, pos.posy, undefined, undefined, escape(`${chaveDigitalPhoneNumber}`));
                     } // Cartão Cidadão
                     else if (formatoAssinatura === cleanString('Cartão Cidadão')) {
-                        responseData = await assinaturaInstance.cc_sign();
+                        responseData = await assinaturaInstance.cc_sign(pos.posx, pos.posy,);
                     } // Cartão CEGER
                     else if (formatoAssinatura === cleanString('Cartão CEGER')) {
-                        responseData = await assinaturaInstance.ceger_sign();
+                        responseData = await assinaturaInstance.ceger_sign(pos.posx, pos.posy,);
                     }
 
                     if (responseData) {
