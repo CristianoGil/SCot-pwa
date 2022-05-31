@@ -6,7 +6,7 @@ import DatePicker from "../../../Combos/DatePicker";
 import _ from 'underscore';
 
 interface UnidadeData {
-    setUnidadeParentData?: any
+    setUnidadeData?: any
 }
 
 
@@ -57,17 +57,17 @@ const Unidade: React.FC<UnidadeData> = (props) => {
 
 
     React.useEffect(() => {
-        const _data = {
+        const data = {
             unidadeImt: unidadeImt,
             dataHoraInfraccao: dataHoraInfraccao,
             numTalao: numTalao,
         }
-        if (_.has(props, 'setUnidadeParentData')) {
-            props.setUnidadeParentData(_data)
-        }
+        props.setUnidadeData(data)
+    }, [unidadeImt, dataHoraInfraccao,numTalao])
 
-    }, [])
-
+    const onchange_getSelectedUnidade =(e:any)=>{
+        setUnidadeImt(e.detail.value)
+    }
     return (
 
         <IonCard className={'co-unidade'}>
@@ -81,11 +81,11 @@ const Unidade: React.FC<UnidadeData> = (props) => {
                         <IonCol size-sm="9" size-md="12" size-lg="4" style={{ marginTop: 16 }}>
                             <IonItem>
                                 <IonLabel>Unidade/Comando *</IonLabel>
-                                <IonSelect interface="popover">
+                                <IonSelect interface="popover" onIonChange={onchange_getSelectedUnidade} >
                                     {unidadesImt?.map((local: any) => {
                                         return (
                                             <IonSelectOption key={`${local.id}`}
-                                                value={local.id}>{`${local.descricao}`}</IonSelectOption>
+                                                value={local.descricao}>{`${local.descricao}`}</IonSelectOption>
                                         )
                                     })}
                                 </IonSelect>

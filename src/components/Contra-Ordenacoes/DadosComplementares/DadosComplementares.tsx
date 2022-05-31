@@ -7,7 +7,8 @@ import Pagamento from "../Components/Pagamento/Pagamento";
 import './DadosComplementares.scss';
 
 interface IProps {
-    setCoDirectaData?: any
+    setCoDirectaData?: any,
+    active: boolean
 }
 interface Infracao{
     id?:number,
@@ -42,7 +43,7 @@ const DadosComplementares: React.FC<IProps> = (props) => {
 
 
     return (
-        <IonGrid className="dadosComplementares">
+        <IonGrid className={(props.active ? "" : "hiddenImportant " ) + " dadosComplementares"}>
 
             <IonRow>
                 <IonCol size-sm='12' size-md="12" size-lg="11">
