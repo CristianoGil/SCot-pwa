@@ -35,8 +35,8 @@ export const generatePDF_HTML = (): Promise<any> => {
 
                     const canvas = await createCanvas(page);
 
-                    const imgData = canvas.toDataURL('image/png');
-                    pdf.addImage(imgData, 'PNG', 0, 0, width, height);
+                    const imgData = canvas.toDataURL('image/webp');
+                    pdf.addImage(imgData, 'webp', 0, 0, width, height);
 
                     if (pagesNumber >= 1) {
                         pdf.addPage('a4');
