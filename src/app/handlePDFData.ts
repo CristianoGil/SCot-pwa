@@ -60,6 +60,7 @@ export const handlePDFData = (coData: ICoDirecta): any => {
         pdfData.veiculo.cc_em = arguidoTituloConducao.dataEmissao?.toString()
     }
 
+    
 
     // Infracçao
     if (coData.dataInfracao) {

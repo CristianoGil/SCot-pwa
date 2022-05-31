@@ -111,7 +111,7 @@ const handlerCoDirectaRequestData = (data: any): ICoDirecta => {
         numeroAuto: null,
         numeroTalao: data?.unidadeData?.numTalao,
         isPresenciadaAutuante: data?.infracaoData?.isPresenciadaAutante,
-        isConduzidoArguido: data?.veiculo ? data?.veiculo?.isConduzidoVeiculo : null,
+        isConduzidoArguido: data?.veiculo ? data.veiculo.isConduzidoVeiculo : null,
         nomeAutuante: data?.infracaoData?.autuante,
         localInfracao: {
             tipo:data?.localInfracaoData?.tipo,
@@ -138,8 +138,8 @@ const handlerCoDirectaRequestData = (data: any): ICoDirecta => {
 
 
         comando: data?.unidadeData?.unidadeImt, //Unidade
-        comarca:  data?.infracaoData.comarca , //distrito ou concelho
-        entidade:data?.infracaoData.entidade,
+        comarca:  data?.infracaoData?.comarca , //distrito ou concelho
+        entidade:data?.infracaoData?.entidade,
         divisao: null,
         esquadra: null,
         destacamento: null,
