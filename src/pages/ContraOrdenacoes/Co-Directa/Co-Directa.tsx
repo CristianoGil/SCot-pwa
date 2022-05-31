@@ -15,18 +15,6 @@ import {useHistory} from 'react-router';
 import {Contraordenacao} from '../../../api/Contraordenacao';
 import {ICoDirecta} from '../../../model/contraordenacao';
 
-const RenderSegment = (props: { segment: string, setCoDirectaData: any }) => {
-    if (props.segment === 'intervenientes') {
-        return (<Intervenientes setCoDirectaData={props.setCoDirectaData}/>)
-    } else if (props.segment === 'dados_da_infracao') {
-        return (<DadosInfracao setCoDirectaData={props.setCoDirectaData} />)
-    } else if (props.segment === 'dados_complemenatares') {
-        return (<DadosComplementares setCoDirectaData={props.setCoDirectaData}/>)
-    }
-
-    return null;
-
-}
 
 const instanceCoDirecta = new Contraordenacao();
 
@@ -299,7 +287,12 @@ const CoDirecta: React.FC = () => {
 
                 </IonGrid>
 
-                <RenderSegment setCoDirectaData={setCoDirecta} segment={activeSegment}/>
+                 <Intervenientes active={activeSegment === 'intervenientes'} setCoDirectaData={setCoDirecta}/>
+
+                 <DadosInfracao active={activeSegment === 'dados_da_infracao'} setCoDirectaData={setCoDirecta} />)
+
+                 <DadosComplementares active={activeSegment === 'dados_complemenatares'} setCoDirectaData={setCoDirecta}/>
+
 
             </IonContent>
 

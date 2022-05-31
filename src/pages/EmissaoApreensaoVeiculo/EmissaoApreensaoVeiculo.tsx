@@ -12,11 +12,11 @@ import DadosComplementares from '../../components/Contra-Ordenacoes/DadosComplem
 
 const RenderSegment = (props: { segment: string, setCoDirectaData: any }) => {
     if (props.segment === 'intervenientes') {
-        return (<Intervenientes setCoDirectaData={props.setCoDirectaData}/>)
+        return (<Intervenientes active={true}  setCoDirectaData={props.setCoDirectaData}/>)
     } else if (props.segment === 'dados_da_infracao') {
-        return (<DadosInfracao/>)
+        return (<DadosInfracao active={true} />)
     } else if (props.segment === 'dados_complemenatares') {
-        return (<DadosComplementares />)
+        return (<DadosComplementares active={true}  />)
     }
 
     return null;

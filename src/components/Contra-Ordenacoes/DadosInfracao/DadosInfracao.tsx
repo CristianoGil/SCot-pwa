@@ -8,7 +8,8 @@ import './DadosInfracao.scss';
     
 
 interface IProps {
-    setCoDirectaData?: any
+    setCoDirectaData?: any,
+    active: boolean
 }
 
 const DadosInfracao: React.FC<IProps> = (props) => {
@@ -34,7 +35,7 @@ const DadosInfracao: React.FC<IProps> = (props) => {
         }, [infracaoData,unidadeData,localInfracaoData ])    
         return (
 
-        <IonGrid className="dadosInfracao">
+        <IonGrid className={(props.active ? "" : "hiddenImportant " ) + " dadosInfracao"}>
             <IonRow>
                 <IonCol size-sm='12' size-md="12" size-lg="11">
                     {/*START: UNIDADE*/}
@@ -63,4 +64,4 @@ const DadosInfracao: React.FC<IProps> = (props) => {
 
 }
 
-export default React.memo(DadosInfracao);
+export default React.memo(DadosInfracao)
