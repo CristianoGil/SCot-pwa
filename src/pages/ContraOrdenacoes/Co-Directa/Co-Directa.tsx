@@ -251,7 +251,13 @@ const CoDirecta: React.FC = () => {
 
         if (!localInfraccao_isValid) {
 
-            console.error('dados incorrectos no local infraccao!');
+            presentAlert({
+                header: 'Atenção!',
+                message: 'Por favor preencha todos campos do local de infracção!',
+                buttons: [
+                    { text: 'Fechar' },
+                ]
+            })
 
             return;
         }
@@ -287,7 +293,13 @@ const CoDirecta: React.FC = () => {
 
         if (!infraccao_isValid) {
 
-            console.error('dados incorrectos na infraccao!');
+            presentAlert({
+                header: 'Atenção!',
+                message: 'Por favor preencha todos campos da infracção!',
+                buttons: [
+                    { text: 'Fechar' },
+                ]
+            })
 
             return;
         }
