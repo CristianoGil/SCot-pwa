@@ -25,33 +25,34 @@ const DocumentoIdentificacao: React.FC<IDocumentoIdentificacao> = (props) => {
     const [paisDeEmissao, setPaisDeEmissao] = useState<string>();
 
     // Docs ID
-    const [docIdentificacao, setDocIdentificacao] = useState<string | number>();
+    const [docIdentificacao, setDocIdentificacao] = useState<any>();
 
     // Numero
-    const [numero, setNumero] = useState<string | number>();
+    const [numero, setNumero] = useState<any>();
 
     // Entidade emissora
-    const [entidadeEmissora, setEntidadeEmissora] = useState<string | number>();
+    const [entidadeEmissora, setEntidadeEmissora] = useState<any>();
 
     // Local de emissao
-    const [localEmissao, setLocalEmissao] = useState<string | number>();
+    const [localEmissao, setLocalEmissao] = useState<any>();
 
     // Data de emissao
-    const [dataEmissao, setDataEmissao] = useState<string | number>();
+    const [dataEmissao, setDataEmissao] = useState<any>();
 
     React.useEffect(() => {
         const _data = {
             isPresentedDocumentoIdentificacao,
-            docIdentificacao:  !_.isEmpty(docIdentificacao) && _.isString(docIdentificacao) ? JSON.parse(docIdentificacao) : undefined,
+            docIdentificacao:  docIdentificacao,
             numero,
-            paisEmissao: !_.isEmpty(paisDeEmissao) && _.isString(paisDeEmissao) ? JSON.parse(paisDeEmissao) : undefined,
-            entidadeEmissora: !_.isEmpty(entidadeEmissora) && _.isString(entidadeEmissora) ? JSON.parse(entidadeEmissora) : undefined,
-            localEmissao: !_.isEmpty(localEmissao) && _.isString(localEmissao) ? JSON.parse(localEmissao) : undefined
+            paisEmissao: paisDeEmissao,
+            entidadeEmissora: entidadeEmissora,
+            localEmissao: localEmissao
         }
 
         if (_.has(props, 'setParentDocumentoIdentificacaoData')) {
             props.setParentDocumentoIdentificacaoData(_data)
         }
+        
     }, [isPresentedDocumentoIdentificacao, docIdentificacao,numero,paisDeEmissao,entidadeEmissora, localEmissao]);
 
     return (

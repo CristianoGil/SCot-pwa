@@ -10,13 +10,13 @@ import Intervenientes from '../../components/EmissaoApreensaoDocumentos/Interven
 import DadosInfracao from '../../components/EmissaoApreensaoDocumentos/DadosInfracao/DadosInfracao';
 import DadosComplementares from '../../components/EmissaoApreensaoDocumentos/DadosComplementares/DadosComplementares';
 
-const RenderSegment = (props: { segment: string, setCoDirectaData: any }) => {
+const RenderSegment = (props: { segment: string, setCoDirectaData: any}) => {
     if (props.segment === 'intervenientes') {
-        return (<Intervenientes setCoDirectaData={props.setCoDirectaData}/>)
+        return (<Intervenientes  setCoDirectaData={props.setCoDirectaData}/>)
     } else if (props.segment === 'dados_da_infracao') {
-        return (<DadosInfracao/>)
+        return (<DadosInfracao  />)
     } else if (props.segment === 'dados_complemenatares') {
-        return (<DadosComplementares />)
+        return (<DadosComplementares   />)
     }
 
     return null;

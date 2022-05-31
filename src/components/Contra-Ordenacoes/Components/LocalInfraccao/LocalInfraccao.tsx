@@ -9,7 +9,8 @@ import { useAppSelector } from "../../../../app/hooks";
 import { getInputValidations_LocalInfraccao } from "../../../../Validations/Contra-Ordenacoes/InputValidationsSlice_LocalInfraccao";
 
 interface LocalInfracaoData{
-    setParentLocalInfracaoData?: any
+    setParentLocalInfracaoData?:any
+    setLocalInfracaoData?:any
 }
 interface LocalResponse {
     tiposArruamento: ComonResult[];
@@ -66,7 +67,21 @@ const LocalInfraccao: React.FC<LocalInfracaoData> = (props) => {
     const carregarDistritoByCoords = async (position: { lat: any, lng: any }): Promise<any> => await new Contraordenacao().getMapAddressByPosition({ position: position, apiKey: apiKey })
     const carregarCoordsByAddress = async (address: string ): Promise<any> => await new Contraordenacao().getCoordsByAddress({ address: address, apiKey: apiKey })
 
-
+    React.useEffect(() => {
+        
+        const data={
+                distrito:distritos?.find(d => d.id === distrito),
+                concelho:concelhos?.find(c=>c.id===concelho),
+                freguesia:freguesias?.find(f=>f.id===freguesia),
+                localidade:localidades?.find(l=> l.id===localidade),
+                numeroPolicia:nrPolicia,
+                zona:zona,
+                tipo:tipo,
+                arruamento:arruamento
+        }
+  
+        props.setLocalInfracaoData(data)
+    },[distrito,concelho,freguesia,localidade,nrPolicia, zona,tipo, arruamento])
 
     async function createMap() {
         if (!mapRef.current) return;
@@ -210,6 +225,13 @@ const LocalInfraccao: React.FC<LocalInfracaoData> = (props) => {
     const keyup_nrPolicia = (e: any) => {
         setNrPolicia(e.target.value)
     }
+
+    const keyup_zona = (e: any) => {
+        setZona(e.target.value)
+    }
+    const keyup_arruamento = (e: any) => {
+        setArruamento(e.target.value)
+    }
     const onClick_pesquisar = () => {
         carregarCoordsByAddress("").then(res=>{
             let coords:{ lat:any; lng:any}={
@@ -328,7 +350,7 @@ const LocalInfraccao: React.FC<LocalInfracaoData> = (props) => {
                         <IonCol size-sm="9" size-md="12" size-lg="4">
                             <IonItem>
                                 <IonLabel position="floating" itemType="number" placeholder="Nº Polícia">Nº Polícia/km</IonLabel>
-                                <IonInput 
+                                <IonInput  onKeyUp={keyup_nrPolicia}
                                     value={nrPolicia}></IonInput>
                             </IonItem>
                         </IonCol>
@@ -336,7 +358,7 @@ const LocalInfraccao: React.FC<LocalInfracaoData> = (props) => {
                         <IonCol size-sm="9" size-md="12" size-lg="4">
                             <IonItem>
                                 <IonLabel position="floating" itemType="text" placeholder="Nº Polícia">Zona/Bairro</IonLabel>
-                                <IonInput value={zona}></IonInput>
+                                <IonInput   onKeyUp={keyup_zona} value={zona}></IonInput>
                             </IonItem>
                         </IonCol>
                     </IonRow>
@@ -345,11 +367,11 @@ const LocalInfraccao: React.FC<LocalInfracaoData> = (props) => {
                         <IonCol size-sm="9" size-md="12" size-lg="4">
                             <IonItem>
                                 <IonLabel>Tipo *</IonLabel>
-                                <IonSelect interface="popover" value={tipo}>
+                                <IonSelect interface="popover" onIonChange={(e)=>{setTipo(e.detail.value)}}>
                                     {tipos?.map((local: any) => {
                                         return (
                                             <IonSelectOption key={`${local.id}`}
-                                                value={local.id}>{`${local.descricao}`}</IonSelectOption>
+                                                value={local.descricao}>{`${local.descricao}`}</IonSelectOption>
                                         )
                                     })}
                                 </IonSelect>
@@ -365,6 +387,7 @@ const LocalInfraccao: React.FC<LocalInfracaoData> = (props) => {
                                 <IonInput maxlength={9}
                                     minlength={9}
                                     required={true}
+                                    onKeyUp={keyup_arruamento} 
                                     clearInput={true}
                                     name='arguido-nif'
                                     value={arruamento}

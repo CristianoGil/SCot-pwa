@@ -18,18 +18,6 @@ import { useAppSelector, useAppDispatch } from '../../../app/hooks';
 import { getInputValidations_LocalInfraccao, setInputValidation_LocalInfraccao } from '../../../Validations/Contra-Ordenacoes/InputValidationsSlice_LocalInfraccao';
 import { getInputValidations_Infraccao, setInputValidation_Infraccao } from '../../../Validations/Contra-Ordenacoes/InputValidationsSlice_Infraccao';
 
-const RenderSegment = (props: { segment: string, setCoDirectaData: any }) => {
-
-    if (props.segment === 'intervenientes') {
-        return (<Intervenientes setCoDirectaData={props.setCoDirectaData} />)
-    } else if (props.segment === 'dados_da_infracao') {
-        return (<DadosInfracao />)
-    } else if (props.segment === 'dados_complemenatares') {
-        return (<DadosComplementares setCoDirectaData={props.setCoDirectaData} />)
-    }
-
-    return null;
-}
 
 const instanceCoDirecta = new Contraordenacao();
 
@@ -75,94 +63,86 @@ const handlerCoDirectaRequestData = (data: any): ICoDirecta => {
         possuiElementoIdentificacaoArguido: null,
         semVeiculo: false,
         veiculo: {
-            id: data?.veiculo.id,
-            matricula: data.veiculo.matricula,
-            chassi: data.veiculo.chassi,
-            ano: data.veiculo.ano,
-            categoria: {
-                id: data.veiculo.categoria?.id,
-                descricao: data.veiculo.categoria?.descricao
-            },
-            classe: {
-                id: data.veiculo.classe?.id,
-                descricao: data.veiculo.classe?.descricao
-            },
-            tipo: {
-                id: data.veiculo.tipo?.id,
-                descricao: data.veiculo.tipo?.descricao
-            },
-            subclasse: {
-                id: data.veiculo.subclasse?.id,
-                descricao: data.veiculo.subclasse?.descricao
-            },
-            pais: {
-                id: data.veiculo.pais?.id,
-                descricao: data.veiculo.pais?.descricao
-            },
-            marca: {
-                id: data.veiculo.marca?.id,
-                descricao: data.veiculo.marca?.descricao
-            },
-            modelo: {
-                id: data.veiculo.modelo?.id,
-                idMarca: data.veiculo.modelo?.idMarca,
-                descricao: data.veiculo.modelo?.descricao
-            },
-            cor: {
-                id: data.veiculo.cor?.id,
-                descricao: data.veiculo.cor?.descricao
-            },
-            estadoPolicial: {
-                id: data.veiculo.estadoPolicial?.id,
-                descricao: data.veiculo.estadoPolicial?.descricao
-            },
+            id: data?.veiculo?.id,
+            matricula: data?.veiculo?.matricula,
+            chassi: data?.veiculo?.chassi,
+            ano: data?.veiculo?.ano,
+            categoria:data?.veiculo?.categoria,
+            classe: data?.veiculo?.classe,
+            tipo: data?.veiculo?.tipo,
+            subclasse: data?.veiculo?.subclasse,
+            pais:data?.veiculo?.pais,
+            marca:data?.veiculo?.marca,
+            modelo: data?.veiculo?.modelo,
+            cor: data?.veiculo?.cor,
+            estadoPolicial: data?.veiculo?.estadoPolicial,
             isCoimasEmAtraso: undefined,
             coimasEmAtraso: undefined,
             ipo: undefined
         },
         arguido: {
-            id: data?.arguido.id,
-            nif: data?.arguido.nif,
-            nome: data?.arguido.nome ? data?.arguido.nome : data?.informacoesAdicionais.firmaNome,
-            dataNascimento: data?.arguido.dataNascimento ? data?.arguido.dataNascimento : data?.informacoesAdicionais.dataNascimento,
-            tipoPessoa: data?.arguido.arguidoVeiculoSingularColetivo,
-            isCoimasEmAtraso: data?.arguido.isCoimasEmAtraso,
-            coimasEmAtraso: data?.arguido.coimasEmAtraso,
-            documentos: data?.arguido.documentos ? data?.arguido.documentos : _handleArguidoDocumentos(data),
-            historicoDocumentos: data?.arguido.historicoDocumentos,
-            moradas: data?.arguido.moradas ? data?.arguido.moradas : _handleArguidoMorada(data?.informacoesAdicionais),
-            historicoMoradas: data?.arguido.historicoMoradas,
+            id: data?.arguido?.id,
+            nif: data?.arguido?.nif,
+            nome: data?.arguido?.nome ? data?.arguido?.nome : data?.informacoesAdicionais?.firmaNome,
+            dataNascimento: data?.arguido?.dataNascimento ? data?.arguido?.dataNascimento  : data?.informacoesAdicionais?.dataNascimento,
+            tipoPessoa: data?.arguido?.arguidoVeiculoSingularColetivo,
+            isCoimasEmAtraso: data?.arguido?.isCoimasEmAtraso,
+            coimasEmAtraso: data?.arguido?.coimasEmAtraso,
+            documentos: data?.arguido?.documentos ? data?.arguido?.documentos : _handleArguidoDocumentos(data),
+            historicoDocumentos: data?.arguido?.historicoDocumentos,
+            moradas: data?.arguido?.moradas ? data?.arguido?.moradas : _handleArguidoMorada(data?.informacoesAdicionais),
+            historicoMoradas: data?.arguido?.historicoMoradas,
             pais: data?.arguido?.paisEmissao,
-            representanteLegal: data?.arguido.representanteLegal ? data?.arguido.representanteLegal : data?.informacoesAdicionais.representanteLegal
+            representanteLegal: data?.arguido?.representanteLegal ? data?.arguido?.representanteLegal : data?.informacoesAdicionais?.representanteLegal
         },
         condutor: {
-            id: data?.arguido.id,
-            nif: data?.arguido.nif,
-            nome: data?.arguido.nome ? data?.arguido.nome : data?.informacoesAdicionais.firmaNome,
-            dataNascimento: data?.arguido.dataNascimento,
-            tipoPessoa: data?.arguido.arguidoVeiculoSingularColetivo,
-            isCoimasEmAtraso: data?.arguido.isCoimasEmAtraso,
-            coimasEmAtraso: data?.arguido.coimasEmAtraso,
-            documentos: data?.arguido.documentos ? data?.arguido.documentos : _handleArguidoDocumentos(data?.arguido),
-            historicoDocumentos: data?.arguido.historicoDocumentos,
-            moradas: data?.arguido.moradas ? data?.arguido.moradas : _handleArguidoMorada(data?.informacoesAdicionais),
-            historicoMoradas: data?.arguido.historicoMoradas,
+            id: data?.arguido?.id,
+            nif: data?.arguido?.nif,
+            nome: data?.arguido?.nome ? data?.arguido?.nome : data?.informacoesAdicionais?.firmaNome,
+            dataNascimento: data?.arguido?.dataNascimento,
+            tipoPessoa: data?.arguido?.arguidoVeiculoSingularColetivo,
+            isCoimasEmAtraso: data?.arguido?.isCoimasEmAtraso,
+            coimasEmAtraso: data?.arguido?.coimasEmAtraso,
+            documentos: data?.arguido?.documentos ? data?.arguido?.documentos : _handleArguidoDocumentos(data?.arguido),
+            historicoDocumentos: data?.arguido?.historicoDocumentos,
+            moradas: data?.arguido?.moradas ? data?.arguido?.moradas : _handleArguidoMorada(data?.informacoesAdicionais),
+            historicoMoradas: data?.arguido?.historicoMoradas,
             pais: data?.arguido?.paisEmissao,
-            representanteLegal: data?.arguido.representanteLegal ? data?.arguido.representanteLegal : data?.informacoesAdicionais.representanteLegal
+            representanteLegal: data?.arguido?.representanteLegal ? data?.arguido?.representanteLegal : data?.informacoesAdicionais?.representanteLegal
         },
-        dataInfracao: null,
+        dataInfracao: data?.unidadeData?.dataHoraInfraccao,
         numeroAuto: null,
-        numeroTalao: null,
-        isPresenciadaAutuante: null,
+        numeroTalao: data?.unidadeData?.numTalao,
+        isPresenciadaAutuante: data?.infracaoData?.isPresenciadaAutante,
         isConduzidoArguido: data?.veiculo ? data.veiculo.isConduzidoVeiculo : null,
-        nomeAutuante: null,
-        localInfracao: null,
-        infracao: null,
+        nomeAutuante: data?.infracaoData?.autuante,
+        localInfracao: {
+            tipo:data?.localInfracaoData?.tipo,
+            distrito:data?.localInfracaoData?.distrito,
+            concelho:data?.localInfracaoData?.concelho,
+            freguesia:data?.localInfracaoData?.freguesia,
+            localidade:data?.localInfracaoData?.localidade,
+            arruamento:data?.localInfracaoData?.arruamento,
+            numeroPolicia:data?.localInfracaoData?.numeroPolicia,
+            zonaBairro:data?.localInfracaoData?.zonaBairro,
+        },
+        infracao: {
+            codigoDgv: data?.infracaoData?.codigoDgv,
+            tipificacao: data?.infracaoData?.tipificacao,
+            normaInfringida: data?.infracaoData?.normaInfrigida,
+            descricaoSumaria: data?.infracaoData?.descricaoSumaria,
+            montanteDaCoimaMaxima: data?.infracaoData?.montanteMaximoCoima,
+            montanteDaCoimaMinima: data?.infracaoData?.montanteMinimoCoima,
+            normaQuePreveContraOrdenacao: data?.infracaoData?.normaQuePreveContraOrdenacao,
+            sancaoAcessoria: data?.infracaoData?.sancaoAcessoria,
+            normaQuePreveSancaoAcessoria: data?.infracaoData?.normaSancaoAcessoria,
+            observacoes:data?.infracaoData?.observacao
+        },
 
 
-        comando: null, //Unidade
-        comarca: null, //distrito ou concelho
-        entidade: null,
+        comando: data?.unidadeData?.unidadeImt, //Unidade
+        comarca:  data?.infracaoData?.comarca , //distrito ou concelho
+        entidade:data?.infracaoData?.entidade,
         divisao: null,
         esquadra: null,
         destacamento: null,
@@ -300,7 +280,14 @@ const CoDirecta: React.FC = () => {
     }
 
     const onEmit = (e: any) => {
-        history.push("/CODirectaSignPDFPreview/" + JSON.stringify({ co: coSaved }))
+        try {
+
+           const jsonData = encodeURIComponent(JSON.stringify(coSaved));
+            history.push(`/CODirectaSignPDFPreview/${jsonData}`)
+        } catch (e) {
+            console.log('Error stringify json: ', e);
+        }
+
     }
 
     return (
@@ -333,7 +320,12 @@ const CoDirecta: React.FC = () => {
 
                 </IonGrid>
 
-                <RenderSegment setCoDirectaData={setCoDirecta} segment={activeSegment} />
+                 <Intervenientes active={activeSegment === 'intervenientes'} setCoDirectaData={setCoDirecta}/>
+
+                 <DadosInfracao active={activeSegment === 'dados_da_infracao'} setCoDirectaData={setCoDirecta} />)
+
+                 <DadosComplementares active={activeSegment === 'dados_complemenatares'} setCoDirectaData={setCoDirecta}/>
+
 
             </IonContent>
 

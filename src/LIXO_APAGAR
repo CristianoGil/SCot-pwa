@@ -84,7 +84,7 @@
             dat.setInfr_municipio(localInfracao.getConcelho().getDescricao());
             dat.setInfr_distrito(localInfracao.getDistrito().getDescricao());
         }
-===========
+
         CInfracao infracao = contraOrdenacaoEntity.getInfracao();
         if (!isNull(infracao)) {
             dat.setInfr_descricao_sumaria(infracao.getDescricaoSumaria());
@@ -98,7 +98,7 @@
             dat.setSancaoAcessoria(infracao.getSancaoAcessoria());
             dat.setNormaQuePreveSancaoAcessoria(infracao.getNormaQuePreveSancaoAcessoria());
         }
-
+===========
         if (!isNull(infracao) && !isNull(infracao.getValorAberto()) && infracao.getValorAberto()) {
             dat.setMontanteDaCoimaEscolhido(contraOrdenacaoEntity.getMontanteDaCoimaEscolhido().setScale(2).toPlainString() + " " + Moeda.EURO.getSimbolo());
         }

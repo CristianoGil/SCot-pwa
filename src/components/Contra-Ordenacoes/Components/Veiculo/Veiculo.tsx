@@ -200,28 +200,28 @@ const Veiculo: React.FC<IPROPS> = (props) => {
 
 
     // Pais
-    const [pais, setPais] = useState<string | number>();
+    const [pais, setPais] = useState<any>();
 
     // Marca
-    const [marca, setMarca] = useState<string | number>();
+    const [marca, setMarca] = useState<any>();
 
     // Cor
-    const [cor, setCor] = useState<string | number>();
+    const [cor, setCor] = useState<any>();
 
     // Classe
-    const [classe, setClasse] = useState<string | number>();
+    const [classe, setClasse] = useState<any>();
 
     // Categoria
-    const [categoria, setCategoria] = useState<string | number>();
+    const [categoria, setCategoria] = useState<any>();
 
     //Modelo
-    const [modelo, setModelo] = useState<string | number>();
+    const [modelo, setModelo] = useState<any>();
 
     // Subclasse
-    const [subclasse, setSubclasse] = useState<string | number>();
+    const [subclasse, setSubclasse] = useState<any>();
 
     // Tipo
-    const [tipo, setTipo] = useState<string | number>();
+    const [tipo, setTipo] = useState<any>();
 
     const [currentVeiculoData, setCurrentVeiculoData] = useState<IVeiculo>();
     const handlerFullfillForm = () => {
@@ -231,14 +231,14 @@ const Veiculo: React.FC<IPROPS> = (props) => {
         setOpenPopoverVeiculoData(false);
 
         if (veiculoData) {
-            setPais(veiculoData?.pais?.id);
-            setMarca(veiculoData?.marca?.id);
-            setCor(veiculoData?.cor?.id);
-            setClasse(veiculoData?.classe?.id);
-            setCategoria(veiculoData?.categoria?.id);
-            setModelo(veiculoData?.modelo?.id);
-            setSubclasse(veiculoData?.subclasse?.id);
-            setTipo(veiculoData?.tipo?.id);
+            setPais(veiculoData?.pais);
+            setMarca(veiculoData?.marca);
+            setCor(veiculoData?.cor);
+            setClasse(veiculoData?.classe);
+            setCategoria(veiculoData?.categoria);
+            setModelo(veiculoData?.modelo);
+            setSubclasse(veiculoData?.subclasse);
+            setTipo(veiculoData?.tipo);
 
         }
     }
@@ -247,7 +247,7 @@ const Veiculo: React.FC<IPROPS> = (props) => {
         const _data = {
             matricula: veiculoMatricula,
             isConduzidoVeiculo, pais, marca, modelo, cor, categoria,
-            classe: !_.isEmpty(classe) && _.isString(classe) ? JSON.parse(classe) : undefined,
+            classe,
             tipo, subclasse
         }
 
@@ -449,7 +449,7 @@ const Veiculo: React.FC<IPROPS> = (props) => {
                                     textLabel={'Modelo'} interface="popover"/>
                         </IonCol>
                         <IonCol size-sm='12' size-md='12' size-lg='3'>
-                            <Cor selected={cor} setSelected={setCor} inputName={'veiculo-cor'} textLabel={'Cor'}/>
+                            <Cor selected={cor} setSelected={setCor} interface="popover" inputName={'veiculo-cor'} textLabel={'Cor'}/>
                         </IonCol>
                     </IonRow>
 
@@ -679,7 +679,7 @@ const Veiculo: React.FC<IPROPS> = (props) => {
                     <IonCard style={{margin: 30}}>
 
                         <IonCardHeader>
-                            <IonCardTitle>Detallhes do semelhante selecionado
+                            <IonCardTitle>Detalhes do semelhante selecionado
                             </IonCardTitle>
                         </IonCardHeader>
 

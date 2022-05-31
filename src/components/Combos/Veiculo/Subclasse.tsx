@@ -35,8 +35,12 @@ const Subclasse: React.FC<ISubclasse> = (props: ISubclasse) => {
     return (
         <IonItem>
             <IonLabel>{props.textLabel}</IonLabel>
-            <IonSelect value={props.selected} interface={props.interface} name={props.inputName}
-                       onIonChange={e => props.setSelected(e.detail.value)}>
+            <IonSelect value={props.selected?.id} interface={props.interface} name={props.inputName}
+                       onIonChange={(e) => {
+                           let value = (combos || []).find((d )=> d.id === e.detail.value)
+                           props.setSelected(value)
+                       }}
+            >
                 {(combos || []).map((subclasse: any) => {
                     return (
                         <IonSelectOption key={`${subclasse.id}`} value={subclasse.id}>{subclasse.descricao}</IonSelectOption>
