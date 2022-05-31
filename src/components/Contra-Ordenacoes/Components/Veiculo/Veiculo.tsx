@@ -679,7 +679,7 @@ const Veiculo: React.FC<IPROPS> = (props) => {
                     <IonCard style={{margin: 30}}>
 
                         <IonCardHeader>
-                            <IonCardTitle>Detallhes do semelhante selecionado
+                            <IonCardTitle>Detalhes do semelhante selecionado
                             </IonCardTitle>
                         </IonCardHeader>
 

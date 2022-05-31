@@ -45,8 +45,8 @@ export interface ITipificacao extends IID_DESCRICAO {
 
 //infracao = subtipificacao
 export interface IInfraccao {
-    id: number | null;
-    descricao: string | null;
+    id?: number | null;
+    descricao?: string | null;
     codigoDgv: string | null;
     tipificacao: ITipificacao | null;
     normaInfringida: string | null;
@@ -57,8 +57,8 @@ export interface IInfraccao {
     sancaoAcessoria: string | null;
     normaQuePreveSancaoAcessoria: string | null;
     observacoes: string | null;
-    recaiSobreProprietario: boolean | null;
-    valorAberto: number | null;
+    recaiSobreProprietario?: boolean | null;
+    valorAberto?: number | null;
 }
 
 export interface ICombosAssinaturas {
