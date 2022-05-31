@@ -1,5 +1,6 @@
 import {ICoDirecta} from "../model/contraordenacao"
 import {IDocumentoPessoa, IMoradaPessoa} from "../model/person";
+import { dateFormat } from "../utils/apex-formatters";
 
 
 export const handlePDFData = (coData: ICoDirecta): any => {
@@ -59,7 +60,28 @@ export const handlePDFData = (coData: ICoDirecta): any => {
         pdfData.veiculo.cc_em = arguidoTituloConducao.dataEmissao?.toString()
     }
 
-    
+
+    // Infracçao
+    if (coData.dataInfracao) {
+        pdfData.infracao.data = dateFormat(coData.dataInfracao?.toString(), "YYYY/mm/dd")
+        pdfData.infracao.hora = dateFormat(coData.dataInfracao?.toString(), "HH[h]mm" )
+    }
+
+   if (coData.nomeAutuante) {
+        pdfData.infracao.nomeAutuante = coData.nomeAutuante
+    }
+
+   if (coData.comarca) {
+       pdfData.infracao.comarca = coData.comarca?.descricao
+   }
+
+   // Local infracao
+    if (coData.localInfracao) {
+        pdfData.infracao.domicilio = `${coData.localInfracao.tipoArruamento?.descricao || ''} ${coData.localInfracao.arruamento || ''}`;
+        pdfData.infracao.municipio = `${coData.localInfracao.concelho?.descricao || ''}`;
+        pdfData.infracao.distrito = `${coData.localInfracao.distrito?.descricao || ''}`;
+    }
+
 
     console.log(pdfData)
 

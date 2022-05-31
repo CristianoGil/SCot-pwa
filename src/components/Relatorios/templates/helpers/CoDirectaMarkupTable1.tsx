@@ -914,7 +914,7 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
                     colSpan={13}
                     rowSpan={2}
                     style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-                ></td>
+                >{coData?.infracao?.data}</td>
                 <td></td>
                 <td
                     colSpan={9}
@@ -936,7 +936,7 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
                     colSpan={11}
                     rowSpan={2}
                     style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-                ></td>
+                >{coData?.infracao?.hora}</td>
                 <td></td>
                 <td
                     colSpan={14}
@@ -951,7 +951,7 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
                   lineHeight: "1.1640625"
               }}
           >
-            Presenciada pelo{" "}
+            Presenciada pelo {coData?.infracao?.nomeAutuante}
           </span>
                 </td>
                 <td
@@ -1015,7 +1015,7 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
                 <td
                     colSpan={64}
                     style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-                ></td>
+                >{coData?.infracao?.domicilio}</td>
                 <td></td>
             </tr>
             <tr style={{height: 20}}>
@@ -1038,7 +1038,7 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
                 <td
                     colSpan={18}
                     style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-                ></td>
+                >{coData?.infracao?.distrito}</td>
                 <td></td>
                 <td
                     colSpan={13}
@@ -1059,7 +1059,7 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
                 <td
                     colSpan={19}
                     style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-                ></td>
+                >{coData?.infracao?.municipio}</td>
                 <td></td>
                 <td
                     colSpan={3}
@@ -1080,7 +1080,7 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
                 <td
                     colSpan={6}
                     style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-                ></td>
+                >{coData?.infracao?.comarca }</td>
                 <td></td>
             </tr>
             <tr style={{height: 20}}>
@@ -1100,11 +1100,11 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
             Descrição Sumária
           </span>
                 </td>
-                <td colSpan={51}></td>
+                <td colSpan={51}>  </td>
             </tr>
             <tr style={{height: 40}}>
                 <td></td>
-                <td colSpan={69} style={{textIndent: 0, textAlign: "left"}}></td>
+                <td colSpan={69} style={{textIndent: 0, textAlign: "left"}}>{coData?.infracao?.descricaoSumaria || ""}</td>
                 <td></td>
             </tr>
             <tr style={{height: 2}}>
@@ -1130,7 +1130,7 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
                 <td
                     colSpan={16}
                     style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-                ></td>
+                >{coData?.infracao?.codigoDgv || ""}</td>
                 <td></td>
                 <td
                     colSpan={20}
@@ -1150,7 +1150,7 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
                 <td
                     colSpan={26}
                     style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-                ></td>
+                >{coData?.infracao?.normaInfringida || ""}</td>
                 <td></td>
             </tr>
             <tr style={{height: 2}}>
@@ -1207,7 +1207,7 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
                 <td
                     colSpan={7}
                     style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-                ></td>
+                >{coData?.infracao?.montanteDaCoimaMinima} &euro;</td>
                 <td></td>
                 <td
                     colSpan={41}
@@ -1239,7 +1239,7 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
                 <td
                     colSpan={7}
                     style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-                ></td>
+                >{coData?.infracao?.montanteDaCoimaMaxima} &euro;</td>
                 <td></td>
                 <td
                     colSpan={41}
@@ -1309,7 +1309,7 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
                   lineHeight: "1.1640625"
               }}
           >
-            Prevista em Art.° 136, Art.° 147 do CE{" "}
+            Prevista em Art.° 136, Art.° 147 do CE
           </span>
                 </td>
                 <td></td>
