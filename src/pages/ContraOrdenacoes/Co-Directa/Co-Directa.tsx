@@ -336,7 +336,14 @@ const CoDirecta: React.FC = () => {
         }
 
     const onEmit = (e: any) => {
-        history.push("/CODirectaSignPDFPreview/" + JSON.stringify({co: coSaved}))
+        try {
+
+           const jsonData = encodeURIComponent(JSON.stringify(coSaved));
+            history.push(`/CODirectaSignPDFPreview/${jsonData}`)
+        } catch (e) {
+            console.log('Error stringify json: ', e);
+        }
+
     }
 
     return (
