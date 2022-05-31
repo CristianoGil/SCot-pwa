@@ -17,7 +17,8 @@ import { ICoDirecta } from '../../../model/contraordenacao';
 import { useAppSelector, useAppDispatch } from '../../../app/hooks';
 import { getInputValidations_LocalInfraccao, setInputValidation_LocalInfraccao } from '../../../Validations/Contra-Ordenacoes/InputValidationsSlice_LocalInfraccao';
 import { getInputValidations_Infraccao, setInputValidation_Infraccao } from '../../../Validations/Contra-Ordenacoes/InputValidationsSlice_Infraccao';
-
+import { schema_localInfraccao, schema_arruamento, schema_concelho, schema_distrito, schema_freguesia, schema_localidade, schema_tipo } from '../../../Validations/Contra-Ordenacoes/LocalInfraccao';
+import { schema_comarca, schema_descricaoSumaria, schema_entidade, schema_infraccao, schema_subTipificacaoDaInfraccao, schema_tipificacaoDaInfraccao } from '../../../Validations/Contra-Ordenacoes/Infraccao';
 
 const instanceCoDirecta = new Contraordenacao();
 
@@ -67,12 +68,12 @@ const handlerCoDirectaRequestData = (data: any): ICoDirecta => {
             matricula: data?.veiculo?.matricula,
             chassi: data?.veiculo?.chassi,
             ano: data?.veiculo?.ano,
-            categoria:data?.veiculo?.categoria,
+            categoria: data?.veiculo?.categoria,
             classe: data?.veiculo?.classe,
             tipo: data?.veiculo?.tipo,
             subclasse: data?.veiculo?.subclasse,
-            pais:data?.veiculo?.pais,
-            marca:data?.veiculo?.marca,
+            pais: data?.veiculo?.pais,
+            marca: data?.veiculo?.marca,
             modelo: data?.veiculo?.modelo,
             cor: data?.veiculo?.cor,
             estadoPolicial: data?.veiculo?.estadoPolicial,
@@ -84,7 +85,7 @@ const handlerCoDirectaRequestData = (data: any): ICoDirecta => {
             id: data?.arguido?.id,
             nif: data?.arguido?.nif,
             nome: data?.arguido?.nome ? data?.arguido?.nome : data?.informacoesAdicionais?.firmaNome,
-            dataNascimento: data?.arguido?.dataNascimento ? data?.arguido?.dataNascimento  : data?.informacoesAdicionais?.dataNascimento,
+            dataNascimento: data?.arguido?.dataNascimento ? data?.arguido?.dataNascimento : data?.informacoesAdicionais?.dataNascimento,
             tipoPessoa: data?.arguido?.arguidoVeiculoSingularColetivo,
             isCoimasEmAtraso: data?.arguido?.isCoimasEmAtraso,
             coimasEmAtraso: data?.arguido?.coimasEmAtraso,
@@ -117,14 +118,14 @@ const handlerCoDirectaRequestData = (data: any): ICoDirecta => {
         isConduzidoArguido: data?.veiculo ? data.veiculo.isConduzidoVeiculo : null,
         nomeAutuante: data?.infracaoData?.autuante,
         localInfracao: {
-            tipo:data?.localInfracaoData?.tipo,
-            distrito:data?.localInfracaoData?.distrito,
-            concelho:data?.localInfracaoData?.concelho,
-            freguesia:data?.localInfracaoData?.freguesia,
-            localidade:data?.localInfracaoData?.localidade,
-            arruamento:data?.localInfracaoData?.arruamento,
-            numeroPolicia:data?.localInfracaoData?.numeroPolicia,
-            zonaBairro:data?.localInfracaoData?.zonaBairro,
+            tipo: data?.localInfracaoData?.tipo,
+            distrito: data?.localInfracaoData?.distrito,
+            concelho: data?.localInfracaoData?.concelho,
+            freguesia: data?.localInfracaoData?.freguesia,
+            localidade: data?.localInfracaoData?.localidade,
+            arruamento: data?.localInfracaoData?.arruamento,
+            numeroPolicia: data?.localInfracaoData?.numeroPolicia,
+            zonaBairro: data?.localInfracaoData?.zonaBairro,
         },
         infracao: {
             codigoDgv: data?.infracaoData?.codigoDgv,
@@ -136,13 +137,13 @@ const handlerCoDirectaRequestData = (data: any): ICoDirecta => {
             normaQuePreveContraOrdenacao: data?.infracaoData?.normaQuePreveContraOrdenacao,
             sancaoAcessoria: data?.infracaoData?.sancaoAcessoria,
             normaQuePreveSancaoAcessoria: data?.infracaoData?.normaSancaoAcessoria,
-            observacoes:data?.infracaoData?.observacao
+            observacoes: data?.infracaoData?.observacao
         },
 
 
         comando: data?.unidadeData?.unidadeImt, //Unidade
-        comarca:  data?.infracaoData?.comarca , //distrito ou concelho
-        entidade:data?.infracaoData?.entidade,
+        comarca: data?.infracaoData?.comarca, //distrito ou concelho
+        entidade: data?.infracaoData?.entidade,
         divisao: null,
         esquadra: null,
         destacamento: null,
@@ -217,34 +218,80 @@ const CoDirecta: React.FC = () => {
     const onSave = (e: any) => {
 
         // valida [Local infraccao]
+
+        let localInfracaoData = coDirecta.localInfracaoData;
+
+        let distrito_isValid = schema_distrito.isValidSync(localInfracaoData.distrito)
+        let concelho_isValid = schema_concelho.isValidSync(localInfracaoData.concelho)
+        let freguesia_isValid = schema_freguesia.isValidSync(localInfracaoData.freguesia)
+        let localidade_isValid = schema_localidade.isValidSync(localInfracaoData.localidade)
+        let tipo_isValid = schema_tipo.isValidSync(localInfracaoData.tipo)
+        let arruamento_isValid = schema_arruamento.isValidSync(localInfracaoData.arruamento)
+
+        let localInfraccao_isValid = schema_localInfraccao.isValidSync({
+            distrito: localInfracaoData.distrito,
+            concelho: localInfracaoData.concelho,
+            freguesia: localInfracaoData.freguesia,
+            localidade: localInfracaoData.localidade,
+            tipo: localInfracaoData.tipo,
+            arruamento: localInfracaoData.arruamento
+        });
+
+
         dispatch(setInputValidation_LocalInfraccao(
             {
                 ...inputValidations_LocalInfraccao,
-                distrito_isValid: !inputValidations_LocalInfraccao.distrito_isValid,
-                concelho_isValid: !inputValidations_LocalInfraccao.concelho_isValid,
-                freguesia_isValid: !inputValidations_LocalInfraccao.freguesia_isValid,
-                localidade_isValid: !inputValidations_LocalInfraccao.localidade_isValid,
-                tipo_isValid: !inputValidations_LocalInfraccao.tipo_isValid,
-                arruamento_isValid: !inputValidations_LocalInfraccao.arruamento_isValid,
+                distrito_isValid: distrito_isValid,
+                concelho_isValid: concelho_isValid,
+                freguesia_isValid: freguesia_isValid,
+                localidade_isValid: localidade_isValid,
+                tipo_isValid: tipo_isValid,
+                arruamento_isValid: arruamento_isValid,
             }
         ));
-        console.log(inputValidations_LocalInfraccao);
+
+        if (!localInfraccao_isValid) {
+
+            console.error('dados incorrectos no local infraccao!');
+
+            return;
+        }
 
         // valida [infraccao]
+
+        let infracaoData = coDirecta.infracaoData;
+
+        let comarca_isValid = schema_comarca.isValidSync(infracaoData.comarca)
+        let entidade_isValid = schema_entidade.isValidSync(infracaoData.entidade)
+        let tipificacaoInfraccao_isValid = schema_tipificacaoDaInfraccao.isValidSync(infracaoData.tipificacao)
+        let subtipificacao_isValid = schema_subTipificacaoDaInfraccao.isValidSync(infracaoData.subtipoInfracao)
+        let descricaoSumaria_isValid = schema_descricaoSumaria.isValidSync(infracaoData.descricaoSumaria)
+
+        let infraccao_isValid = schema_infraccao.isValidSync({
+            distrito: infracaoData.comarca,
+            concelho: infracaoData.entidade,
+            freguesia: infracaoData.tipificacao,
+            localidade: infracaoData.subtipoInfracao,
+            tipo: infracaoData.descricaoSumaria,
+        });
+
         dispatch(setInputValidation_Infraccao(
             {
                 ...inputValidations_Infraccao,
-                comarca_isValid: !inputValidations_Infraccao.comarca_isValid,
-                entidade_isValid: !inputValidations_Infraccao.entidade_isValid,
-                tipificacaoInfraccao_isValid: !inputValidations_Infraccao.tipificacaoInfraccao_isValid,
-                subtipificacao_isValid: !inputValidations_Infraccao.subtipificacao_isValid,
-                descricaoSumaria_isValid: !inputValidations_Infraccao.descricaoSumaria_isValid,
+                comarca_isValid: comarca_isValid,
+                entidade_isValid: entidade_isValid,
+                tipificacaoInfraccao_isValid: tipificacaoInfraccao_isValid,
+                subtipificacao_isValid: subtipificacao_isValid,
+                descricaoSumaria_isValid: descricaoSumaria_isValid,
             }
         ));
-        console.log(inputValidations_Infraccao);
-        //console.log(coDirecta);
 
-        return;
+        if (!infraccao_isValid) {
+
+            console.error('dados incorrectos na infraccao!');
+
+            return;
+        }
 
         presentLoad({
             message: 'A guardar...',
@@ -282,7 +329,7 @@ const CoDirecta: React.FC = () => {
     const onEmit = (e: any) => {
         try {
 
-           const jsonData = encodeURIComponent(JSON.stringify(coSaved));
+            const jsonData = encodeURIComponent(JSON.stringify(coSaved));
             history.push(`/CODirectaSignPDFPreview/${jsonData}`)
         } catch (e) {
             console.log('Error stringify json: ', e);
@@ -320,11 +367,11 @@ const CoDirecta: React.FC = () => {
 
                 </IonGrid>
 
-                 <Intervenientes active={activeSegment === 'intervenientes'} setCoDirectaData={setCoDirecta}/>
+                <Intervenientes active={activeSegment === 'intervenientes'} setCoDirectaData={setCoDirecta} />
 
-                 <DadosInfracao active={activeSegment === 'dados_da_infracao'} setCoDirectaData={setCoDirecta} />)
+                <DadosInfracao active={activeSegment === 'dados_da_infracao'} setCoDirectaData={setCoDirecta} />)
 
-                 <DadosComplementares active={activeSegment === 'dados_complemenatares'} setCoDirectaData={setCoDirecta}/>
+                <DadosComplementares active={activeSegment === 'dados_complemenatares'} setCoDirectaData={setCoDirecta} />
 
 
             </IonContent>
