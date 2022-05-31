@@ -1,31 +1,34 @@
 import {
     IonCol, IonContent, IonGrid, IonPage, IonRow, IonSegment, IonSegmentButton, IonToolbar, useIonAlert, useIonLoading,
 } from '@ionic/react';
-import {useState} from 'react';
+import { useState } from 'react';
 import './Co-Directa.scss';
 import Menu from '../../../components/Menu/Menu';
 import React from 'react';
 // import ReactPDF, {BlobProvider, pdf, PDFDownloadLink } from '@react-pdf/renderer';
 import Intervenientes from '../../../components/Contra-Ordenacoes/Intervenientes/Intervenientes';
-import {MenuActionsBtnSave} from '../../../components/Contra-Ordenacoes/MenuActionsBtn';
+import { MenuActionsBtnSave } from '../../../components/Contra-Ordenacoes/MenuActionsBtn';
 import DadosInfracao from '../../../components/Contra-Ordenacoes/DadosInfracao/DadosInfracao';
 import DadosComplementares from '../../../components/Contra-Ordenacoes/DadosComplementares/DadosComplementares';
 
-import {useHistory} from 'react-router';
-import {Contraordenacao} from '../../../api/Contraordenacao';
-import {ICoDirecta} from '../../../model/contraordenacao';
+import { useHistory } from 'react-router';
+import { Contraordenacao } from '../../../api/Contraordenacao';
+import { ICoDirecta } from '../../../model/contraordenacao';
+import { useAppSelector, useAppDispatch } from '../../../app/hooks';
+import { getInputValidations_LocalInfraccao, setInputValidation_LocalInfraccao } from '../../../Validations/Contra-Ordenacoes/InputValidationsSlice_LocalInfraccao';
+import { getInputValidations_Infraccao, setInputValidation_Infraccao } from '../../../Validations/Contra-Ordenacoes/InputValidationsSlice_Infraccao';
 
 const RenderSegment = (props: { segment: string, setCoDirectaData: any }) => {
+
     if (props.segment === 'intervenientes') {
-        return (<Intervenientes setCoDirectaData={props.setCoDirectaData}/>)
+        return (<Intervenientes setCoDirectaData={props.setCoDirectaData} />)
     } else if (props.segment === 'dados_da_infracao') {
-        return (<DadosInfracao/>)
+        return (<DadosInfracao />)
     } else if (props.segment === 'dados_complemenatares') {
-        return (<DadosComplementares setCoDirectaData={props.setCoDirectaData}/>)
+        return (<DadosComplementares setCoDirectaData={props.setCoDirectaData} />)
     }
 
     return null;
-
 }
 
 const instanceCoDirecta = new Contraordenacao();
@@ -121,7 +124,7 @@ const handlerCoDirectaRequestData = (data: any): ICoDirecta => {
             id: data?.arguido.id,
             nif: data?.arguido.nif,
             nome: data?.arguido.nome ? data?.arguido.nome : data?.informacoesAdicionais.firmaNome,
-            dataNascimento: data?.arguido.dataNascimento ? data?.arguido.dataNascimento  : data?.informacoesAdicionais.dataNascimento,
+            dataNascimento: data?.arguido.dataNascimento ? data?.arguido.dataNascimento : data?.informacoesAdicionais.dataNascimento,
             tipoPessoa: data?.arguido.arguidoVeiculoSingularColetivo,
             isCoimasEmAtraso: data?.arguido.isCoimasEmAtraso,
             coimasEmAtraso: data?.arguido.coimasEmAtraso,
@@ -216,7 +219,6 @@ const handlerCoDirectaRequestData = (data: any): ICoDirecta => {
 
 const CoDirecta: React.FC = () => {
 
-
     const [presentLoad, dismissLoad] = useIonLoading();
     const [presentAlert] = useIonAlert();
 
@@ -225,16 +227,48 @@ const CoDirecta: React.FC = () => {
     const [coDirecta, setCoDirecta] = useState<any>();
     const [coSaved, setCoSaved] = useState<any>({});
     const [isCOSaved, setIsCOSaved] = useState(false);
+    const dispatch = useAppDispatch();
+    const inputValidations_LocalInfraccao = useAppSelector(getInputValidations_LocalInfraccao);
+    const inputValidations_Infraccao = useAppSelector(getInputValidations_Infraccao);
 
     const handlerSegment = (e: any) => {
         setActiveSegment(e.detail.value);
     }
-
     const onSave = (e: any) => {
+
+        // valida [Local infraccao]
+        dispatch(setInputValidation_LocalInfraccao(
+            {
+                ...inputValidations_LocalInfraccao,
+                distrito_isValid: !inputValidations_LocalInfraccao.distrito_isValid,
+                concelho_isValid: !inputValidations_LocalInfraccao.concelho_isValid,
+                freguesia_isValid: !inputValidations_LocalInfraccao.freguesia_isValid,
+                localidade_isValid: !inputValidations_LocalInfraccao.localidade_isValid,
+                tipo_isValid: !inputValidations_LocalInfraccao.tipo_isValid,
+                arruamento_isValid: !inputValidations_LocalInfraccao.arruamento_isValid,
+            }
+        ));
+        console.log(inputValidations_LocalInfraccao);
+
+        // valida [infraccao]
+        dispatch(setInputValidation_Infraccao(
+            {
+                ...inputValidations_Infraccao,
+                comarca_isValid: !inputValidations_Infraccao.comarca_isValid,
+                entidade_isValid: !inputValidations_Infraccao.entidade_isValid,
+                tipificacaoInfraccao_isValid: !inputValidations_Infraccao.tipificacaoInfraccao_isValid,
+                subtipificacao_isValid: !inputValidations_Infraccao.subtipificacao_isValid,
+                descricaoSumaria_isValid: !inputValidations_Infraccao.descricaoSumaria_isValid,
+            }
+        ));
+        console.log(inputValidations_Infraccao);
+        //console.log(coDirecta);
+
+        return;
+
         presentLoad({
             message: 'A guardar...',
         })
-
 
         instanceCoDirecta.guardarCODirectaGeneric(handlerCoDirectaRequestData(coDirecta)).then((responseData) => {
 
@@ -244,7 +278,7 @@ const CoDirecta: React.FC = () => {
                 header: 'Sucesso!',
                 message: 'Contraordenação guardada com sucesso!',
                 buttons: [
-                    {text: 'Fechar'},
+                    { text: 'Fechar' },
                 ]
             })
             setIsCOSaved(true);
@@ -256,18 +290,17 @@ const CoDirecta: React.FC = () => {
                 header: 'Error!',
                 message: 'Houve algum erro ao gravar!',
                 buttons: [
-                    {text: 'Fechar'},
+                    { text: 'Fechar' },
                 ]
             })
 
         }).finally(() => {
             dismissLoad();
         })
-
     }
 
     const onEmit = (e: any) => {
-        history.push("/CODirectaSignPDFPreview/" + JSON.stringify({co: coSaved}))
+        history.push("/CODirectaSignPDFPreview/" + JSON.stringify({ co: coSaved }))
     }
 
     return (
@@ -276,12 +309,12 @@ const CoDirecta: React.FC = () => {
                 onEmit(e);
             }} onSave={(e: any) => {
                 onSave(e)
-            }}/>}/>
+            }} />} />
             <IonContent className="contraordenacao" fullscreen={true}>
 
-                <IonGrid id="gridGeral" style={{marginBottom: 40}}>
+                <IonGrid id="gridGeral" style={{ marginBottom: 40 }}>
 
-                    <IonRow style={{marginBottom: 40, marginLeft: 10}}>
+                    <IonRow style={{ marginBottom: 40, marginLeft: 10 }}>
                         <IonCol size="12">
                             <h1>Registo de contraordenações Directas</h1>
                             <p>Registo de contraordenações Directas</p>
@@ -300,7 +333,7 @@ const CoDirecta: React.FC = () => {
 
                 </IonGrid>
 
-                <RenderSegment setCoDirectaData={setCoDirecta} segment={activeSegment}/>
+                <RenderSegment setCoDirectaData={setCoDirecta} segment={activeSegment} />
 
             </IonContent>
 

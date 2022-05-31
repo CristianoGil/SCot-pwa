@@ -3,12 +3,16 @@ import { search, text } from "ionicons/icons";
 import React from "react";
 import { useState } from "react";
 import { Contraordenacao } from "../../../../api/Contraordenacao";
+import { useAppSelector } from "../../../../app/hooks";
+import { getInputValidations_Infraccao } from "../../../../Validations/Contra-Ordenacoes/InputValidationsSlice_Infraccao";
 import './Infraccao.scss';
 
 interface InfracaoData {
     currentComarca:any
 }
 const Infraccao: React.FC<InfracaoData> = (props) => {
+
+    const inputValidations_LocalInfraccao = useAppSelector(getInputValidations_Infraccao);
 
     interface InfracaoResponse {
         comarcas: ComonResult[]
@@ -155,7 +159,7 @@ const Infraccao: React.FC<InfracaoData> = (props) => {
 
                                 </IonSelect>
                             </IonItem>
-                            <IonItem className="componentError" lines="none" hidden={false}>Campo obrigatório</IonItem>
+                            <IonItem className="componentError" lines="none" hidden={inputValidations_LocalInfraccao.comarca_isValid}>Campo obrigatório</IonItem>
                         </IonCol>
 
                         <IonCol size-sm='12' size-md='10' size-lg='3' style={{ marginTop: 16 }}>
@@ -170,7 +174,7 @@ const Infraccao: React.FC<InfracaoData> = (props) => {
                                     })}
                                 </IonSelect>
                             </IonItem>
-                            <IonItem className="componentError" lines="none" hidden={false}>Campo obrigatório</IonItem>
+                            <IonItem className="componentError" lines="none" hidden={inputValidations_LocalInfraccao.entidade_isValid}>Campo obrigatório</IonItem>
                         </IonCol>
                     </IonRow>
 
@@ -213,7 +217,7 @@ const Infraccao: React.FC<InfracaoData> = (props) => {
                                         )
                                     })}                                  </IonSelect>
                             </IonItem>
-                            <IonItem className="componentError" lines="none" hidden={false}>Campo obrigatório</IonItem>
+                            <IonItem className="componentError" lines="none" hidden={inputValidations_LocalInfraccao.tipificacaoInfraccao_isValid}>Campo obrigatório</IonItem>
                         </IonCol>
                         <IonCol size-sm='12' size-md='10' size-lg='6' offset="6">
                             <IonItem>
@@ -226,7 +230,7 @@ const Infraccao: React.FC<InfracaoData> = (props) => {
                                         )
                                     })}                                  </IonSelect>
                             </IonItem>
-                            <IonItem className="componentError" lines="none" hidden={false}>Campo obrigatório</IonItem>
+                            <IonItem className="componentError" lines="none" hidden={inputValidations_LocalInfraccao.subtipificacao_isValid}>Campo obrigatório</IonItem>
                         </IonCol>
                     </IonRow>
 
@@ -246,7 +250,7 @@ const Infraccao: React.FC<InfracaoData> = (props) => {
 
                                 </IonTextarea>
                             </IonItem>
-                            <IonItem className="componentError" lines="none" hidden={false}>Campo obrigatório</IonItem>
+                            <IonItem className="componentError" lines="none" hidden={inputValidations_LocalInfraccao.descricaoSumaria_isValid}>Campo obrigatório</IonItem>
                         </IonCol>
                     </IonRow>
 

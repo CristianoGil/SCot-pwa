@@ -5,9 +5,11 @@ import { useEffect, useRef, useState } from "react";
 import { Contraordenacao } from "../../../../api/Contraordenacao";
 import React from "react";
 import { setTimeout } from "timers";
+import { useAppSelector } from "../../../../app/hooks";
+import { getInputValidations_LocalInfraccao } from "../../../../Validations/Contra-Ordenacoes/InputValidationsSlice_LocalInfraccao";
 
 interface LocalInfracaoData{
-    setParentLocalInfracaoData?:any
+    setParentLocalInfracaoData?: any
 }
 interface LocalResponse {
     tiposArruamento: ComonResult[];
@@ -33,6 +35,9 @@ let newMap: GoogleMap;
 
 
 const LocalInfraccao: React.FC<LocalInfracaoData> = (props) => {
+
+    const inputValidations_LocalInfraccao = useAppSelector(getInputValidations_LocalInfraccao);
+
     const apiKey = 'AIzaSyBaOBxDiMCrEgbfIOU6Wau_gjhXdZ6GBXE';
     const mapRef = useRef<HTMLElement>();
 
@@ -269,7 +274,7 @@ const LocalInfraccao: React.FC<LocalInfracaoData> = (props) => {
                                 </IonSelect>
 
                             </IonItem>
-                            <IonItem className="componentError" lines="none" hidden={false}>Campo obrigatório</IonItem>
+                            <IonItem className="componentError" lines="none" hidden={inputValidations_LocalInfraccao.distrito_isValid}>Campo obrigatório</IonItem>
                         </IonCol>
 
                         <IonCol size-sm="9" size-md="12" size-lg="4" style={{ marginTop: 16 }}>
@@ -284,7 +289,7 @@ const LocalInfraccao: React.FC<LocalInfracaoData> = (props) => {
                                     })}
                                 </IonSelect>
                             </IonItem>
-                            <IonItem className="componentError" lines="none" hidden={false}>Campo obrigatório</IonItem>
+                            <IonItem className="componentError" lines="none" hidden={inputValidations_LocalInfraccao.concelho_isValid}>Campo obrigatório</IonItem>
                         </IonCol>
 
                         <IonCol size-sm="9" size-md="12" size-lg="4" style={{ marginTop: 16 }}>
@@ -300,7 +305,7 @@ const LocalInfraccao: React.FC<LocalInfracaoData> = (props) => {
 
                                 </IonSelect>
                             </IonItem>
-                            <IonItem className="componentError" lines="none" hidden={false}>Campo obrigatório</IonItem>
+                            <IonItem className="componentError" lines="none" hidden={inputValidations_LocalInfraccao.freguesia_isValid}>Campo obrigatório</IonItem>
                         </IonCol>
                     </IonRow>
 
@@ -317,7 +322,7 @@ const LocalInfraccao: React.FC<LocalInfracaoData> = (props) => {
                                     })}
                                 </IonSelect>
                             </IonItem>
-                            <IonItem className="componentError" lines="none" hidden={false}>Campo obrigatório</IonItem>
+                            <IonItem className="componentError" lines="none" hidden={inputValidations_LocalInfraccao.localidade_isValid}>Campo obrigatório</IonItem>
                         </IonCol>
 
                         <IonCol size-sm="9" size-md="12" size-lg="4">
@@ -349,7 +354,7 @@ const LocalInfraccao: React.FC<LocalInfracaoData> = (props) => {
                                     })}
                                 </IonSelect>
                             </IonItem>
-                            <IonItem className="componentError" lines="none" hidden={false}>Campo obrigatório</IonItem>
+                            <IonItem className="componentError" lines="none" hidden={inputValidations_LocalInfraccao.tipo_isValid}>Campo obrigatório</IonItem>
                         </IonCol>
 
                         <IonCol size-sm='8' size-md='6' size-lg='4'>
@@ -365,7 +370,7 @@ const LocalInfraccao: React.FC<LocalInfracaoData> = (props) => {
                                     value={arruamento}
                                     placeholder='Arruamento *' />
                             </IonItem>
-                            <IonItem className="componentError" lines="none" hidden={false}>Campo obrigatório</IonItem>
+                            <IonItem className="componentError" lines="none" hidden={inputValidations_LocalInfraccao.arruamento_isValid}>Campo obrigatório</IonItem>
                         </IonCol>
                         <IonCol size-sm='4' size-md='6' size-lg='2'>
                             <IonItem lines='none'>
