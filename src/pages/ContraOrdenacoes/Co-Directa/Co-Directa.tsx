@@ -68,12 +68,12 @@ const handlerCoDirectaRequestData = (data: any): ICoDirecta => {
             matricula: data?.veiculo?.matricula,
             chassi: data?.veiculo?.chassi,
             ano: data?.veiculo?.ano,
-            categoria: data?.veiculo?.categoria,
+            categoria:data?.veiculo?.categoria,
             classe: data?.veiculo?.classe,
             tipo: data?.veiculo?.tipo,
             subclasse: data?.veiculo?.subclasse,
-            pais: data?.veiculo?.pais,
-            marca: data?.veiculo?.marca,
+            pais:data?.veiculo?.pais,
+            marca:data?.veiculo?.marca,
             modelo: data?.veiculo?.modelo,
             cor: data?.veiculo?.cor,
             estadoPolicial: data?.veiculo?.estadoPolicial,
@@ -85,7 +85,7 @@ const handlerCoDirectaRequestData = (data: any): ICoDirecta => {
             id: data?.arguido?.id,
             nif: data?.arguido?.nif,
             nome: data?.arguido?.nome ? data?.arguido?.nome : data?.informacoesAdicionais?.firmaNome,
-            dataNascimento: data?.arguido?.dataNascimento ? data?.arguido?.dataNascimento : data?.informacoesAdicionais?.dataNascimento,
+            dataNascimento: data?.arguido?.dataNascimento ? data?.arguido?.dataNascimento  : data?.informacoesAdicionais?.dataNascimento,
             tipoPessoa: data?.arguido?.arguidoVeiculoSingularColetivo,
             isCoimasEmAtraso: data?.arguido?.isCoimasEmAtraso,
             coimasEmAtraso: data?.arguido?.coimasEmAtraso,
@@ -118,14 +118,14 @@ const handlerCoDirectaRequestData = (data: any): ICoDirecta => {
         isConduzidoArguido: data?.veiculo ? data.veiculo.isConduzidoVeiculo : null,
         nomeAutuante: data?.infracaoData?.autuante,
         localInfracao: {
-            tipo: data?.localInfracaoData?.tipo,
-            distrito: data?.localInfracaoData?.distrito,
-            concelho: data?.localInfracaoData?.concelho,
-            freguesia: data?.localInfracaoData?.freguesia,
-            localidade: data?.localInfracaoData?.localidade,
-            arruamento: data?.localInfracaoData?.arruamento,
-            numeroPolicia: data?.localInfracaoData?.numeroPolicia,
-            zonaBairro: data?.localInfracaoData?.zonaBairro,
+            tipo:data?.localInfracaoData?.tipo,
+            distrito:data?.localInfracaoData?.distrito,
+            concelho:data?.localInfracaoData?.concelho,
+            freguesia:data?.localInfracaoData?.freguesia,
+            localidade:data?.localInfracaoData?.localidade,
+            arruamento:data?.localInfracaoData?.arruamento,
+            numeroPolicia:data?.localInfracaoData?.numeroPolicia,
+            zonaBairro:data?.localInfracaoData?.zonaBairro,
         },
         infracao: {
             codigoDgv: data?.infracaoData?.codigoDgv,
@@ -137,13 +137,13 @@ const handlerCoDirectaRequestData = (data: any): ICoDirecta => {
             normaQuePreveContraOrdenacao: data?.infracaoData?.normaQuePreveContraOrdenacao,
             sancaoAcessoria: data?.infracaoData?.sancaoAcessoria,
             normaQuePreveSancaoAcessoria: data?.infracaoData?.normaSancaoAcessoria,
-            observacoes: data?.infracaoData?.observacao
+            observacoes:data?.infracaoData?.observacao
         },
 
 
         comando: data?.unidadeData?.unidadeImt, //Unidade
-        comarca: data?.infracaoData?.comarca, //distrito ou concelho
-        entidade: data?.infracaoData?.entidade,
+        comarca:  data?.infracaoData?.comarca , //distrito ou concelho
+        entidade:data?.infracaoData?.entidade,
         divisao: null,
         esquadra: null,
         destacamento: null,
@@ -335,6 +335,8 @@ const CoDirecta: React.FC = () => {
             console.log('Error stringify json: ', e);
         }
 
+    const onEmit = (e: any) => {
+        history.push("/CODirectaSignPDFPreview/" + JSON.stringify({co: coSaved}))
     }
 
     return (
@@ -350,8 +352,8 @@ const CoDirecta: React.FC = () => {
 
                     <IonRow style={{ marginBottom: 40, marginLeft: 10 }}>
                         <IonCol size="12">
-                            <h1>Registo de contraordenações Directas</h1>
-                            <p>Registo de contraordenações Directas</p>
+                            <h1>Registo de Contraordenações Diretas</h1>
+                            <p>Registo de Contraordenações Diretas</p>
                         </IonCol>
                         <IonCol size-sm="12" size-md="12" size-lg="6">
                             <IonToolbar>
@@ -367,11 +369,11 @@ const CoDirecta: React.FC = () => {
 
                 </IonGrid>
 
-                <Intervenientes active={activeSegment === 'intervenientes'} setCoDirectaData={setCoDirecta} />
+                 <Intervenientes active={activeSegment === 'intervenientes'} setCoDirectaData={setCoDirecta}/>
 
-                <DadosInfracao active={activeSegment === 'dados_da_infracao'} setCoDirectaData={setCoDirecta} />)
+                 <DadosInfracao active={activeSegment === 'dados_da_infracao'} setCoDirectaData={setCoDirecta} />)
 
-                <DadosComplementares active={activeSegment === 'dados_complemenatares'} setCoDirectaData={setCoDirecta} />
+                 <DadosComplementares active={activeSegment === 'dados_complemenatares'} setCoDirectaData={setCoDirecta}/>
 
 
             </IonContent>
