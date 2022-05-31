@@ -1,5 +1,4 @@
 import { IonCol, IonGrid, IonRow } from "@ionic/react";
-import React, { useEffect, useState } from "react";
 import React, { useState } from "react";
 import { IInfracao } from "../../../model/infracaoAdicional";
 import Infraccao from "../Components/Infraccao/Infraccao";
