@@ -1,4 +1,4 @@
-import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCheckbox, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonPopover, IonRow, IonSelect, IonSelectOption, IonToolbar } from "@ionic/react";
+import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCheckbox, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonPopover, IonRow, IonSelect, IonSelectOption, IonToolbar, useIonAlert, useIonLoading } from "@ionic/react";
 import { open, trash, remove, bookOutline } from "ionicons/icons";
 import { resolve } from "path";
 import React from "react";
@@ -16,7 +16,8 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
 
     const [openPopoverApreensaoDocumentosData, setOpenPopoverApreensaoDocumentosData] = useState(false);
     const [checked, setChecked] = useState(false);
-
+    const [presentAlert, dismissAlert] = useIonAlert();
+    const [presentOnLoanding, dismissOnLoanding] = useIonLoading();
     const handleButtonClick_ABRIR = (state: any) => {
         console.log('clicked (ABRIR)');
         console.log(state);
@@ -102,22 +103,19 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
         },
         {
             name: 'Motivo',
-            cell: (row: { motivo: any }) => (
-                <>
-                    <IonIcon slot="start" icon={remove} />
-                </>
-            )
+            selector: (row: { motivo: any; }) => row.motivo,
         },
         {
             name: 'Ações',
-            cell: (row: { accoes: any }) => (
+            cell: (row: { id: any }) => (
                 <>
-                    <IonButton onClick={() => { }} size="small" color="primary" >
-                        ABRIR
-                        <IonIcon slot="start" icon={open} />
-                    </IonButton>
+                    <IonButton onClick={() => {
+                    console.log(row.id)
 
-                    <IonButton onClick={() => { }} size="small" color="danger" >
+                    dataMotivosApreensao = motivosApreensao.filter(m=>{return m._id !==row.id})
+                    setMotivosApreensao(dataMotivosApreensao)
+
+                    }} size="small" color="danger" >
                         EXCLUIR
                         <IonIcon slot="start" icon={trash} />
                     </IonButton>
@@ -127,12 +125,12 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
     ];
 
     interface MotivoApreensaoTable {
-        id: number,
-        _id: number,
-        motivo: string,
-        accoes: string,
+        id: number | undefined,
+        _id: number | undefined,
+        motivo: string| undefined,
+        accoes: string | undefined
     }
-    const dataMotivosApreensao: MotivoApreensaoTable[] = []
+    let dataMotivosApreensao: MotivoApreensaoTable[] = []
     //-------------------------[Dados Apreensao Documentos]
 
     const columnsDadosApreensaoDocumentos = [
@@ -172,12 +170,13 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
 
 
     const [combos, setCombos] = useState<MotivosApreensao[]>();
-    const [motivosApreensao, setMotivosApreensao] = useState<MotivosApreensao[]>();
+    const [documentos, setDocumentos] = useState(dataDadosApreensaoDocumentos);
+    const [motivosApreensao, setMotivosApreensao] = useState(dataMotivosApreensao);
     const [dadosApreensaoDocumento, setDadosApreensaoDocumento] = useState<MotivosApreensao[]>();
     const [documento, setDocumento] = useState('');
     const [motivoApreensao, setMotivoApreensao] = useState('');
     const [idMotivoApreensao, setIdMotivoApreensao] = useState(0);
-    const [tamanhoMotivoApreensao, setTamanhoMotivoApreensao] = useState(0);
+    const [tamanhoMotivoApreensao, setTamanhoMotivoApreensao] = useState<number>();
     const [numDocumento, setNumDocumento] = useState('');
     const [localApresentacao, setLocalApresentacao] = useState('');
     const getCombos = async (): Promise<CarregarCombosApreensaoDocumento> => await new Contraordenacao().carregarCombosMotivoApreensao()
@@ -194,29 +193,74 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
     }, []);
 
     const onClick_addAMotivoApreensao = () => {
+       
+             const motivoExiste: any = motivosApreensao?.find(motivo => motivo.id === +motivoApreensao)        
+             if(motivoExiste){
 
-        const _idMotivoApreensao: any = combos?.find(motivo => motivo?.descricao === motivoApreensao)?.id
-        setIdMotivoApreensao(_idMotivoApreensao)
+                presentAlert({
+                    header: 'Error!',
+                    message: 'Motivo já adicionado!\n',
+                    buttons: [
+                        { text: 'Fechar' },
+                    ]
+                })
 
-        dataMotivosApreensao.push({
-            _id: idMotivoApreensao,
-            id: idMotivoApreensao,
-            motivo: motivoApreensao,
-            accoes: "null"
-        })
-        setTamanhoMotivoApreensao(dataMotivosApreensao?.length)
+             }else{
+                const motivo: {id:number, descricao:string} | undefined = combos?.find(motivo => motivo.id === +motivoApreensao)        
+                dataMotivosApreensao.push(...motivosApreensao)
+                 setMotivosApreensao([...dataMotivosApreensao, {
+                   id:motivo?.id,
+                   motivo:motivo?.descricao,
+                   _id: motivo?.id,
+                   accoes:String(motivo?.id)
+       
+               }]) 
+
+       
+               setTamanhoMotivoApreensao(+motivosApreensao?.length+1)
+
+             }
+                
+
+         
 
     }
 
     const onClick_addDadosDocumentoApreensao = () => {
-        const id: any = dadosApreensaoDocumento?.find(doc => doc?.descricao === documento)?.id
 
-        dataDadosApreensaoDocumentos.push({
-            accoes: "",
-            documento: documento,
-            id: id,
-            numero: +numDocumento
-        })
+        const docExiste: any = documentos?.find(doc => doc.id === +documento)  
+        
+        if(docExiste){
+            presentAlert({
+                header: 'Error!',
+                message: 'Documento já adicionado!\n',
+                buttons: [
+                    { text: 'Fechar' },
+                ]
+            })
+        }
+        else{
+            
+            const doc: any = dadosApreensaoDocumento?.find(doc => doc.id === +documento)     
+            dataDadosApreensaoDocumentos.push(...documentos)
+            setDocumentos([...dataDadosApreensaoDocumentos, {
+                accoes:String(doc.numero),
+                documento:doc.documento,
+                id:doc.numero, 
+                numero:doc.numero
+                
+            }])   
+
+        }      
+
+        // const id: any = dadosApreensaoDocumento?.find(doc => doc?.descricao === documento)?.id
+
+        // dataDadosApreensaoDocumentos.push({
+        //     accoes: "",
+        //     documento: documento,
+        //     id: id,
+        //     numero: +numDocumento
+        // })
 
     }
 
@@ -402,7 +446,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                     <IonCol size-sm='12' size-md='10' size-lg='12'>
                                         <DataTable
                                             columns={columnsMotivosApreensao}
-                                            data={dataMotivosApreensao}
+                                            data={motivosApreensao}
                                         />
                                     </IonCol>
                                 </IonRow>
@@ -479,7 +523,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                     <IonCol size-sm='12' size-md='10' size-lg='12'>
                                         <DataTable
                                             columns={columnsDadosApreensaoDocumentos}
-                                            data={dataDadosApreensaoDocumentos}
+                                            data={documentos}
                                         />
                                     </IonCol>
                                 </IonRow>

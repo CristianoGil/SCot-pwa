@@ -25,6 +25,8 @@ const DadosComplementares: React.FC<IProps> = (props) => {
     const [infracoes, setInfracoes]= useState<Infracao[]>();
     const [depositoRequest, setDepositoRequest]= useState<DepositoRequest>();
     const [accoesComplementaresParentData, setAccoesComplementaresParentData] = useState<any>();
+  
+  
     const keyup_refArguido = (e: any) => {
         setRefArguido(e.target.value);
     }
@@ -32,13 +34,14 @@ const DadosComplementares: React.FC<IProps> = (props) => {
     React.useEffect(()=>{
         const data = {
             tipoProprietario: tipoProprietario,
-            refArguido: refArguido,
+            refArguido: tipoProprietario,
             depositoRequest:depositoRequest,
             infracoes: infracoes,   
             accoesComplementaresParentData: accoesComplementaresParentData
         }
-        setArguidoNif(refArguido)
-    },[])
+        props.setCoDirectaData(data)
+        
+    },[tipoProprietario,tipoProprietario,depositoRequest, accoesComplementaresParentData])
 
 
     return (

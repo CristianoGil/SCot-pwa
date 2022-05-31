@@ -158,15 +158,15 @@ const handlerCoDirectaRequestData = (data: any): ICoDirecta => {
         subDestacamento: null,
 
         //dados complementares
-        proprietario: null, //arguido, condutor, outro
-        refArquivo: null,
+        proprietario: data?.tipoProprietario, //arguido, condutor, outro
+        refArquivo: data?.refArguido,
         pagamento: null,
         apreensaoDocumento: null,
         apreensaoVeiculo: null,
         bloqueamentoRemocaoVeiculo: null,
         substituicaoDocumento: null,
         apresentacaoDocumento: null,
-        infracoesAdicionais: null,
+        infracoesAdicionais: data?.infracoes,
 
         //alcool
         alcoolemia: null,
