@@ -46,12 +46,12 @@ export interface ILocalidade extends IID_DESCRICAO {
 }
 
 export interface ILocal {
-    id: string | null;
+    id?: string | null;
     tipo: ITipoLocal | null;
-    tipoArruamento: ITipoArruamento | null,
-    subtipo: ISubtipo | null;
-    designacao: string | null;
-    pais: IPais | null;
+    tipoArruamento?: ITipoArruamento | null,
+    subtipo?: ISubtipo | null;
+    designacao?: string | null;
+    pais?: IPais | null;
     distrito: IDistrito | null;
     concelho: IConcelho | null;
     freguesia: IFreguesia | null;
@@ -59,6 +59,6 @@ export interface ILocal {
     arruamento: string | null;
     numeroPolicia: string | null;
     zonaBairro: string | null;
-    observacoes: string | null;
-    anexosEletronicos: IAnexosEletronicos | null;
+    observacoes?: string | null;
+    anexosEletronicos?: IAnexosEletronicos | null;
 }

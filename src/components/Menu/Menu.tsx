@@ -195,7 +195,7 @@ const Menu: React.FC<IProps> = (props) => {
                                         <div style={{ display: 'inline-flex' }}>
                                             <IonImg src={'assets/images/temp.png'}
                                                 style={{ width: 'fit-content' }}></IonImg>
-                                            <h1 style={{ marginTop: 14, marginLeft: 10 }}>Gestão de cobraças</h1>
+                                            <h1 style={{ marginTop: 14, marginLeft: 10 }}>Gestão de cobranças</h1>
                                         </div>
                                     </Link>
                                 </IonCol>
@@ -236,7 +236,7 @@ const Menu: React.FC<IProps> = (props) => {
                                                     <div style={{ display: 'inline-flex' }}>
                                                         <IonImg className='ion-hide' src={'assets/images/temp.png'}
                                                             style={{ width: 'fit-content' }}></IonImg>
-                                                        <h5 style={{ marginTop: 14, marginLeft: 10 }}>Registrar
+                                                        <h5 style={{ marginTop: 14, marginLeft: 10 }}>Registar
                                                             contraordenação direta</h5>
                                                     </div>
                                                 </Link>
@@ -249,7 +249,7 @@ const Menu: React.FC<IProps> = (props) => {
                                                     <div style={{ display: 'inline-flex' }}>
                                                         <IonImg className='ion-hide' src={'assets/images/temp.png'}
                                                             style={{ width: 'fit-content' }}></IonImg>
-                                                        <h5 style={{ marginTop: 14, marginLeft: 10 }}>Registrar
+                                                        <h5 style={{ marginTop: 14, marginLeft: 10 }}>Registar
                                                             contraordenação indireta</h5>
                                                     </div>
                                                 </Link>

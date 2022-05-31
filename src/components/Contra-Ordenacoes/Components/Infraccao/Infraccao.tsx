@@ -7,6 +7,7 @@ import './Infraccao.scss';
 
 interface InfracaoData {
     currentComarca:any
+    setInfracao?:any
 }
 const Infraccao: React.FC<InfracaoData> = (props) => {
 
@@ -44,6 +45,7 @@ const Infraccao: React.FC<InfracaoData> = (props) => {
     }
 
     const [comarcas, setComarcas] = useState<ComonResult[]>();
+    const [tipificacao,  setTipificacao] = useState<ComonResult>();
     const [comarca, setComarca] = useState<number>();
     const [comarcaDto, setComarcaDto] = useState<ComonResult>();
     const [comarcasPadrao, setComarcasPadrao] = useState<ComonResult[]>();
@@ -53,16 +55,45 @@ const Infraccao: React.FC<InfracaoData> = (props) => {
     const [subtiposInfracaoPadrao, setSubtiposInfracaoPadrao] = useState<Subtificacao[]>();
 
     const [autuante, setAutuante] = useState();
+    const [codigoDgv, setCodigoDgv] = useState();
+    const [descricaoSumaria, setDescricaoSumaria] = useState<string | undefined | null>();
+    const [normaQuePreveContraOrdenacao, setNormaQuePreveContraOrdenacao] = useState<string | undefined | null>();
+    const [entidade, setEntidade] = useState<ComonResult>();
+    const [subTipoInfracao, setSubTipoInfracao] = useState<Subtificacao>();
+    const [subtipoInfracao, setSubtipoInfracao] = useState<Subtificacao>();
     const [tipoAutuante, setTipoAutuante] = useState();
     const [arguidoNif, setArguidoNif] = useState();
-    const [nomeInfrigida, setNomeInfrigida] = useState<string | undefined>();
+    const [normaInfrigida, setNormaInfrigida] = useState<string | undefined>();
     const [descricao, setDescricao] = useState<string | undefined>();
     const [minValor, setMinValor] = useState<number | undefined>();
     const [maxValor, setMaxValor] = useState<number | undefined>();
     const [normaPrevista, setNormaPrevista] = useState<string | undefined>();
     const [sancaoAcessoria, setSancaoAcessoria] = useState<string | undefined>();
-    const [observacao, setObservacao] = useState<string | undefined>();
+    const [observacao, setObservacao] = useState<string | undefined | null>();
     const [normaSancaoAcessoria, setNormaSancaoAcessoria] = useState<string | undefined>();
+    
+
+    React.useEffect(() => {
+      const data={
+            isPresenciadaAutante:tipoAutuante,
+            autuante:autuante,
+            comarca:comarcaDto,
+            entidade:entidade,
+            tipificacao:tipificacao,
+            subtipoInfracao:subTipoInfracao,
+            normaInfrigida:normaInfrigida,
+            descricaoSumaria:descricaoSumaria, 
+            montanteMinimoCoima:minValor, 
+            montanteMaximoCoima: maxValor,
+            normaQuePreveContraOrdenacao: normaQuePreveContraOrdenacao,
+            sancaoAcessoria:sancaoAcessoria,
+            normaSancaoAcessoria:sancaoAcessoria,
+            observacao: observacao,
+            codigoDgv:observacao
+      }
+      props.setInfracao(data)
+    },[tipoAutuante,sancaoAcessoria,observacao,observacao,autuante,comarcaDto,entidade,tipificacao,subTipoInfracao,normaInfrigida,descricaoSumaria,minValor, maxValor,normaQuePreveContraOrdenacao, sancaoAcessoria,])
+
 
     const getInfracao = async (): Promise<InfracaoResponse> => await new Contraordenacao().carregarCombosInfracao()
     React.useEffect(() => {
@@ -78,11 +109,11 @@ const Infraccao: React.FC<InfracaoData> = (props) => {
         })
 
         if (props.currentComarca) {
-            // setComarcas(comarcasPadrao?.find(c =>{ return c.id === props.currentComarca}))
-             const comarcaSelecionada = comarcasPadrao?.find(c =>{ return c.id === props.currentComarca})
+            const comarcaSelecionada = comarcasPadrao?.find(c =>{ return c.id === props.currentComarca})
             setComarca(comarcaSelecionada?.id)
             setComarcaDto(comarcaSelecionada)
         }
+
     }, [props.currentComarca]);
 
 
@@ -93,17 +124,31 @@ const Infraccao: React.FC<InfracaoData> = (props) => {
         setDescricao(subtificacao?.observacoes)
         setMinValor(subtificacao?.montanteDaCoimaMinima)
         setMaxValor(subtificacao?.montanteDaCoimaMaxima)
-        setNomeInfrigida(subtificacao?.normaInfringida)
+        setNormaInfrigida(subtificacao?.normaInfringida)
         setNormaPrevista(subtificacao?.normaPrevista)
         setSancaoAcessoria(subtificacao?.sancaoAcessoria)
         setNormaSancaoAcessoria(subtificacao?.normaQuePreveSancaoAcessoria)
         setObservacao(subtificacao?.observacoes)
-
+        setNormaQuePreveContraOrdenacao(subtificacao?.normaQuePreveContraOrdenacao)
+        setDescricaoSumaria(subtificacao?.descricaoSumaria)
+        setSubTipoInfracao(subtificacao)
     }
+
+    const onKeyUp_autuante = (e:any)=>{
+        setAutuante(autuante)
+    }  
+    const onKeyUp_codigoDgv = (e:any)=>{
+        setCodigoDgv(e.target.value)
+    }
+
+   
+
+
 
     const onchange_filtrarSubtificacaoPorTipificacao = (e: any) => {
         const infracaoId = e.target.value
         const subTipos = subtiposInfracaoPadrao?.filter(sub => { return sub.tipificacao.id === infracaoId })
+        setTipificacao(tiposInfracao?.find(t=> t.id===infracaoId))
         setSubTiposInfracao(subTipos)
     }
 
@@ -122,6 +167,7 @@ const Infraccao: React.FC<InfracaoData> = (props) => {
                             </IonHeader>
                             <IonRadioGroup
                                 value={tipoAutuante}
+                                onIonChange={(e)=>{setTipoAutuante(e.detail.value)}}
                             >
                                 <IonRow>
                                     <IonCol size='6'>
@@ -143,7 +189,7 @@ const Infraccao: React.FC<InfracaoData> = (props) => {
                         <IonCol size-sm='12' size-md='10' size-lg='3'>
                             <IonItem>
                                 <IonLabel position="floating" itemType="text" placeholder="Autuante">Autuante *</IonLabel>
-                                <IonInput value={autuante}></IonInput>
+                                <IonInput onKeyUp={onKeyUp_autuante} value={autuante}></IonInput>
                             </IonItem>
                         </IonCol>
 
@@ -161,11 +207,11 @@ const Infraccao: React.FC<InfracaoData> = (props) => {
                         <IonCol size-sm='12' size-md='10' size-lg='3' style={{ marginTop: 16 }}>
                             <IonItem>
                                 <IonLabel>Entidade</IonLabel>
-                                <IonSelect interface="popover">
+                                <IonSelect interface="popover" onIonChange={(e)=>setEntidade(e.detail.value)}>
                                     {entidades?.map((local: any) => {
                                         return (
                                             <IonSelectOption key={`${local.id}`}
-                                                value={local.id}>{`${local.descricao}`}</IonSelectOption>
+                                                value={JSON.stringify({id: local.id, descricao:local.descricao})}>{`${local.descricao}`}</IonSelectOption>
                                         )
                                     })}
                                 </IonSelect>
@@ -187,7 +233,7 @@ const Infraccao: React.FC<InfracaoData> = (props) => {
                                     clearInput={true}
                                     name='arguido-nif'
                                     value={arguidoNif}
-                                    //   onKeyUp={}
+                                    onKeyUp={onKeyUp_codigoDgv}
                                     placeholder='Código' />
                             </IonItem>
                         </IonCol>
@@ -235,14 +281,14 @@ const Infraccao: React.FC<InfracaoData> = (props) => {
                             <IonItem>
                                 <IonLabel position="floating" itemType="text" placeholder="Norma infringida">Norma infringida</IonLabel>
                                 <IonInput
-                                    value={nomeInfrigida}
+                                    value={normaInfrigida}
                                 ></IonInput>
                             </IonItem>
                         </IonCol>
                         <IonCol size-sm='12' size-md='10' size-lg='6'>
                             <IonItem lines="none">
                                 <IonLabel position="stacked">Descrição Sumária *</IonLabel>
-                                <IonTextarea rows={6} cols={10} placeholder="" value={descricao} onIonChange={e => () => { }}>
+                                <IonTextarea rows={6} cols={10} placeholder="" value={descricaoSumaria} onIonChange={(e) => {setDescricaoSumaria(e.detail.value) }}>
 
                                 </IonTextarea>
                             </IonItem>
@@ -275,7 +321,7 @@ const Infraccao: React.FC<InfracaoData> = (props) => {
                         <IonCol size-sm='12' size-md='10' size-lg='6' style={{ marginTop: 32 }}>
                             <IonItem>
                                 <IonLabel position="floating" itemType="text" placeholder="Norma que prevê a Contraordenação">Norma que prevê a Contraordenação</IonLabel>
-                                <IonInput value={normaPrevista}></IonInput>
+                                <IonInput value={normaQuePreveContraOrdenacao}></IonInput>
                             </IonItem>
                         </IonCol>
                     </IonRow>
@@ -301,7 +347,7 @@ const Infraccao: React.FC<InfracaoData> = (props) => {
                         <IonCol size-sm='12' size-md='10' size-lg='12'>
                             <IonItem lines="none">
                                 <IonLabel position="stacked">Observações</IonLabel>
-                                <IonTextarea rows={6} cols={10} placeholder="" value={observacao} onIonChange={e => () => { }}>
+                                <IonTextarea rows={6} cols={10} placeholder="" value={observacao} onIonChange={(e) => { setObservacao(e.detail.value)}}>
 
                                 </IonTextarea>
                             </IonItem>

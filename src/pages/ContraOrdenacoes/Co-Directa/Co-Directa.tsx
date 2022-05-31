@@ -19,7 +19,7 @@ const RenderSegment = (props: { segment: string, setCoDirectaData: any }) => {
     if (props.segment === 'intervenientes') {
         return (<Intervenientes setCoDirectaData={props.setCoDirectaData}/>)
     } else if (props.segment === 'dados_da_infracao') {
-        return (<DadosInfracao/>)
+        return (<DadosInfracao setCoDirectaData={props.setCoDirectaData} />)
     } else if (props.segment === 'dados_complemenatares') {
         return (<DadosComplementares setCoDirectaData={props.setCoDirectaData}/>)
     }
@@ -119,19 +119,39 @@ const handlerCoDirectaRequestData = (data: any): ICoDirecta => {
             pais: data?.arguido?.paisEmissao,
             representanteLegal: data?.arguido.representanteLegal ? data?.arguido.representanteLegal : data?.informacoesAdicionais.representanteLegal
         },
-        dataInfracao: null,
+        dataInfracao: data?.unidadeData?.dataHoraInfraccao,
         numeroAuto: null,
-        numeroTalao: null,
-        isPresenciadaAutuante: null,
+        numeroTalao: data?.unidadeData?.numTalao,
+        isPresenciadaAutuante: data?.infracaoData?.isPresenciadaAutante,
         isConduzidoArguido: data?.veiculo ? data.veiculo.isConduzidoVeiculo : null,
-        nomeAutuante: null,
-        localInfracao: null,
-        infracao: null,
+        nomeAutuante: data?.infracaoData?.autuante,
+        localInfracao: {
+            tipo:data?.localInfracaoData?.tipo,
+            distrito:data?.localInfracaoData?.distrito,
+            concelho:data?.localInfracaoData?.concelho,
+            freguesia:data?.localInfracaoData?.freguesia,
+            localidade:data?.localInfracaoData?.localidade,
+            arruamento:data?.localInfracaoData?.arruamento,
+            numeroPolicia:data?.localInfracaoData?.numeroPolicia,
+            zonaBairro:data?.localInfracaoData?.zonaBairro,
+        },
+        infracao: {
+            codigoDgv: data?.infracaoData?.codigoDgv,
+            tipificacao: data?.infracaoData?.tipificacao,
+            normaInfringida: data?.infracaoData?.normaInfrigida,
+            descricaoSumaria: data?.infracaoData?.descricaoSumaria,
+            montanteDaCoimaMaxima: data?.infracaoData?.montanteMaximoCoima,
+            montanteDaCoimaMinima: data?.infracaoData?.montanteMinimoCoima,
+            normaQuePreveContraOrdenacao: data?.infracaoData?.normaQuePreveContraOrdenacao,
+            sancaoAcessoria: data?.infracaoData?.sancaoAcessoria,
+            normaQuePreveSancaoAcessoria: data?.infracaoData?.normaSancaoAcessoria,
+            observacoes:data?.infracaoData?.observacao
+        },
 
 
-        comando: null, //Unidade
-        comarca: null, //distrito ou concelho
-        entidade: null,
+        comando: data?.unidadeData?.unidadeImt, //Unidade
+        comarca:  data?.infracaoData.comarca , //distrito ou concelho
+        entidade:data?.infracaoData.entidade,
         divisao: null,
         esquadra: null,
         destacamento: null,

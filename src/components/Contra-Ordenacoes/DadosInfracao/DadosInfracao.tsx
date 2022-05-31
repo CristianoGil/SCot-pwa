@@ -1,26 +1,44 @@
 import { IonCol, IonGrid, IonRow } from "@ionic/react";
 import React, { useState } from "react";
+import { IInfracao } from "../../../model/infracaoAdicional";
 import Infraccao from "../Components/Infraccao/Infraccao";
 import LocalInfraccao from "../Components/LocalInfraccao/LocalInfraccao";
 import Unidade from "../Components/Unidade/Unidade";
 import './DadosInfracao.scss';
     
 
+interface IProps {
+    setCoDirectaData?: any
+}
 
-const DadosInfracao: React.FC = () => {
+const DadosInfracao: React.FC<IProps> = (props) => {
     
 
-    const [unidadeParentData, setUnidadeParentData] = useState();
-    const [localInfracaoData, setLocalInfracaoData] = useState();
+    const [unidadeData, setUnidadeData] = useState<any>();
+    const [localInfracaoData, setLocalInfracaoData] = useState<any>();
     const [comarcaSelecionada, setComarcaSelecionada] = useState();
+       
+    // START: INFRACAO
+    const [infracaoData, setInfracaoData] = useState<any>();
+        // END: INFRACAO
 
-    return (
+
+        React.useEffect(() => {
+            const data = {
+                infracaoData:infracaoData,
+                unidadeData:unidadeData,
+                localInfracaoData:localInfracaoData
+            }
+            props.setCoDirectaData(data);
+
+        }, [infracaoData,unidadeData,localInfracaoData ])    
+        return (
 
         <IonGrid className="dadosInfracao">
             <IonRow>
                 <IonCol size-sm='12' size-md="12" size-lg="11">
                     {/*START: UNIDADE*/}
-                    <Unidade setUnidadeParentData ={setUnidadeParentData} />
+                    <Unidade setUnidadeData={setUnidadeData} />
                     {/*END: UNIDADE*/}
                 </IonCol>
             </IonRow>
@@ -28,7 +46,7 @@ const DadosInfracao: React.FC = () => {
             <IonRow>
                 <IonCol size-sm='12' size-md="12" size-lg="11">
                     {/*START: Local Infracção*/}
-                    <LocalInfraccao setParentLocalInfracaoData={setComarcaSelecionada}/>
+                    <LocalInfraccao setParentLocalInfracaoData={setComarcaSelecionada} setLocalInfracaoData={setLocalInfracaoData}/>
                     {/*END: Local Infracção*/}
                 </IonCol>
             </IonRow> 
@@ -36,7 +54,7 @@ const DadosInfracao: React.FC = () => {
             <IonRow>
                 <IonCol size-sm='12' size-md="12" size-lg="11">
                     {/*START: Infracção*/}
-                    <Infraccao currentComarca={comarcaSelecionada} />
+                    <Infraccao currentComarca={comarcaSelecionada} setInfracao={setInfracaoData}/>
                     {/*END: Infracção*/}
                 </IonCol>
             </IonRow>
