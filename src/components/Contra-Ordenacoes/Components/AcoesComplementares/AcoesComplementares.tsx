@@ -6,6 +6,7 @@ import { useState } from "react";
 import DataTable from 'react-data-table-component';
 import { Contraordenacao } from "../../../../api/Contraordenacao";
 import { CarregarCombosApreensaoDocumento, MotivosApreensao } from "../../../../model/documentoapreendido";
+import CardListItem from "../../../CardListItem";
 import NumeroDocumento from "../../../NumeroDocumento/NumeroDocumento";
 
 interface IProps {
@@ -814,6 +815,53 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                 </IonHeader>
 
                 <IonContent>
+
+                    {/* Informação do IMT */}
+                    <IonCard style={{ margin: 30 }}>
+
+                        <IonCardHeader>
+                            <IonCardTitle>Elementos identificadores
+                            </IonCardTitle>
+                        </IonCardHeader>
+
+                        <IonCardContent>
+
+                            <IonGrid>
+                                <div style={{ fontWeight: 'bold', fontSize: 18 }}>Local de Infração</div>
+                                <CardListItem
+                                    c1={{ titulo: 'Distrito', valor: 'null' }}
+                                    c2={{ titulo: 'Concelho', valor: 'null' }}
+                                    c3={{ titulo: 'Freguesia', valor: 'null' }}
+                                />
+
+                                <CardListItem
+                                    c1={{ titulo: 'Localidade', valor: 'null' }}
+                                    c2={{ titulo: 'Tipo Local', valor: 'null' }}
+                                    c3={{ titulo: 'Zona / Bairro', valor: 'null' }}
+                                />
+
+                                <CardListItem
+                                    c1={{ titulo: 'Tipo de Via', valor: 'null' }}
+                                    c2={{ titulo: 'Arruamento / Via', valor: 'null' }}
+                                    c3={{ titulo: 'N° Polícia / KM', valor: 'null' }}
+                                />
+
+                                <div style={{ fontWeight: 'bold', fontSize: 18, marginTop: 30 }}>Dados de identificação do examinado</div>
+                                <CardListItem
+                                    c1={{ titulo: 'Data de Nascimento', valor: 'null' }}
+                                    c2={{ titulo: 'Sexo', valor: 'null' }}
+                                />
+
+                                <div style={{ fontWeight: 'bold', fontSize: 18, marginTop: 30 }}>Dados de identificação do Veículo</div>
+                                <CardListItem
+                                    c1={{ titulo: 'Tipo de Veículo', valor: 'null' }}
+                                    c2={{ titulo: 'Matrícula', valor: 'null' }}
+                                />
+                            </IonGrid>
+
+                        </IonCardContent>
+                    </IonCard>
+                    {/* Informação do IMT */}
 
                     {/* Número de Documentos */}
                     <IonCard style={{ margin: 30 }}>
