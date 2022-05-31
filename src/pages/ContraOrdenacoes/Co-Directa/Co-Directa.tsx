@@ -1,20 +1,23 @@
 import {
     IonCol, IonContent, IonGrid, IonPage, IonRow, IonSegment, IonSegmentButton, IonToolbar, useIonAlert, useIonLoading,
 } from '@ionic/react';
-import {useState} from 'react';
+import { useState } from 'react';
 import './Co-Directa.scss';
 import Menu from '../../../components/Menu/Menu';
 import React from 'react';
 // import ReactPDF, {BlobProvider, pdf, PDFDownloadLink } from '@react-pdf/renderer';
 import Intervenientes from '../../../components/Contra-Ordenacoes/Intervenientes/Intervenientes';
-import {MenuActionsBtnSave} from '../../../components/Contra-Ordenacoes/MenuActionsBtn';
+import { MenuActionsBtnSave } from '../../../components/Contra-Ordenacoes/MenuActionsBtn';
 import DadosInfracao from '../../../components/Contra-Ordenacoes/DadosInfracao/DadosInfracao';
 import DadosComplementares from '../../../components/Contra-Ordenacoes/DadosComplementares/DadosComplementares';
-
-import {useHistory} from 'react-router';
-import {Contraordenacao} from '../../../api/Contraordenacao';
-import {ICoDirecta} from '../../../model/contraordenacao';
-
+import { useHistory } from 'react-router';
+import { Contraordenacao } from '../../../api/Contraordenacao';
+import { ICoDirecta } from '../../../model/contraordenacao';
+import { useAppSelector, useAppDispatch } from '../../../app/hooks';
+import { getInputValidations_LocalInfraccao, setInputValidation_LocalInfraccao } from '../../../Validations/Contra-Ordenacoes/InputValidationsSlice_LocalInfraccao';
+import { getInputValidations_Infraccao, setInputValidation_Infraccao } from '../../../Validations/Contra-Ordenacoes/InputValidationsSlice_Infraccao';
+import { schema_localInfraccao, schema_arruamento, schema_concelho, schema_distrito, schema_freguesia, schema_localidade, schema_tipo } from '../../../Validations/Contra-Ordenacoes/LocalInfraccao';
+import { schema_comarca, schema_descricaoSumaria, schema_entidade, schema_infraccao, schema_subTipificacaoDaInfraccao, schema_tipificacaoDaInfraccao } from '../../../Validations/Contra-Ordenacoes/Infraccao';
 
 const instanceCoDirecta = new Contraordenacao();
 
@@ -196,7 +199,6 @@ const handlerCoDirectaRequestData = (data: any): ICoDirecta => {
 
 const CoDirecta: React.FC = () => {
 
-
     const [presentLoad, dismissLoad] = useIonLoading();
     const [presentAlert] = useIonAlert();
 
@@ -205,16 +207,94 @@ const CoDirecta: React.FC = () => {
     const [coDirecta, setCoDirecta] = useState<any>();
     const [coSaved, setCoSaved] = useState<any>({});
     const [isCOSaved, setIsCOSaved] = useState(false);
+    const dispatch = useAppDispatch();
+    const inputValidations_LocalInfraccao = useAppSelector(getInputValidations_LocalInfraccao);
+    const inputValidations_Infraccao = useAppSelector(getInputValidations_Infraccao);
 
     const handlerSegment = (e: any) => {
         setActiveSegment(e.detail.value);
     }
-
     const onSave = (e: any) => {
+
+        // valida [Local infraccao]
+
+        let localInfracaoData = coDirecta.localInfracaoData;
+
+        let distrito_isValid = schema_distrito.isValidSync(localInfracaoData.distrito)
+        let concelho_isValid = schema_concelho.isValidSync(localInfracaoData.concelho)
+        let freguesia_isValid = schema_freguesia.isValidSync(localInfracaoData.freguesia)
+        let localidade_isValid = schema_localidade.isValidSync(localInfracaoData.localidade)
+        let tipo_isValid = schema_tipo.isValidSync(localInfracaoData.tipo)
+        let arruamento_isValid = schema_arruamento.isValidSync(localInfracaoData.arruamento)
+
+        let localInfraccao_isValid = schema_localInfraccao.isValidSync({
+            distrito: localInfracaoData.distrito,
+            concelho: localInfracaoData.concelho,
+            freguesia: localInfracaoData.freguesia,
+            localidade: localInfracaoData.localidade,
+            tipo: localInfracaoData.tipo,
+            arruamento: localInfracaoData.arruamento
+        });
+
+
+        dispatch(setInputValidation_LocalInfraccao(
+            {
+                ...inputValidations_LocalInfraccao,
+                distrito_isValid: distrito_isValid,
+                concelho_isValid: concelho_isValid,
+                freguesia_isValid: freguesia_isValid,
+                localidade_isValid: localidade_isValid,
+                tipo_isValid: tipo_isValid,
+                arruamento_isValid: arruamento_isValid,
+            }
+        ));
+
+        if (!localInfraccao_isValid) {
+
+            console.error('dados incorrectos no local infraccao!');
+
+            return;
+        }
+
+        // valida [infraccao]
+
+        let infracaoData = coDirecta.infracaoData;
+
+        let comarca_isValid = schema_comarca.isValidSync(infracaoData.comarca)
+        let entidade_isValid = schema_entidade.isValidSync(infracaoData.entidade)
+        let tipificacaoInfraccao_isValid = schema_tipificacaoDaInfraccao.isValidSync(infracaoData.tipificacao)
+        let subtipificacao_isValid = schema_subTipificacaoDaInfraccao.isValidSync(infracaoData.subtipoInfracao)
+        let descricaoSumaria_isValid = schema_descricaoSumaria.isValidSync(infracaoData.descricaoSumaria)
+
+        let infraccao_isValid = schema_infraccao.isValidSync({
+            comarca: infracaoData.comarca,
+            entidade: infracaoData.entidade,
+            tipificacaoDaInfraccao: infracaoData.tipificacao,
+            subTipificacaoDaInfraccao: infracaoData.subtipoInfracao,
+            descricaoSumaria: infracaoData.descricaoSumaria,
+        });
+
+        dispatch(setInputValidation_Infraccao(
+            {
+                ...inputValidations_Infraccao,
+                comarca_isValid: comarca_isValid,
+                entidade_isValid: entidade_isValid,
+                tipificacaoInfraccao_isValid: tipificacaoInfraccao_isValid,
+                subtipificacao_isValid: subtipificacao_isValid,
+                descricaoSumaria_isValid: descricaoSumaria_isValid,
+            }
+        ));
+
+        if (!infraccao_isValid) {
+
+            console.error('dados incorrectos na infraccao!');
+
+            return;
+        }
+
         presentLoad({
             message: 'A guardar...',
         })
-
 
         instanceCoDirecta.guardarCODirectaGeneric(handlerCoDirectaRequestData(coDirecta)).then((responseData) => {
 
@@ -224,7 +304,7 @@ const CoDirecta: React.FC = () => {
                 header: 'Sucesso!',
                 message: 'Contraordenação guardada com sucesso!',
                 buttons: [
-                    {text: 'Fechar'},
+                    { text: 'Fechar' },
                 ]
             })
             setIsCOSaved(true);
@@ -236,14 +316,13 @@ const CoDirecta: React.FC = () => {
                 header: 'Error!',
                 message: 'Houve algum erro ao gravar!',
                 buttons: [
-                    {text: 'Fechar'},
+                    { text: 'Fechar' },
                 ]
             })
 
         }).finally(() => {
             dismissLoad();
         })
-
     }
 
     const onEmit = (e: any) => {
@@ -263,12 +342,12 @@ const CoDirecta: React.FC = () => {
                 onEmit(e);
             }} onSave={(e: any) => {
                 onSave(e)
-            }}/>}/>
+            }} />} />
             <IonContent className="contraordenacao" fullscreen={true}>
 
-                <IonGrid id="gridGeral" style={{marginBottom: 40}}>
+                <IonGrid id="gridGeral" style={{ marginBottom: 40 }}>
 
-                    <IonRow style={{marginBottom: 40, marginLeft: 10}}>
+                    <IonRow style={{ marginBottom: 40, marginLeft: 10 }}>
                         <IonCol size="12">
                             <h1>Registo de Contraordenações Diretas</h1>
                             <p>Registo de Contraordenações Diretas</p>
