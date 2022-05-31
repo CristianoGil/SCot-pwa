@@ -10,7 +10,6 @@ import Intervenientes from '../../../components/Contra-Ordenacoes/Intervenientes
 import { MenuActionsBtnSave } from '../../../components/Contra-Ordenacoes/MenuActionsBtn';
 import DadosInfracao from '../../../components/Contra-Ordenacoes/DadosInfracao/DadosInfracao';
 import DadosComplementares from '../../../components/Contra-Ordenacoes/DadosComplementares/DadosComplementares';
-
 import { useHistory } from 'react-router';
 import { Contraordenacao } from '../../../api/Contraordenacao';
 import { ICoDirecta } from '../../../model/contraordenacao';
