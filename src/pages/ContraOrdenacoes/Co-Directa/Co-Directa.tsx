@@ -268,11 +268,11 @@ const CoDirecta: React.FC = () => {
         let descricaoSumaria_isValid = schema_descricaoSumaria.isValidSync(infracaoData.descricaoSumaria)
 
         let infraccao_isValid = schema_infraccao.isValidSync({
-            distrito: infracaoData.comarca,
-            concelho: infracaoData.entidade,
-            freguesia: infracaoData.tipificacao,
-            localidade: infracaoData.subtipoInfracao,
-            tipo: infracaoData.descricaoSumaria,
+            comarca: infracaoData.comarca,
+            entidade: infracaoData.entidade,
+            tipificacaoDaInfraccao: infracaoData.tipificacao,
+            subTipificacaoDaInfraccao: infracaoData.subtipoInfracao,
+            descricaoSumaria: infracaoData.descricaoSumaria,
         });
 
         dispatch(setInputValidation_Infraccao(
