@@ -33,6 +33,7 @@ import Assinatura from "../../../api/Assinatura";
 import {Document} from 'react-pdf';
 import {useParams} from "react-router";
 import {handlePDFData} from "../../../app/handlePDFData";
+import {ICoDirecta} from "../../../model/contraordenacao";
 
 const assinaturaManuscrito = 'Manuscrito';
 const assinaturaQualificada = 'Qualificada';
@@ -64,19 +65,16 @@ const CODirectaSignPDFPreview: React.FC = () => {
 
     // @ts-ignore
     let {coData} = useParams();
-
+    let coDataPDF = {};
     if (!_.isEmpty(coData) && _.isString(coData)) {
 
         try {
-            coData = JSON.parse(decodeURIComponent(coData));
+            coData = JSON.parse(decodeURIComponent(coData)) as unknown as ICoDirecta;
         } catch (e) {
             console.log("error parse json: ", e)
         }
-
         // Prepara a imformacao para preencher o pdf
-        coData = handlePDFData(coData);
-
-
+        coDataPDF = handlePDFData(coData);
     }
 
     const [presentLoad, dismissLoad] = useIonLoading();
@@ -324,6 +322,14 @@ const CODirectaSignPDFPreview: React.FC = () => {
     const [assinaturaQualificadaArguido, setAssinaturaQualificadaArguido] = useState<string | ArrayBuffer | undefined>()
     const [assinaturaQualificadaTestemunha_1, setAssinaturaQualificadaTestemunha_1] = useState<string | ArrayBuffer | undefined>()
     const [assinaturaQualificadaTestemunha_2, setAssinaturaQualificadaTestemunha_2] = useState<string | ArrayBuffer | undefined>()
+    let chaveMovelAgente: string | undefined;
+    let chaveMovelArguido: string | undefined;
+    let chaveMovelTestemunha_1: string | undefined;
+    let chaveMovelTestemunha_2: string | undefined;
+    let formatoAssinaturaQualificadaAgente: string;
+    let formatoAssinaturaQualificadaArguido;
+    let formatoAssinaturaQualificadaTestemunha_1: string;
+    let formatoAssinaturaQualificadaTestemunha_2: string;
     const handlerAssinaturaQualificada = async (formatoAssinaturaQualificada: any, whoIsSigningQualificada: string, chaveDigitalPhoneNumber?: string) => {
         dismissLoad();
         if (!_.isEmpty(formatoAssinaturaQualificada)) {
@@ -362,12 +368,20 @@ const CODirectaSignPDFPreview: React.FC = () => {
                     if (responseData) {
                         const _signedPdf = responseData.pdf;
                         if (whoIsSigningQualificada === 'arguido') {
+                            chaveMovelArguido = chaveDigitalPhoneNumber;
+                            formatoAssinaturaQualificadaArguido = formatoAssinatura;
                             setAssinaturaQualificadaArguido(_signedPdf);
                         } else if (whoIsSigningQualificada === 'testemunha1') {
+                            chaveMovelTestemunha_1 = chaveDigitalPhoneNumber;
+                            formatoAssinaturaQualificadaTestemunha_1 = formatoAssinatura;
                             setAssinaturaQualificadaTestemunha_1(_signedPdf)
                         } else if (whoIsSigningQualificada === 'testemunha2') {
+                            chaveMovelTestemunha_2 = chaveDigitalPhoneNumber;
+                            formatoAssinaturaQualificadaTestemunha_2 = formatoAssinatura;
                             setAssinaturaQualificadaTestemunha_2(_signedPdf)
                         } else if (whoIsSigningQualificada === 'agente') {
+                            chaveMovelAgente = chaveDigitalPhoneNumber;
+                            formatoAssinaturaQualificadaAgente = formatoAssinatura;
                             setAssinaturaQualificadaAgente(_signedPdf);
                         }
 
@@ -487,7 +501,6 @@ const CODirectaSignPDFPreview: React.FC = () => {
         }
     }
 
-
     const onPrint = async (e: any) => {
 
 
@@ -518,13 +531,144 @@ const CODirectaSignPDFPreview: React.FC = () => {
 
     }
 
+    const onSave = async (e: any) => {
+
+        if (!_.isObject(coData)) {
+            await presentAlert({
+                header: 'Erro!',
+                message: 'Algo deu errado',
+                buttons: [
+                    {text: 'Compreendi'},
+                ]
+            })
+
+            return
+        }
+
+        if (_.isEmpty(PDF_BLOB_SIGNED)) {
+            // Em caso em que a assinatura foi manuscrita e conter pelo menos a assinatura
+            if (assinaturaManuscritaAgente) {
+
+                await presentLoad({
+                    message: 'A gerar o PDF... isto pode demorar!',
+                })
+
+                try {
+
+                    const base64PDF = await getPDFBase64_HTML();
+                    SET_PDF_BLOB_SIGNED(base64PDF.replace(/^data:application\/[a-z]+;base64,/, ""));
+
+                } catch (e: any) {
+                    presentAlert({
+                        header: 'Erro!',
+                        subHeader: e.message,
+                        message: 'Ocorreu um erro ao gerar o PDF. Tente novamente mais tarde e se o problema persistir reinicie o aplicativo.',
+                        buttons: [
+                            {text: 'Fechar'},
+                        ]
+                    })
+                    console.log(e)
+                } finally {
+                    dismissLoad();
+                }
+
+            } else {
+                presentAlert({
+                    header: 'Erro!',
+                    message: 'A CO deve conter pelo menos a assinatura do agente',
+                    buttons: [
+                        {text: 'Fechar'},
+                    ]
+                })
+
+                return
+            }
+
+        }
+
+
+        await presentLoad({
+            message: 'A Guardar a CO...!',
+        })
+
+        //assinatura agente
+        if (tipoAssinaturaAgente) {
+            coData.tipoAssinaturaOpcaoAgente = tipoAssinaturaAgente
+        }
+        if (formatoAssinaturaQualificadaAgente) {
+            coData.tipoAssinaturaFormatoAgente = formatoAssinaturaQualificadaAgente
+        }
+
+        if (chaveMovelAgente) {
+            coData.chaveMovelAgente = chaveMovelAgente
+        }
+
+        if (assinaturaManuscritaAgente) {
+            coData.base64AssinaturaManuscritoAgente = assinaturaManuscritaAgente
+        }
+
+
+        // assinatura arguido
+        coData.arguidoNaoAssinouNotificacao = arguidoNaoAssinouNotificacao
+
+        if (tipoAssinaturaArguido) {
+            coData.tipoAssinaturaOpcaoArguido = tipoAssinaturaArguido
+        }
+
+        if (chaveMovelArguido) {
+            coData.chaveMovelArguido = chaveMovelArguido
+        }
+
+        if (assinaturaPapelArguido) {
+            coData.base64AssinaturaManuscritoArguido = assinaturaPapelArguido
+        }
+
+
+        //assinatura testemunha 1
+
+        if (tipoAssinaturaTestemunha_1) {
+            coData.tipoAssinaturaOpcaoTestemunha1 = tipoAssinaturaTestemunha_1
+        }
+
+        if (chaveMovelTestemunha_1) {
+            coData.chaveMovelTestemunha1 = chaveMovelTestemunha_1
+        }
+
+        if (formatoAssinaturaQualificadaTestemunha_1) {
+            coData.tipoAssinaturaFormatoTestemunha1 = formatoAssinaturaQualificadaTestemunha_1
+        }
+
+        //assinatura testemunha 2
+
+        if (tipoAssinaturaTestemunha_2) {
+            coData.tipoAssinaturaOpcaoTestemunha2 = tipoAssinaturaTestemunha_2
+        }
+
+        if (chaveMovelTestemunha_2) {
+            coData.chaveMovelTestemunha2 = chaveMovelTestemunha_2
+        }
+
+        if (formatoAssinaturaQualificadaTestemunha_2) {
+            coData.tipoAssinaturaFormatoTestemunha2 = formatoAssinaturaQualificadaTestemunha_2
+        }
+
+        coData.base64Assinatura = PDF_BLOB_SIGNED;
+
+
+        console.log("coData: ", coData)
+
+
+        setTimeout(()=>{
+            dismissLoad();
+        },1000)
+    }
     return (
         <IonPage>
             <Menu actionsCOBtn={<MenuActionsBtnSignPDF onSignPdf={(e: any) => {
                 requestSignatures(e)
             }} onPrint={(e: any) => {
                 onPrint(e)
-            }}/>}/>
+            }} onSaveSignedPDF={onSave}/>}/>
 
             <a id={"downloadPDFAnchor"} href="" download="" style={{
                 position: "fixed",
@@ -540,7 +684,7 @@ const CODirectaSignPDFPreview: React.FC = () => {
                     <object data={`data:application/pdf;base64,${PDF_BLOB_SIGNED}`}
                             style={{overflow: "hidden", minHeight: "100%", width: "100vw"}}></object>
                     :
-                    <CoDirectaTemplateMarkup coData={coData}
+                    <CoDirectaTemplateMarkup coData={coDataPDF}
                                              assinaturaArguido={assinaturaManuscritaArguido}
                                              assinaturaTestemunha_1={assinaturaManuscritaTestemunha_1}
                                              assinaturaTestemunha_2={assinaturaManuscritaTestemunha_2}
@@ -571,7 +715,7 @@ const CODirectaSignPDFPreview: React.FC = () => {
                             setOpenPopoverSignatures(false);
 
                         }}>
-                            Fechar
+                            Terminar
                         </IonButton>
 
                     </IonToolbar>
