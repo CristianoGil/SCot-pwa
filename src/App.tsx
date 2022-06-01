@@ -1,11 +1,12 @@
-import { Redirect, Route } from 'react-router-dom';
+import {Redirect, Route, useHistory, useParams} from 'react-router-dom';
 import {
     IonApp,
     IonRouterOutlet,
     setupIonicReact,
 
 } from '@ionic/react';
-import { IonReactRouter } from '@ionic/react-router';
+
+import {IonReactRouter} from '@ionic/react-router';
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
 
@@ -28,9 +29,9 @@ import './App.css';
 
 import Login from './pages/Login/Login';
 import Dashboard from './pages/Dashboard/Dashboard';
-import { useContext, useEffect, useState } from 'react';
-import { IResponseLogin } from './model/login';
-import { UserContext } from './Context/UserContext';
+import {useContext, useEffect, useState} from 'react';
+import {IResponseLogin} from './model/login';
+import {UserContext} from './Context/UserContext';
 import CoIndirecta from './pages/ContraOrdenacoes/Co-Indirecta/Co-Indirecta';
 import CoDirecta from './pages/ContraOrdenacoes/Co-Directa/Co-Directa';
 import Pessoa from './pages/RI-Catalogo/Pessoa/Pessoa';
@@ -43,19 +44,23 @@ import EmissaoApresentacaoDocumentos from './pages/EmissaoApresentacaoDocumentos
 import EmissaoApreensaoVeiculo from './pages/EmissaoApreensaoVeiculo/EmissaoApreensaoVeiculo';
 import EmissaoTesteAlcoolemia from './pages/EmissaoTesteAlcoolemia/EmissaoTesteAlcoolemia';
 import CODirectaSignPDFPreview from './pages/ContraOrdenacoes/Co-Directa/CO-SignPDFPreview';
+import React from 'react';
 
 interface IProtectedProps {
     isAllowed: boolean
-    redirectPath?: string
     children: any
 }
 
-const ProtectedRoute: React.FC<IProtectedProps> = ({ isAllowed = false, redirectPath = '/login', children }) => {
-    if (!isAllowed) {
-        return <Redirect exact to={redirectPath} />;
-    }
+const ProtectedRoute: React.FC<IProtectedProps> = (props) => {
+    const history = useHistory()
 
-    return children
+    const {isAllowed = false, children} = props;
+
+    if (!isAllowed) {
+        history.replace("/login")
+        return (<Login/>)
+    }
+    return (children)
 };
 
 
@@ -70,67 +75,91 @@ const App: React.FC = () => {
             <IonReactRouter>
                 <IonRouterOutlet>
 
-                    {/*<ProtectedRoute isAllowed={userContext.isAuthenticated()}>*/}
+
                     <Route path={"/dashboard"} exact={true}>
-                        <Dashboard />
+                        <ProtectedRoute isAllowed={userContext.isAuthenticated()}>
+                            <Dashboard/>
+                        </ProtectedRoute>
                     </Route>
-                    {/*</ProtectedRoute>*/}
-
-                    {/*<ProtectedRoute isAllowed={userContext.isAuthenticated()}>*/}
                     <Route path={"/coDirecta"} exact={true}>
-                        <CoDirecta />
+                        <ProtectedRoute isAllowed={userContext.isAuthenticated()}>
+                            <CoDirecta/>
+                        </ProtectedRoute>
                     </Route>
 
-                    <Route path={"/CODirectaSignPDFPreview/:coData"}  exact={true}>
-                        <CODirectaSignPDFPreview />
-                    </Route>
-                    {/*</ProtectedRoute>*/}
-
-                    <Route path={"/coIndirecta"} exact={true}>
-                        <CoIndirecta />
-                    </Route>
-
-                    <Route path={"/login"} exact={true}>
-                        <Login />
-                    </Route>
-                    <Redirect exact from="/" to="/dashboard" />
 
                     <Route path={"/pessoa"} exact={true}>
-                        <Pessoa />
+                        <ProtectedRoute isAllowed={userContext.isAuthenticated()}>
+                            <Pessoa/>
+                        </ProtectedRoute>
                     </Route>
 
                     <Route path={"/veiculo"} exact={true}>
-                        <Veiculo />
+                        <ProtectedRoute isAllowed={userContext.isAuthenticated()}>
+                            <Veiculo/>
+                        </ProtectedRoute>
                     </Route>
 
                     <Route path={"/organizacao"} exact={true}>
-                        <Organizacao />
+                        <ProtectedRoute isAllowed={userContext.isAuthenticated()}>
+                            <Organizacao/>
+                        </ProtectedRoute>
                     </Route>
 
                     <Route path={"/local"} exact={true}>
-                        <Local />
+                        <ProtectedRoute isAllowed={userContext.isAuthenticated()}>
+                            <Local/>
+                        </ProtectedRoute>
                     </Route>
 
                     <Route path={"/documento"} exact={true}>
-                        <Documento />
+                        <ProtectedRoute isAllowed={userContext.isAuthenticated()}>
+                            <Documento/>
+                        </ProtectedRoute>
                     </Route>
 
                     <Route path={"/emissaoApreensaoDocumentos"} exact={true}>
-                        <EmissaoApreensaoDocumentos />
+                        <ProtectedRoute isAllowed={userContext.isAuthenticated()}>
+                            <EmissaoApreensaoDocumentos/>
+                        </ProtectedRoute>
                     </Route>
 
                     <Route path={"/emissaoApresentacaoDocumentos"} exact={true}>
-                        <EmissaoApresentacaoDocumentos />
+                        <ProtectedRoute isAllowed={userContext.isAuthenticated()}>
+                            <EmissaoApresentacaoDocumentos/>
+                        </ProtectedRoute>
                     </Route>
 
                     <Route path={"/emissaoApreensaoVeiculo"} exact={true}>
-                        <EmissaoApreensaoVeiculo />
+                        <ProtectedRoute isAllowed={userContext.isAuthenticated()}>
+                            <EmissaoApreensaoVeiculo/>
+                        </ProtectedRoute>
                     </Route>
 
                     <Route path={"/emissaoTesteAlcoolemia"} exact={true}>
-                        <EmissaoTesteAlcoolemia />
+                        <ProtectedRoute isAllowed={userContext.isAuthenticated()}>
+                            <EmissaoTesteAlcoolemia/>
+                        </ProtectedRoute>
                     </Route>
 
+
+                    <Route path={"/CODirectaSignPDFPreview/:coData"} exact={true}>
+                        <ProtectedRoute isAllowed={userContext.isAuthenticated()}>
+                            <CODirectaSignPDFPreview/>
+                        </ProtectedRoute>
+                    </Route>
+
+                    <Route path={"/coIndirecta"} exact={true}>
+                        <ProtectedRoute isAllowed={userContext.isAuthenticated()}>
+                            <CoIndirecta/>
+                        </ProtectedRoute>
+                    </Route>
+
+                    <Route path={"/login"} exact={true}>
+                        <Login/>
+                    </Route>
+
+                    <Redirect exact from="/" to="/dashboard"/>
 
                 </IonRouterOutlet>
             </IonReactRouter>
