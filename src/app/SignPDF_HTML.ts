@@ -29,14 +29,24 @@ export const generatePDF_HTML = (): Promise<any> => {
                 pagesNumber--;
 
                 try {
-
-                    const width = pdf.internal.pageSize.getWidth();
+                    let x = 0;
+                    let width = pdf.internal.pageSize.getWidth();
                     const height = pdf.internal.pageSize.getHeight();
 
                     const canvas = await createCanvas(page);
 
-                    const imgData = canvas.toDataURL('image/JPEG', 1);
-                    pdf.addImage(imgData, 'PNG', 0, 0, width, height);
+                    const imgData = canvas.toDataURL('image/JPEG');
+
+                    // console.log("width: ", width)
+                    // console.log("height: ", height)
+                    // console.log(imgData)
+                    // console.log(page.id)
+                    // console.log("========================")
+                    if(page.id === "CO_DIRECTA_JR_PAGE_ANCHOR_0_2") {
+                        width = width - 65;
+                        x = 32.5
+                    }
+                        pdf.addImage(imgData, 'PNG', x, 0, width, height);
 
                     if (pagesNumber >= 1) {
                         pdf.addPage('a4');

@@ -129,13 +129,17 @@ export class Contraordenacao {
     public guardarCODirecta(requestData: ICoDirecta): Promise<ICoDirecta | null> {
         return new Promise((resolve, reject) => {
 
-            const service_url = 'salvarContraOrdenacao';
-            this.connectPostAPI(`${this.prefix_url}/${service_url}`, {contraOrdenacao: requestData}).then((response) => {
-                resolve(response.data as unknown as ICoDirecta);
-            }).catch((error: AxiosError) => {
-                console.error(`${this.prefix_url}/${service_url}:`, error)
-                reject(error)
-            })
+            // const service_url = 'salvarContraOrdenacao';
+            // this.connectPostAPI(`${this.prefix_url}/${service_url}`, {contraOrdenacao: requestData}).then((response) => {
+            //     resolve(response.data as unknown as ICoDirecta);
+            // }).catch((error: AxiosError) => {
+            //     console.error(`${this.prefix_url}/${service_url}:`, error)
+            //     reject(error)
+            // })
+
+            setTimeout(()=> {
+                resolve(requestData)
+            },2000)
 
         })
     }

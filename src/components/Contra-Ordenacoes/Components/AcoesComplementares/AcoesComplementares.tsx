@@ -1,4 +1,4 @@
-import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCheckbox, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonListHeader, IonPopover, IonRadio, IonRadioGroup, IonRow, IonSegment, IonSegmentButton, IonSelect, IonSelectOption, IonToolbar } from "@ionic/react";
+import { IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCheckbox, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonListHeader, IonPopover, IonRadio, IonRadioGroup, IonRow, IonSegment, IonSegmentButton, IonSelect, IonSelectOption, IonToolbar } from "@ionic/react";
 import { open, trash, remove, bookOutline } from "ionicons/icons";
 import { resolve } from "path";
 import React from "react";
@@ -804,20 +804,14 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                             </h1>
                         </IonLabel>
 
-                        <IonButton className="btn-use-data" fill="outline" color="primary" slot="end"
-                            onClick={() => { }}
-                        >
-                            EMITIR
+                        <IonButton className="btn-catalogo" fill="solid" color="primary" slot="end">
+                            ADICIONAR
                         </IonButton>
 
-                        <IonButton className="btn-catalogo" fill="outline" color="medium" slot="end">
-                            IMPRIMIR <IonIcon slot="start" icon={bookOutline} />
-                        </IonButton>
-
-                        <IonButton className="btn-close" fill="outline" color="danger" slot="end" onClick={() => {
+                        <IonButton className="btn-close" fill="solid" color="danger" slot="end" onClick={() => {
                             setOpenPopoverFichaControladorData(false);
                         }}>
-                            CANCELAR
+                            VOLTAR
                         </IonButton>
 
                     </IonToolbar>
@@ -826,210 +820,678 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                 <IonContent>
 
 
-                    {/* START: Morada  */}
+                    {/* START: Ficha de controlador  */}
                     <IonCard style={{ margin: 30 }}>
-                        <IonGrid>
-                            <IonRow>
-                                <IonCol size-sm="12" size-md="12" size-lg="8">
-                                    <IonToolbar>
-                                        <IonSegment slot="start"
-                                            onIonChange={(e: any) => setActiveSegment(e.detail.value)}
-                                            value={activeSegment}>
-                                            <IonSegmentButton value="dadosGerais">Morada</IonSegmentButton>
-                                            <IonSegmentButton value="alcool">Álcool</IonSegmentButton>
-                                            <IonSegmentButton value="estupefacientes_outrosPsicotropicos">Estupefacientes e/ou outros psictrópicos</IonSegmentButton>
 
-                                        </IonSegment>
-                                    </IonToolbar>
-                                </IonCol>
-                            </IonRow>
-                        </IonGrid>
+                        <IonCardHeader style={{ padding: 0 }}>
+                            <IonGrid style={{ padding: 0 }}>
+                                <IonRow>
+                                    <IonCol size-sm="12" size-md="12" size-lg="8">
+                                        <IonToolbar>
+                                            <IonSegment slot="start"
+                                                onIonChange={(e: any) => setActiveSegment(e.detail.value)}
+                                                value={activeSegment}>
+                                                <IonSegmentButton value="dadosGerais">Dados gerais</IonSegmentButton>
+                                                <IonSegmentButton value="alcool">Álcool</IonSegmentButton>
+                                                <IonSegmentButton value="estupefacientes_outrosPsicotropicos">Estupefacientes e/ou outros psictrópicos</IonSegmentButton>
 
-                        <IonGrid>
-                            <IonRow>
-                                <IonCol size-sm='12' size-md='12' size-lg='4' style={{ marginTop: 16 }}>
-                                    <DatePicker inputName={'unidade-data_horaInfraccao'} textLabel="Data/Hora *" setSelected={setDataHora}
-                                        selected={dataHora} />
-                                </IonCol>
-                                <IonCol size-sm='12' size-md='12' size-lg='4' style={{ marginTop: 16 }}>
-                                    <DatePicker inputName={'unidade-data_horaInfraccao'} textLabel="Data de última atualização" setSelected={setDataUltimaAtualizacao}
-                                        selected={dataUltimaAtualizacao} />
-                                </IonCol>
-                                <IonCol size-sm='12' size-md='12' size-lg='4' style={{ marginTop: 16 }}>
-                                    <IonItem lines='none'>
-                                        <div>
-                                            <small>ID Terminal</small><br />
-                                            <strong>null</strong>
-                                        </div>
-                                    </IonItem>
-                                </IonCol>
-                            </IonRow>
+                                            </IonSegment>
+                                        </IonToolbar>
+                                    </IonCol>
+                                </IonRow>
+                            </IonGrid>
+                        </IonCardHeader>
 
-                            <IonRow>
-                                <IonCol size-sm='12' size-md='12' size-lg='6' style={{ marginTop: 16 }}>
-
-                                    <IonRadioGroup value={selectedAutuado_Testemunha}
-                                        onIonChange={e => setSelectedAutuado_Testemunha(e.detail.value)}>
-
-                                        <IonRow>
-                                            <IonCol size='12'>
-                                                <IonListHeader>
-                                                    <IonLabel>
-                                                        Qualidade
-                                                    </IonLabel>
-                                                </IonListHeader>
-                                            </IonCol>
-                                            <IonCol size='6'>
-                                                <IonItem
-                                                    lines='none'
-                                                    className="infoAdicionais-domicilio-radio radio-item">
-                                                    <IonRadio value="fiscal" />
-                                                    <IonLabel className="radioBox">Autuado</IonLabel>
-                                                </IonItem>
-                                            </IonCol>
-                                            <IonCol size='6'>
-                                                <IonItem
-                                                    lines='none'
-                                                    className="infoAdicionais-domicilio-radio radio-item">
-                                                    <IonRadio value="outro" />
-                                                    <IonLabel className="radioBox">Testemunha</IonLabel>
-                                                </IonItem>
-                                            </IonCol>
-                                        </IonRow>
-                                    </IonRadioGroup>
-                                </IonCol>
-                                
-                            </IonRow>
-
-                            <IonRow>
-                                <IonCol size-sm='12' size-md='12' size-lg='12' style={{ marginTop: 16 }}>
-
-                                    <IonRadioGroup value={selectedAutuado_Testemunha}
-                                        onIonChange={e => setSelectedAutuado_Testemunha(e.detail.value)}>
-
-                                        <IonRow>
-                                            <IonCol size='12'>
-                                                <IonListHeader>
-                                                    <IonLabel>
-                                                        Ficha Controlador de *
-                                                    </IonLabel>
-                                                </IonListHeader>
-                                            </IonCol>
-                                            <IonCol size='3'>
-                                                <IonItem
-                                                    lines='none'
-                                                    className="infoAdicionais-domicilio-radio radio-item">
-                                                    <IonCheckbox value="fiscal" />
-                                                    <IonLabel className="radioBox">Álcool</IonLabel>
-                                                </IonItem>
-                                            </IonCol>
-                                            <IonCol size='9'>
-                                                <IonItem
-                                                    lines='none'
-                                                    className="infoAdicionais-domicilio-radio radio-item">
-                                                    <IonCheckbox value="outro" />
-                                                    <IonLabel className="radioBox">Estupefacientes e/ou outros psicotrópicos</IonLabel>
-                                                </IonItem>
-                                            </IonCol>
-                                        </IonRow>
-                                    </IonRadioGroup>
-                                </IonCol>
-
-                            </IonRow>
-
-                            <IonRow>
-                                <IonCol size-sm='12' size-md='12' size-lg='12' style={{ marginTop: 16 }}>
-
-                                    <IonRadioGroup value={selectedAutuado_Testemunha}
-                                        onIonChange={e => setSelectedAutuado_Testemunha(e.detail.value)}>
-
-                                        <IonRow>
-                                            <IonCol size='12'>
-                                                <IonListHeader>
-                                                    <IonLabel>
-                                                        Circunstâncias de exame álcool *
-                                                    </IonLabel>
-                                                </IonListHeader>
-                                            </IonCol>
-                                            <IonCol size='3'>
-                                                <IonItem
-                                                    lines='none'
-                                                    className="infoAdicionais-domicilio-radio radio-item">
-                                                    <IonRadio value="fiscal" />
-                                                    <IonLabel className="radioBox">Acidente</IonLabel>
-                                                </IonItem>
-                                            </IonCol>
-                                            <IonCol size='3'>
-                                                <IonItem
-                                                    lines='none'
-                                                    className="infoAdicionais-domicilio-radio radio-item">
-                                                    <IonRadio value="outro" />
-                                                    <IonLabel className="radioBox">Aletória</IonLabel>
-                                                </IonItem>
-                                            </IonCol>
-                                            <IonCol size='3'>
-                                                <IonItem
-                                                    lines='none'
-                                                    className="infoAdicionais-domicilio-radio radio-item">
-                                                    <IonRadio value="fiscal" />
-                                                    <IonLabel className="radioBox">Início de coondução</IonLabel>
-                                                </IonItem>
-                                            </IonCol>
-                                            <IonCol size='3'>
-                                                <IonItem
-                                                    lines='none'
-                                                    className="infoAdicionais-domicilio-radio radio-item">
-                                                    <IonRadio value="outro" />
-                                                    <IonLabel className="radioBox">Manobra irregular</IonLabel>
-                                                </IonItem>
-                                            </IonCol>
-                                        </IonRow>
-                                    </IonRadioGroup>
-                                </IonCol>
-
-                            </IonRow>
-
-                            <IonRow>
-                                <IonCol size-sm='12' size-md='12' size-lg='12' style={{ marginTop: 16 }}>
-
-                                    <IonRadioGroup value={selectedAutuado_Testemunha}
-                                        onIonChange={e => setSelectedAutuado_Testemunha(e.detail.value)}>
-
-                                        <IonRow>
-                                            <IonCol size='12'>
-                                                <IonListHeader>
-                                                    <IonLabel>
-                                                        Circunstância de exame estupefacientes e/ou outros psicotrópicos *
-                                                    </IonLabel>
-                                                </IonListHeader>
-                                            </IonCol>
-                                            <IonCol size='3'>
-                                                <IonItem
-                                                    lines='none'
-                                                    className="infoAdicionais-domicilio-radio radio-item">
-                                                    <IonRadio value="fiscal" />
-                                                    <IonLabel className="radioBox">Acidente</IonLabel>
-                                                </IonItem>
-                                            </IonCol>
-                                            <IonCol size='3'>
-                                                <IonItem
-                                                    lines='none'
-                                                    className="infoAdicionais-domicilio-radio radio-item">
-                                                    <IonRadio value="outro" />
-                                                    <IonLabel className="radioBox">Indicios</IonLabel>
-                                                </IonItem>
-                                            </IonCol>
-                                        </IonRow>
-                                    </IonRadioGroup>
-                                </IonCol>
-
-                            </IonRow>
-                        </IonGrid>
+                        <IonCardContent>
 
 
+                            {/*Dados gerais*/}
+                            <IonGrid className={activeSegment == "dadosGerais" ? "" : "ion-hide"}>
+                                <IonRow>
+                                    <IonCol size-sm='12' size-md='12' size-lg='4' style={{ marginTop: 16 }}>
+                                        <DatePicker inputName={'unidade-data_horaInfraccao'} textLabel="Data/Hora *" setSelected={setDataHora}
+                                            selected={dataHora} />
+                                    </IonCol>
+                                    <IonCol size-sm='12' size-md='12' size-lg='4' style={{ marginTop: 16 }}>
+                                        <DatePicker inputName={'unidade-data_horaInfraccao'} textLabel="Data de última atualização" setSelected={setDataUltimaAtualizacao}
+                                            selected={dataUltimaAtualizacao} />
+                                    </IonCol>
+                                    <IonCol size-sm='12' size-md='12' size-lg='4' style={{ marginTop: 16 }}>
+                                        <IonItem lines='none'>
+                                            <div>
+                                                <small>ID Terminal</small><br />
+                                                <strong>null</strong>
+                                            </div>
+                                        </IonItem>
+                                    </IonCol>
+                                </IonRow>
 
+                                <IonRow>
+                                    <IonCol size-sm='12' size-md='12' size-lg='6'>
+
+                                        <IonRadioGroup value={selectedAutuado_Testemunha}
+                                            onIonChange={e => setSelectedAutuado_Testemunha(e.detail.value)}>
+
+                                            <IonRow>
+                                                <IonCol size='12'>
+                                                    <IonListHeader>
+                                                        <IonLabel>
+                                                            Qualidade
+                                                        </IonLabel>
+                                                    </IonListHeader>
+                                                </IonCol>
+                                                <IonCol size='6'>
+                                                    <IonItem
+                                                        lines='none'
+                                                        className="infoAdicionais-domicilio-radio radio-item">
+                                                        <IonRadio value="fiscal" />
+                                                        <IonLabel className="radioBox">Autuado</IonLabel>
+                                                    </IonItem>
+                                                </IonCol>
+                                                <IonCol size='6'>
+                                                    <IonItem
+                                                        lines='none'
+                                                        className="infoAdicionais-domicilio-radio radio-item">
+                                                        <IonRadio value="outro" />
+                                                        <IonLabel className="radioBox">Testemunha</IonLabel>
+                                                    </IonItem>
+                                                </IonCol>
+                                            </IonRow>
+                                        </IonRadioGroup>
+                                    </IonCol>
+
+                                </IonRow>
+
+                                <IonRow>
+                                    <IonCol size-sm='12' size-md='12' size-lg='12'>
+
+                                        <IonRadioGroup value={selectedAutuado_Testemunha}
+                                            onIonChange={e => setSelectedAutuado_Testemunha(e.detail.value)}>
+
+                                            <IonRow>
+                                                <IonCol size='12'>
+                                                    <IonListHeader>
+                                                        <IonLabel>
+                                                            Ficha Controlador de *
+                                                        </IonLabel>
+                                                    </IonListHeader>
+                                                </IonCol>
+                                                <IonCol size='3'>
+                                                    <IonItem
+                                                        lines='none'
+                                                        className="infoAdicionais-domicilio-radio radio-item">
+                                                        <IonCheckbox value="fiscal" />
+                                                        <IonLabel className="radioBox">Álcool</IonLabel>
+                                                    </IonItem>
+                                                </IonCol>
+                                                <IonCol size='9'>
+                                                    <IonItem
+                                                        lines='none'
+                                                        className="infoAdicionais-domicilio-radio radio-item">
+                                                        <IonCheckbox value="outro" />
+                                                        <IonLabel className="radioBox">Estupefacientes e/ou outros psicotrópicos</IonLabel>
+                                                    </IonItem>
+                                                </IonCol>
+                                            </IonRow>
+                                        </IonRadioGroup>
+                                    </IonCol>
+
+                                </IonRow>
+
+                                <IonRow>
+                                    <IonCol size-sm='12' size-md='12' size-lg='12'>
+
+                                        <IonRadioGroup value={selectedAutuado_Testemunha}
+                                            onIonChange={e => setSelectedAutuado_Testemunha(e.detail.value)}>
+
+                                            <IonRow>
+                                                <IonCol size='12'>
+                                                    <IonListHeader>
+                                                        <IonLabel>
+                                                            Circunstâncias de exame álcool *
+                                                        </IonLabel>
+                                                    </IonListHeader>
+                                                </IonCol>
+                                                <IonCol size='3'>
+                                                    <IonItem
+                                                        lines='none'
+                                                        className="infoAdicionais-domicilio-radio radio-item">
+                                                        <IonRadio value="fiscal" />
+                                                        <IonLabel className="radioBox">Acidente</IonLabel>
+                                                    </IonItem>
+                                                </IonCol>
+                                                <IonCol size='3'>
+                                                    <IonItem
+                                                        lines='none'
+                                                        className="infoAdicionais-domicilio-radio radio-item">
+                                                        <IonRadio value="outro" />
+                                                        <IonLabel className="radioBox">Aletória</IonLabel>
+                                                    </IonItem>
+                                                </IonCol>
+                                                <IonCol size='3'>
+                                                    <IonItem
+                                                        lines='none'
+                                                        className="infoAdicionais-domicilio-radio radio-item">
+                                                        <IonRadio value="outro" />
+                                                        <IonLabel className="radioBox">Início de coondução</IonLabel>
+                                                    </IonItem>
+                                                </IonCol>
+                                                <IonCol size='3'>
+                                                    <IonItem
+                                                        lines='none'
+                                                        className="infoAdicionais-domicilio-radio radio-item">
+                                                        <IonRadio value="outro" />
+                                                        <IonLabel className="radioBox">Manobra irregular</IonLabel>
+                                                    </IonItem>
+                                                </IonCol>
+                                            </IonRow>
+                                        </IonRadioGroup>
+                                    </IonCol>
+
+                                </IonRow>
+
+                                <IonRow>
+                                    <IonCol size-sm='12' size-md='12' size-lg='12'>
+
+                                        <IonRadioGroup value={selectedAutuado_Testemunha}
+                                            onIonChange={e => setSelectedAutuado_Testemunha(e.detail.value)}>
+
+                                            <IonRow>
+                                                <IonCol size='12'>
+                                                    <IonListHeader>
+                                                        <IonLabel>
+                                                            Circunstância de exame estupefacientes e/ou outros psicotrópicos *
+                                                        </IonLabel>
+                                                    </IonListHeader>
+                                                </IonCol>
+                                                <IonCol size='3'>
+                                                    <IonItem
+                                                        lines='none'
+                                                        className="infoAdicionais-domicilio-radio radio-item">
+                                                        <IonRadio value="fiscal" />
+                                                        <IonLabel className="radioBox">Acidente</IonLabel>
+                                                    </IonItem>
+                                                </IonCol>
+                                                <IonCol size='3'>
+                                                    <IonItem
+                                                        lines='none'
+                                                        className="infoAdicionais-domicilio-radio radio-item">
+                                                        <IonRadio value="outro" />
+                                                        <IonLabel className="radioBox">Indicios</IonLabel>
+                                                    </IonItem>
+                                                </IonCol>
+                                            </IonRow>
+                                        </IonRadioGroup>
+                                    </IonCol>
+
+                                </IonRow>
+                                <IonRow>
+                                    <IonCol size-sm="12" size-md="12" size-lg="12" style={{ marginTop: 16 }}>
+                                        <IonItem lines='none'>
+                                            <IonButton className="btn-catalogo" fill="solid" color="primary" slot='end' onClick={() => {
+                                                setActiveSegment('alcool');
+                                            }}>
+                                                Seguinte
+                                            </IonButton>
+                                        </IonItem>
+                                    </IonCol>
+
+
+
+                                </IonRow>
+                            </IonGrid>
+                            {/*Dados gerais*/}
+
+                            {/*Álcool*/}
+                            <IonGrid className={activeSegment == "alcool" ? "" : "ion-hide"}>
+
+                                <IonRow>
+                                    <IonCol size-sm='12' size-md='12' size-lg='6'>
+
+                                        <IonRadioGroup value={selectedAutuado_Testemunha}
+                                            onIonChange={e => setSelectedAutuado_Testemunha(e.detail.value)}>
+
+                                            <IonRow>
+                                                <IonCol size='12'>
+                                                    <IonListHeader>
+                                                        <IonLabel>
+                                                            Recusa fazer o teste?
+                                                        </IonLabel>
+                                                    </IonListHeader>
+                                                </IonCol>
+                                                <IonCol size='6'>
+                                                    <IonItem
+                                                        lines='none'
+                                                        className="infoAdicionais-domicilio-radio radio-item">
+                                                        <IonRadio value="fiscal" />
+                                                        <IonLabel className="radioBox">Não</IonLabel>
+                                                    </IonItem>
+                                                </IonCol>
+                                                <IonCol size='6'>
+                                                    <IonItem
+                                                        lines='none'
+                                                        className="infoAdicionais-domicilio-radio radio-item">
+                                                        <IonRadio value="outro" />
+                                                        <IonLabel className="radioBox">Sim</IonLabel>
+                                                    </IonItem>
+                                                </IonCol>
+                                            </IonRow>
+                                        </IonRadioGroup>
+                                    </IonCol>
+                                </IonRow>
+
+                                <IonRow>
+                                    <IonCol size-sm='12' size-md='12' size-lg='12'>
+
+                                        <IonRadioGroup value={selectedAutuado_Testemunha}
+                                            onIonChange={e => setSelectedAutuado_Testemunha(e.detail.value)}>
+
+                                            <IonRow>
+                                                <IonCol size='12'>
+                                                    <IonListHeader>
+                                                        <IonLabel>
+                                                            Tipo de teste *
+                                                        </IonLabel>
+                                                    </IonListHeader>
+                                                </IonCol>
+                                                <IonCol size='3'>
+                                                    <IonItem
+                                                        lines='none'
+                                                        className="infoAdicionais-domicilio-radio radio-item">
+                                                        <IonRadio value="fiscal" />
+                                                        <IonLabel className="radioBox">Teste de ar expirado</IonLabel>
+                                                    </IonItem>
+                                                </IonCol>
+                                                <IonCol size='3'>
+                                                    <IonItem
+                                                        lines='none'
+                                                        className="infoAdicionais-domicilio-radio radio-item">
+                                                        <IonRadio value="outro" />
+                                                        <IonLabel className="radioBox">Análise sangue</IonLabel>
+                                                    </IonItem>
+                                                </IonCol>
+                                                <IonCol size='3'>
+                                                    <IonItem
+                                                        lines='none'
+                                                        className="infoAdicionais-domicilio-radio radio-item">
+                                                        <IonRadio value="outro" />
+                                                        <IonLabel className="radioBox">Exame médico</IonLabel>
+                                                    </IonItem>
+                                                </IonCol>
+                                                <IonCol size='3'>
+                                                    <IonItem
+                                                        lines='none'
+                                                        className="infoAdicionais-domicilio-radio radio-item">
+                                                        <IonRadio value="outro" />
+                                                        <IonLabel className="radioBox">Punível à TAS 0.200 g/l</IonLabel>
+                                                    </IonItem>
+                                                </IonCol>
+                                            </IonRow>
+                                        </IonRadioGroup>
+                                    </IonCol>
+
+                                </IonRow>
+
+                                <IonRow>
+                                    <IonCol size-sm="12" size-md="12" size-lg="12" style={{ marginTop: 16 }}>
+                                        <IonLabel>
+                                            Alcoolímetro *
+                                        </IonLabel>
+                                    </IonCol>
+
+                                    <IonCol size-sm="12" size-md="12" size-lg="4">
+
+                                        <IonItem>
+
+                                            <IonLabel>Marca / Modela *</IonLabel>
+                                            <IonSelect interface="popover">
+                                                <IonSelectOption></IonSelectOption>
+                                            </IonSelect>
+
+                                        </IonItem>
+
+                                    </IonCol>
+
+                                    <IonCol size-sm="12" size-md="12" size-lg="4">
+                                        <IonItem>
+
+                                            <IonLabel>Série *</IonLabel>
+                                            <IonSelect interface="popover">
+                                                <IonSelectOption></IonSelectOption>
+                                            </IonSelect>
+
+                                        </IonItem>
+                                    </IonCol>
+
+                                    <IonCol size-sm="12" size-md="12" size-lg="4">
+                                        <IonItem>
+
+                                            <IonLabel>Tipo verificação *</IonLabel>
+                                            <IonSelect interface="popover">
+                                                <IonSelectOption></IonSelectOption>
+                                            </IonSelect>
+
+                                        </IonItem>
+                                    </IonCol>
+
+
+
+                                </IonRow>
+
+                                <IonRow>
+
+                                    <IonCol size-sm="12" size-md="12" size-lg="4">
+                                        <IonItem>
+                                            <IonLabel position="floating" itemType="text" placeholder="Número">Número *</IonLabel>
+                                            <IonInput></IonInput>
+                                        </IonItem>
+                                    </IonCol>
+
+                                    <IonCol size-sm="12" size-md="12" size-lg="4" style={{ marginTop: 16 }}>
+                                        <DatePicker inputName={'unidade-data_horaInfraccao'} textLabel="Data/Hora da infracção" />
+                                    </IonCol>
+
+
+                                    <IonCol size-sm="12" size-md="12" size-lg="4">
+                                        <IonItem>
+                                            <IonLabel position="floating" itemType="text" placeholder="Número de talão">Número de talão *</IonLabel>
+                                            <IonInput></IonInput>
+                                        </IonItem>
+                                    </IonCol>
+                                </IonRow>
+
+                                <IonRow>
+                                    <IonCol size-sm="12" size-md="12" size-lg="12" style={{ marginTop: 16 }}>
+                                        <IonLabel>
+                                            Teste (g/l) *
+                                        </IonLabel>
+                                    </IonCol>
+
+                                    <IonCol size-sm="12" size-md="12" size-lg="4">
+                                        <IonItem>
+                                            <IonLabel position="floating" itemType="text" placeholder="Valor registado">Valor registado *</IonLabel>
+                                            <IonInput></IonInput>
+                                        </IonItem>
+                                    </IonCol>
+
+                                    <IonCol size-sm="12" size-md="12" size-lg="4">
+                                        <IonItem>
+                                            <IonLabel position="floating" itemType="text" placeholder="Valor apurado">Valor apurado *</IonLabel>
+                                            <IonInput></IonInput>
+                                        </IonItem>
+                                    </IonCol>
+
+                                </IonRow>
+
+                            </IonGrid>
+                            {/*Álcool*/}
+
+                            {/*Estupefacientes e/ou outros psictrópicos*/}
+                            <IonGrid className={activeSegment == "estupefacientes_outrosPsicotropicos" ? "" : "ion-hide"}>
+
+                                <IonRow>
+                                    <IonCol size-sm='12' size-md='12' size-lg='6'>
+
+                                        <IonRadioGroup value={selectedAutuado_Testemunha}
+                                            onIonChange={e => setSelectedAutuado_Testemunha(e.detail.value)}>
+
+                                            <IonRow>
+                                                <IonCol size='12'>
+                                                    <IonListHeader>
+                                                        <IonLabel>
+                                                            Recusa fazer o teste?
+                                                        </IonLabel>
+                                                    </IonListHeader>
+                                                </IonCol>
+                                                <IonCol size='6'>
+                                                    <IonItem
+                                                        lines='none'
+                                                        className="infoAdicionais-domicilio-radio radio-item">
+                                                        <IonRadio value="fiscal" />
+                                                        <IonLabel className="radioBox">Não</IonLabel>
+                                                    </IonItem>
+                                                </IonCol>
+                                                <IonCol size='6'>
+                                                    <IonItem
+                                                        lines='none'
+                                                        className="infoAdicionais-domicilio-radio radio-item">
+                                                        <IonRadio value="outro" />
+                                                        <IonLabel className="radioBox">Sim</IonLabel>
+                                                    </IonItem>
+                                                </IonCol>
+                                            </IonRow>
+                                        </IonRadioGroup>
+                                    </IonCol>
+                                </IonRow>
+
+                                <IonRow>
+                                    <IonCol size-sm='12' size-md='12' size-lg='12'>
+
+                                        <IonRadioGroup value={selectedAutuado_Testemunha}
+                                            onIonChange={e => setSelectedAutuado_Testemunha(e.detail.value)}>
+
+                                            <IonRow>
+                                                <IonCol size='12'>
+                                                    <IonListHeader>
+                                                        <IonLabel>
+                                                            Tipo de teste *
+                                                        </IonLabel>
+                                                    </IonListHeader>
+                                                </IonCol>
+                                                <IonCol size='3'>
+                                                    <IonItem
+                                                        lines='none'
+                                                        className="infoAdicionais-domicilio-radio radio-item">
+                                                        <IonRadio value="fiscal" />
+                                                        <IonLabel className="radioBox">Aci</IonLabel>
+                                                    </IonItem>
+                                                </IonCol>
+                                                <IonCol size='3'>
+                                                    <IonItem
+                                                        lines='none'
+                                                        className="infoAdicionais-domicilio-radio radio-item">
+                                                        <IonRadio value="outro" />
+                                                        <IonLabel className="radioBox">Análise sangue</IonLabel>
+                                                    </IonItem>
+                                                </IonCol>
+                                                <IonCol size='3'>
+                                                    <IonItem
+                                                        lines='none'
+                                                        className="infoAdicionais-domicilio-radio radio-item">
+                                                        <IonRadio value="outro" />
+                                                        <IonLabel className="radioBox">Exame médico</IonLabel>
+                                                    </IonItem>
+                                                </IonCol>
+                                            </IonRow>
+                                        </IonRadioGroup>
+                                    </IonCol>
+
+                                </IonRow>
+
+                                <IonRow>
+                                    <IonCol size-sm='12' size-md='12' size-lg='12' style={{ marginTop: 16 }}>
+
+                                        <IonRadioGroup value={selectedAutuado_Testemunha}
+                                            onIonChange={e => setSelectedAutuado_Testemunha(e.detail.value)}>
+
+                                            <IonRow>
+                                                <IonCol size='3'>
+                                                    <IonListHeader>
+                                                        <IonLabel>
+                                                            Anfetaminas *
+                                                        </IonLabel>
+                                                    </IonListHeader>
+                                                </IonCol>
+                                                <IonCol size='3'>
+                                                    <IonItem
+                                                        lines='none'
+                                                        className="infoAdicionais-domicilio-radio radio-item">
+                                                        <IonRadio value="fiscal" />
+                                                        <IonLabel className="radioBox">Não</IonLabel>
+                                                    </IonItem>
+                                                </IonCol>
+                                                <IonCol size='3'>
+                                                    <IonItem
+                                                        lines='none'
+                                                        className="infoAdicionais-domicilio-radio radio-item">
+                                                        <IonRadio value="outro" />
+                                                        <IonLabel className="radioBox">Sim</IonLabel>
+                                                    </IonItem>
+                                                </IonCol>
+                                            </IonRow>
+                                        </IonRadioGroup>
+                                    </IonCol>
+
+                                </IonRow>
+
+                                <IonRow>
+                                    <IonCol size-sm='12' size-md='12' size-lg='12'>
+
+                                        <IonRadioGroup value={selectedAutuado_Testemunha}
+                                            onIonChange={e => setSelectedAutuado_Testemunha(e.detail.value)}>
+
+                                            <IonRow>
+                                                <IonCol size='3'>
+                                                    <IonListHeader>
+                                                        <IonLabel>
+                                                            Canabis *
+                                                        </IonLabel>
+                                                    </IonListHeader>
+                                                </IonCol>
+                                                <IonCol size='3'>
+                                                    <IonItem
+                                                        lines='none'
+                                                        className="infoAdicionais-domicilio-radio radio-item">
+                                                        <IonRadio value="fiscal" />
+                                                        <IonLabel className="radioBox">Não</IonLabel>
+                                                    </IonItem>
+                                                </IonCol>
+                                                <IonCol size='3'>
+                                                    <IonItem
+                                                        lines='none'
+                                                        className="infoAdicionais-domicilio-radio radio-item">
+                                                        <IonRadio value="outro" />
+                                                        <IonLabel className="radioBox">Sim</IonLabel>
+                                                    </IonItem>
+                                                </IonCol>
+                                            </IonRow>
+
+                                            <IonRow>
+                                                <IonCol size-sm='12' size-md='12' size-lg='12'>
+
+                                                    <IonRadioGroup value={selectedAutuado_Testemunha}
+                                                        onIonChange={e => setSelectedAutuado_Testemunha(e.detail.value)}>
+
+                                                        <IonRow>
+                                                            <IonCol size='3'>
+                                                                <IonListHeader>
+                                                                    <IonLabel>
+                                                                        Cocaína *
+                                                                    </IonLabel>
+                                                                </IonListHeader>
+                                                            </IonCol>
+                                                            <IonCol size='3'>
+                                                                <IonItem
+                                                                    lines='none'
+                                                                    className="infoAdicionais-domicilio-radio radio-item">
+                                                                    <IonRadio value="fiscal" />
+                                                                    <IonLabel className="radioBox">Não</IonLabel>
+                                                                </IonItem>
+                                                            </IonCol>
+                                                            <IonCol size='3'>
+                                                                <IonItem
+                                                                    lines='none'
+                                                                    className="infoAdicionais-domicilio-radio radio-item">
+                                                                    <IonRadio value="outro" />
+                                                                    <IonLabel className="radioBox">Sim</IonLabel>
+                                                                </IonItem>
+                                                            </IonCol>
+                                                        </IonRow>
+
+                                                        <IonRow>
+                                                            <IonCol size-sm='12' size-md='12' size-lg='12'>
+
+                                                                <IonRadioGroup value={selectedAutuado_Testemunha}
+                                                                    onIonChange={e => setSelectedAutuado_Testemunha(e.detail.value)}>
+
+                                                                    <IonRow>
+                                                                        <IonCol size='3'>
+                                                                            <IonListHeader>
+                                                                                <IonLabel>
+                                                                                    Metanfetaminas *
+                                                                                </IonLabel>
+                                                                            </IonListHeader>
+                                                                        </IonCol>
+                                                                        <IonCol size='3'>
+                                                                            <IonItem
+                                                                                lines='none'
+                                                                                className="infoAdicionais-domicilio-radio radio-item">
+                                                                                <IonRadio value="fiscal" />
+                                                                                <IonLabel className="radioBox">Não</IonLabel>
+                                                                            </IonItem>
+                                                                        </IonCol>
+                                                                        <IonCol size='3'>
+                                                                            <IonItem
+                                                                                lines='none'
+                                                                                className="infoAdicionais-domicilio-radio radio-item">
+                                                                                <IonRadio value="outro" />
+                                                                                <IonLabel className="radioBox">Sim</IonLabel>
+                                                                            </IonItem>
+                                                                        </IonCol>
+                                                                    </IonRow>
+
+                                                                    <IonRow>
+                                                                        <IonCol size-sm='12' size-md='12' size-lg='12'>
+
+                                                                            <IonRadioGroup value={selectedAutuado_Testemunha}
+                                                                                onIonChange={e => setSelectedAutuado_Testemunha(e.detail.value)}>
+
+                                                                                <IonRow>
+                                                                                    <IonCol size='3'>
+                                                                                        <IonListHeader>
+                                                                                            <IonLabel>
+                                                                                                Ópio *
+                                                                                            </IonLabel>
+                                                                                        </IonListHeader>
+                                                                                    </IonCol>
+                                                                                    <IonCol size='3'>
+                                                                                        <IonItem
+                                                                                            lines='none'
+                                                                                            className="infoAdicionais-domicilio-radio radio-item">
+                                                                                            <IonRadio value="fiscal" />
+                                                                                            <IonLabel className="radioBox">Não</IonLabel>
+                                                                                        </IonItem>
+                                                                                    </IonCol>
+                                                                                    <IonCol size='3'>
+                                                                                        <IonItem
+                                                                                            lines='none'
+                                                                                            className="infoAdicionais-domicilio-radio radio-item">
+                                                                                            <IonRadio value="outro" />
+                                                                                            <IonLabel className="radioBox">Sim</IonLabel>
+                                                                                        </IonItem>
+                                                                                    </IonCol>
+                                                                                </IonRow>
+                                                                            </IonRadioGroup>
+                                                                        </IonCol>
+
+                                                                    </IonRow>
+                                                                </IonRadioGroup>
+                                                            </IonCol>
+
+                                                        </IonRow>
+                                                    </IonRadioGroup>
+                                                </IonCol>
+
+                                            </IonRow>
+                                        </IonRadioGroup>
+                                    </IonCol>
+
+                                </IonRow>
+                            </IonGrid>
+                            {/*Estupefacientes e/ou outros psictrópicos*/}
+                        </IonCardContent>
                     </IonCard>
-                    {/* END: Morada  */}
+                    {/* END: Ficha de controlador  */}
 
 
                     {/* Elementos identificadores */}

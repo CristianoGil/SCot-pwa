@@ -9,8 +9,10 @@ export const CoDirectaMarkupTable2 = () => (
 
         style={{
             emptyCells: "show",
-            width: 530,
-            height: 1670,
+            width: 595,
+            maxHeight: 842,
+            height: 842,
+            fontWeight: 500,
             borderCollapse: "collapse",
             backgroundColor: "white"
         }}
@@ -23,27 +25,27 @@ export const CoDirectaMarkupTable2 = () => (
             }}
         />
         <tbody>
-        <tr role="none" style={{height: 0}}>
-            <td style={{width: 20}}/>
-            <td style={{width: 1}}/>
-            <td style={{width: 3}}/>
-            <td style={{width: 26}}/>
-            <td style={{width: 65}}/>
-            <td style={{width: 3}}/>
-            <td style={{width: 8}}/>
-            <td style={{width: 1}}/>
-            <td style={{width: 3}}/>
-            <td style={{width: 2}}/>
-            <td style={{width: 23}}/>
-            <td style={{width: 71}}/>
-            <td style={{width: 1}}/>
-            <td style={{width: 3}}/>
-            <td style={{width: 70}}/>
-            <td style={{width: 264}}/>
-            <td style={{width: 10}}/>
-            <td style={{width: 21}}/>
+        <tr role="none" style={{height:0}}>
+            <td style={{width:20}}></td>
+            <td style={{width:1}}></td>
+            <td style={{width:3}}></td>
+            <td style={{width:26}}></td>
+            <td style={{width:65}}></td>
+            <td style={{width:3}}></td>
+            <td style={{width:8}}></td>
+            <td style={{width:1}}></td>
+            <td style={{width:3}}></td>
+            <td style={{width:2}}></td>
+            <td style={{width:23}}></td>
+            <td style={{width:71}}></td>
+            <td style={{width:1}}></td>
+            <td style={{width:3}}></td>
+            <td style={{width:70}}></td>
+            <td style={{width:264}}></td>
+            <td style={{width:10}}></td>
+            <td style={{width:21}}></td>
         </tr>
-        <tr style={{height: 20}}>
+          <tr style={{height: 5}}>
             <td colSpan={18}></td>
         </tr>
         <tr style={{height: 40}}>
@@ -53,7 +55,7 @@ export const CoDirectaMarkupTable2 = () => (
                       style={{
                           fontFamily: '"DejaVu Sans", Arial, Helvetica, sans-serif',
                           color: "#000000",
-                          fontSize: 7,
+                          fontSize: 11,
                           lineHeight: "1.1640625"
                       }}
                   >
@@ -69,12 +71,12 @@ export const CoDirectaMarkupTable2 = () => (
         <tr style={{height: 450}}>
             <td>
             </td>
-            <td colSpan={16} style={{textIndent: 0, textAlign: "center"}}>
+            <td colSpan={16} style={{textIndent: 0, textAlign: "left"}}>
                  <span
                      style={{
                          fontFamily: '"DejaVu Sans", Arial, Helvetica, sans-serif',
                          color: "#000000",
-                         fontSize: 7,
+                         fontSize: 11,
                          lineHeight: "normal"
                      }}
                  >

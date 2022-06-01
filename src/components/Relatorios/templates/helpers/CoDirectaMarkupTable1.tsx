@@ -175,14 +175,14 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
                   lineHeight: "1.1640625"
               }}
           >
-            Auto{" "}
+            Auto
           </span>
                 </td>
                 <td
                     colSpan={3}
                     rowSpan={2}
                     style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-                ></td>
+                >{coData?.numeroAuto}</td>
                 <td></td>
             </tr>
             <tr style={{height: 13}}>
@@ -229,14 +229,14 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
                   lineHeight: "1.1640625"
               }}
           >
-            EA{" "}
+            EA
           </span>
                 </td>
                 <td
                     colSpan={3}
                     rowSpan={2}
                     style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-                ></td>
+                >{coData?.numeroTalao}</td>
                 <td></td>
             </tr>
             <tr style={{height: 16}}>
@@ -1102,10 +1102,16 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
                 </td>
                 <td colSpan={51}>  </td>
             </tr>
-            <tr style={{height: 40}}>
+            <tr style={{height: 40, maxHeight: 40, overflow: "hidden"}}>
                 <td></td>
                 <td colSpan={69} style={{textIndent: 0, textAlign: "left",     wordBreak: "break-all",
-                    whiteSpace: "normal"}}>{coData?.infracao?.descricaoSumaria || ""}</td>
+                    whiteSpace: "normal",  maxHeight: 40, overflow: "hidden"}}>
+                    <p style={{textIndent: 0, textAlign: "left",     wordBreak: "break-all",
+                        whiteSpace: "normal",  maxHeight: 40, overflow: "hidden", margin: 0}}>
+                        {coData?.infracao?.descricaoSumaria || ""}
+                    </p>
+
+                </td>
                 <td></td>
             </tr>
             <tr style={{height: 2}}>
@@ -1279,7 +1285,7 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
                     colSpan={11}
                     rowSpan={2}
                     style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-                ></td>
+                >{coData?.infracao?.normaQuePreveSancaoAcessoria}</td>
                 <td
                     colSpan={16}
                     rowSpan={2}
@@ -1293,7 +1299,7 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
                   lineHeight: "1.1640625"
               }}
           >
-            Sanção acessória de
+            Sanção acessória de {coData?.infracao?.sancaoAcessoria}
           </span>
                 </td>
                 <td></td>

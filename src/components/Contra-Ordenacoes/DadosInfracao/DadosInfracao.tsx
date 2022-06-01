@@ -30,6 +30,7 @@ const DadosInfracao: React.FC<IProps> = (props) => {
                 unidadeData:unidadeData,
                 localInfracaoData:localInfracaoData
             }
+            
             props.setCoDirectaData(data);
 
         }, [infracaoData,unidadeData,localInfracaoData ])    

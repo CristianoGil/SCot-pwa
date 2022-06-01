@@ -193,7 +193,8 @@ const handlerCoDirectaRequestData = (data: any): ICoDirecta => {
         base64Assinatura: null,
     }
 
-    console.log(dataReturn)
+    console.log("dataReturn: ", dataReturn);
+
     return dataReturn
 }
 
@@ -205,6 +206,11 @@ const CoDirecta: React.FC = () => {
     const history = useHistory();
     const [activeSegment, setActiveSegment] = useState('intervenientes');
     const [coDirecta, setCoDirecta] = useState<any>();
+
+    const [coDirectaIntervenientes, setCoDirectaIntervenientes] = useState<any>();
+    const [coDirectaInfracao, setCoDirectaInfracao] = useState<any>();
+    const [coDirectaComplementar, setCoDirectaComplementar] = useState<any>();
+
     const [coSaved, setCoSaved] = useState<any>({});
     const [isCOSaved, setIsCOSaved] = useState(false);
     const dispatch = useAppDispatch();
@@ -214,26 +220,28 @@ const CoDirecta: React.FC = () => {
     const handlerSegment = (e: any) => {
         setActiveSegment(e.detail.value);
     }
-    const onSave = (e: any) => {
+    const onSave = async (e: any) => {
+
+        console.log("OnSave: ", coDirecta);
 
         // valida [Local infraccao]
 
         let localInfracaoData = coDirecta.localInfracaoData;
 
-        let distrito_isValid = schema_distrito.isValidSync(localInfracaoData.distrito)
-        let concelho_isValid = schema_concelho.isValidSync(localInfracaoData.concelho)
-        let freguesia_isValid = schema_freguesia.isValidSync(localInfracaoData.freguesia)
-        let localidade_isValid = schema_localidade.isValidSync(localInfracaoData.localidade)
-        let tipo_isValid = schema_tipo.isValidSync(localInfracaoData.tipo)
-        let arruamento_isValid = schema_arruamento.isValidSync(localInfracaoData.arruamento)
+        let distrito_isValid = schema_distrito.isValidSync(localInfracaoData?.distrito)
+        let concelho_isValid = schema_concelho.isValidSync(localInfracaoData?.concelho)
+        let freguesia_isValid = schema_freguesia.isValidSync(localInfracaoData?.freguesia)
+        let localidade_isValid = schema_localidade.isValidSync(localInfracaoData?.localidade)
+        let tipo_isValid = schema_tipo.isValidSync(localInfracaoData?.tipo)
+        let arruamento_isValid = schema_arruamento.isValidSync(localInfracaoData?.arruamento)
 
         let localInfraccao_isValid = schema_localInfraccao.isValidSync({
-            distrito: localInfracaoData.distrito,
-            concelho: localInfracaoData.concelho,
-            freguesia: localInfracaoData.freguesia,
-            localidade: localInfracaoData.localidade,
-            tipo: localInfracaoData.tipo,
-            arruamento: localInfracaoData.arruamento
+            distrito: localInfracaoData?.distrito,
+            concelho: localInfracaoData?.concelho,
+            freguesia: localInfracaoData?.freguesia,
+            localidade: localInfracaoData?.localidade,
+            tipo: localInfracaoData?.tipo,
+            arruamento: localInfracaoData?.arruamento
         });
 
 
@@ -251,11 +259,11 @@ const CoDirecta: React.FC = () => {
 
         if (!localInfraccao_isValid) {
 
-            presentAlert({
+            await presentAlert({
                 header: 'Atenção!',
-                message: 'Por favor preencha todos campos do local de infracção!',
+                message: 'Por favor preencha todos campos obrigatórios nas abas referentes a "dados de infracção e dados complementares"!',
                 buttons: [
-                    { text: 'Fechar' },
+                    {text: 'Fechar'},
                 ]
             })
 
@@ -266,18 +274,18 @@ const CoDirecta: React.FC = () => {
 
         let infracaoData = coDirecta.infracaoData;
 
-        let comarca_isValid = schema_comarca.isValidSync(infracaoData.comarca)
-        let entidade_isValid = schema_entidade.isValidSync(infracaoData.entidade)
-        let tipificacaoInfraccao_isValid = schema_tipificacaoDaInfraccao.isValidSync(infracaoData.tipificacao)
-        let subtipificacao_isValid = schema_subTipificacaoDaInfraccao.isValidSync(infracaoData.subtipoInfracao)
-        let descricaoSumaria_isValid = schema_descricaoSumaria.isValidSync(infracaoData.descricaoSumaria)
+        let comarca_isValid = schema_comarca.isValidSync(infracaoData?.comarca)
+        let entidade_isValid = schema_entidade.isValidSync(infracaoData?.entidade)
+        let tipificacaoInfraccao_isValid = schema_tipificacaoDaInfraccao.isValidSync(infracaoData?.tipificacao)
+        let subtipificacao_isValid = schema_subTipificacaoDaInfraccao.isValidSync(infracaoData?.subtipoInfracao)
+        let descricaoSumaria_isValid = schema_descricaoSumaria.isValidSync(infracaoData?.descricaoSumaria)
 
         let infraccao_isValid = schema_infraccao.isValidSync({
-            comarca: infracaoData.comarca,
-            entidade: infracaoData.entidade,
-            tipificacaoDaInfraccao: infracaoData.tipificacao,
-            subTipificacaoDaInfraccao: infracaoData.subtipoInfracao,
-            descricaoSumaria: infracaoData.descricaoSumaria,
+            comarca: infracaoData?.comarca,
+            entidade: infracaoData?.entidade,
+            tipificacaoDaInfraccao: infracaoData?.tipificacao,
+            subTipificacaoDaInfraccao: infracaoData?.subtipoInfracao,
+            descricaoSumaria: infracaoData?.descricaoSumaria,
         });
 
         dispatch(setInputValidation_Infraccao(
@@ -293,42 +301,42 @@ const CoDirecta: React.FC = () => {
 
         if (!infraccao_isValid) {
 
-            presentAlert({
+            await presentAlert({
                 header: 'Atenção!',
-                message: 'Por favor preencha todos campos da infracção!',
+                message: 'Por favor preencha todos campos obrigatórios nas abas referentes a "dados de infracção e dados complementares"!',
                 buttons: [
-                    { text: 'Fechar' },
+                    {text: 'Fechar'},
                 ]
             })
 
             return;
         }
 
-        presentLoad({
+        await presentLoad({
             message: 'A guardar...',
         })
 
-        instanceCoDirecta.guardarCODirectaGeneric(handlerCoDirectaRequestData(coDirecta)).then((responseData) => {
+        instanceCoDirecta.guardarCODirectaGeneric(handlerCoDirectaRequestData(coDirecta)).then(async (responseData) => {
 
             setCoSaved(responseData);
 
-            presentAlert({
+            await presentAlert({
                 header: 'Sucesso!',
                 message: 'Contraordenação guardada com sucesso!',
                 buttons: [
-                    { text: 'Fechar' },
+                    {text: 'Fechar'},
                 ]
             })
             setIsCOSaved(true);
 
-        }).catch((e) => {
-            console.error('Save Co directa: ', e);
+        }).catch(async (e) => {
+            console.error('Save Co directa error: ', e);
 
-            presentAlert({
+            await presentAlert({
                 header: 'Error!',
                 message: 'Houve algum erro ao gravar!',
                 buttons: [
-                    { text: 'Fechar' },
+                    {text: 'Fechar'},
                 ]
             })
 
@@ -347,6 +355,34 @@ const CoDirecta: React.FC = () => {
         }
 
     }
+
+
+    // Set Intervenientes Data
+    React.useEffect(() => {
+        if(coDirecta && coDirectaIntervenientes) {
+            setCoDirecta(Object.assign(coDirecta, coDirectaIntervenientes))
+        } else if(coDirectaIntervenientes) {
+            setCoDirecta(coDirectaIntervenientes)
+        }
+    }, [coDirectaIntervenientes])
+
+    // Set Infracao Data
+    React.useEffect(() => {
+        if(coDirecta && coDirectaInfracao) {
+            setCoDirecta(Object.assign(coDirecta, coDirectaInfracao))
+        } else if(coDirectaInfracao) {
+            setCoDirecta(coDirectaInfracao)
+        }
+    }, [coDirectaInfracao])
+
+    // Set Dados complementares Data
+    React.useEffect(() => {
+        if(coDirecta && coDirectaComplementar) {
+            setCoDirecta(Object.assign(coDirecta, coDirectaComplementar))
+        } else if(coDirectaComplementar) {
+            setCoDirecta(coDirectaComplementar)
+        }
+    }, [coDirectaComplementar])
 
     return (
         <IonPage>
@@ -378,11 +414,11 @@ const CoDirecta: React.FC = () => {
 
                 </IonGrid>
 
-                 <Intervenientes active={activeSegment === 'intervenientes'} setCoDirectaData={setCoDirecta}/>
+                 <Intervenientes active={activeSegment === 'intervenientes'} setCoDirectaData={setCoDirectaIntervenientes}/>
 
-                 <DadosInfracao active={activeSegment === 'dados_da_infracao'} setCoDirectaData={setCoDirecta} />)
+                 <DadosInfracao active={activeSegment === 'dados_da_infracao'} setCoDirectaData={setCoDirectaInfracao} />)
 
-                 <DadosComplementares active={activeSegment === 'dados_complemenatares'} setCoDirectaData={setCoDirecta}/>
+                 <DadosComplementares active={activeSegment === 'dados_complemenatares'} setCoDirectaData={setCoDirectaComplementar}/>
 
 
             </IonContent>

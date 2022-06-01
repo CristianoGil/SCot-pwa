@@ -59,7 +59,8 @@ const Intervenientes: React.FC<IProps> = (props) => {
             informacoesAdicionais: informacoesAdicionaisData,
             veiculo: veiculoData
         }
-        
+
+        console.log(data)
         props.setCoDirectaData(data);
     },[arguidoData,tituloDocumentoData,docIdentificacaoData,informacoesAdicionaisData,veiculoData])
 
@@ -103,7 +104,7 @@ const Intervenientes: React.FC<IProps> = (props) => {
             <IonRow>
                 <IonCol size-sm='12' size-md="12" size-lg="11">
                     {/* Informações adicionais */}
-                    <InformacoesAdicionais currentData={arguidoData?.moradas} representanteLegal={arguidoData?.representanteLegal}  setParentInformacoesAdicionaisData={setInformacoesAdicionaisData}/>
+                    <InformacoesAdicionais currentDataMorada={arguidoData?.moradas} representanteLegal={arguidoData?.representanteLegal}  setParentInformacoesAdicionaisData={setInformacoesAdicionaisData}/>
                     {/* Informações adicionais */}
                 </IonCol>
             </IonRow>

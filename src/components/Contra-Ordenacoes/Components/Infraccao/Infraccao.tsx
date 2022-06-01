@@ -93,10 +93,10 @@ const Infraccao: React.FC<InfracaoData> = (props) => {
             sancaoAcessoria:sancaoAcessoria,
             normaSancaoAcessoria:sancaoAcessoria,
             observacao: observacao,
-            codigoDgv:observacao
+            codigoDgv:codigoDgv
       }
       props.setInfracao(data)
-    },[tipoAutuante,sancaoAcessoria,observacao,observacao,autuante,comarcaDto,entidade,tipificacao,subTipoInfracao,normaInfrigida,descricaoSumaria,minValor, maxValor,normaQuePreveContraOrdenacao, sancaoAcessoria,])
+    },[tipoAutuante,sancaoAcessoria,observacao,observacao,autuante,comarcaDto,entidade,tipificacao,subTipoInfracao,normaInfrigida,descricaoSumaria,minValor, maxValor,normaQuePreveContraOrdenacao, sancaoAcessoria,codigoDgv])
 
 
     const getInfracao = async (): Promise<InfracaoResponse> => await new Contraordenacao().carregarCombosInfracao()
@@ -193,7 +193,7 @@ const Infraccao: React.FC<InfracaoData> = (props) => {
                         <IonCol size-sm='12' size-md='10' size-lg='3'>
                             <IonItem>
                                 <IonLabel position="floating" itemType="text" placeholder="Autuante">Autuante *</IonLabel>
-                                <IonInput onKeyUp={onKeyUp_autuante} value={autuante}></IonInput>
+                                <IonInput onKeyUp={onKeyUp_autuante} value={autuante} readonly></IonInput>
                             </IonItem>
                         </IonCol>
 
@@ -292,7 +292,7 @@ const Infraccao: React.FC<InfracaoData> = (props) => {
                         <IonCol size-sm='12' size-md='10' size-lg='6'>
                             <IonItem lines="none">
                                 <IonLabel position="stacked">Descrição Sumária *</IonLabel>
-                                <IonTextarea rows={6} cols={10} placeholder="" value={descricaoSumaria} onIonChange={(e) => {setDescricaoSumaria(e.detail.value) }}>
+                                <IonTextarea rows={6} cols={10} placeholder="" value={descricaoSumaria} onIonChange={(e) => {setDescricaoSumaria(e.detail.value) }} readonly>
 
                                 </IonTextarea>
                             </IonItem>
@@ -325,7 +325,7 @@ const Infraccao: React.FC<InfracaoData> = (props) => {
                         <IonCol size-sm='12' size-md='10' size-lg='6' style={{ marginTop: 32 }}>
                             <IonItem>
                                 <IonLabel position="floating" itemType="text" placeholder="Norma que prevê a Contraordenação">Norma que prevê a Contraordenação</IonLabel>
-                                <IonInput value={normaQuePreveContraOrdenacao}></IonInput>
+                                <IonInput value={normaQuePreveContraOrdenacao} readonly></IonInput>
                             </IonItem>
                         </IonCol>
                     </IonRow>
@@ -334,14 +334,14 @@ const Infraccao: React.FC<InfracaoData> = (props) => {
                         <IonCol size-sm='12' size-md='10' size-lg='6'>
                             <IonItem>
                                 <IonLabel position="floating" itemType="text" placeholder="Sanção Acessória">Sanção Acessória</IonLabel>
-                                <IonInput value={sancaoAcessoria}></IonInput>
+                                <IonInput value={sancaoAcessoria} readonly></IonInput>
                             </IonItem>
 
                         </IonCol>
                         <IonCol size-sm='12' size-md='10' size-lg='6'>
                             <IonItem>
                                 <IonLabel position="floating" itemType="text" placeholder="Norma que prevê a Sanção Acessória">Norma que prevê a Sanção Acessória</IonLabel>
-                                <IonInput value={normaSancaoAcessoria}></IonInput>
+                                <IonInput value={normaSancaoAcessoria} readonly></IonInput>
                             </IonItem>
                         </IonCol>
                     </IonRow>
@@ -351,7 +351,7 @@ const Infraccao: React.FC<InfracaoData> = (props) => {
                         <IonCol size-sm='12' size-md='10' size-lg='12'>
                             <IonItem lines="none">
                                 <IonLabel position="stacked">Observações</IonLabel>
-                                <IonTextarea rows={6} cols={10} placeholder="" value={observacao} onIonChange={(e) => { setObservacao(e.detail.value)}}>
+                                <IonTextarea rows={6} cols={10} placeholder="" value={observacao} onIonChange={(e) => { setObservacao(e.detail.value) }} readonly>
 
                                 </IonTextarea>
                             </IonItem>

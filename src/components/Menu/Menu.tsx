@@ -11,14 +11,13 @@ import {
     IonItem,
     IonLabel,
     IonList,
-    IonListHeader,
     IonModal,
     IonPopover,
     IonRow,
     IonToggle,
     IonToolbar,
 } from '@ionic/react';
-import {person, wifi, settings} from 'ionicons/icons';
+import { person, wifi, settings, exitOutline } from 'ionicons/icons';
 import {useContext, useState} from 'react';
 import './Menu.css'
 import {Link, useHistory} from 'react-router-dom';
@@ -108,12 +107,13 @@ const Menu: React.FC<IProps> = (props) => {
 
                     </IonButton>
                     <IonPopover arrow={true} translucent={true} dismissOnSelect={true} showBackdrop={false} side={"top"}
-                                backdropDismiss={true} trigger="userLogout" reference="event">
+                        backdropDismiss={true} trigger="userLogout" reference="event" style={{marginTop:28}}>
                         <IonList>
-                            <IonItem button onClick={handleLogout}>
+                            <IonItem button onClick={handleLogout} lines='none'>
                                 <IonLabel>
                                     Sair do aplicativo
                                 </IonLabel>
+                                <IonIcon icon={exitOutline}></IonIcon>
                             </IonItem>
                         </IonList>
                     </IonPopover>
