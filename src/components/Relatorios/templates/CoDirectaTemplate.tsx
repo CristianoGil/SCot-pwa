@@ -16,7 +16,7 @@ export const CoDirectaTemplateMarkup: React.FC<IProps> = (props) => {
     const {assinaturaArguido, assinaturaTestemunha_1, assinaturaTestemunha_2, assinaturaAgente, coData} = props;
 
     return (
-        <table width="100%" cellPadding={0} cellSpacing={0} id={"htmlWrapperForPDF"}>
+        <table style={{fontSize: 12, fontWeight: 600}} width="100%" cellPadding={0} cellSpacing={0} id={"htmlWrapperForPDF"}>
             <tbody>
             <tr>
                 <td width="50%" style={{backgroundColor: "rgb(82, 86, 89)"}}>&nbsp;</td>

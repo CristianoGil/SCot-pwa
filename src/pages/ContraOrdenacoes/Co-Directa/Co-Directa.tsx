@@ -194,7 +194,7 @@ const handlerCoDirectaRequestData = (data: any): ICoDirecta => {
     }
 
     console.log("dataReturn: ", dataReturn);
-    
+
     return dataReturn
 }
 
@@ -256,7 +256,7 @@ const CoDirecta: React.FC = () => {
 
             await presentAlert({
                 header: 'Atenção!',
-                message: 'Por favor preencha todos campos do local de infracção!',
+                message: 'Por favor preencha todos campos obrigatórios nas abas referentes a "dados de infracção e dados complementares"!',
                 buttons: [
                     {text: 'Fechar'},
                 ]
@@ -298,7 +298,7 @@ const CoDirecta: React.FC = () => {
 
             await presentAlert({
                 header: 'Atenção!',
-                message: 'Por favor preencha todos campos da infracção!',
+                message: 'Por favor preencha todos campos obrigatórios nas abas referentes a "dados de infracção e dados complementares"!',
                 buttons: [
                     {text: 'Fechar'},
                 ]
@@ -325,7 +325,7 @@ const CoDirecta: React.FC = () => {
             setIsCOSaved(true);
 
         }).catch(async (e) => {
-            console.error('Save Co directa: ', e);
+            console.error('Save Co directa error: ', e);
 
             await presentAlert({
                 header: 'Error!',
