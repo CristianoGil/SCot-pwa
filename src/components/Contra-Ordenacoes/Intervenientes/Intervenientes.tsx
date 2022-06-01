@@ -64,7 +64,7 @@ const Intervenientes: React.FC<IProps> = (props) => {
             informacoesAdicionais: informacoesAdicionaisData,
             veiculo: veiculoData
         }
-        
+
         props.setCoDirectaData(data);
     }, [arguidoData, tituloDocumentoData, docIdentificacaoData, informacoesAdicionaisData, veiculoData])
 

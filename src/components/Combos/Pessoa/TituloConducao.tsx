@@ -44,7 +44,7 @@ const TituloConducaoCombo: React.FC<IProps> = (props) => {
                 {(combos || []).map((local: any) => {
                     return (
                         <IonSelectOption key={`${local.id}`}
-                                         value={JSON.stringify(local)}>{`${local.descricao}`}</IonSelectOption>
+                                         value={local.id}>{`${local.descricao}`}</IonSelectOption>
                     )
                 })}
             </IonSelect>

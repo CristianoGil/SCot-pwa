@@ -220,20 +220,20 @@ const CoDirecta: React.FC = () => {
 
         let localInfracaoData = coDirecta.localInfracaoData;
 
-        let distrito_isValid = schema_distrito.isValidSync(localInfracaoData.distrito)
-        let concelho_isValid = schema_concelho.isValidSync(localInfracaoData.concelho)
-        let freguesia_isValid = schema_freguesia.isValidSync(localInfracaoData.freguesia)
-        let localidade_isValid = schema_localidade.isValidSync(localInfracaoData.localidade)
-        let tipo_isValid = schema_tipo.isValidSync(localInfracaoData.tipo)
-        let arruamento_isValid = schema_arruamento.isValidSync(localInfracaoData.arruamento)
+        let distrito_isValid = schema_distrito.isValidSync(localInfracaoData?.distrito)
+        let concelho_isValid = schema_concelho.isValidSync(localInfracaoData?.concelho)
+        let freguesia_isValid = schema_freguesia.isValidSync(localInfracaoData?.freguesia)
+        let localidade_isValid = schema_localidade.isValidSync(localInfracaoData?.localidade)
+        let tipo_isValid = schema_tipo.isValidSync(localInfracaoData?.tipo)
+        let arruamento_isValid = schema_arruamento.isValidSync(localInfracaoData?.arruamento)
 
         let localInfraccao_isValid = schema_localInfraccao.isValidSync({
-            distrito: localInfracaoData.distrito,
-            concelho: localInfracaoData.concelho,
-            freguesia: localInfracaoData.freguesia,
-            localidade: localInfracaoData.localidade,
-            tipo: localInfracaoData.tipo,
-            arruamento: localInfracaoData.arruamento
+            distrito: localInfracaoData?.distrito,
+            concelho: localInfracaoData?.concelho,
+            freguesia: localInfracaoData?.freguesia,
+            localidade: localInfracaoData?.localidade,
+            tipo: localInfracaoData?.tipo,
+            arruamento: localInfracaoData?.arruamento
         });
 
 
@@ -266,18 +266,18 @@ const CoDirecta: React.FC = () => {
 
         let infracaoData = coDirecta.infracaoData;
 
-        let comarca_isValid = schema_comarca.isValidSync(infracaoData.comarca)
-        let entidade_isValid = schema_entidade.isValidSync(infracaoData.entidade)
-        let tipificacaoInfraccao_isValid = schema_tipificacaoDaInfraccao.isValidSync(infracaoData.tipificacao)
-        let subtipificacao_isValid = schema_subTipificacaoDaInfraccao.isValidSync(infracaoData.subtipoInfracao)
-        let descricaoSumaria_isValid = schema_descricaoSumaria.isValidSync(infracaoData.descricaoSumaria)
+        let comarca_isValid = schema_comarca.isValidSync(infracaoData?.comarca)
+        let entidade_isValid = schema_entidade.isValidSync(infracaoData?.entidade)
+        let tipificacaoInfraccao_isValid = schema_tipificacaoDaInfraccao.isValidSync(infracaoData?.tipificacao)
+        let subtipificacao_isValid = schema_subTipificacaoDaInfraccao.isValidSync(infracaoData?.subtipoInfracao)
+        let descricaoSumaria_isValid = schema_descricaoSumaria.isValidSync(infracaoData?.descricaoSumaria)
 
         let infraccao_isValid = schema_infraccao.isValidSync({
-            comarca: infracaoData.comarca,
-            entidade: infracaoData.entidade,
-            tipificacaoDaInfraccao: infracaoData.tipificacao,
-            subTipificacaoDaInfraccao: infracaoData.subtipoInfracao,
-            descricaoSumaria: infracaoData.descricaoSumaria,
+            comarca: infracaoData?.comarca,
+            entidade: infracaoData?.entidade,
+            tipificacaoDaInfraccao: infracaoData?.tipificacao,
+            subTipificacaoDaInfraccao: infracaoData?.subtipoInfracao,
+            descricaoSumaria: infracaoData?.descricaoSumaria,
         });
 
         dispatch(setInputValidation_Infraccao(

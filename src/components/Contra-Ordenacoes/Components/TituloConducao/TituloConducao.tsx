@@ -28,7 +28,6 @@ const getTituloConducaoPrincipal = (tituloCo: any): IDocumentoPessoa | undefined
 const TituloConducao: React.FC<ITituloConducao> = (props) => {
 
     const [isPresentedTituloConducao, setIsPresentedTituloCOnducao] = useState(false);
-    const [paisDeEmissao, setPaisDeEmissao] = useState<string>();
 
     // tituloConducao
     const [tituloConducao, setTituloConducao] = useState<any>();
