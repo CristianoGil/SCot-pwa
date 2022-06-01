@@ -7,6 +7,8 @@ import database from './database';
 import syncDatabase from './database/sync_database'
 import {UserProvider} from './Context/UserContext';
 import {AlertNetworkOfflineProvider} from './Context/AlertNetworkOfflineContext';
+import store from './app/store';
+import { Provider } from 'react-redux';
 
 const root: any = createRoot(document.getElementById('root')!)
 
@@ -14,7 +16,9 @@ root.render(
     <React.StrictMode>
         <AlertNetworkOfflineProvider>
             <UserProvider>
-                    <App/>
+                <Provider store={store}>
+                    <App />
+                </Provider>
             </UserProvider>
         </AlertNetworkOfflineProvider>
     </React.StrictMode>

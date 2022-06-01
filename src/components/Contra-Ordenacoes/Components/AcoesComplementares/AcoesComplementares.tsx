@@ -6,21 +6,60 @@ import { useState } from "react";
 import DataTable from 'react-data-table-component';
 import { Contraordenacao } from "../../../../api/Contraordenacao";
 import { CarregarCombosApreensaoDocumento, MotivosApreensao } from "../../../../model/documentoapreendido";
+import CardListItem from "../../../CardListItem";
 import NumeroDocumento from "../../../NumeroDocumento/NumeroDocumento";
 
 interface IProps {
-    setAccoesComplementaresParentData?:any
+    setAccoesComplementaresParentData?: any
 }
 
 const AcoesComplementares: React.FC<IProps> = (props) => {
 
     const [openPopoverApreensaoDocumentosData, setOpenPopoverApreensaoDocumentosData] = useState(false);
-    const [checked, setChecked] = useState(false);
+    const [openPopoverFichaControladorData, setOpenPopoverFichaControladorData] = useState(false);
 
-    const handleButtonClick_ABRIR = (state: any) => {
-        console.log('clicked (ABRIR)');
-        console.log(state);
-        setOpenPopoverApreensaoDocumentosData(true);
+    /* Enumeração de tipo de documento */
+    enum TipoDocumento {
+        APREENSAO_DOCUMENTOS = 1,
+        APREENSAO_VEICULO = 2,
+        BLOQUEAMENTO_REMOCAO_VEICULO = 3,
+        SUBSTITUICAO_DOCUMENTOS = 4,
+        FICHA_CONTROLADOR = 5,
+    }
+    /* Enumeração de tipo de documento */
+
+    const handleButtonClick_ABRIR = (tipoDocumento: any) => {
+
+        switch (tipoDocumento) {
+
+            case TipoDocumento.APREENSAO_DOCUMENTOS: {
+                setOpenPopoverApreensaoDocumentosData(true);
+                break;
+            }
+
+            case TipoDocumento.APREENSAO_VEICULO: {
+
+                break;
+            }
+
+            case TipoDocumento.BLOQUEAMENTO_REMOCAO_VEICULO: {
+
+                break;
+            }
+
+            case TipoDocumento.SUBSTITUICAO_DOCUMENTOS: {
+
+                break;
+            }
+
+            case TipoDocumento.FICHA_CONTROLADOR: {
+                setOpenPopoverFichaControladorData(true);
+                break;
+            }
+            default: {
+                break;
+            }
+        }
     };
 
     const handleButtonClick_EXCLUIR = (state: any) => {
@@ -43,14 +82,14 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
         },
         {
             name: 'Ações',
-            cell: (row: { accoes: any }) => (
+            cell: (row: { abreTipoDocumento: any }) => (
                 <>
-                    <IonButton onClick={() => handleButtonClick_ABRIR(row.accoes)} size="small" color="primary" >
+                    <IonButton onClick={() => handleButtonClick_ABRIR(row.abreTipoDocumento)} size="small" color="primary" >
                         ABRIR
                         <IonIcon slot="start" icon={open} />
                     </IonButton>
 
-                    <IonButton onClick={() => handleButtonClick_EXCLUIR(row.accoes)} size="small" color="danger" >
+                    <IonButton onClick={() => handleButtonClick_EXCLUIR(row.abreTipoDocumento)} size="small" color="danger" >
                         EXCLUIR
                         <IonIcon slot="start" icon={trash} />
                     </IonButton>
@@ -64,33 +103,32 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
             id: 1,
             tipoDocumento: 'Apreensão Documentos',
             estado: 'null',
-            accoes: 'Abrir/Excluir',
+            abreTipoDocumento: TipoDocumento.APREENSAO_DOCUMENTOS,
         },
         {
             id: 2,
             tipoDocumento: 'Apreensão Veículo',
             estado: 'null',
-            accoes: 'Abrir/Excluir',
+            abreTipoDocumento: TipoDocumento.APREENSAO_VEICULO,
         },
         {
             id: 3,
             tipoDocumento: 'Bloqueamento/Remoção de Veículo',
             estado: 'null',
-            accoes: 'Abrir/Excluir',
+            abreTipoDocumento: TipoDocumento.BLOQUEAMENTO_REMOCAO_VEICULO,
         },
         {
             id: 4,
             tipoDocumento: 'Substituição de Documentos',
             estado: 'null',
-            accoes: 'Abrir/Excluir',
+            abreTipoDocumento: TipoDocumento.SUBSTITUICAO_DOCUMENTOS,
         },
         {
             id: 5,
-            tipoDocumento: 'Apresentação de Documentos',
+            tipoDocumento: 'Ficha controlador',
             estado: 'null',
-            accoes: 'Abrir/Excluir',
+            abreTipoDocumento: TipoDocumento.FICHA_CONTROLADOR,
         },
-
     ]
 
     //-------------------------[Motivos Apreensao]
@@ -170,7 +208,6 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
     }
     const dataDadosApreensaoDocumentos: DadosApreensaoDocumentos[] = []
 
-
     const [combos, setCombos] = useState<MotivosApreensao[]>();
     const [motivosApreensao, setMotivosApreensao] = useState<MotivosApreensao[]>();
     const [dadosApreensaoDocumento, setDadosApreensaoDocumento] = useState<MotivosApreensao[]>();
@@ -181,7 +218,6 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
     const [numDocumento, setNumDocumento] = useState('');
     const [localApresentacao, setLocalApresentacao] = useState('');
     const getCombos = async (): Promise<CarregarCombosApreensaoDocumento> => await new Contraordenacao().carregarCombosMotivoApreensao()
-
 
     // CarregarCombosApreensaoDocumento
     React.useEffect(() => {
@@ -234,7 +270,6 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
         setRegularSituacaoLocal(e.target.value);
     }
 
-
     const keyup_levantarDocsDiaUtilLocal = (e: any) => {
         setLevantarDocsDiaUtilLocal(e.target.value);
     }
@@ -246,10 +281,8 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
     const [levantarDocsDiaCheckbox, setLevantarDocsDiaCheckbox] = useState(false);
     const [levantarDocsDiaUtilLocal, setLevantarDocsDiaUtilLocal] = useState('');
 
-
     const [enviaCamaraMunicipal, setEnviaCamaraMunicipal] = useState(false);
     const [camaraMunicipal, setCamaraMunicipal] = useState('');
-
 
     const [podeLevantarTituloConducao, setPodeLevantarTituloConducao] = useState(false);
     const [tituloConducao, setTituloConducao] = useState('');
@@ -267,15 +300,11 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
     const [isDiaPagamento, setIsDiaPagamento] = useState(false);
     const [diaPagamento, setDiaPagamento] = useState('');
 
-
     interface DiaPagamento {
         id: any,
         descricao: any
     }
     const diasPagamentos: DiaPagamento[] = [];
-
-
-
 
     const [aplicarSansao, setAplicarSansao] = useState(false);
     const [sancaoAplicada, setSancaoAplicada] = useState('');
@@ -283,32 +312,29 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
         setSancaoAplicada(e.target.value);
     }
 
-
     const [numeroDocumento, setNumeroDocumento] = useState('');
-    const keyup_numeroDocumento =(e: any) => {
+    const keyup_numeroDocumento = (e: any) => {
         setNumeroDocumento(e.target.value)
     }
 
-
-    React.useEffect(()=>{
+    React.useEffect(() => {
         const data = {
-            dataMotivosApreensao:dataMotivosApreensao,
+            dataMotivosApreensao: dataMotivosApreensao,
             tamanhoMotivoApreensao: tamanhoMotivoApreensao,
             dataDadosApreensaoDocumentos: dataDadosApreensaoDocumentos,
             numDocumento: numDocumento,
-            localApresentacao:localApresentacao,
-            levantarDocsDiaUtilLocal:levantarDocsDiaUtilLocal,
+            localApresentacao: localApresentacao,
+            levantarDocsDiaUtilLocal: levantarDocsDiaUtilLocal,
             regularSituacaoLocal: regularSituacaoLocal,
             camaraMunicipal: camaraMunicipal,
-            tituloConducao:tituloConducao,
+            tituloConducao: tituloConducao,
             diaPagamento: diaPagamento,
-            sancaoAplicada:sancaoAplicada,
+            sancaoAplicada: sancaoAplicada,
             numeroDocumento: numeroDocumento
         }
-        
-        props.setAccoesComplementaresParentData(data);
-    },[])
 
+        props.setAccoesComplementaresParentData(data);
+    }, [])
 
     return (
 
@@ -330,6 +356,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                 </IonGrid>
             </IonCardContent>
 
+            {/*Popover: Apreensão de documentos*/}
             <IonPopover
                 isOpen={openPopoverApreensaoDocumentosData}
                 className="menu popoverArguido"
@@ -602,7 +629,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                         <IonItem>
                                             <IonLabel></IonLabel>
 
-                                            <IonSelect interface="popover"  value={camaraMunicipal} disabled={!enviaCamaraMunicipal} onIonChange={e => setCamaraMunicipal(e.detail.value)}>
+                                            <IonSelect interface="popover" value={camaraMunicipal} disabled={!enviaCamaraMunicipal} onIonChange={e => setCamaraMunicipal(e.detail.value)}>
                                                 {camarasMunicipais?.map((local: any) => {
                                                     return (
                                                         <IonSelectOption key={`${local.id}`}
@@ -716,7 +743,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
 
                         </IonCardContent>
                     </IonCard>
-               
+
                     <IonCard style={{ margin: 30 }}>
                         <IonCardContent>
                             <IonGrid>
@@ -734,9 +761,9 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                         <IonItem>
                                             <IonLabel position="floating" itemType="text" placeholder="Número de Documento">Número de Documento</IonLabel>
                                             <IonInput
-                                             value={numeroDocumento}
-                                             onKeyUp={keyup_numeroDocumento}
-                                             ></IonInput>
+                                                value={numeroDocumento}
+                                                onKeyUp={keyup_numeroDocumento}
+                                            ></IonInput>
                                         </IonItem>
 
                                     </IonCol>
@@ -749,6 +776,127 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                 </IonContent>
 
             </IonPopover>
+            {/*Popover: Apreensão de documentos*/}
+
+            {/*Popover: Ficha controlador*/}
+            <IonPopover
+                isOpen={openPopoverFichaControladorData}
+                className="menu popoverArguido"
+                showBackdrop={true}
+                onDidDismiss={() => {
+                    setOpenPopoverFichaControladorData(false);
+                }}>
+
+                <IonHeader className="ion-no-border">
+                    <IonToolbar color='transparent'>
+                        <IonLabel slot='start'>
+                            <h1>
+                                Ficha de Controlador
+                            </h1>
+                        </IonLabel>
+
+                        <IonButton className="btn-use-data" fill="outline" color="primary" slot="end"
+                            onClick={() => { }}
+                        >
+                            EMITIR
+                        </IonButton>
+
+                        <IonButton className="btn-catalogo" fill="outline" color="medium" slot="end">
+                            IMPRIMIR <IonIcon slot="start" icon={bookOutline} />
+                        </IonButton>
+
+                        <IonButton className="btn-close" fill="outline" color="danger" slot="end" onClick={() => {
+                            setOpenPopoverFichaControladorData(false);
+                        }}>
+                            CANCELAR
+                        </IonButton>
+
+                    </IonToolbar>
+                </IonHeader>
+
+                <IonContent>
+
+                    {/* Informação do IMT */}
+                    <IonCard style={{ margin: 30 }}>
+
+                        <IonCardHeader>
+                            <IonCardTitle>Elementos identificadores
+                            </IonCardTitle>
+                        </IonCardHeader>
+
+                        <IonCardContent>
+
+                            <IonGrid>
+                                <div style={{ fontWeight: 'bold', fontSize: 18 }}>Local de Infração</div>
+                                <CardListItem
+                                    c1={{ titulo: 'Distrito', valor: 'null' }}
+                                    c2={{ titulo: 'Concelho', valor: 'null' }}
+                                    c3={{ titulo: 'Freguesia', valor: 'null' }}
+                                />
+
+                                <CardListItem
+                                    c1={{ titulo: 'Localidade', valor: 'null' }}
+                                    c2={{ titulo: 'Tipo Local', valor: 'null' }}
+                                    c3={{ titulo: 'Zona / Bairro', valor: 'null' }}
+                                />
+
+                                <CardListItem
+                                    c1={{ titulo: 'Tipo de Via', valor: 'null' }}
+                                    c2={{ titulo: 'Arruamento / Via', valor: 'null' }}
+                                    c3={{ titulo: 'N° Polícia / KM', valor: 'null' }}
+                                />
+
+                                <div style={{ fontWeight: 'bold', fontSize: 18, marginTop: 30 }}>Dados de identificação do examinado</div>
+                                <CardListItem
+                                    c1={{ titulo: 'Data de Nascimento', valor: 'null' }}
+                                    c2={{ titulo: 'Sexo', valor: 'null' }}
+                                />
+
+                                <div style={{ fontWeight: 'bold', fontSize: 18, marginTop: 30 }}>Dados de identificação do Veículo</div>
+                                <CardListItem
+                                    c1={{ titulo: 'Tipo de Veículo', valor: 'null' }}
+                                    c2={{ titulo: 'Matrícula', valor: 'null' }}
+                                />
+                            </IonGrid>
+
+                        </IonCardContent>
+                    </IonCard>
+                    {/* Informação do IMT */}
+
+                    {/* Número de Documentos */}
+                    <IonCard style={{ margin: 30 }}>
+                        <IonCardContent>
+                            <IonGrid>
+                                <IonRow>
+
+                                    <IonCol size-sm='12' size-md='10' size-lg='12'>
+                                        <p style={{ color: 'red' }}>Apenas deverá preencher este número caso não tenha sido possível imprimir o documento e o tenha registado manualmente em pré-impresso(Não será gerado o respectivo expediente).</p>
+                                    </IonCol>
+
+                                </IonRow>
+                                <IonRow>
+
+                                    <IonCol size-sm='12' size-md='10' size-lg='4'>
+
+                                        <IonItem>
+                                            <IonLabel position="floating" itemType="text" placeholder="Número de Documento">Número de Documento</IonLabel>
+                                            <IonInput
+                                                value={numeroDocumento}
+                                                onKeyUp={keyup_numeroDocumento}
+                                            ></IonInput>
+                                        </IonItem>
+
+                                    </IonCol>
+
+                                </IonRow>
+                            </IonGrid>
+                        </IonCardContent>
+                    </IonCard>
+                    {/* Número de Documentos */}
+                </IonContent>
+
+            </IonPopover>
+            {/*Popover: Ficha controlador*/}
         </IonCard>
     );
 }
