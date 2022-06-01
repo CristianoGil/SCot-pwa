@@ -107,7 +107,7 @@ const Menu: React.FC<IProps> = (props) => {
 
                     </IonButton>
                     <IonPopover arrow={true} translucent={true} dismissOnSelect={true} showBackdrop={false} side={"top"}
-                                backdropDismiss={true} trigger="userLogout" reference="event">
+                        backdropDismiss={true} trigger="userLogout" reference="event" style={{marginTop:28}}>
                         <IonList>
                             <IonItem button onClick={handleLogout} lines='none'>
                                 <IonLabel>
