@@ -93,10 +93,10 @@ const Infraccao: React.FC<InfracaoData> = (props) => {
             sancaoAcessoria:sancaoAcessoria,
             normaSancaoAcessoria:sancaoAcessoria,
             observacao: observacao,
-            codigoDgv:observacao
+            codigoDgv:codigoDgv
       }
       props.setInfracao(data)
-    },[tipoAutuante,sancaoAcessoria,observacao,observacao,autuante,comarcaDto,entidade,tipificacao,subTipoInfracao,normaInfrigida,descricaoSumaria,minValor, maxValor,normaQuePreveContraOrdenacao, sancaoAcessoria,])
+    },[tipoAutuante,sancaoAcessoria,observacao,observacao,autuante,comarcaDto,entidade,tipificacao,subTipoInfracao,normaInfrigida,descricaoSumaria,minValor, maxValor,normaQuePreveContraOrdenacao, sancaoAcessoria,codigoDgv])
 
 
     const getInfracao = async (): Promise<InfracaoResponse> => await new Contraordenacao().carregarCombosInfracao()
