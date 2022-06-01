@@ -23,27 +23,7 @@ export const CoDirectaMarkupTable2 = () => (
             }}
         />
         <tbody>
-        <tr role="none" style={{height: 0}}>
-            <td style={{width: 20}}/>
-            <td style={{width: 1}}/>
-            <td style={{width: 3}}/>
-            <td style={{width: 26}}/>
-            <td style={{width: 65}}/>
-            <td style={{width: 3}}/>
-            <td style={{width: 8}}/>
-            <td style={{width: 1}}/>
-            <td style={{width: 3}}/>
-            <td style={{width: 2}}/>
-            <td style={{width: 23}}/>
-            <td style={{width: 71}}/>
-            <td style={{width: 1}}/>
-            <td style={{width: 3}}/>
-            <td style={{width: 70}}/>
-            <td style={{width: 264}}/>
-            <td style={{width: 10}}/>
-            <td style={{width: 21}}/>
-        </tr>
-        <tr style={{height: 20}}>
+          <tr style={{height: 20}}>
             <td colSpan={18}></td>
         </tr>
         <tr style={{height: 40}}>

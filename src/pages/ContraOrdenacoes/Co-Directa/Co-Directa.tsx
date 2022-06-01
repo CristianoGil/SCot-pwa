@@ -206,6 +206,11 @@ const CoDirecta: React.FC = () => {
     const history = useHistory();
     const [activeSegment, setActiveSegment] = useState('intervenientes');
     const [coDirecta, setCoDirecta] = useState<any>();
+
+    const [coDirectaIntervenientes, setCoDirectaIntervenientes] = useState<any>();
+    const [coDirectaInfracao, setCoDirectaInfracao] = useState<any>();
+    const [coDirectaComplementar, setCoDirectaComplementar] = useState<any>();
+
     const [coSaved, setCoSaved] = useState<any>({});
     const [isCOSaved, setIsCOSaved] = useState(false);
     const dispatch = useAppDispatch();
@@ -351,6 +356,34 @@ const CoDirecta: React.FC = () => {
 
     }
 
+
+    // Set Intervenientes Data
+    React.useEffect(() => {
+        if(coDirecta && coDirectaIntervenientes) {
+            setCoDirecta(Object.assign(coDirecta, coDirectaIntervenientes))
+        } else if(coDirectaIntervenientes) {
+            setCoDirecta(coDirectaIntervenientes)
+        }
+    }, [coDirectaIntervenientes])
+
+    // Set Infracao Data
+    React.useEffect(() => {
+        if(coDirecta && coDirectaInfracao) {
+            setCoDirecta(Object.assign(coDirecta, coDirectaInfracao))
+        } else if(coDirectaInfracao) {
+            setCoDirecta(coDirectaInfracao)
+        }
+    }, [coDirectaInfracao])
+
+    // Set Dados complementares Data
+    React.useEffect(() => {
+        if(coDirecta && coDirectaComplementar) {
+            setCoDirecta(Object.assign(coDirecta, coDirectaComplementar))
+        } else if(coDirectaComplementar) {
+            setCoDirecta(coDirectaComplementar)
+        }
+    }, [coDirectaComplementar])
+
     return (
         <IonPage>
             <Menu actionsCOBtn={<MenuActionsBtnSave isCOSaved={isCOSaved} onEmit={(e: any) => {
@@ -381,11 +414,11 @@ const CoDirecta: React.FC = () => {
 
                 </IonGrid>
 
-                 <Intervenientes active={activeSegment === 'intervenientes'} setCoDirectaData={setCoDirecta}/>
+                 <Intervenientes active={activeSegment === 'intervenientes'} setCoDirectaData={setCoDirectaIntervenientes}/>
 
-                 <DadosInfracao active={activeSegment === 'dados_da_infracao'} setCoDirectaData={setCoDirecta} />)
+                 <DadosInfracao active={activeSegment === 'dados_da_infracao'} setCoDirectaData={setCoDirectaInfracao} />)
 
-                 <DadosComplementares active={activeSegment === 'dados_complemenatares'} setCoDirectaData={setCoDirecta}/>
+                 <DadosComplementares active={activeSegment === 'dados_complemenatares'} setCoDirectaData={setCoDirectaComplementar}/>
 
 
             </IonContent>
