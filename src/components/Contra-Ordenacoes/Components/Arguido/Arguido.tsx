@@ -455,7 +455,7 @@ const Arguido: React.FC<IArguido> = (props) => {
     // END: INPUT NIF
 
     const handlerFullfillForm = () => {
-
+        console.log(arguidoData)
         props.setParentArguidoData(arguidoData);
 
         setCurrentArguidoData(arguidoData);

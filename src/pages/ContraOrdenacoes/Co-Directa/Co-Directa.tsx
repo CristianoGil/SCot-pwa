@@ -193,7 +193,8 @@ const handlerCoDirectaRequestData = (data: any): ICoDirecta => {
         base64Assinatura: null,
     }
 
-    console.log(dataReturn)
+    console.log("dataReturn: ", dataReturn);
+    
     return dataReturn
 }
 
@@ -214,7 +215,9 @@ const CoDirecta: React.FC = () => {
     const handlerSegment = (e: any) => {
         setActiveSegment(e.detail.value);
     }
-    const onSave = (e: any) => {
+    const onSave = async (e: any) => {
+
+        console.log("OnSave: ", coDirecta);
 
         // valida [Local infraccao]
 
@@ -251,11 +254,11 @@ const CoDirecta: React.FC = () => {
 
         if (!localInfraccao_isValid) {
 
-            presentAlert({
+            await presentAlert({
                 header: 'Atenção!',
                 message: 'Por favor preencha todos campos do local de infracção!',
                 buttons: [
-                    { text: 'Fechar' },
+                    {text: 'Fechar'},
                 ]
             })
 
@@ -293,42 +296,42 @@ const CoDirecta: React.FC = () => {
 
         if (!infraccao_isValid) {
 
-            presentAlert({
+            await presentAlert({
                 header: 'Atenção!',
                 message: 'Por favor preencha todos campos da infracção!',
                 buttons: [
-                    { text: 'Fechar' },
+                    {text: 'Fechar'},
                 ]
             })
 
             return;
         }
 
-        presentLoad({
+        await presentLoad({
             message: 'A guardar...',
         })
 
-        instanceCoDirecta.guardarCODirectaGeneric(handlerCoDirectaRequestData(coDirecta)).then((responseData) => {
+        instanceCoDirecta.guardarCODirectaGeneric(handlerCoDirectaRequestData(coDirecta)).then(async (responseData) => {
 
             setCoSaved(responseData);
 
-            presentAlert({
+            await presentAlert({
                 header: 'Sucesso!',
                 message: 'Contraordenação guardada com sucesso!',
                 buttons: [
-                    { text: 'Fechar' },
+                    {text: 'Fechar'},
                 ]
             })
             setIsCOSaved(true);
 
-        }).catch((e) => {
+        }).catch(async (e) => {
             console.error('Save Co directa: ', e);
 
-            presentAlert({
+            await presentAlert({
                 header: 'Error!',
                 message: 'Houve algum erro ao gravar!',
                 buttons: [
-                    { text: 'Fechar' },
+                    {text: 'Fechar'},
                 ]
             })
 
