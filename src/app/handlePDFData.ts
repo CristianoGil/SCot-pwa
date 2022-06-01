@@ -64,7 +64,7 @@ export const handlePDFData = (coData: ICoDirecta): any => {
 
     // Infracçao
     if (coData.dataInfracao) {
-        pdfData.infracao.data = dateFormat(coData.dataInfracao?.toString(), "YYYY/mm/dd")
+        pdfData.infracao.data = coData.dataInfracao?.toString() ?  dateFormat(coData.dataInfracao?.toString(), "YYYY/mm/dd") : ""
         pdfData.infracao.hora = dateFormat(coData.dataInfracao?.toString(), "HH[h]mm" )
     }
 

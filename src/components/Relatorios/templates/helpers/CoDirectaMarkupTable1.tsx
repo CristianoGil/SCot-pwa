@@ -1104,7 +1104,8 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
             </tr>
             <tr style={{height: 40}}>
                 <td></td>
-                <td colSpan={69} style={{textIndent: 0, textAlign: "left"}}>{coData?.infracao?.descricaoSumaria || ""}</td>
+                <td colSpan={69} style={{textIndent: 0, textAlign: "left",     wordBreak: "break-all",
+                    whiteSpace: "normal"}}>{coData?.infracao?.descricaoSumaria || ""}</td>
                 <td></td>
             </tr>
             <tr style={{height: 2}}>
@@ -1207,7 +1208,7 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
                 <td
                     colSpan={7}
                     style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-                >{coData?.infracao?.montanteDaCoimaMinima} &euro;</td>
+                > {coData?.infracao?.montanteDaCoimaMinima ? coData?.infracao?.montanteDaCoimaMinima : "0"}&euro; </td>
                 <td></td>
                 <td
                     colSpan={41}
@@ -1239,7 +1240,7 @@ export const CoDirectaMarkupTable1: React.FC<IProps> = (props) => {
                 <td
                     colSpan={7}
                     style={{textIndent: 0, verticalAlign: "bottom", textAlign: "left"}}
-                >{coData?.infracao?.montanteDaCoimaMaxima} &euro;</td>
+                >{coData?.infracao?.montanteDaCoimaMaxima ? coData?.infracao?.montanteDaCoimaMaxima : "0"}&euro;</td>
                 <td></td>
                 <td
                     colSpan={41}
