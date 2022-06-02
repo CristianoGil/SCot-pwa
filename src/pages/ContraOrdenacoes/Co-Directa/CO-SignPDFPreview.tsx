@@ -584,6 +584,16 @@ const CODirectaSignPDFPreview: React.FC = () => {
                 return
             }
 
+        } else if (!assinaturaManuscritaAgente && !assinaturaPapelAgente && !assinaturaQualificadaAgente) {
+            presentAlert({
+                header: 'Erro!',
+                message: 'A CO deve conter pelo a assinatura do agente',
+                buttons: [
+                    {text: 'Fechar'},
+                ]
+            })
+
+            return
         }
 
 
@@ -656,11 +666,11 @@ const CODirectaSignPDFPreview: React.FC = () => {
 
 
         console.log("coData: ", coData)
+        
 
-
-        setTimeout(()=>{
+        setTimeout(() => {
             dismissLoad();
-        },1000)
+        }, 1000)
     }
     return (
         <IonPage>

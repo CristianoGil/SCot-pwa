@@ -53,7 +53,7 @@ export const MenuActionsBtnSignPDF: React.FC<IProps> = (props) => {
             </IonButton>
 
             <IonButton fill="solid" strong={true} color="success" onClick={props.onSaveSignedPDF}>
-                Guardar
+                Terminar a emissão
             </IonButton>
 
             <Link to="/coDirecta">

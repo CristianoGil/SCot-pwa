@@ -15,6 +15,7 @@ import {CarregarCombosApreensaoDocumento} from "../model/documentoapreendido";
 import database from "../database";
 import { ApiUtils } from "./ApiUtils";
 import Veiculo from "../pages/RI-Catalogo/Veiculo/Veiculo";
+import { uid } from "../utils/apex-formatters";
 
 export class Contraordenacao {
     
@@ -99,7 +100,6 @@ export class Contraordenacao {
 
     public async guardarCODirectaGeneric(requestData: ICoDirecta): Promise<ICoDirecta | null> {
 
-
         if (_.contains(getPlatforms(), 'desktop')) { // Is a desktop device
             return await this.guardarCODirecta(requestData);
         } else { // Is a mobile device
@@ -108,6 +108,52 @@ export class Contraordenacao {
                 return await this.guardarCODirecta(requestData);
             } else { // Is onfline
 
+                const {insertOne} = database();
+                const localId = uid();
+                return new Promise((resolve, reject) => {
+
+                    insertOne('co_directa', 5, [localId, JSON.stringify(requestData), false, (new Date().toDateString()), null], ['localId','data', 'isSynchronized', 'createdAt', 'emitedAt']).then(() => {
+                        requestData.localId = localId
+                        resolve(requestData);
+                    }).catch((e) => {
+                        reject(e);
+                    })
+                })
+            }
+        }
+    }
+
+    public guardarCODirecta(requestData: ICoDirecta): Promise<ICoDirecta | null> {
+        return new Promise((resolve, reject) => {
+
+            const service_url = 'salvarContraOrdenacao';
+            this.connectPostAPI(`${this.prefix_url}/${service_url}`, {contraOrdenacao: requestData}).then((response) => {
+                resolve(response.data as unknown as ICoDirecta);
+            }).catch((error: AxiosError) => {
+                console.error(`${this.prefix_url}/${service_url}:`, error)
+                reject(error)
+            })
+
+
+        })
+    }
+
+    public async emitirCODirectaGeneric(requestData: ICoDirecta): Promise<ICoDirecta | null> {
+
+
+        if (_.contains(getPlatforms(), 'desktop')) { // Is a desktop device
+            return await this.emitirCODirecta(requestData);
+        } else { // Is a mobile device
+
+            if (navigator.onLine) { // Is Online
+                return await this.emitirCODirecta(requestData);
+            } else { // Is onfline
+
+                // 1. Fetch by localId
+                
+                    // 1.1 If not exste => create
+                    // 1.2 If exist update
+                
                 const {insertOne} = database();
 
                 return new Promise((resolve, reject) => {
@@ -118,31 +164,27 @@ export class Contraordenacao {
                         reject(e);
                     })
                 })
-
             }
-
         }
-
-
     }
 
-    public guardarCODirecta(requestData: ICoDirecta): Promise<ICoDirecta | null> {
+
+    public emitirCODirecta(requestData: ICoDirecta): Promise<ICoDirecta | null> {
         return new Promise((resolve, reject) => {
 
-            // const service_url = 'salvarContraOrdenacao';
-            // this.connectPostAPI(`${this.prefix_url}/${service_url}`, {contraOrdenacao: requestData}).then((response) => {
-            //     resolve(response.data as unknown as ICoDirecta);
-            // }).catch((error: AxiosError) => {
-            //     console.error(`${this.prefix_url}/${service_url}:`, error)
-            //     reject(error)
-            // })
+            const service_url = 'emitirContraOrdenacao';
+            this.connectPostAPI(`${this.prefix_url}/${service_url}`, {contraOrdenacao: requestData}).then((response) => {
+                resolve(response.data as unknown as ICoDirecta);
+            }).catch((error: AxiosError) => {
+                console.error(`${this.prefix_url}/${service_url}:`, error)
+                reject(error)
+            })
 
-            setTimeout(()=> {
-                resolve(requestData)
-            },2000)
 
         })
     }
+
+
 
     public pesquisarPessoa(requestData: IPesquisarPessoaRequest): Promise<IPesquisarPessoaResponse> {
         return new Promise((resolve, reject) => {

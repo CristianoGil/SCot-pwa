@@ -259,15 +259,15 @@ const CoDirecta: React.FC = () => {
 
         if (!localInfraccao_isValid) {
 
-            await presentAlert({
-                header: 'Atenção!',
-                message: 'Por favor preencha todos campos obrigatórios nas abas referentes a "dados de infracção e dados complementares"!',
-                buttons: [
-                    {text: 'Fechar'},
-                ]
-            })
-
-            return;
+            // await presentAlert({
+            //     header: 'Atenção!',
+            //     message: 'Por favor preencha todos campos obrigatórios nas abas referentes a "dados de infracção e dados complementares"!',
+            //     buttons: [
+            //         {text: 'Fechar'},
+            //     ]
+            // })
+            //
+            // return;
         }
 
         // valida [infraccao]
@@ -301,15 +301,15 @@ const CoDirecta: React.FC = () => {
 
         if (!infraccao_isValid) {
 
-            await presentAlert({
-                header: 'Atenção!',
-                message: 'Por favor preencha todos campos obrigatórios nas abas referentes a "dados de infracção e dados complementares"!',
-                buttons: [
-                    {text: 'Fechar'},
-                ]
-            })
-
-            return;
+            // await presentAlert({
+            //     header: 'Atenção!',
+            //     message: 'Por favor preencha todos campos obrigatórios nas abas referentes a "dados de infracção e dados complementares"!',
+            //     buttons: [
+            //         {text: 'Fechar'},
+            //     ]
+            // })
+            //
+            // return;
         }
 
         await presentLoad({
