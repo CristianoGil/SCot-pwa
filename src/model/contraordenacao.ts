@@ -69,6 +69,7 @@ export interface ICombosAssinaturas {
 
 export interface ICoDirecta {
     id?: number | null;
+    localId?: any;
     tipoContraordenacao: string | null;
     isTerminada: boolean | null;
     isEmitida: boolean | null;
