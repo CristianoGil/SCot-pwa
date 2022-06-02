@@ -25,17 +25,17 @@ export class Contraordenacao {
     prefix_dominio_url: string = 'v1/dominio'
     apiUtils = new ApiUtils()
 
-    pesquisarVeiculosSemelhantes(veiculo: IVeiculoRequest): Promise<IVeiculoResponse> {
+    pesquisarVeiculosSemelhantes(veiculo: IVeiculoRequest): Promise<IVeiculoResponse>  {
         return new Promise((resolve, reject) => {
-            this.apiUtils.connectPostAPI(`${VEICULOS_SEMELHANTES}`, veiculo).then((response) => {
-                resolve(response.data);
-            }).catch((error: AxiosError) => {
-                reject(error)
-            })
+                this.apiUtils.connectPostAPI(`${VEICULOS_SEMELHANTES}`,veiculo).then((response) => {
+                    resolve(response.data);
+                }).catch((error: AxiosError) => {
+                    reject(error)
+                })
 
         })
     }
-
+ 
     getMapAddressByPosition(arg0: { position: { lat: any; lng: any; }; apiKey: string; }) {
         return new Promise((resolve, reject) => {
 
@@ -51,19 +51,19 @@ export class Contraordenacao {
     }
 
     getCoordsByAddress
-    (arg0: { address: string; apiKey: string; }): any {
-        return new Promise((resolve, reject) => {
-            let url = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${arg0.address}&fields=formatted_address,geometry&key=${arg0.apiKey}`;
-            axios
-                .get(url)
-                .then((response: AxiosResponse<any>) => {
-                    resolve(response)
-                })
-                .catch((error: AxiosError) => {
-                    reject(error)
-                })
-        })
-
+        (arg0: { address: string; apiKey: string; }): any {
+            return new Promise((resolve, reject) => {
+                let url = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${arg0.address}&fields=formatted_address,geometry&key=${arg0.apiKey}`;
+                axios
+                    .get(url)
+                    .then((response: AxiosResponse<any>) => {
+                        resolve(response)
+                    })
+                    .catch((error: AxiosError) => {
+                        reject(error)
+                    })
+            })
+         
     }
 
 
@@ -179,7 +179,6 @@ export class Contraordenacao {
 
         })
     }
-
 
     public pesquisarPessoa(requestData: IPesquisarPessoaRequest): Promise<IPesquisarPessoaResponse> {
         return new Promise((resolve, reject) => {
