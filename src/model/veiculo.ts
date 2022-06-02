@@ -70,16 +70,16 @@ export interface ICoimaVeiculo {
 
 export interface IVeiculoRequest {
     matricula: string
-    chassi?: string
-    ano?: string
-    categoria?: number
-    classe?: number
-    subclasse?: number
-    tipo?: number
-    marca?: number
-    modelo?: number
-    cor?: number
-    pais?: number
+    chassi?: string  | string
+    ano?: string  | string
+    categoria?: number | string
+    classe?: number  | string
+    subclasse?: number  | string
+    tipo?: number  | string
+    marca?: number  | string
+    modelo?: number  | string
+    cor?: number  | string
+    pais?: number  | string
 }
 
 export interface IVeiculoResponse {
