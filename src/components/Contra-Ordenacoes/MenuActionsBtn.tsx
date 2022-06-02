@@ -13,7 +13,7 @@ export const MenuActionsBtnSave: React.FC<IProps> = (props) => {
     return (
         <IonButtons slot="start">
 
-            <IonButton fill="solid" strong={true} color="success" onClick={props.onSave}>
+            <IonButton fill="solid" strong={true} disabled={props.isCOSaved} color="success" onClick={props.onSave}>
                 Gravar
             </IonButton>
 

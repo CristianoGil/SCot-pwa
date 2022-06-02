@@ -239,7 +239,6 @@ const CoDirecta: React.FC = () => {
     const history = useHistory();
     const [activeSegment, setActiveSegment] = useState('intervenientes');
     const [coDirecta, setCoDirecta] = useState<any>();
-
     const [coDirectaIntervenientes, setCoDirectaIntervenientes] = useState<any>();
     const [coDirectaInfracao, setCoDirectaInfracao] = useState<any>();
     const [coDirectaComplementar, setCoDirectaComplementar] = useState<any>();
@@ -301,7 +300,7 @@ const CoDirecta: React.FC = () => {
                 ]
             })
 
-            // return;
+            return;
         }
 
         // valida [infraccao]
@@ -343,7 +342,7 @@ const CoDirecta: React.FC = () => {
                 ]
             })
 
-            // return;
+            return;
         }
 
         await presentLoad({

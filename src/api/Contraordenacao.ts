@@ -151,11 +151,13 @@ export class Contraordenacao {
                 const {update} = database();
 
                 return new Promise((resolve, reject) => {
-                    const set = `data = ${requestData}`;
-                    const where = `localId = ${requestData.localId}`;
+                    const set = `data='${JSON.stringify(requestData)}'`;
+                    const where = `localId='${requestData.localId}'`;
+
+
 
                     update('co_directa', set, where).then(() => {
-                        reject(requestData);
+                        resolve(requestData);
                     }).catch((e) => {
                         reject(e);
                     })

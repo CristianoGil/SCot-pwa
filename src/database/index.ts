@@ -101,7 +101,10 @@ export default function database() {
 
             return new Promise<void>(async (resolve, reject) => {
                 try {
-
+                    if (!db) {
+                        await initialDatabase();
+                    }
+                    
                     const statement = `UPDATE ${table} SET ${set} WHERE ${where}`
 
                     db.transaction((tx: any): void => {
