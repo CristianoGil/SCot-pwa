@@ -1,4 +1,4 @@
-export const URL_API_SCOT = "http://localhost:8081/scot-plus-bff";
+export const URL_API_SCOT = "http://192.168.1.186:8081/scot-plus-bff";
 // export const URL_API_SCOT = "http://10.0.30.90:8080/scot-plus-bff";
 export const URL_ASSINATURAS = {
     CC: 'http://localhost:8081/LoadSCOT', // Cartao do cidadao

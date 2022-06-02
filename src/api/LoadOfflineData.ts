@@ -46,22 +46,6 @@ export class LoadOfflineData {
         })
     }
 
-    public update_by_localId(tableName: string, localId: any, setInsert: any): Promise<any> {
-        return new Promise(async (resolve, reject) => {
-      
-            const query = `UPDATE ${tableName} SET ${setInsert} WHERE localId = ${localId}`
-
-            // const {update} = database();
-
-            fetch(query).then((data) => {
-                resolve(data)
-            }).catch((error) => {
-                reject(error)
-            })
-
-
-        })
-    }
 
     public load_combos(service_url: string): Promise<any> {
         return new Promise((resolve, reject) => {
