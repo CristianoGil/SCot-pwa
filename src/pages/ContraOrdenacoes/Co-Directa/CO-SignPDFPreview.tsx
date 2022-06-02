@@ -34,6 +34,7 @@ import {Document} from 'react-pdf';
 import {useParams} from "react-router";
 import {handlePDFData} from "../../../app/handlePDFData";
 import {ICoDirecta} from "../../../model/contraordenacao";
+import { Contraordenacao } from "../../../api/Contraordenacao";
 
 const assinaturaManuscrito = 'Manuscrito';
 const assinaturaQualificada = 'Qualificada';
@@ -662,15 +663,36 @@ const CODirectaSignPDFPreview: React.FC = () => {
             coData.tipoAssinaturaFormatoTestemunha2 = formatoAssinaturaQualificadaTestemunha_2
         }
 
-        coData.base64Assinatura = PDF_BLOB_SIGNED;
+        setTimeout(() => {
+            coData.base64Assinatura = PDF_BLOB_SIGNED;
+        },16);
 
 
-        console.log("coData: ", coData)
-        
+
+        // Marcar como emitida
+        coData.isEmitida = true;
+
 
         setTimeout(() => {
-            dismissLoad();
-        }, 1000)
+
+            new Contraordenacao().emitirCODirectaGeneric(coData).then((data: ICoDirecta | null) => {
+
+            }).catch((e:any) => {
+                presentAlert({
+                    header: 'Erro!',
+                    subHeader: e.message,
+                    message: 'Houve algum erro ao emitir.',
+                    buttons: [
+                        {text: 'Fechar'},
+                    ]
+                })
+                console.log(e)
+
+            }).finally(() => {
+                dismissLoad();
+            })
+
+        }, 100)
     }
     return (
         <IonPage>

@@ -97,6 +97,29 @@ export default function database() {
 
         },
 
+        update = async (table: string, set: string, where: string): Promise<any> => {
+
+            return new Promise<void>(async (resolve, reject) => {
+                try {
+
+                    const statement = `UPDATE ${table} SET ${set} WHERE ${where}`
+
+                    db.transaction((tx: any): void => {
+                        tx.executeSql(statement);
+                    }, (error: any) => {
+                        console.error("SQLite: Transaction update table error (" + table + ")\n", error.message);
+                        reject(error)
+                    }, () => {
+                        console.info("SQLite: Transaction update table success (" + table + ")");
+                        resolve()
+                    });
+                } catch (e) {
+                    console.error("SQLite: Transaction update table (" + table + ") error \n", JSON.stringify(e));
+                    reject(e)
+                }
+            })
+        },
+
         insertUpdate = async (table: string, valuesRefQty: number, values: any[], fields?: string[]): Promise<void> => {
 
             await dropTable(table);
@@ -183,6 +206,7 @@ export default function database() {
         dropTable,
         insertUpdate,
         fetch,
+        update,
         self: {
             _echoTest,
             _selfTest
