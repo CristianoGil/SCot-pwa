@@ -51,6 +51,8 @@ import {
     schema_subTipificacaoDaInfraccao,
     schema_tipificacaoDaInfraccao
 } from '../../../Validations/Contra-Ordenacoes/Infraccao';
+import { schema_arguido } from '../../../Validations/Contra-Ordenacoes/Arguido';
+import { schema_veiculo } from '../../../Validations/Contra-Ordenacoes/Veiculo';
 
 const instanceCoDirecta = new Contraordenacao();
 
@@ -256,6 +258,58 @@ const CoDirecta: React.FC = () => {
     const onSave = async (e: any) => {
 
         console.log("OnSave: ", coDirecta);
+
+        // valida [Veículo]
+
+        let veiculo = coDirecta.veiculo;
+
+        let veiculo_isValid = schema_veiculo.isValidSync({
+
+            matricula: veiculo?.matricula,
+            pais: veiculo?.pais,
+            marca: veiculo?.marca,
+
+        });
+
+        if (!veiculo_isValid) {
+
+            await presentAlert({
+                header: 'Atenção!',
+                message: 'Por favor preencha todos campos obrigatórios na aba referentes a "intervenientes (Veículo)"!',
+                buttons: [
+                    { text: 'Fechar' },
+                ]
+            })
+
+            return;
+        }
+
+        // valida [Arguido]
+
+        let arguido = coDirecta.arguido;
+        let documento = coDirecta.documento;
+
+        let arguido_isValid = schema_arguido.isValidSync({
+           
+            nif: arguido?.nif,
+            tipoPessoa: arguido?.tipoPessoa,
+            dataEmissao: documento?.dataEmissao,
+            entidadeEmissora: documento?.entidadeEmissora,
+
+        });
+
+        if (!arguido_isValid) {
+
+            await presentAlert({
+                header: 'Atenção!',
+                message: 'Por favor preencha todos campos obrigatórios na aba referentes a "intervenientes (Arguido)"!',
+                buttons: [
+                    { text: 'Fechar' },
+                ]
+            })
+
+            return;
+        }
 
         // valida [Local infraccao]
 
