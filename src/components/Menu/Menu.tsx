@@ -45,6 +45,10 @@ const Menu: React.FC<IProps> = (props) => {
     const [showModal, setShowModal] = useState(false);
     const userContext = useContext<any>(UserContext);
 
+    if(!userContext?.user?.token ) {
+        userContext.syncUserInfo()
+    }
+
     const [networkState, setNetworkState] = useState<string>(navigator.onLine ? 'online' : 'offline');
 
     window.addEventListener('offline', function () {

@@ -2,6 +2,7 @@ import {useState, createContext, useContext} from 'react';
 import _ from 'underscore';
 import Login from '../api/Login';
 import {IResponseLogin} from '../model/login';
+import { AUTH_LOCALSTORAGE } from '../utils/const';
 
 
 export interface IUserContex {
@@ -26,6 +27,27 @@ export const UserProvider = (props: any) => {
         isMobilidade: undefined,
         loggeDate: undefined
     })
+
+    const syncUserInfo = () => {
+        const dataUser = localStorage.getItem(AUTH_LOCALSTORAGE);
+        if (dataUser) {
+
+            const parse_dataUser: IResponseLogin = JSON.parse(dataUser);
+
+            setUser({
+                userName: parse_dataUser.userName,
+                nomeUsuario: parse_dataUser.nomeUsuario,
+                entidade: parse_dataUser.entidade,
+                email: parse_dataUser.email,
+                token: parse_dataUser.token,
+                menu: parse_dataUser.menu,
+                isMobilidade: parse_dataUser.isMobilidade,
+                loggeDate: parse_dataUser.loggeDate
+            });
+
+        }
+
+    }
 
     const loginUsuario = (username: string, password: string, cbSuccess: any = () => {}, cbError: any = () => {}) => {
 
@@ -85,6 +107,7 @@ export const UserProvider = (props: any) => {
         <UserContext.Provider value={{
             login: loginUsuario,
             logout: logout,
+            syncUserInfo: syncUserInfo,
             isAuthenticated: isAuthenticated,
             user: user
         }}>

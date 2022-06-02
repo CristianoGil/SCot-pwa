@@ -69,7 +69,7 @@ setupIonicReact();
 const App: React.FC = () => {
 
     const userContext = useContext<any>(UserContext);
-
+  
     return (
         <IonApp>
             <IonReactRouter>
