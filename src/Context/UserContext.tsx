@@ -70,6 +70,8 @@ export const UserProvider = (props: any) => {
                 });
 
                 cbSuccess();
+
+
             }
 
         }).catch(() => {

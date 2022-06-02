@@ -122,6 +122,7 @@ export class Contraordenacao {
         }
     }
 
+
     public guardarCODirecta(requestData: ICoDirecta): Promise<ICoDirecta | null> {
         return new Promise((resolve, reject) => {
 
@@ -169,6 +170,47 @@ export class Contraordenacao {
         return new Promise((resolve, reject) => {
 
             const service_url = 'emitirContraOrdenacao';
+            this.connectPostAPI(`${this.prefix_url}/${service_url}`, {contraOrdenacao: requestData}).then((response) => {
+                resolve(response.data as unknown as ICoDirecta);
+            }).catch((error: AxiosError) => {
+                console.error(`${this.prefix_url}/${service_url}:`, error)
+                reject(error)
+            })
+
+
+        })
+    }
+
+
+    public async terminarCODirectaGeneric(requestData: ICoDirecta): Promise<ICoDirecta | null> {
+
+        if (_.contains(getPlatforms(), 'desktop')) { // Is a desktop device
+            return await this.terminarCODirecta(requestData);
+        } else { // Is a mobile device
+
+            if (navigator.onLine) { // Is Online
+                return await this.terminarCODirecta(requestData);
+            } else { // Is onfline
+
+                const {insertOne} = database();
+                const localId = uid();
+                return new Promise((resolve, reject) => {
+                    insertOne('co_directa', 5, [localId, JSON.stringify(requestData), false, (new Date().toDateString()), null], ['localId', 'data', 'isSynchronized', 'createdAt', 'emitedAt']).then(() => {
+                        requestData.localId = localId
+                        resolve(requestData);
+                    }).catch((e) => {
+                        reject(e);
+                    })
+                })
+            }
+        }
+    }
+
+
+    public terminarCODirecta(requestData: ICoDirecta): Promise<ICoDirecta | null> {
+        return new Promise((resolve, reject) => {
+
+            const service_url = 'terminarContraOrdenacao';
             this.connectPostAPI(`${this.prefix_url}/${service_url}`, {contraOrdenacao: requestData}).then((response) => {
                 resolve(response.data as unknown as ICoDirecta);
             }).catch((error: AxiosError) => {

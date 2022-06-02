@@ -12,6 +12,7 @@ import {
     useIonAlert
 } from "@ionic/react";
 import {useState} from "react";
+import { useHistory } from "react-router";
 import SignatureCanvas from "react-signature-canvas";
 
 export interface IProps {
@@ -64,8 +65,8 @@ const AssinaturaManuscrito: React.FC<IProps> = (props) => {
     const getSignFromCanvas = (ref: any) => {
         setSign(ref);
     };
-
-
+ 
+    console.log('isOpen : ', isOpen)
     return (
         <IonModal
             canDismiss={canDismiss}

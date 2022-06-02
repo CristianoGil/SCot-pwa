@@ -1,4 +1,6 @@
 import {
+    IonBreadcrumb,
+    IonBreadcrumbs,
     IonButton,
     IonCard,
     IonCardContent,
@@ -12,7 +14,7 @@ import {
     IonPage,
     IonPopover,
     IonRow,
-    IonToolbar, useIonAlert, useIonLoading
+    IonToolbar, useIonAlert, useIonLoading, useIonToast
 } from "@ionic/react";
 import Menu from "../../../components/Menu/Menu";
 import {CoDirectaTemplateMarkup} from '../../../components/Relatorios/templates/CoDirectaTemplate';
@@ -31,10 +33,10 @@ import {base64ToArrayBuffer, blobToBase64, cleanString, downloadFile} from "../.
 import {generatePDF_HTML, getPDFBase64_HTML} from "../../../app/SignPDF_HTML";
 import Assinatura from "../../../api/Assinatura";
 import {Document} from 'react-pdf';
-import {useParams} from "react-router";
+import {useHistory, useParams} from "react-router";
 import {handlePDFData} from "../../../app/handlePDFData";
 import {ICoDirecta} from "../../../model/contraordenacao";
-import { Contraordenacao } from "../../../api/Contraordenacao";
+import {Contraordenacao} from "../../../api/Contraordenacao";
 
 const assinaturaManuscrito = 'Manuscrito';
 const assinaturaQualificada = 'Qualificada';
@@ -63,7 +65,7 @@ const signPosition = (whoIsSign: string): { posx: number, posy: number } => {
 
 const fileName = `co-directa-${(new Date()).toDateString()}.pdf`;
 const CODirectaSignPDFPreview: React.FC = () => {
-
+    const _history = useHistory()
     // @ts-ignore
     let {coData} = useParams();
     let coDataPDF = {};
@@ -436,6 +438,7 @@ const CODirectaSignPDFPreview: React.FC = () => {
                 setAssinaturaManuscritaAgente(value)
             }
 
+            setToggleModalAssinaturaManuscrita(false)
         }
     };
 
@@ -562,10 +565,10 @@ const CODirectaSignPDFPreview: React.FC = () => {
                 } catch (e: any) {
                     presentAlert({
                         header: 'Erro!',
-                        subHeader: e.message,
+                        subHeader: 'Essa CO não pode ser emitida.',
                         message: 'Ocorreu um erro ao gerar o PDF. Tente novamente mais tarde e se o problema persistir reinicie o aplicativo.',
                         buttons: [
-                            {text: 'Fechar'},
+                            {text: 'Compreendi'},
                         ]
                     })
                     console.log(e)
@@ -576,9 +579,10 @@ const CODirectaSignPDFPreview: React.FC = () => {
             } else {
                 presentAlert({
                     header: 'Erro!',
+                    subHeader: 'Essa CO não pode ser emitida.',
                     message: 'A CO deve conter pelo menos a assinatura do agente',
                     buttons: [
-                        {text: 'Fechar'},
+                        {text: 'Compreendi'},
                     ]
                 })
 
@@ -588,9 +592,10 @@ const CODirectaSignPDFPreview: React.FC = () => {
         } else if (!assinaturaManuscritaAgente && !assinaturaPapelAgente && !assinaturaQualificadaAgente) {
             presentAlert({
                 header: 'Erro!',
+                subHeader: 'Essa CO não pode ser emitida.',
                 message: 'A CO deve conter pelo a assinatura do agente',
                 buttons: [
-                    {text: 'Fechar'},
+                    {text: 'Compreendi'},
                 ]
             })
 
@@ -665,25 +670,29 @@ const CODirectaSignPDFPreview: React.FC = () => {
 
         setTimeout(() => {
             coData.base64Assinatura = PDF_BLOB_SIGNED;
-        },16);
-
-
+        }, 16);
 
         // Marcar como emitida
         coData.isEmitida = true;
 
-
         setTimeout(() => {
 
             new Contraordenacao().emitirCODirectaGeneric(coData).then((data: ICoDirecta | null) => {
-
-            }).catch((e:any) => {
+                presentAlert({
+                    header: 'Sucesso!',
+                    message: 'Emitido com sucesso.',
+                    buttons: [
+                        {text: 'Ok'},
+                    ],
+                    onDidDismiss: (e) => _history.push("/dashboard"),
+                })
+            }).catch((e: any) => {
                 presentAlert({
                     header: 'Erro!',
                     subHeader: e.message,
                     message: 'Houve algum erro ao emitir.',
                     buttons: [
-                        {text: 'Fechar'},
+                        {text: 'Compreendi'},
                     ]
                 })
                 console.log(e)
@@ -694,13 +703,41 @@ const CODirectaSignPDFPreview: React.FC = () => {
 
         }, 100)
     }
+
+    const [presentToast, dismissToast] = useIonToast();
+    const onCancel = async (e: any) => {
+        presentAlert({
+            header: 'Atenção!',
+            subHeader: 'Descartar contraordenação?',
+            message: 'Ao descartar esta contraordenação, todas as informações preenchidas neste formulário serão perdidas',
+            buttons: [
+                'Cancelar',
+                {text: 'Descartar', handler: (d) => continueCancel()},
+            ]
+        })
+
+
+    }
+
+    const continueCancel = () => {
+        _history.push('/dashboard')
+
+        presentToast({
+            duration: 4000,
+            header: "Emissão cancelada!",
+            position: "top",
+            keyboardClose: true,
+            message: 'Auto fica a aguardar emissão futura',
+        })
+    }
+
     return (
         <IonPage>
             <Menu actionsCOBtn={<MenuActionsBtnSignPDF onSignPdf={(e: any) => {
                 requestSignatures(e)
             }} onPrint={(e: any) => {
                 onPrint(e)
-            }} onSaveSignedPDF={onSave}/>}/>
+            }} onSaveSignedPDF={onSave} onCancel={onCancel}/>}/>
 
             <a id={"downloadPDFAnchor"} href="" download="" style={{
                 position: "fixed",
@@ -710,6 +747,23 @@ const CODirectaSignPDFPreview: React.FC = () => {
 
 
             <IonContent id={"CODirectaSignPDFPreview"} className="CODirectaSignPDFPreview" fullscreen={true}>
+                <IonGrid id="gridGeral" style={{marginBottom: 5}}>
+                    <IonRow style={{marginBottom: 5, marginLeft: 10}}>
+                        <IonCol size="12">
+                            <IonBreadcrumbs>
+                                <IonBreadcrumb href="/Dashboard">
+                                    Dashboard
+                                </IonBreadcrumb>
+                                <IonBreadcrumb href="/coDirecta">
+                                    CO Directa
+                                </IonBreadcrumb>
+                                <IonBreadcrumb href="/CODirectaSignPDFPreview">
+                                    Recolhas de Assinaturas
+                                </IonBreadcrumb>
+                            </IonBreadcrumbs>
+                        </IonCol>
+                    </IonRow>
+                </IonGrid>
                 {(PDF_BLOB_SIGNED && !_.isEmpty(PDF_BLOB_SIGNED) ?
 
 
