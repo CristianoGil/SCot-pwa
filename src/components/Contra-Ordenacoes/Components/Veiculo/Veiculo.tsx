@@ -144,7 +144,7 @@ const Veiculo: React.FC<IPROPS> = (props) => {
         setVeiculoMatricula(e.target.value);
     }
 
-    const handler_VeiculoSearchByMatricula = (e: any) => {
+    const handler_VeiculoSearchByMatricula = async (e: any) => {
         e.preventDefault();
         dismissOnLoanding();
 
@@ -165,7 +165,7 @@ const Veiculo: React.FC<IPROPS> = (props) => {
         }
 
 
-        presentOnLoanding({
+        await presentOnLoanding({
             message: 'A pesquisar...'
         });
 
@@ -316,13 +316,8 @@ const Veiculo: React.FC<IPROPS> = (props) => {
             setVeiculosSemelhantes(veiculosSemelhantesDto)
 
         }).catch(veiculosError => {
-            presentAlert({
-                header: 'Error!',
-                message: 'Operação sem sucesso!\n' + veiculosError.message,
-                buttons: [
-                    {text: 'Fechar'},
-                ]
-            })
+            // TODO: Por alguma razao isto eh chamado fora do scopo
+            console.log("veiculosError: ", veiculosError)
         })
 
     }, [isConduzidoVeiculo, veiculoMatricula, pais, marca, modelo, cor, categoria, classe, tipo, subclasse])

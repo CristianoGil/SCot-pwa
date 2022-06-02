@@ -13,17 +13,17 @@ import _ from "underscore";
 import {IVeiculo, IVeiculoRequest, IVeiculoResponse} from "../model/veiculo";
 import {CarregarCombosApreensaoDocumento} from "../model/documentoapreendido";
 import database from "../database";
-import { ApiUtils } from "./ApiUtils";
+import {ApiUtils} from "./ApiUtils";
 import Veiculo from "../pages/RI-Catalogo/Veiculo/Veiculo";
+import {uid} from "../utils/apex-formatters";
 
 export class Contraordenacao {
-    
-   
+
 
     prefix_url: string = 'v1/contraOrdenacao'
     prefix_local_url: string = 'v1/locais'
     prefix_dominio_url: string = 'v1/dominio'
-     apiUtils= new ApiUtils()
+    apiUtils = new ApiUtils()
 
     pesquisarVeiculosSemelhantes(veiculo: IVeiculoRequest): Promise<IVeiculoResponse>  {
         return new Promise((resolve, reject) => {
@@ -99,7 +99,6 @@ export class Contraordenacao {
 
     public async guardarCODirectaGeneric(requestData: ICoDirecta): Promise<ICoDirecta | null> {
 
-
         if (_.contains(getPlatforms(), 'desktop')) { // Is a desktop device
             return await this.guardarCODirecta(requestData);
         } else { // Is a mobile device
@@ -109,37 +108,118 @@ export class Contraordenacao {
             } else { // Is onfline
 
                 const {insertOne} = database();
-
+                const localId = uid();
                 return new Promise((resolve, reject) => {
 
-                    insertOne('co_directa', 3, [JSON.stringify(requestData), false, (new Date().toDateString())], ['data', 'isSynchronized', 'createdAt']).then(() => {
-                        reject(requestData);
+                    insertOne('co_directa', 5, [localId, JSON.stringify(requestData), false, (new Date().toDateString()), null], ['localId', 'data', 'isSynchronized', 'createdAt', 'emitedAt']).then(() => {
+                        requestData.localId = localId
+                        resolve(requestData);
                     }).catch((e) => {
                         reject(e);
                     })
                 })
-
             }
-
         }
-
-
     }
+
 
     public guardarCODirecta(requestData: ICoDirecta): Promise<ICoDirecta | null> {
         return new Promise((resolve, reject) => {
 
-            // const service_url = 'salvarContraOrdenacao';
-            // this.connectPostAPI(`${this.prefix_url}/${service_url}`, {contraOrdenacao: requestData}).then((response) => {
-            //     resolve(response.data as unknown as ICoDirecta);
-            // }).catch((error: AxiosError) => {
-            //     console.error(`${this.prefix_url}/${service_url}:`, error)
-            //     reject(error)
-            // })
+            const service_url = 'salvarContraOrdenacao';
+            this.connectPostAPI(`${this.prefix_url}/${service_url}`, {contraOrdenacao: requestData}).then((response) => {
+                resolve(response.data as unknown as ICoDirecta);
+            }).catch((error: AxiosError) => {
+                console.error(`${this.prefix_url}/${service_url}:`, error)
+                reject(error)
+            })
 
-            setTimeout(()=> {
-                resolve(requestData)
-            },2000)
+
+        })
+    }
+
+    public async emitirCODirectaGeneric(requestData: ICoDirecta): Promise<ICoDirecta | null> {
+
+        if (_.contains(getPlatforms(), 'desktop')) { // Is a desktop device
+            return await this.emitirCODirecta(requestData);
+        } else { // Is a mobile device
+
+            if (navigator.onLine) { // Is Online
+                return await this.emitirCODirecta(requestData);
+            } else { // Is onfline
+
+                const {update} = database();
+
+                return new Promise((resolve, reject) => {
+                    const set = `data='${JSON.stringify(requestData)}'`;
+                    const where = `localId='${requestData.localId}'`;
+
+
+
+                    update('co_directa', set, where).then(() => {
+                        resolve(requestData);
+                    }).catch((e) => {
+                        reject(e);
+                    })
+                    
+                })
+            }
+        }
+    }
+
+
+    public emitirCODirecta(requestData: ICoDirecta): Promise<ICoDirecta | null> {
+        return new Promise((resolve, reject) => {
+
+            const service_url = 'emitirContraOrdenacao';
+            this.connectPostAPI(`${this.prefix_url}/${service_url}`, {contraOrdenacao: requestData}).then((response) => {
+                resolve(response.data as unknown as ICoDirecta);
+            }).catch((error: AxiosError) => {
+                console.error(`${this.prefix_url}/${service_url}:`, error)
+                reject(error)
+            })
+
+
+        })
+    }
+
+
+    public async terminarCODirectaGeneric(requestData: ICoDirecta): Promise<ICoDirecta | null> {
+
+        if (_.contains(getPlatforms(), 'desktop')) { // Is a desktop device
+            return await this.terminarCODirecta(requestData);
+        } else { // Is a mobile device
+
+            if (navigator.onLine) { // Is Online
+                return await this.terminarCODirecta(requestData);
+            } else { // Is onfline
+
+                const {insertOne} = database();
+                const localId = uid();
+                return new Promise((resolve, reject) => {
+                    insertOne('co_directa', 5, [localId, JSON.stringify(requestData), false, (new Date().toDateString()), null], ['localId', 'data', 'isSynchronized', 'createdAt', 'emitedAt']).then(() => {
+                        requestData.localId = localId
+                        resolve(requestData);
+                    }).catch((e) => {
+                        reject(e);
+                    })
+                })
+            }
+        }
+    }
+
+
+    public terminarCODirecta(requestData: ICoDirecta): Promise<ICoDirecta | null> {
+        return new Promise((resolve, reject) => {
+
+            const service_url = 'terminarContraOrdenacao';
+            this.connectPostAPI(`${this.prefix_url}/${service_url}`, {contraOrdenacao: requestData}).then((response) => {
+                resolve(response.data as unknown as ICoDirecta);
+            }).catch((error: AxiosError) => {
+                console.error(`${this.prefix_url}/${service_url}:`, error)
+                reject(error)
+            })
+
 
         })
     }

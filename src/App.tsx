@@ -1,6 +1,8 @@
 import {Redirect, Route, useHistory, useParams} from 'react-router-dom';
 import {
     IonApp,
+    IonBreadcrumb,
+    IonBreadcrumbs,
     IonRouterOutlet,
     setupIonicReact,
 
@@ -73,9 +75,8 @@ const App: React.FC = () => {
     return (
         <IonApp>
             <IonReactRouter>
+                
                 <IonRouterOutlet>
-
-
                     <Route path={"/dashboard"} exact={true}>
                         <ProtectedRoute isAllowed={userContext.isAuthenticated()}>
                             <Dashboard/>

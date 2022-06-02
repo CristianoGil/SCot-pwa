@@ -1,4 +1,6 @@
 import {
+    IonBreadcrumb,
+    IonBreadcrumbs,
     IonButton,
     IonCard,
     IonCardContent,
@@ -12,7 +14,7 @@ import {
     IonPage,
     IonPopover,
     IonRow,
-    IonToolbar, useIonAlert, useIonLoading
+    IonToolbar, useIonAlert, useIonLoading, useIonToast
 } from "@ionic/react";
 import Menu from "../../../components/Menu/Menu";
 import {CoDirectaTemplateMarkup} from '../../../components/Relatorios/templates/CoDirectaTemplate';
@@ -31,8 +33,10 @@ import {base64ToArrayBuffer, blobToBase64, cleanString, downloadFile} from "../.
 import {generatePDF_HTML, getPDFBase64_HTML} from "../../../app/SignPDF_HTML";
 import Assinatura from "../../../api/Assinatura";
 import {Document} from 'react-pdf';
-import {useParams} from "react-router";
+import {useHistory, useParams} from "react-router";
 import {handlePDFData} from "../../../app/handlePDFData";
+import {ICoDirecta} from "../../../model/contraordenacao";
+import {Contraordenacao} from "../../../api/Contraordenacao";
 
 const assinaturaManuscrito = 'Manuscrito';
 const assinaturaQualificada = 'Qualificada';
@@ -61,22 +65,19 @@ const signPosition = (whoIsSign: string): { posx: number, posy: number } => {
 
 const fileName = `co-directa-${(new Date()).toDateString()}.pdf`;
 const CODirectaSignPDFPreview: React.FC = () => {
-
+    const _history = useHistory()
     // @ts-ignore
     let {coData} = useParams();
-
+    let coDataPDF = {};
     if (!_.isEmpty(coData) && _.isString(coData)) {
 
         try {
-            coData = JSON.parse(decodeURIComponent(coData));
+            coData = JSON.parse(decodeURIComponent(coData)) as unknown as ICoDirecta;
         } catch (e) {
             console.log("error parse json: ", e)
         }
-
         // Prepara a imformacao para preencher o pdf
-        coData = handlePDFData(coData);
-
-
+        coDataPDF = handlePDFData(coData);
     }
 
     const [presentLoad, dismissLoad] = useIonLoading();
@@ -324,6 +325,14 @@ const CODirectaSignPDFPreview: React.FC = () => {
     const [assinaturaQualificadaArguido, setAssinaturaQualificadaArguido] = useState<string | ArrayBuffer | undefined>()
     const [assinaturaQualificadaTestemunha_1, setAssinaturaQualificadaTestemunha_1] = useState<string | ArrayBuffer | undefined>()
     const [assinaturaQualificadaTestemunha_2, setAssinaturaQualificadaTestemunha_2] = useState<string | ArrayBuffer | undefined>()
+    let chaveMovelAgente: string | undefined;
+    let chaveMovelArguido: string | undefined;
+    let chaveMovelTestemunha_1: string | undefined;
+    let chaveMovelTestemunha_2: string | undefined;
+    let formatoAssinaturaQualificadaAgente: string;
+    let formatoAssinaturaQualificadaArguido;
+    let formatoAssinaturaQualificadaTestemunha_1: string;
+    let formatoAssinaturaQualificadaTestemunha_2: string;
     const handlerAssinaturaQualificada = async (formatoAssinaturaQualificada: any, whoIsSigningQualificada: string, chaveDigitalPhoneNumber?: string) => {
         dismissLoad();
         if (!_.isEmpty(formatoAssinaturaQualificada)) {
@@ -362,12 +371,20 @@ const CODirectaSignPDFPreview: React.FC = () => {
                     if (responseData) {
                         const _signedPdf = responseData.pdf;
                         if (whoIsSigningQualificada === 'arguido') {
+                            chaveMovelArguido = chaveDigitalPhoneNumber;
+                            formatoAssinaturaQualificadaArguido = formatoAssinatura;
                             setAssinaturaQualificadaArguido(_signedPdf);
                         } else if (whoIsSigningQualificada === 'testemunha1') {
+                            chaveMovelTestemunha_1 = chaveDigitalPhoneNumber;
+                            formatoAssinaturaQualificadaTestemunha_1 = formatoAssinatura;
                             setAssinaturaQualificadaTestemunha_1(_signedPdf)
                         } else if (whoIsSigningQualificada === 'testemunha2') {
+                            chaveMovelTestemunha_2 = chaveDigitalPhoneNumber;
+                            formatoAssinaturaQualificadaTestemunha_2 = formatoAssinatura;
                             setAssinaturaQualificadaTestemunha_2(_signedPdf)
                         } else if (whoIsSigningQualificada === 'agente') {
+                            chaveMovelAgente = chaveDigitalPhoneNumber;
+                            formatoAssinaturaQualificadaAgente = formatoAssinatura;
                             setAssinaturaQualificadaAgente(_signedPdf);
                         }
 
@@ -421,6 +438,7 @@ const CODirectaSignPDFPreview: React.FC = () => {
                 setAssinaturaManuscritaAgente(value)
             }
 
+            setToggleModalAssinaturaManuscrita(false)
         }
     };
 
@@ -487,7 +505,6 @@ const CODirectaSignPDFPreview: React.FC = () => {
         }
     }
 
-
     const onPrint = async (e: any) => {
 
 
@@ -518,13 +535,209 @@ const CODirectaSignPDFPreview: React.FC = () => {
 
     }
 
+    const onSave = async (e: any) => {
+
+        if (!_.isObject(coData)) {
+            await presentAlert({
+                header: 'Erro!',
+                message: 'Algo deu errado',
+                buttons: [
+                    {text: 'Compreendi'},
+                ]
+            })
+
+            return
+        }
+
+        if (_.isEmpty(PDF_BLOB_SIGNED)) {
+            // Em caso em que a assinatura foi manuscrita e conter pelo menos a assinatura
+            if (assinaturaManuscritaAgente) {
+
+                await presentLoad({
+                    message: 'A gerar o PDF... isto pode demorar!',
+                })
+
+                try {
+
+                    const base64PDF = await getPDFBase64_HTML();
+                    SET_PDF_BLOB_SIGNED(base64PDF.replace(/^data:application\/[a-z]+;base64,/, ""));
+
+                } catch (e: any) {
+                    presentAlert({
+                        header: 'Erro!',
+                        subHeader: 'Essa CO não pode ser emitida.',
+                        message: 'Ocorreu um erro ao gerar o PDF. Tente novamente mais tarde e se o problema persistir reinicie o aplicativo.',
+                        buttons: [
+                            {text: 'Compreendi'},
+                        ]
+                    })
+                    console.log(e)
+                } finally {
+                    dismissLoad();
+                }
+
+            } else {
+                presentAlert({
+                    header: 'Erro!',
+                    subHeader: 'Essa CO não pode ser emitida.',
+                    message: 'A CO deve conter pelo menos a assinatura do agente',
+                    buttons: [
+                        {text: 'Compreendi'},
+                    ]
+                })
+
+                return
+            }
+
+        } else if (!assinaturaManuscritaAgente && !assinaturaPapelAgente && !assinaturaQualificadaAgente) {
+            presentAlert({
+                header: 'Erro!',
+                subHeader: 'Essa CO não pode ser emitida.',
+                message: 'A CO deve conter pelo a assinatura do agente',
+                buttons: [
+                    {text: 'Compreendi'},
+                ]
+            })
+
+            return
+        }
+
+
+        await presentLoad({
+            message: 'A Guardar a CO...!',
+        })
+
+        //assinatura agente
+        if (tipoAssinaturaAgente) {
+            coData.tipoAssinaturaOpcaoAgente = tipoAssinaturaAgente
+        }
+        if (formatoAssinaturaQualificadaAgente) {
+            coData.tipoAssinaturaFormatoAgente = formatoAssinaturaQualificadaAgente
+        }
+
+        if (chaveMovelAgente) {
+            coData.chaveMovelAgente = chaveMovelAgente
+        }
+
+        if (assinaturaManuscritaAgente) {
+            coData.base64AssinaturaManuscritoAgente = assinaturaManuscritaAgente
+        }
+
+
+        // assinatura arguido
+        coData.arguidoNaoAssinouNotificacao = arguidoNaoAssinouNotificacao
+
+        if (tipoAssinaturaArguido) {
+            coData.tipoAssinaturaOpcaoArguido = tipoAssinaturaArguido
+        }
+
+        if (chaveMovelArguido) {
+            coData.chaveMovelArguido = chaveMovelArguido
+        }
+
+        if (assinaturaPapelArguido) {
+            coData.base64AssinaturaManuscritoArguido = assinaturaPapelArguido
+        }
+
+
+        //assinatura testemunha 1
+
+        if (tipoAssinaturaTestemunha_1) {
+            coData.tipoAssinaturaOpcaoTestemunha1 = tipoAssinaturaTestemunha_1
+        }
+
+        if (chaveMovelTestemunha_1) {
+            coData.chaveMovelTestemunha1 = chaveMovelTestemunha_1
+        }
+
+        if (formatoAssinaturaQualificadaTestemunha_1) {
+            coData.tipoAssinaturaFormatoTestemunha1 = formatoAssinaturaQualificadaTestemunha_1
+        }
+
+        //assinatura testemunha 2
+
+        if (tipoAssinaturaTestemunha_2) {
+            coData.tipoAssinaturaOpcaoTestemunha2 = tipoAssinaturaTestemunha_2
+        }
+
+        if (chaveMovelTestemunha_2) {
+            coData.chaveMovelTestemunha2 = chaveMovelTestemunha_2
+        }
+
+        if (formatoAssinaturaQualificadaTestemunha_2) {
+            coData.tipoAssinaturaFormatoTestemunha2 = formatoAssinaturaQualificadaTestemunha_2
+        }
+
+        setTimeout(() => {
+            coData.base64Assinatura = PDF_BLOB_SIGNED;
+        }, 16);
+
+        // Marcar como emitida
+        coData.isEmitida = true;
+
+        setTimeout(() => {
+
+            new Contraordenacao().emitirCODirectaGeneric(coData).then((data: ICoDirecta | null) => {
+                presentAlert({
+                    header: 'Sucesso!',
+                    message: 'Emitido com sucesso.',
+                    buttons: [
+                        {text: 'Ok'},
+                    ],
+                    onDidDismiss: (e) => _history.push("/dashboard"),
+                })
+            }).catch((e: any) => {
+                presentAlert({
+                    header: 'Erro!',
+                    subHeader: e.message,
+                    message: 'Houve algum erro ao emitir.',
+                    buttons: [
+                        {text: 'Compreendi'},
+                    ]
+                })
+                console.log(e)
+
+            }).finally(() => {
+                dismissLoad();
+            })
+
+        }, 100)
+    }
+
+    const [presentToast, dismissToast] = useIonToast();
+    const onCancel = async (e: any) => {
+        presentAlert({
+            header: 'Atenção!',
+            subHeader: 'Descartar contraordenação?',
+            message: 'Ao descartar esta contraordenação, todas as informações preenchidas neste formulário serão perdidas',
+            buttons: [
+                'Cancelar',
+                {text: 'Descartar', handler: (d) => continueCancel()},
+            ]
+        })
+
+
+    }
+
+    const continueCancel = () => {
+        _history.push('/dashboard')
+
+        presentToast({
+            duration: 4000,
+            header: "Emissão cancelada!",
+            position: "top",
+            keyboardClose: true,
+            message: 'Auto fica a aguardar emissão futura',
+        })
+    }
+
     return (
         <IonPage>
             <Menu actionsCOBtn={<MenuActionsBtnSignPDF onSignPdf={(e: any) => {
                 requestSignatures(e)
             }} onPrint={(e: any) => {
                 onPrint(e)
-            }}/>}/>
+            }} onSaveSignedPDF={onSave} onCancel={onCancel}/>}/>
 
             <a id={"downloadPDFAnchor"} href="" download="" style={{
                 position: "fixed",
@@ -534,13 +747,30 @@ const CODirectaSignPDFPreview: React.FC = () => {
 
 
             <IonContent id={"CODirectaSignPDFPreview"} className="CODirectaSignPDFPreview" fullscreen={true}>
+                <IonGrid id="gridGeral" style={{marginBottom: 5}}>
+                    <IonRow style={{marginBottom: 5, marginLeft: 10}}>
+                        <IonCol size="12">
+                            <IonBreadcrumbs>
+                                <IonBreadcrumb href="/Dashboard">
+                                    Dashboard
+                                </IonBreadcrumb>
+                                <IonBreadcrumb href="/coDirecta">
+                                    CO Directa
+                                </IonBreadcrumb>
+                                <IonBreadcrumb href="/CODirectaSignPDFPreview">
+                                    Recolhas de Assinaturas
+                                </IonBreadcrumb>
+                            </IonBreadcrumbs>
+                        </IonCol>
+                    </IonRow>
+                </IonGrid>
                 {(PDF_BLOB_SIGNED && !_.isEmpty(PDF_BLOB_SIGNED) ?
 
 
                     <object data={`data:application/pdf;base64,${PDF_BLOB_SIGNED}`}
                             style={{overflow: "hidden", minHeight: "100%", width: "100vw"}}></object>
                     :
-                    <CoDirectaTemplateMarkup coData={coData}
+                    <CoDirectaTemplateMarkup coData={coDataPDF}
                                              assinaturaArguido={assinaturaManuscritaArguido}
                                              assinaturaTestemunha_1={assinaturaManuscritaTestemunha_1}
                                              assinaturaTestemunha_2={assinaturaManuscritaTestemunha_2}
@@ -571,7 +801,7 @@ const CODirectaSignPDFPreview: React.FC = () => {
                             setOpenPopoverSignatures(false);
 
                         }}>
-                            Fechar
+                            Terminar
                         </IonButton>
 
                     </IonToolbar>
