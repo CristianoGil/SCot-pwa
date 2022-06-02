@@ -18,7 +18,9 @@ import "./InformacoesAdicionais.scss";
 
 interface IInformacoesAdicionais {
     setParentInformacoesAdicionaisData?: any
-    currentData?: any
+    currentDataMorada?: any
+    dataNascimento?: any
+    nome?:any
     representanteLegal?: any
 }
 
@@ -63,8 +65,10 @@ const InformacoesAdicionais: React.FC<IInformacoesAdicionais> = (props) => {
     const [representanteLegal, setRepresentanteLegal] = useState<string | number>();
 
     React.useEffect(() => {
-        if (props.currentData) {
-            const moradaPrincipal: IMoradaPessoa = getMoradaPrincipal(props.currentData);
+
+        // Morada
+        if (props.currentDataMorada) {
+            const moradaPrincipal: IMoradaPessoa = getMoradaPrincipal(props.currentDataMorada);
             if (moradaPrincipal) {
                 setMorada(moradaPrincipal?.morada)
                 setNumeroPolicia(moradaPrincipal?.numeroPolicia)
@@ -73,7 +77,19 @@ const InformacoesAdicionais: React.FC<IInformacoesAdicionais> = (props) => {
                 setCodigoPostal(moradaPrincipal?.codigoPostal)
             }
         }
-    }, [props.currentData])
+
+        // Data nascimento
+        if(props.dataNascimento){
+            setDataNascimento(props.dataNascimento)
+        }
+
+        // Nome
+        if (props.nome) {
+            setFirmaNome(props.nome)
+        }
+
+
+    }, [props.currentDataMorada, props.dataNascimento, props.nome])
 
 
     React.useEffect(() => {

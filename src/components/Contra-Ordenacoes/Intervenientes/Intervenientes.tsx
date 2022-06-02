@@ -16,7 +16,8 @@ import './Intervenientes.scss';
 import _ from 'underscore';
 
 interface IProps {
-    setCoDirectaData?: any
+    setCoDirectaData?: any,
+    active: boolean
 }
 
 const Intervenientes: React.FC<IProps> = (props) => {
@@ -63,12 +64,13 @@ const Intervenientes: React.FC<IProps> = (props) => {
             informacoesAdicionais: informacoesAdicionaisData,
             veiculo: veiculoData
         }
-        
+
+  
         props.setCoDirectaData(data);
     }, [arguidoData, tituloDocumentoData, docIdentificacaoData, informacoesAdicionaisData, veiculoData])
 
     return (
-        <IonGrid className="intervenientes">
+        <IonGrid className={(props.active ? "" : "hiddenImportant " ) + " intervenientes"   }>
             <IonRow>
                 <IonCol size-sm='12' size-md="12" size-lg="11">
                     {/* Veículo */}
@@ -108,7 +110,9 @@ const Intervenientes: React.FC<IProps> = (props) => {
             <IonRow>
                 <IonCol size-sm='12' size-md="12" size-lg="11">
                     {/* Informações adicionais */}
-                    <InformacoesAdicionais currentData={arguidoData?.moradas}
+                    <InformacoesAdicionais currentDataMorada={arguidoData?.moradas}
+                                           dataNascimento={arguidoData?.dataNascimento}
+                                           nome={arguidoData?.nome}
                                            representanteLegal={arguidoData?.representanteLegal}
                                            setParentInformacoesAdicionaisData={setInformacoesAdicionaisData}/>
                     {/* Informações adicionais */}

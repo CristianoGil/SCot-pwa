@@ -45,7 +45,7 @@ const EntidadeEmissora: React.FC<IPROPSEntidadeEmissora> = (props: IPROPSEntidad
                 {(combos || []).map((entidade: any) => {
                     return (
                         <IonSelectOption key={`${entidade.id}`}
-                                         value={JSON.stringify(entidade)}>{`${entidade.descricao}`}</IonSelectOption>
+                                         value={entidade.id}>{`${entidade.descricao}`}</IonSelectOption>
                     )
                 })}
             </IonSelect>

@@ -14,14 +14,14 @@ export class Veiculo implements IVeiculoRequest {
     matricula: string;
     chassi: string | undefined;
     ano: string | undefined;
-    categoria: number | undefined;
-    classe: number | undefined;
-    subclasse: number | undefined;
-    tipo: number | undefined;
-    marca: number | undefined;
-    modelo: number | undefined;
-    cor: number | undefined;
-    pais: number | undefined;
+    categoria: number | string| undefined;
+    classe: number | string|  undefined;
+    subclasse: number | string|  undefined;
+    tipo: number | string|  undefined;
+    marca: number | string|  undefined;
+    modelo: number | string|  undefined;
+    cor: number | string|  undefined;
+    pais: number | string| undefined;
 
     prefix_url: string = 'v1/veiculos'
 

@@ -28,7 +28,6 @@ const getTituloConducaoPrincipal = (tituloCo: any): IDocumentoPessoa | undefined
 const TituloConducao: React.FC<ITituloConducao> = (props) => {
 
     const [isPresentedTituloConducao, setIsPresentedTituloCOnducao] = useState(false);
-    const [paisDeEmissao, setPaisDeEmissao] = useState<string>();
 
     // tituloConducao
     const [tituloConducao, setTituloConducao] = useState<any>();
@@ -140,7 +139,7 @@ const TituloConducao: React.FC<ITituloConducao> = (props) => {
                                 selected={entidadeEmissora}
                                 setSelected={setEntidadeEmissora}
                                 inputName={'tituloConducao-entidadeEmissora'}
-                                textLabel={'Entidade de emissora'}
+                                textLabel={'Entidade emissora'}
                                 interface="popover" />
                         </IonCol>
 
@@ -149,7 +148,7 @@ const TituloConducao: React.FC<ITituloConducao> = (props) => {
                                 selected={localEmissao}
                                 setSelected={setLocalEmissao}
                                 inputName={'tituloConducao-localEmissao'}
-                                textLabel={'Local de Emissão'}
+                                textLabel={'Local de emissão'}
                                 interface="popover" />
                         </IonCol>
 

@@ -3,6 +3,8 @@ import { search, text } from "ionicons/icons";
 import React from "react";
 import { useState } from "react";
 import { Contraordenacao } from "../../../../api/Contraordenacao";
+import { useAppSelector } from "../../../../app/hooks";
+import { getInputValidations_Infraccao } from "../../../../Validations/Contra-Ordenacoes/InputValidationsSlice_Infraccao";
 import './Infraccao.scss';
 
 interface InfracaoData {
@@ -10,6 +12,8 @@ interface InfracaoData {
     setInfracao?:any
 }
 const Infraccao: React.FC<InfracaoData> = (props) => {
+
+    const inputValidations_LocalInfraccao = useAppSelector(getInputValidations_Infraccao);
 
     interface InfracaoResponse {
         comarcas: ComonResult[]
@@ -89,10 +93,10 @@ const Infraccao: React.FC<InfracaoData> = (props) => {
             sancaoAcessoria:sancaoAcessoria,
             normaSancaoAcessoria:sancaoAcessoria,
             observacao: observacao,
-            codigoDgv:observacao
+            codigoDgv:codigoDgv
       }
       props.setInfracao(data)
-    },[tipoAutuante,sancaoAcessoria,observacao,observacao,autuante,comarcaDto,entidade,tipificacao,subTipoInfracao,normaInfrigida,descricaoSumaria,minValor, maxValor,normaQuePreveContraOrdenacao, sancaoAcessoria,])
+    },[tipoAutuante,sancaoAcessoria,observacao,observacao,autuante,comarcaDto,entidade,tipificacao,subTipoInfracao,normaInfrigida,descricaoSumaria,minValor, maxValor,normaQuePreveContraOrdenacao, sancaoAcessoria,codigoDgv])
 
 
     const getInfracao = async (): Promise<InfracaoResponse> => await new Contraordenacao().carregarCombosInfracao()
@@ -189,7 +193,7 @@ const Infraccao: React.FC<InfracaoData> = (props) => {
                         <IonCol size-sm='12' size-md='10' size-lg='3'>
                             <IonItem>
                                 <IonLabel position="floating" itemType="text" placeholder="Autuante">Autuante *</IonLabel>
-                                <IonInput onKeyUp={onKeyUp_autuante} value={autuante}></IonInput>
+                                <IonInput onKeyUp={onKeyUp_autuante} value={autuante} readonly></IonInput>
                             </IonItem>
                         </IonCol>
 
@@ -201,7 +205,7 @@ const Infraccao: React.FC<InfracaoData> = (props) => {
 
                                 </IonSelect>
                             </IonItem>
-                            <IonItem className="componentError" lines="none" hidden={false}>Campo obrigatório</IonItem>
+                            <IonItem className="componentError" lines="none" hidden={inputValidations_LocalInfraccao.comarca_isValid}>Campo obrigatório</IonItem>
                         </IonCol>
 
                         <IonCol size-sm='12' size-md='10' size-lg='3' style={{ marginTop: 16 }}>
@@ -216,7 +220,7 @@ const Infraccao: React.FC<InfracaoData> = (props) => {
                                     })}
                                 </IonSelect>
                             </IonItem>
-                            <IonItem className="componentError" lines="none" hidden={false}>Campo obrigatório</IonItem>
+                            <IonItem className="componentError" lines="none" hidden={inputValidations_LocalInfraccao.entidade_isValid}>Campo obrigatório</IonItem>
                         </IonCol>
                     </IonRow>
 
@@ -259,7 +263,7 @@ const Infraccao: React.FC<InfracaoData> = (props) => {
                                         )
                                     })}                                  </IonSelect>
                             </IonItem>
-                            <IonItem className="componentError" lines="none" hidden={false}>Campo obrigatório</IonItem>
+                            <IonItem className="componentError" lines="none" hidden={inputValidations_LocalInfraccao.tipificacaoInfraccao_isValid}>Campo obrigatório</IonItem>
                         </IonCol>
                         <IonCol size-sm='12' size-md='10' size-lg='6' offset="6">
                             <IonItem>
@@ -272,7 +276,7 @@ const Infraccao: React.FC<InfracaoData> = (props) => {
                                         )
                                     })}                                  </IonSelect>
                             </IonItem>
-                            <IonItem className="componentError" lines="none" hidden={false}>Campo obrigatório</IonItem>
+                            <IonItem className="componentError" lines="none" hidden={inputValidations_LocalInfraccao.subtipificacao_isValid}>Campo obrigatório</IonItem>
                         </IonCol>
                     </IonRow>
 
@@ -288,11 +292,11 @@ const Infraccao: React.FC<InfracaoData> = (props) => {
                         <IonCol size-sm='12' size-md='10' size-lg='6'>
                             <IonItem lines="none">
                                 <IonLabel position="stacked">Descrição Sumária *</IonLabel>
-                                <IonTextarea rows={6} cols={10} placeholder="" value={descricaoSumaria} onIonChange={(e) => {setDescricaoSumaria(e.detail.value) }}>
+                                <IonTextarea rows={6} cols={10} placeholder="" value={descricaoSumaria} onIonChange={(e) => {setDescricaoSumaria(e.detail.value) }} readonly>
 
                                 </IonTextarea>
                             </IonItem>
-                            <IonItem className="componentError" lines="none" hidden={false}>Campo obrigatório</IonItem>
+                            <IonItem className="componentError" lines="none" hidden={inputValidations_LocalInfraccao.descricaoSumaria_isValid}>Campo obrigatório</IonItem>
                         </IonCol>
                     </IonRow>
 
@@ -321,7 +325,7 @@ const Infraccao: React.FC<InfracaoData> = (props) => {
                         <IonCol size-sm='12' size-md='10' size-lg='6' style={{ marginTop: 32 }}>
                             <IonItem>
                                 <IonLabel position="floating" itemType="text" placeholder="Norma que prevê a Contraordenação">Norma que prevê a Contraordenação</IonLabel>
-                                <IonInput value={normaQuePreveContraOrdenacao}></IonInput>
+                                <IonInput value={normaQuePreveContraOrdenacao} readonly></IonInput>
                             </IonItem>
                         </IonCol>
                     </IonRow>
@@ -330,14 +334,14 @@ const Infraccao: React.FC<InfracaoData> = (props) => {
                         <IonCol size-sm='12' size-md='10' size-lg='6'>
                             <IonItem>
                                 <IonLabel position="floating" itemType="text" placeholder="Sanção Acessória">Sanção Acessória</IonLabel>
-                                <IonInput value={sancaoAcessoria}></IonInput>
+                                <IonInput value={sancaoAcessoria} readonly></IonInput>
                             </IonItem>
 
                         </IonCol>
                         <IonCol size-sm='12' size-md='10' size-lg='6'>
                             <IonItem>
                                 <IonLabel position="floating" itemType="text" placeholder="Norma que prevê a Sanção Acessória">Norma que prevê a Sanção Acessória</IonLabel>
-                                <IonInput value={normaSancaoAcessoria}></IonInput>
+                                <IonInput value={normaSancaoAcessoria} readonly></IonInput>
                             </IonItem>
                         </IonCol>
                     </IonRow>
@@ -347,7 +351,7 @@ const Infraccao: React.FC<InfracaoData> = (props) => {
                         <IonCol size-sm='12' size-md='10' size-lg='12'>
                             <IonItem lines="none">
                                 <IonLabel position="stacked">Observações</IonLabel>
-                                <IonTextarea rows={6} cols={10} placeholder="" value={observacao} onIonChange={(e) => { setObservacao(e.detail.value)}}>
+                                <IonTextarea rows={6} cols={10} placeholder="" value={observacao} onIonChange={(e) => { setObservacao(e.detail.value) }} readonly>
 
                                 </IonTextarea>
                             </IonItem>

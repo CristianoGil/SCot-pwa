@@ -35,7 +35,7 @@ import { Contraordenacao } from '../../../../api/Contraordenacao';
 import { IPesquisarPessoaResponse } from '../../../../model/contraordenacao';
 import CardListItem from '../../../CardListItem';
 import { ICoimasEmAtraso, IDocumentoPessoa, IPerson } from '../../../../model/person';
-import { dateFormat } from '../../../../utils/apex-formatters';
+import {cleanString, dateFormat } from '../../../../utils/apex-formatters';
 import { arguidoSchema } from '../../../../Validations/ArguidoValidation';
 import { informationCircle } from "ionicons/icons";
 import DataTable from 'react-data-table-component';
@@ -455,14 +455,14 @@ const Arguido: React.FC<IArguido> = (props) => {
     // END: INPUT NIF
 
     const handlerFullfillForm = () => {
-
+        console.log(arguidoData)
         props.setParentArguidoData(arguidoData);
 
         setCurrentArguidoData(arguidoData);
 
         const _data = arguidoData || ({} as unknown as IPerson);
 
-        setArguidoVeiculoSingularColetivo(_data.tipoPessoa);
+        setArguidoVeiculoSingularColetivo(cleanString(_data.tipoPessoa));
 
         setOpenPopoverArguidoData(false);
     }
@@ -780,7 +780,7 @@ const Arguido: React.FC<IArguido> = (props) => {
                     <IonRow>
                         <IonCol size-sm='12' size-md='8' size-lg='4'>
 
-                            <IonRadioGroup value={arguidoVeiculoSingularColetivo}
+                            <IonRadioGroup value={cleanString(arguidoVeiculoSingularColetivo)}
                                 onIonChange={e => setArguidoVeiculoSingularColetivo(e.detail.value)}>
                                 <IonRow>
 
