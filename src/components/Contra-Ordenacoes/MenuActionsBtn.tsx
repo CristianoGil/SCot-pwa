@@ -37,18 +37,23 @@ export const MenuActionsBtnSave: React.FC<IProps> = (props) => {
 interface IProps {
     onSignPdf?: any,
     onPrint?: any
+    onSaveSignedPDF?:any
 }
 
 export const MenuActionsBtnSignPDF: React.FC<IProps> = (props) => {
     return (
         <IonButtons slot="start">
 
-            <IonButton fill="solid" strong={true} color="success" onClick={props.onSignPdf}>
+            <IonButton fill="outline" strong={true} color="primary" onClick={props.onSignPdf}>
                 Recolha de assinaturas
             </IonButton>
 
             <IonButton fill="outline" strong={true} color="dark" onClick={props.onPrint}>
                 Imprimir
+            </IonButton>
+
+            <IonButton fill="solid" strong={true} color="success" onClick={props.onSaveSignedPDF}>
+                Guardar
             </IonButton>
 
             <Link to="/coDirecta">
