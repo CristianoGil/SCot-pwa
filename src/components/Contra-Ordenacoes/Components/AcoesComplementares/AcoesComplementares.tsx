@@ -1,4 +1,4 @@
-import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCheckbox, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonListHeader, IonPopover, IonRadio, IonRadioGroup, IonRow, IonSegment, IonSegmentButton, IonSelect, IonSelectOption, IonToolbar } from "@ionic/react";
+import { IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCheckbox, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonListHeader, IonPopover, IonRadio, IonRadioGroup, IonRow, IonSegment, IonSegmentButton, IonSelect, IonSelectOption, IonToolbar } from "@ionic/react";
 import { open, trash, remove, bookOutline } from "ionicons/icons";
 import { resolve } from "path";
 import React from "react";
@@ -804,20 +804,14 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                             </h1>
                         </IonLabel>
 
-                        <IonButton className="btn-use-data" fill="outline" color="primary" slot="end"
-                            onClick={() => { }}
-                        >
-                            EMITIR
+                        <IonButton className="btn-catalogo" fill="solid" color="primary" slot="end">
+                            ADICIONAR
                         </IonButton>
 
-                        <IonButton className="btn-catalogo" fill="outline" color="medium" slot="end">
-                            IMPRIMIR <IonIcon slot="start" icon={bookOutline} />
-                        </IonButton>
-
-                        <IonButton className="btn-close" fill="outline" color="danger" slot="end" onClick={() => {
+                        <IonButton className="btn-close" fill="solid" color="danger" slot="end" onClick={() => {
                             setOpenPopoverFichaControladorData(false);
                         }}>
-                            CANCELAR
+                            VOLTAR
                         </IonButton>
 
                     </IonToolbar>
@@ -873,7 +867,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                 </IonRow>
 
                                 <IonRow>
-                                    <IonCol size-sm='12' size-md='12' size-lg='6' style={{ marginTop: 16 }}>
+                                    <IonCol size-sm='12' size-md='12' size-lg='6'>
 
                                         <IonRadioGroup value={selectedAutuado_Testemunha}
                                             onIonChange={e => setSelectedAutuado_Testemunha(e.detail.value)}>
@@ -909,7 +903,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                 </IonRow>
 
                                 <IonRow>
-                                    <IonCol size-sm='12' size-md='12' size-lg='12' style={{ marginTop: 16 }}>
+                                    <IonCol size-sm='12' size-md='12' size-lg='12'>
 
                                         <IonRadioGroup value={selectedAutuado_Testemunha}
                                             onIonChange={e => setSelectedAutuado_Testemunha(e.detail.value)}>
@@ -945,7 +939,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                 </IonRow>
 
                                 <IonRow>
-                                    <IonCol size-sm='12' size-md='12' size-lg='12' style={{ marginTop: 16 }}>
+                                    <IonCol size-sm='12' size-md='12' size-lg='12'>
 
                                         <IonRadioGroup value={selectedAutuado_Testemunha}
                                             onIonChange={e => setSelectedAutuado_Testemunha(e.detail.value)}>
@@ -997,7 +991,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                 </IonRow>
 
                                 <IonRow>
-                                    <IonCol size-sm='12' size-md='12' size-lg='12' style={{ marginTop: 16 }}>
+                                    <IonCol size-sm='12' size-md='12' size-lg='12'>
 
                                         <IonRadioGroup value={selectedAutuado_Testemunha}
                                             onIonChange={e => setSelectedAutuado_Testemunha(e.detail.value)}>
@@ -1031,6 +1025,20 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                     </IonCol>
 
                                 </IonRow>
+                                <IonRow>
+                                    <IonCol size-sm="12" size-md="12" size-lg="12" style={{ marginTop: 16 }}>
+                                        <IonItem lines='none'>
+                                            <IonButton className="btn-catalogo" fill="solid" color="primary" slot='end' onClick={() => {
+                                                setActiveSegment('alcool');
+                                            }}>
+                                                Seguinte
+                                            </IonButton>
+                                        </IonItem>
+                                    </IonCol>
+
+
+
+                                </IonRow>
                             </IonGrid>
                             {/*Dados gerais*/}
 
@@ -1038,7 +1046,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                             <IonGrid className={activeSegment == "alcool" ? "" : "ion-hide"}>
 
                                 <IonRow>
-                                    <IonCol size-sm='12' size-md='12' size-lg='6' style={{ marginTop: 16 }}>
+                                    <IonCol size-sm='12' size-md='12' size-lg='6'>
 
                                         <IonRadioGroup value={selectedAutuado_Testemunha}
                                             onIonChange={e => setSelectedAutuado_Testemunha(e.detail.value)}>
@@ -1073,7 +1081,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                 </IonRow>
 
                                 <IonRow>
-                                    <IonCol size-sm='12' size-md='12' size-lg='12' style={{ marginTop: 16 }}>
+                                    <IonCol size-sm='12' size-md='12' size-lg='12'>
 
                                         <IonRadioGroup value={selectedAutuado_Testemunha}
                                             onIonChange={e => setSelectedAutuado_Testemunha(e.detail.value)}>
@@ -1123,6 +1131,98 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                     </IonCol>
 
                                 </IonRow>
+
+                                <IonRow>
+                                    <IonCol size-sm="12" size-md="12" size-lg="12" style={{ marginTop: 16 }}>
+                                        <IonLabel>
+                                            Alcoolímetro *
+                                        </IonLabel>
+                                    </IonCol>
+
+                                    <IonCol size-sm="12" size-md="12" size-lg="4">
+
+                                        <IonItem>
+
+                                            <IonLabel>Marca / Modela *</IonLabel>
+                                            <IonSelect interface="popover">
+                                                <IonSelectOption></IonSelectOption>
+                                            </IonSelect>
+
+                                        </IonItem>
+
+                                    </IonCol>
+
+                                    <IonCol size-sm="12" size-md="12" size-lg="4">
+                                        <IonItem>
+
+                                            <IonLabel>Série *</IonLabel>
+                                            <IonSelect interface="popover">
+                                                <IonSelectOption></IonSelectOption>
+                                            </IonSelect>
+
+                                        </IonItem>
+                                    </IonCol>
+
+                                    <IonCol size-sm="12" size-md="12" size-lg="4">
+                                        <IonItem>
+
+                                            <IonLabel>Tipo verificação *</IonLabel>
+                                            <IonSelect interface="popover">
+                                                <IonSelectOption></IonSelectOption>
+                                            </IonSelect>
+
+                                        </IonItem>
+                                    </IonCol>
+
+
+
+                                </IonRow>
+
+                                <IonRow>
+
+                                    <IonCol size-sm="12" size-md="12" size-lg="4">
+                                        <IonItem>
+                                            <IonLabel position="floating" itemType="text" placeholder="Número">Número *</IonLabel>
+                                            <IonInput></IonInput>
+                                        </IonItem>
+                                    </IonCol>
+
+                                    <IonCol size-sm="12" size-md="12" size-lg="4" style={{ marginTop: 16 }}>
+                                        <DatePicker inputName={'unidade-data_horaInfraccao'} textLabel="Data/Hora da infracção" />
+                                    </IonCol>
+
+
+                                    <IonCol size-sm="12" size-md="12" size-lg="4">
+                                        <IonItem>
+                                            <IonLabel position="floating" itemType="text" placeholder="Número de talão">Número de talão *</IonLabel>
+                                            <IonInput></IonInput>
+                                        </IonItem>
+                                    </IonCol>
+                                </IonRow>
+
+                                <IonRow>
+                                    <IonCol size-sm="12" size-md="12" size-lg="12" style={{ marginTop: 16 }}>
+                                        <IonLabel>
+                                            Teste (g/l) *
+                                        </IonLabel>
+                                    </IonCol>
+
+                                    <IonCol size-sm="12" size-md="12" size-lg="4">
+                                        <IonItem>
+                                            <IonLabel position="floating" itemType="text" placeholder="Valor registado">Valor registado *</IonLabel>
+                                            <IonInput></IonInput>
+                                        </IonItem>
+                                    </IonCol>
+
+                                    <IonCol size-sm="12" size-md="12" size-lg="4">
+                                        <IonItem>
+                                            <IonLabel position="floating" itemType="text" placeholder="Valor apurado">Valor apurado *</IonLabel>
+                                            <IonInput></IonInput>
+                                        </IonItem>
+                                    </IonCol>
+
+                                </IonRow>
+
                             </IonGrid>
                             {/*Álcool*/}
 

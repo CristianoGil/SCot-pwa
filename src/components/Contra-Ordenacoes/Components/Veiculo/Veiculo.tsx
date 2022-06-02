@@ -22,7 +22,7 @@ import {
     useIonLoading,
 } from '@ionic/react';
 import {useContext, useState} from 'react';
-import {bookSharp, search, newspaperSharp} from 'ionicons/icons';
+import {bookSharp, search, newspaperSharp, informationCircle} from 'ionicons/icons';
 import React from 'react';
 import './Veiculo.scss';
 import Pais from '../../../Combos/Veiculo/Pais';
@@ -44,37 +44,7 @@ import {ICoimaVeiculo, IVeiculo, IVeiculoRequest} from '../../../../model/veicul
 import {veiculoSchema} from '../../../../Validations/VeiculoValidation';
 import {LivreteService} from '../../../../api/LivreteService';
 
-const columnsSemelhantes = [
-    {
-        name: 'Categoria',
-        selector: (row: { categoria: any; }) => row.categoria,
-    },
-    {
-        name: 'Classe',
-        selector: (row: { classe: any; }) => row.classe,
-    },
-    {
-        name: 'Tipo',
-        selector: (row: { tipo: any; }) => row.tipo,
-    },
-    {
-        name: 'Matricula',
-        selector: (row: { matricula: any; }) => row.matricula,
-    },
-    {
-        name: 'N de chassis',
-        selector: (row: { nChassis: any; }) => row.nChassis,
-    },
-    {
-        name: 'Ano origem',
-        selector: (row: { anoOrigem: any; }) => row.anoOrigem,
-    },
-    {
-        name: 'Ação',
-        selector: (row: { accao: any; }) => row.accao,
-    }
 
-];
 
 interface VeiculoSemelhante {
     id: number | undefined;
@@ -95,7 +65,47 @@ interface IPROPS {
 }
 
 const Veiculo: React.FC<IPROPS> = (props) => {
-
+    const columnsSemelhantes = [
+        {
+            name: 'Categoria',
+            selector: (row: { categoria: any; }) => row.categoria,
+        },
+        {
+            name: 'Classe',
+            selector: (row: { classe: any; }) => row.classe,
+        },
+        {
+            name: 'Tipo',
+            selector: (row: { tipo: any; }) => row.tipo,
+        },
+        {
+            name: 'Matricula',
+            selector: (row: { matricula: any; }) => row.matricula,
+        },
+        {
+            name: 'N de chassis',
+            selector: (row: { nChassis: any; }) => row.nChassis,
+        },
+        {
+            name: 'Ano origem',
+            selector: (row: { anoOrigem: any; }) => row.anoOrigem,
+        },
+        {
+            name: 'Ações',
+            cell: (row: { accao: any }) => (
+                <IonButton onClick={(e) =>{
+                    
+                    const veiculoSemelhante = veiculos.find(v=> v.matricula ===row.accao)
+                    console.log(veiculoSemelhante,"veiculo")
+                    setVeiculoSemelhanteData(veiculoSemelhante)
+                    
+                }}   size="small" color="primary" >
+                    <IonIcon slot="start" icon={informationCircle} />
+                </IonButton>
+            )
+        }
+    
+    ]; 
     const alertOfflineContext = useContext<any>(AlertNetworkOfflineContext)
 
     const [inputMatricula_color, setInputMatricula_color] = useState<string>();
@@ -117,7 +127,10 @@ const Veiculo: React.FC<IPROPS> = (props) => {
         return !matricula_IsValid;
     }
 
+    const veiculosPadraoDto: IVeiculo[] = []
+    const [veiculos, setVeiculos] = useState(veiculosPadraoDto);
     const [presentAlert, dismissAlert] = useIonAlert();
+
     const [presentOnLoanding, dismissOnLoanding] = useIonLoading();
     const [paisDeEmissao, setPaisDeEmissao] = useState<string>();
     const [veiculosSemelhantes, setVeiculosSemelhantes] = useState(dataSemelhantes);
@@ -161,11 +174,12 @@ const Veiculo: React.FC<IPROPS> = (props) => {
     }
 
     const [veiculoData, setVeiculoData] = useState<IVeiculo>();
+    const [veiculoSemelhanteData, setVeiculoSemelhanteData] = useState<IVeiculo>();
     const searchVeiculoByMatricula = async () => {
 
         const instanceContraordenacao = new Contraordenacao();
         await instanceContraordenacao.pesquisarVeiculo({matricula: veiculoMatricula}).then((_veiculoData: IPesquisarVeiculoResponse) => {
-
+             
             setTimeout(() => {
                 setOpenPopoverVeiculoData(true);
                 setTimeout(() => {
@@ -224,6 +238,11 @@ const Veiculo: React.FC<IPROPS> = (props) => {
     const [tipo, setTipo] = useState<any>();
 
     const [currentVeiculoData, setCurrentVeiculoData] = useState<IVeiculo>();
+    const handlerFullfillFormVeiculoSemelhante = ()=>{
+        props.setParentVeiculoData(veiculoSemelhanteData);
+        setCurrentVeiculoData(veiculoSemelhanteData)
+        setOpenPopoverVeiculoData(false);
+    }
     const handlerFullfillForm = () => {
         props.setParentVeiculoData(veiculoData);
 
@@ -239,8 +258,10 @@ const Veiculo: React.FC<IPROPS> = (props) => {
             setModelo(veiculoData?.modelo);
             setSubclasse(veiculoData?.subclasse);
             setTipo(veiculoData?.tipo);
+}
 
-        }
+
+       
     }
 
     React.useEffect(() => {
@@ -258,6 +279,51 @@ const Veiculo: React.FC<IPROPS> = (props) => {
             }
             props.setParentVeiculoData(_data)
         }
+
+        const veiculoRequest: IVeiculoRequest = {
+            matricula:pais,
+            classe: classe,
+            categoria: categoria,
+            tipo: tipo,
+            marca: marca,
+            modelo: modelo,
+            cor: cor
+            
+        }
+
+
+        new Contraordenacao().pesquisarVeiculosSemelhantes(veiculoRequest).then(veiculosResponse => {
+            const veiculosSemelhantesDto: VeiculoSemelhante[] = []
+            const veiculosDto: IVeiculo[] = veiculosResponse.veiculos
+            setVeiculos(veiculosDto)
+
+            for (let index = 0; index < veiculosDto.length; index++) {
+                const v = veiculosDto[index];
+                const veiculoDto: VeiculoSemelhante = {
+                    id: index,
+                    categoria: v.categoria?.descricao,
+                    classe: v.classe?.descricao,
+                    tipo: v.tipo?.descricao,
+                    matricula: v.matricula,
+                    nChassis: v.chassi,
+                    anoOrigem: String(v.ano),
+                    accao: v.matricula
+                }
+                veiculosSemelhantesDto.push(veiculoDto)
+
+            }
+
+            setVeiculosSemelhantes(veiculosSemelhantesDto)
+
+        }).catch(veiculosError => {
+            presentAlert({
+                header: 'Error!',
+                message: 'Operação sem sucesso!\n' + veiculosError.message,
+                buttons: [
+                    {text: 'Fechar'},
+                ]
+            })
+        })
 
     }, [isConduzidoVeiculo, veiculoMatricula, pais, marca, modelo, cor, categoria, classe, tipo, subclasse])
 
@@ -313,7 +379,14 @@ const Veiculo: React.FC<IPROPS> = (props) => {
 
 
             const veiculoRequest: IVeiculoRequest = {
-                matricula: _livreteInfo.amatricula
+                matricula: _livreteInfo.amatricula,
+        
+                categoria: _livreteInfo.jcategoriaCe,
+                tipo: _livreteInfo.j2Tipo,
+                marca: _livreteInfo.d1Marca,
+                modelo: _livreteInfo.d2Modelo,
+                cor: _livreteInfo.rcores
+                
             }
 
             new Contraordenacao().pesquisarVeiculosSemelhantes(veiculoRequest).then(veiculosResponse => {
@@ -329,13 +402,13 @@ const Veiculo: React.FC<IPROPS> = (props) => {
                         matricula: v.matricula,
                         nChassis: v.chassi,
                         anoOrigem: String(v.ano),
-                        accao: "Mais Info"
+                        accao: v.matricula
                     }
                     veiculosSemelhantesDto.push(veiculoDto)
 
                 }
 
-                setVeiculosSemelhantes([...dataSemelhantes, ...veiculosSemelhantesDto])
+                setVeiculosSemelhantes(veiculosSemelhantesDto)
 
             }).catch(veiculosError => {
                 presentAlert({
@@ -686,31 +759,31 @@ const Veiculo: React.FC<IPROPS> = (props) => {
                         <IonCardContent>
 
                             <IonButton className="btn-apply-info" fill="solid" color="primary" slot="end"
-                                       onClick={handlerFullfillForm}>
+                                       onClick={handlerFullfillFormVeiculoSemelhante}>
                                 Utilizar estes dados <IonIcon slot="start" icon={newspaperSharp}/>
                             </IonButton>
 
                             <IonGrid>
 
                                 <CardListItem
-                                    c1={{titulo: 'Categoria', valor: veiculoData?.categoria?.descricao}}
-                                    c2={{titulo: 'Classe', valor: veiculoData?.classe?.descricao}}
-                                    c3={{titulo: 'Tipo', valor: veiculoData?.tipo?.descricao}}
-                                    c4={{titulo: 'Subclasse', valor: veiculoData?.subclasse?.descricao}}
+                                    c1={{titulo: 'Categoria', valor: veiculoSemelhanteData?.categoria?.descricao}}
+                                    c2={{titulo: 'Classe', valor: veiculoSemelhanteData?.classe?.descricao}}
+                                    c3={{titulo: 'Tipo', valor: veiculoSemelhanteData?.tipo?.descricao}}
+                                    c4={{titulo: 'Subclasse', valor: veiculoSemelhanteData?.subclasse?.descricao}}
                                 />
 
                                 <CardListItem
-                                    c1={{titulo: 'Matrícula', valor: veiculoData?.matricula}}
-                                    c2={{titulo: 'Chassi', valor: veiculoData?.chassi}}
-                                    c3={{titulo: 'Ano Origem', valor: veiculoData?.ano}}
-                                    c4={{titulo: 'País de Origem', valor: veiculoData?.pais?.descricao}}
+                                    c1={{titulo: 'Matrícula', valor: veiculoSemelhanteData?.matricula}}
+                                    c2={{titulo: 'Chassi', valor: veiculoSemelhanteData?.chassi}}
+                                    c3={{titulo: 'Ano Origem', valor: veiculoSemelhanteData?.ano}}
+                                    c4={{titulo: 'País de Origem', valor: veiculoSemelhanteData?.pais?.descricao}}
                                 />
 
                                 <CardListItem
-                                    c1={{titulo: 'Marca', valor: veiculoData?.marca?.descricao}}
-                                    c2={{titulo: 'Modelo', valor: veiculoData?.modelo?.descricao}}
-                                    c3={{titulo: 'Cor principal', valor: veiculoData?.cor?.descricao}}
-                                    c4={{titulo: 'Situação do veículo', valor: veiculoData?.estadoPolicial?.descricao}}
+                                    c1={{titulo: 'Marca', valor: veiculoSemelhanteData?.marca?.descricao}}
+                                    c2={{titulo: 'Modelo', valor: veiculoSemelhanteData?.modelo?.descricao}}
+                                    c3={{titulo: 'Cor principal', valor: veiculoSemelhanteData?.cor?.descricao}}
+                                    c4={{titulo: 'Situação do veículo', valor: veiculoSemelhanteData?.estadoPolicial?.descricao}}
                                 />
 
                             </IonGrid>
