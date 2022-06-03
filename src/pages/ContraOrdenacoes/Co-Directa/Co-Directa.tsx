@@ -346,15 +346,15 @@ const CoDirecta: React.FC = () => {
 
         if (!localInfraccao_isValid) {
 
-            // await presentAlert({
-            //     header: 'Atenção!',
-            //     message: 'Por favor preencha todos campos obrigatórios nas abas referentes a "dados de infracção e dados complementares"!',
-            //     buttons: [
-            //         {text: 'Fechar'},
-            //     ]
-            // })
-            //
-            // return;
+            await presentAlert({
+                header: 'Atenção!',
+                message: 'Por favor preencha todos campos obrigatórios nas abas referentes a "dados de infracção e dados complementares"!',
+                buttons: [
+                    {text: 'Fechar'},
+                ]
+            })
+
+            return;
         }
 
         // valida [infraccao]
@@ -388,15 +388,15 @@ const CoDirecta: React.FC = () => {
 
         if (!infraccao_isValid) {
 
-            // await presentAlert({
-            //     header: 'Atenção!',
-            //     message: 'Por favor preencha todos campos obrigatórios nas abas referentes a "dados de infracção e dados complementares"!',
-            //     buttons: [
-            //         {text: 'Fechar'},
-            //     ]
-            // })
-            //
-            // return;
+            await presentAlert({
+                header: 'Atenção!',
+                message: 'Por favor preencha todos campos obrigatórios nas abas referentes a "dados de infracção e dados complementares"!',
+                buttons: [
+                    {text: 'Fechar'},
+                ]
+            })
+
+            return;
         }
 
         await presentLoad({
@@ -522,6 +522,8 @@ const CoDirecta: React.FC = () => {
         }
     }, [coDirectaComplementar])
 
+
+
     return (
         <IonPage>
             <Menu actionsCOBtn={<MenuActionsBtnSave isCOSaved={isCOSaved} onEmit={(e: any) => {
@@ -530,7 +532,6 @@ const CoDirecta: React.FC = () => {
                 onSave(e)
             }} onFinish={onFinish}/>}/>
             <IonContent className="contraordenacao" fullscreen={true}>
-
                 <IonGrid id="gridGeral" style={{marginBottom: 40}}>
 
                     <IonRow style={{marginBottom: 40, marginLeft: 10}}>
