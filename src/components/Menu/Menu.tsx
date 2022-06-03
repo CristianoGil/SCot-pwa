@@ -17,7 +17,7 @@ import {
     IonToggle,
     IonToolbar,
 } from '@ionic/react';
-import { person, wifi, settings, exitOutline } from 'ionicons/icons';
+import {person, wifi, settings, exitOutline} from 'ionicons/icons';
 import {useContext, useState} from 'react';
 import './Menu.css'
 import {Link, useHistory} from 'react-router-dom';
@@ -45,9 +45,12 @@ const Menu: React.FC<IProps> = (props) => {
     const [showModal, setShowModal] = useState(false);
     const userContext = useContext<any>(UserContext);
 
-    if(!userContext?.user?.token ) {
-        userContext.syncUserInfo()
-    }
+    React.useEffect(() => {
+        if (!userContext?.user?.token) {
+            userContext.syncUserInfo()
+        }
+    }, [userContext.user])
+
 
     const [networkState, setNetworkState] = useState<string>(navigator.onLine ? 'online' : 'offline');
 
@@ -111,7 +114,7 @@ const Menu: React.FC<IProps> = (props) => {
 
                     </IonButton>
                     <IonPopover arrow={true} translucent={true} dismissOnSelect={true} showBackdrop={false} side={"top"}
-                        backdropDismiss={true} trigger="userLogout" reference="event" style={{marginTop:28}}>
+                                backdropDismiss={true} trigger="userLogout" reference="event" style={{marginTop: 28}}>
                         <IonList>
                             <IonItem button onClick={handleLogout} lines='none'>
                                 <IonLabel>
