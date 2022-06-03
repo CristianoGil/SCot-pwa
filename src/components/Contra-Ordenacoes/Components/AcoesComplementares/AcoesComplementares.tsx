@@ -1,11 +1,13 @@
-import { IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCheckbox, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonListHeader, IonPopover, IonRadio, IonRadioGroup, IonRow, IonSegment, IonSegmentButton, IonSelect, IonSelectOption, IonToolbar } from "@ionic/react";
+import { IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCheckbox, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonListHeader, IonPopover, IonRadio, IonRadioGroup, IonRow, IonSegment, IonSegmentButton, IonSelect, IonSelectOption, IonToolbar, useIonAlert, useIonLoading } from "@ionic/react";
 import { open, trash, remove, bookOutline } from "ionicons/icons";
 import { resolve } from "path";
 import React from "react";
 import { useState } from "react";
 import DataTable from 'react-data-table-component';
 import { Contraordenacao } from "../../../../api/Contraordenacao";
+import { FichaControleService } from "../../../../api/FichaControleService";
 import { CarregarCombosApreensaoDocumento, MotivosApreensao } from "../../../../model/documentoapreendido";
+import { IID_DESCRICAO } from "../../../../model/extendable";
 import CardListItem from "../../../CardListItem";
 import DatePicker from "../../../Combos/DatePicker";
 import NumeroDocumento from "../../../NumeroDocumento/NumeroDocumento";
@@ -13,13 +15,16 @@ import './AcoesComplementares.scss';
 
 interface IProps {
     setAccoesComplementaresParentData?: any
+    currentDadosInfracaoData?:any,
+    currentIntervenientesData?:any
+    setFichaControleData?:any
 }
 
 const AcoesComplementares: React.FC<IProps> = (props) => {
 
     const [openPopoverApreensaoDocumentosData, setOpenPopoverApreensaoDocumentosData] = useState(false);
     const [openPopoverFichaControladorData, setOpenPopoverFichaControladorData] = useState(false);
-
+    const [isFichaControlePreenchida, setIsFichaControlePreenchida] = useState(false)
     /* Enumeração de tipo de documento */
     enum TipoDocumento {
         APREENSAO_DOCUMENTOS = 1,
@@ -64,10 +69,44 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
         }
     };
 
+    const data = [
+        {
+            id: 1,
+            tipoDocumento: 'Apreensão Documentos',
+            estado: 'null',
+            abreTipoDocumento: TipoDocumento.APREENSAO_DOCUMENTOS,
+        },
+        {
+            id: 2,
+            tipoDocumento: 'Apreensão Veículo',
+            estado: 'null',
+            abreTipoDocumento: TipoDocumento.APREENSAO_VEICULO,
+        },
+        {
+            id: 3,
+            tipoDocumento: 'Bloqueamento/Remoção de Veículo',
+            estado: 'null',
+            abreTipoDocumento: TipoDocumento.BLOQUEAMENTO_REMOCAO_VEICULO,
+        },
+        {
+            id: 4,
+            tipoDocumento: 'Substituição de Documentos',
+            estado: 'null',
+            abreTipoDocumento: TipoDocumento.SUBSTITUICAO_DOCUMENTOS,
+        },
+        {
+            id: 5,
+            tipoDocumento: 'Ficha controlador',
+            estado: isFichaControlePreenchida,
+            abreTipoDocumento: TipoDocumento.FICHA_CONTROLADOR,
+        },
+    ]
     const handleButtonClick_EXCLUIR = (state: any) => {
         console.log('clicked (EXCLUIR)');
         console.log(state);
     };
+
+
 
     const columns = [
         {
@@ -100,38 +139,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
         },
     ];
 
-    const data = [
-        {
-            id: 1,
-            tipoDocumento: 'Apreensão Documentos',
-            estado: 'null',
-            abreTipoDocumento: TipoDocumento.APREENSAO_DOCUMENTOS,
-        },
-        {
-            id: 2,
-            tipoDocumento: 'Apreensão Veículo',
-            estado: 'null',
-            abreTipoDocumento: TipoDocumento.APREENSAO_VEICULO,
-        },
-        {
-            id: 3,
-            tipoDocumento: 'Bloqueamento/Remoção de Veículo',
-            estado: 'null',
-            abreTipoDocumento: TipoDocumento.BLOQUEAMENTO_REMOCAO_VEICULO,
-        },
-        {
-            id: 4,
-            tipoDocumento: 'Substituição de Documentos',
-            estado: 'null',
-            abreTipoDocumento: TipoDocumento.SUBSTITUICAO_DOCUMENTOS,
-        },
-        {
-            id: 5,
-            tipoDocumento: 'Ficha controlador',
-            estado: 'null',
-            abreTipoDocumento: TipoDocumento.FICHA_CONTROLADOR,
-        },
-    ]
+   
 
     //-------------------------[Motivos Apreensao]
 
@@ -220,16 +228,15 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
     const [numDocumento, setNumDocumento] = useState('');
     const [localApresentacao, setLocalApresentacao] = useState('');
     const getCombos = async (): Promise<CarregarCombosApreensaoDocumento> => await new Contraordenacao().carregarCombosMotivoApreensao()
+  
+    interface CombosAlcoolResponse {
+        marcaModelo:IID_DESCRICAO[],
+        serie:IID_DESCRICAO[],
+        tipoVerificacao:IID_DESCRICAO[]
 
-    // CarregarCombosApreensaoDocumento
-    React.useEffect(() => {
-        getCombos().then((combos) => {
-            setCombos(combos?.motivosApreensao)
-            setDadosApreensaoDocumento(combos?.documentosDadosApreensao)
-        }).catch((error) => {
-            console.error("Load emissao combos: \n", error);
-        })
-    }, []);
+    }
+    const getCombosAlcool = async (): Promise<CombosAlcoolResponse> => await new Contraordenacao().carregarCombosAlcool()
+
 
     const onClick_addAMotivoApreensao = () => {
 
@@ -326,25 +333,171 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
     // AutuadoTesteminha
     const [selectedAutuado_Testemunha, setSelectedAutuado_Testemunha] = useState<string>('fiscal');
 
+ 
+     
+    const [userTerminal, setUserTerminal] = useState('');
+    const [tipoDeFichaControlador, setTipoDeFichaControlador] = useState('Álcool');
+    const [circunstanciaExameAlcool, setCircunstanciaExameAlcool] = useState();
+    const [circunstanciaExameEstupefacientes, setCircunstanciaExameEstupefacientes] = useState();
+    const [recusaTesteEstupifaciente, setRecusaTesteEstupifaciente] = useState();
+    const [recusaTesteAlcool, setRecusaTesteAlcool] = useState();
+    const [tipoTesteAlcool, setTipoTesteAlcool] = useState();
+    const [anfetaminas, setAnfetaminas] = useState();
+    const [canabis, setCanabis] = useState();
+    const [cocaina, setCocaina] = useState();
+    const [metanfetaminas, setMetanfetaminas] = useState();
+    const [opio, setOpio] = useState();
+    const [tipoTesteEstupifaciente, setTipoTesteEstupifaciente] = useState();
+    const [alcoolimetroMarcas, setAlcoolimetroMarcas] = useState<IID_DESCRICAO[]>();
+    const [alcoolimetroSeries, setAlcoolimetroSeries] = useState<IID_DESCRICAO[]>();
+    const [alcoolimetroTipoVerificacoes, setAlcoolimetroVerificacoes] = useState<IID_DESCRICAO[]>();
+   
+    const [alcoolimetroMarca, setAlcoolimetroMarca] = useState<IID_DESCRICAO>();
+    const [alcoolimetroSerie, setAlcoolimetroSerie] = useState<IID_DESCRICAO>();
+    const [alcoolimetroTipoVerificacao, setAlcoolimetroVerificacao] = useState<IID_DESCRICAO>();
+   
+    const [alcoolimetroNumero, setAlcoolimetroNumero] = useState();
+    const [alcoolimetroDataHoraInfracao, setAlcoolimetroDataHoraInfracao] = useState();
+    const [alcoolimetroNumeroTalao, setAlcoolimetroNumeroTalao] = useState();
+    const [alcoolimetroValorRegistado, setAlcoolimetroValorRegistado] = useState();
+    const [alcoolimetroValorApurado, setAlcoolimetroValorApurado] = useState();
+
+    const [presentAlert, dismissAlert] = useIonAlert();
+    const [presentOnLoanding, dismissOnLoanding] = useIonLoading();
+    
+
+    const onChange_tipoControlador = (e:any)=>{
+    setTipoDeFichaControlador(e.detail.value)
+} 
+
+ const onkeyup_alcoolimetroNumero = (e:any)=>{
+    setAlcoolimetroNumero(e.target.value)
+}
+
+const onkeyup_alcoolimetroNumeroTalao = (e:any)=>{
+    setAlcoolimetroNumeroTalao(e.target.value)
+}
+const onkeyup_alcoolimetroValorRegistado = (e:any)=>{
+    setAlcoolimetroValorRegistado(e.target.value)
+}
+const onkeyup_alcoolimetroValorApurado = (e:any)=>{
+    setAlcoolimetroValorApurado (e.target.value)
+}
+
+
+React.useEffect(() => {
+    const data = {
+        dataMotivosApreensao: dataMotivosApreensao,
+        tamanhoMotivoApreensao: tamanhoMotivoApreensao,
+        dataDadosApreensaoDocumentos: dataDadosApreensaoDocumentos,
+        numDocumento: numDocumento,
+        dataHora:dataHora,
+        localApresentacao: localApresentacao,
+        levantarDocsDiaUtilLocal: levantarDocsDiaUtilLocal,
+        regularSituacaoLocal: regularSituacaoLocal,
+        camaraMunicipal: camaraMunicipal,
+        tituloConducao: tituloConducao,
+        diaPagamento: diaPagamento,
+        sancaoAplicada: sancaoAplicada,
+        numeroDocumento: numeroDocumento,
+
+        isFichaControlePreenchida:isFichaControlePreenchida,
+        tipoDeFichaControlador:tipoDeFichaControlador,
+        circunstanciaExameAlcool:circunstanciaExameAlcool,
+        circunstanciaExameEstupefacientes:circunstanciaExameEstupefacientes,
+        recusaTesteEstupifaciente:recusaTesteEstupifaciente,
+        recusaTesteAlcool:recusaTesteAlcool,
+        tipoTesteAlcool:tipoTesteAlcool,
+        anfetaminas:anfetaminas,
+        canabis:canabis,
+        metanfetaminas:metanfetaminas,
+        opio:opio,
+        tipoTesteEstupifaciente:tipoTesteEstupifaciente,
+        alcoolimetroMarca:alcoolimetroMarca,
+        alcoolimetroSerie:alcoolimetroSerie,
+        alcoolimetroTipoVerificacao:alcoolimetroTipoVerificacao,
+        alcoolimetroDataHoraInfracao:alcoolimetroDataHoraInfracao,
+        alcoolimetroNumeroTalao:alcoolimetroNumeroTalao,
+        alcoolimetroValorRegistado:alcoolimetroValorRegistado,
+        alcoolimetroValorApurado:alcoolimetroValorApurado
+    }
+
+    props.setAccoesComplementaresParentData(data);
+}, [isFichaControlePreenchida,tipoDeFichaControlador,circunstanciaExameAlcool,circunstanciaExameEstupefacientes,recusaTesteEstupifaciente,recusaTesteAlcool,tipoTesteAlcool,anfetaminas,canabis,cocaina,metanfetaminas,opio,tipoTesteEstupifaciente,alcoolimetroMarca,alcoolimetroSerie,alcoolimetroTipoVerificacao,alcoolimetroNumero,alcoolimetroDataHoraInfracao,alcoolimetroNumeroTalao,alcoolimetroValorRegistado,alcoolimetroValorApurado])
+
+    // CarregarCombosApreensaoDocumento
     React.useEffect(() => {
-        const data = {
-            dataMotivosApreensao: dataMotivosApreensao,
-            tamanhoMotivoApreensao: tamanhoMotivoApreensao,
-            dataDadosApreensaoDocumentos: dataDadosApreensaoDocumentos,
-            numDocumento: numDocumento,
-            localApresentacao: localApresentacao,
-            levantarDocsDiaUtilLocal: levantarDocsDiaUtilLocal,
-            regularSituacaoLocal: regularSituacaoLocal,
-            camaraMunicipal: camaraMunicipal,
-            tituloConducao: tituloConducao,
-            diaPagamento: diaPagamento,
-            sancaoAplicada: sancaoAplicada,
-            numeroDocumento: numeroDocumento
-        }
+        getCombos().then((combos) => {
+            setCombos(combos?.motivosApreensao)
+            setDadosApreensaoDocumento(combos?.documentosDadosApreensao)
+        }).catch((error) => {
+            console.error("Load emissao combos: \n", error);
+        })
+        getCombosAlcool().then(combosAlcool=>{
+             setAlcoolimetroMarcas(combosAlcool.marcaModelo)
+             setAlcoolimetroSeries(combosAlcool.serie)
+             setAlcoolimetroVerificacoes(combosAlcool.tipoVerificacao)
+        }).catch(err=>{
+            console.error("Load alcool combos: \n", err);
+        })
+    }, []);
 
-        props.setAccoesComplementaresParentData(data);
-    }, [])
+const on_addFichaControdor=()=>{
 
+    presentOnLoanding({
+        message: 'A guardar...'
+    });
+    new FichaControleService().gravarFichaControle(
+        {arg0:0,
+        arg1:
+        [{
+        anfetaminas:anfetaminas,
+        canabis:canabis,
+        circunstanciaAlcool:circunstanciaExameAlcool,
+        circunstanciaEstupefacientes:circunstanciaExameEstupefacientes,
+        cocaina: cocaina,
+        concelho:props.currentDadosInfracaoData?.localInfracaoData?.concelho?.descricao ,
+        data:dataHora,
+        dataAtualizacao:dataUltimaAtualizacao,
+        distrito:props.currentDadosInfracaoData?.localInfracaoData?.distrito?.descricao,
+        idUtilizador:"",
+        idade:"",
+        matricula:props.currentIntervenientesData?.veiculo?.matricula,
+        metanfetaminas:metanfetaminas,
+        numDocumento:numeroDocumento,
+        opio:opio,
+        qualidade:"null",
+        recusaAlcool:recusaTesteAlcool,
+        recusaEstupefacientes:recusaTesteEstupifaciente,
+        sexo:"",
+        taxaAlcool:alcoolimetroValorRegistado,
+        taxaAlcoolContra:alcoolimetroValorApurado,
+        tipoLocal:props.currentDadosInfracaoData?.localInfracaoData?.tipo,
+        tipoVia:props.currentDadosInfracaoData?.localInfracaoData?.arruamento,
+        via:props.currentDadosInfracaoData?.localInfracaoData?.arruamento
+    }]
+    }).then(response_ficha=>{
+        dismissOnLoanding();
+        presentAlert({
+            header: 'Resultado Ficha controlador \n' + response_ficha.resultado,
+            buttons: [
+                { text: 'Fechar' },
+            ]
+        })
+        setIsFichaControlePreenchida(true)
+        
+    }).catch(err_ficha=>{
+         presentAlert({
+                header: 'Error!',
+                message: 'Operação sem sucesso!\n' + err_ficha.message,
+                buttons: [
+                    { text: 'Fechar' },
+                ]
+            })
+    }).finally(()=>{
+        dismissOnLoanding();
+    })
+}
     return (
 
         <IonCard className={'co-acoesComplementares'}>
@@ -804,7 +957,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                             </h1>
                         </IonLabel>
 
-                        <IonButton className="btn-catalogo" fill="solid" color="primary" slot="end">
+                        <IonButton className="btn-catalogo" fill="solid" color="primary" slot="end" onClick={on_addFichaControdor}>
                             ADICIONAR
                         </IonButton>
 
@@ -860,7 +1013,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                         <IonItem lines='none'>
                                             <div>
                                                 <small>ID Terminal</small><br />
-                                                <strong>null</strong>
+                                                <strong>{userTerminal}</strong>
                                             </div>
                                         </IonItem>
                                     </IonCol>
@@ -884,7 +1037,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                     <IonItem
                                                         lines='none'
                                                         className="infoAdicionais-domicilio-radio radio-item">
-                                                        <IonRadio value="fiscal" />
+                                                        <IonRadio value="Autuado" />
                                                         <IonLabel className="radioBox">Autuado</IonLabel>
                                                     </IonItem>
                                                 </IonCol>
@@ -892,7 +1045,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                     <IonItem
                                                         lines='none'
                                                         className="infoAdicionais-domicilio-radio radio-item">
-                                                        <IonRadio value="outro" />
+                                                        <IonRadio value="Testemunha" />
                                                         <IonLabel className="radioBox">Testemunha</IonLabel>
                                                     </IonItem>
                                                 </IonCol>
@@ -905,8 +1058,8 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                 <IonRow>
                                     <IonCol size-sm='12' size-md='12' size-lg='12'>
 
-                                        <IonRadioGroup value={selectedAutuado_Testemunha}
-                                            onIonChange={e => setSelectedAutuado_Testemunha(e.detail.value)}>
+                                        <IonRadioGroup value={tipoDeFichaControlador}
+                                            onIonChange={onChange_tipoControlador}>
 
                                             <IonRow>
                                                 <IonCol size='12'>
@@ -920,7 +1073,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                     <IonItem
                                                         lines='none'
                                                         className="infoAdicionais-domicilio-radio radio-item">
-                                                        <IonCheckbox value="fiscal" />
+                                                        <IonCheckbox value="Álcool" />
                                                         <IonLabel className="radioBox">Álcool</IonLabel>
                                                     </IonItem>
                                                 </IonCol>
@@ -928,7 +1081,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                     <IonItem
                                                         lines='none'
                                                         className="infoAdicionais-domicilio-radio radio-item">
-                                                        <IonCheckbox value="outro" />
+                                                        <IonCheckbox value="Estupefacientes" />
                                                         <IonLabel className="radioBox">Estupefacientes e/ou outros psicotrópicos</IonLabel>
                                                     </IonItem>
                                                 </IonCol>
@@ -937,12 +1090,13 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                     </IonCol>
 
                                 </IonRow>
+                                {/* {tipoDeFichaControlador==="Alcool"?} */}
 
-                                <IonRow>
+  <IonRow>
                                     <IonCol size-sm='12' size-md='12' size-lg='12'>
 
-                                        <IonRadioGroup value={selectedAutuado_Testemunha}
-                                            onIonChange={e => setSelectedAutuado_Testemunha(e.detail.value)}>
+                                        <IonRadioGroup value={circunstanciaExameAlcool}
+                                            onIonChange={e => setCircunstanciaExameAlcool(e.detail.value)}>
 
                                             <IonRow>
                                                 <IonCol size='12'>
@@ -956,7 +1110,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                     <IonItem
                                                         lines='none'
                                                         className="infoAdicionais-domicilio-radio radio-item">
-                                                        <IonRadio value="fiscal" />
+                                                        <IonRadio value="Acidente" />
                                                         <IonLabel className="radioBox">Acidente</IonLabel>
                                                     </IonItem>
                                                 </IonCol>
@@ -964,7 +1118,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                     <IonItem
                                                         lines='none'
                                                         className="infoAdicionais-domicilio-radio radio-item">
-                                                        <IonRadio value="outro" />
+                                                        <IonRadio value="Aletória" />
                                                         <IonLabel className="radioBox">Aletória</IonLabel>
                                                     </IonItem>
                                                 </IonCol>
@@ -972,7 +1126,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                     <IonItem
                                                         lines='none'
                                                         className="infoAdicionais-domicilio-radio radio-item">
-                                                        <IonRadio value="outro" />
+                                                        <IonRadio value="Início de coondução" />
                                                         <IonLabel className="radioBox">Início de coondução</IonLabel>
                                                     </IonItem>
                                                 </IonCol>
@@ -980,7 +1134,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                     <IonItem
                                                         lines='none'
                                                         className="infoAdicionais-domicilio-radio radio-item">
-                                                        <IonRadio value="outro" />
+                                                        <IonRadio value="Manobra irregular" />
                                                         <IonLabel className="radioBox">Manobra irregular</IonLabel>
                                                     </IonItem>
                                                 </IonCol>
@@ -989,12 +1143,13 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                     </IonCol>
 
                                 </IonRow>
+                              
 
                                 <IonRow>
                                     <IonCol size-sm='12' size-md='12' size-lg='12'>
 
-                                        <IonRadioGroup value={selectedAutuado_Testemunha}
-                                            onIonChange={e => setSelectedAutuado_Testemunha(e.detail.value)}>
+                                        <IonRadioGroup value={circunstanciaExameEstupefacientes}
+                                            onIonChange={e => setCircunstanciaExameEstupefacientes(e.detail.value)}>
 
                                             <IonRow>
                                                 <IonCol size='12'>
@@ -1008,7 +1163,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                     <IonItem
                                                         lines='none'
                                                         className="infoAdicionais-domicilio-radio radio-item">
-                                                        <IonRadio value="fiscal" />
+                                                        <IonRadio value="Acidente" />
                                                         <IonLabel className="radioBox">Acidente</IonLabel>
                                                     </IonItem>
                                                 </IonCol>
@@ -1016,7 +1171,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                     <IonItem
                                                         lines='none'
                                                         className="infoAdicionais-domicilio-radio radio-item">
-                                                        <IonRadio value="outro" />
+                                                        <IonRadio value="Indicios" />
                                                         <IonLabel className="radioBox">Indicios</IonLabel>
                                                     </IonItem>
                                                 </IonCol>
@@ -1024,7 +1179,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                         </IonRadioGroup>
                                     </IonCol>
 
-                                </IonRow>
+                                </IonRow>  
                                 <IonRow>
                                     <IonCol size-sm="12" size-md="12" size-lg="12" style={{ marginTop: 16 }}>
                                         <IonItem lines='none'>
@@ -1048,8 +1203,8 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                 <IonRow>
                                     <IonCol size-sm='12' size-md='12' size-lg='6'>
 
-                                        <IonRadioGroup value={selectedAutuado_Testemunha}
-                                            onIonChange={e => setSelectedAutuado_Testemunha(e.detail.value)}>
+                                        <IonRadioGroup value={recusaTesteAlcool}
+                                            onIonChange={e => setRecusaTesteAlcool(e.detail.value)}>
 
                                             <IonRow>
                                                 <IonCol size='12'>
@@ -1063,7 +1218,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                     <IonItem
                                                         lines='none'
                                                         className="infoAdicionais-domicilio-radio radio-item">
-                                                        <IonRadio value="fiscal" />
+                                                        <IonRadio value="Não" />
                                                         <IonLabel className="radioBox">Não</IonLabel>
                                                     </IonItem>
                                                 </IonCol>
@@ -1071,7 +1226,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                     <IonItem
                                                         lines='none'
                                                         className="infoAdicionais-domicilio-radio radio-item">
-                                                        <IonRadio value="outro" />
+                                                        <IonRadio value="Sim" />
                                                         <IonLabel className="radioBox">Sim</IonLabel>
                                                     </IonItem>
                                                 </IonCol>
@@ -1083,8 +1238,8 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                 <IonRow>
                                     <IonCol size-sm='12' size-md='12' size-lg='12'>
 
-                                        <IonRadioGroup value={selectedAutuado_Testemunha}
-                                            onIonChange={e => setSelectedAutuado_Testemunha(e.detail.value)}>
+                                        <IonRadioGroup value={tipoTesteAlcool}
+                                            onIonChange={e => setTipoTesteAlcool(e.detail.value)}>
 
                                             <IonRow>
                                                 <IonCol size='12'>
@@ -1098,7 +1253,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                     <IonItem
                                                         lines='none'
                                                         className="infoAdicionais-domicilio-radio radio-item">
-                                                        <IonRadio value="fiscal" />
+                                                        <IonRadio value="Teste de ar expirado" />
                                                         <IonLabel className="radioBox">Teste de ar expirado</IonLabel>
                                                     </IonItem>
                                                 </IonCol>
@@ -1106,7 +1261,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                     <IonItem
                                                         lines='none'
                                                         className="infoAdicionais-domicilio-radio radio-item">
-                                                        <IonRadio value="outro" />
+                                                        <IonRadio value="Análise sangue" />
                                                         <IonLabel className="radioBox">Análise sangue</IonLabel>
                                                     </IonItem>
                                                 </IonCol>
@@ -1114,7 +1269,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                     <IonItem
                                                         lines='none'
                                                         className="infoAdicionais-domicilio-radio radio-item">
-                                                        <IonRadio value="outro" />
+                                                        <IonRadio value="Exame médico" />
                                                         <IonLabel className="radioBox">Exame médico</IonLabel>
                                                     </IonItem>
                                                 </IonCol>
@@ -1122,7 +1277,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                     <IonItem
                                                         lines='none'
                                                         className="infoAdicionais-domicilio-radio radio-item">
-                                                        <IonRadio value="outro" />
+                                                        <IonRadio value="Punível à TAS 0.200 g/l" />
                                                         <IonLabel className="radioBox">Punível à TAS 0.200 g/l</IonLabel>
                                                     </IonItem>
                                                 </IonCol>
@@ -1144,8 +1299,13 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                         <IonItem>
 
                                             <IonLabel>Marca / Modela *</IonLabel>
-                                            <IonSelect interface="popover">
-                                                <IonSelectOption></IonSelectOption>
+                                            <IonSelect interface="popover"  onIonChange={e => setAlcoolimetroMarca(e.detail.value)} >
+                                            {alcoolimetroMarcas?.map((local: any) => {
+                                        return (
+                                            <IonSelectOption key={`${local.id}`}
+                                                value={JSON.stringify({id:local.id, descricao:local.descricao})}>{`${local.descricao}`}</IonSelectOption>
+                                        )
+                                    })} 
                                             </IonSelect>
 
                                         </IonItem>
@@ -1156,8 +1316,13 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                         <IonItem>
 
                                             <IonLabel>Série *</IonLabel>
-                                            <IonSelect interface="popover">
-                                                <IonSelectOption></IonSelectOption>
+                                            <IonSelect interface="popover"  onIonChange={e => setAlcoolimetroSerie(e.detail.value)} >
+                                            {alcoolimetroSeries?.map((local: any) => {
+                                        return (
+                                            <IonSelectOption key={`${local.id}`}
+                                                value={JSON.stringify({id:local.id, descricao:local.descricao})}>{`${local.descricao}`}</IonSelectOption>
+                                        )
+                                    })} 
                                             </IonSelect>
 
                                         </IonItem>
@@ -1167,8 +1332,13 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                         <IonItem>
 
                                             <IonLabel>Tipo verificação *</IonLabel>
-                                            <IonSelect interface="popover">
-                                                <IonSelectOption></IonSelectOption>
+                                            <IonSelect interface="popover"  onIonChange={e => setAlcoolimetroVerificacao(e.detail.value)} >
+                                            {alcoolimetroTipoVerificacoes?.map((local: any) => {
+                                        return (
+                                            <IonSelectOption key={`${local.id}`}
+                                                value={JSON.stringify({id:local.id, descricao:local.descricao})}>{`${local.descricao}`}</IonSelectOption>
+                                        )
+                                    })} 
                                             </IonSelect>
 
                                         </IonItem>
@@ -1183,19 +1353,19 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                     <IonCol size-sm="12" size-md="12" size-lg="4">
                                         <IonItem>
                                             <IonLabel position="floating" itemType="text" placeholder="Número">Número *</IonLabel>
-                                            <IonInput></IonInput>
+                                            <IonInput value={alcoolimetroNumero} onKeyUp={onkeyup_alcoolimetroNumero}></IonInput>
                                         </IonItem>
                                     </IonCol>
 
                                     <IonCol size-sm="12" size-md="12" size-lg="4" style={{ marginTop: 16 }}>
-                                        <DatePicker inputName={'unidade-data_horaInfraccao'} textLabel="Data/Hora da infracção" />
+                                        <DatePicker inputName={'unidade-data_horaInfraccao'} textLabel="Data/Hora da infracção" selected={alcoolimetroDataHoraInfracao} setSelected={setAlcoolimetroDataHoraInfracao} />
                                     </IonCol>
 
 
                                     <IonCol size-sm="12" size-md="12" size-lg="4">
                                         <IonItem>
                                             <IonLabel position="floating" itemType="text" placeholder="Número de talão">Número de talão *</IonLabel>
-                                            <IonInput></IonInput>
+                                            <IonInput value={alcoolimetroNumeroTalao} onKeyUp={onkeyup_alcoolimetroNumeroTalao}></IonInput>
                                         </IonItem>
                                     </IonCol>
                                 </IonRow>
@@ -1210,14 +1380,14 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                     <IonCol size-sm="12" size-md="12" size-lg="4">
                                         <IonItem>
                                             <IonLabel position="floating" itemType="text" placeholder="Valor registado">Valor registado *</IonLabel>
-                                            <IonInput></IonInput>
+                                            <IonInput value={alcoolimetroValorRegistado} onKeyUp={onkeyup_alcoolimetroValorRegistado}></IonInput>
                                         </IonItem>
                                     </IonCol>
 
                                     <IonCol size-sm="12" size-md="12" size-lg="4">
                                         <IonItem>
                                             <IonLabel position="floating" itemType="text" placeholder="Valor apurado">Valor apurado *</IonLabel>
-                                            <IonInput></IonInput>
+                                            <IonInput value={alcoolimetroValorApurado} onKeyUp={onkeyup_alcoolimetroValorApurado}></IonInput>
                                         </IonItem>
                                     </IonCol>
 
@@ -1232,8 +1402,8 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                 <IonRow>
                                     <IonCol size-sm='12' size-md='12' size-lg='6'>
 
-                                        <IonRadioGroup value={selectedAutuado_Testemunha}
-                                            onIonChange={e => setSelectedAutuado_Testemunha(e.detail.value)}>
+                                        <IonRadioGroup value={recusaTesteEstupifaciente}
+                                            onIonChange={e => setRecusaTesteEstupifaciente(e.detail.value)}>
 
                                             <IonRow>
                                                 <IonCol size='12'>
@@ -1247,7 +1417,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                     <IonItem
                                                         lines='none'
                                                         className="infoAdicionais-domicilio-radio radio-item">
-                                                        <IonRadio value="fiscal" />
+                                                        <IonRadio value="Não" />
                                                         <IonLabel className="radioBox">Não</IonLabel>
                                                     </IonItem>
                                                 </IonCol>
@@ -1255,7 +1425,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                     <IonItem
                                                         lines='none'
                                                         className="infoAdicionais-domicilio-radio radio-item">
-                                                        <IonRadio value="outro" />
+                                                        <IonRadio value="Sim" />
                                                         <IonLabel className="radioBox">Sim</IonLabel>
                                                     </IonItem>
                                                 </IonCol>
@@ -1267,8 +1437,8 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                 <IonRow>
                                     <IonCol size-sm='12' size-md='12' size-lg='12'>
 
-                                        <IonRadioGroup value={selectedAutuado_Testemunha}
-                                            onIonChange={e => setSelectedAutuado_Testemunha(e.detail.value)}>
+                                        <IonRadioGroup value={tipoTesteEstupifaciente}
+                                            onIonChange={e => setTipoTesteEstupifaciente(e.detail.value)}>
 
                                             <IonRow>
                                                 <IonCol size='12'>
@@ -1282,7 +1452,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                     <IonItem
                                                         lines='none'
                                                         className="infoAdicionais-domicilio-radio radio-item">
-                                                        <IonRadio value="fiscal" />
+                                                        <IonRadio value="Aci" />
                                                         <IonLabel className="radioBox">Aci</IonLabel>
                                                     </IonItem>
                                                 </IonCol>
@@ -1290,7 +1460,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                     <IonItem
                                                         lines='none'
                                                         className="infoAdicionais-domicilio-radio radio-item">
-                                                        <IonRadio value="outro" />
+                                                        <IonRadio value="Análise sangue" />
                                                         <IonLabel className="radioBox">Análise sangue</IonLabel>
                                                     </IonItem>
                                                 </IonCol>
@@ -1298,7 +1468,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                     <IonItem
                                                         lines='none'
                                                         className="infoAdicionais-domicilio-radio radio-item">
-                                                        <IonRadio value="outro" />
+                                                        <IonRadio value="Exame médico" />
                                                         <IonLabel className="radioBox">Exame médico</IonLabel>
                                                     </IonItem>
                                                 </IonCol>
@@ -1311,8 +1481,8 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                 <IonRow>
                                     <IonCol size-sm='12' size-md='12' size-lg='12' style={{ marginTop: 16 }}>
 
-                                        <IonRadioGroup value={selectedAutuado_Testemunha}
-                                            onIonChange={e => setSelectedAutuado_Testemunha(e.detail.value)}>
+                                        <IonRadioGroup value={anfetaminas}
+                                            onIonChange={e => setAnfetaminas(e.detail.value)}>
 
                                             <IonRow>
                                                 <IonCol size='3'>
@@ -1326,7 +1496,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                     <IonItem
                                                         lines='none'
                                                         className="infoAdicionais-domicilio-radio radio-item">
-                                                        <IonRadio value="fiscal" />
+                                                        <IonRadio value="Não Anfetaminas" />
                                                         <IonLabel className="radioBox">Não</IonLabel>
                                                     </IonItem>
                                                 </IonCol>
@@ -1334,7 +1504,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                     <IonItem
                                                         lines='none'
                                                         className="infoAdicionais-domicilio-radio radio-item">
-                                                        <IonRadio value="outro" />
+                                                        <IonRadio value="Sim Anfetaminas" />
                                                         <IonLabel className="radioBox">Sim</IonLabel>
                                                     </IonItem>
                                                 </IonCol>
@@ -1347,8 +1517,8 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                 <IonRow>
                                     <IonCol size-sm='12' size-md='12' size-lg='12'>
 
-                                        <IonRadioGroup value={selectedAutuado_Testemunha}
-                                            onIonChange={e => setSelectedAutuado_Testemunha(e.detail.value)}>
+                                        <IonRadioGroup value={canabis}
+                                            onIonChange={e => setCanabis(e.detail.value)}>
 
                                             <IonRow>
                                                 <IonCol size='3'>
@@ -1362,7 +1532,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                     <IonItem
                                                         lines='none'
                                                         className="infoAdicionais-domicilio-radio radio-item">
-                                                        <IonRadio value="fiscal" />
+                                                        <IonRadio value="Não Canabis" />
                                                         <IonLabel className="radioBox">Não</IonLabel>
                                                     </IonItem>
                                                 </IonCol>
@@ -1370,7 +1540,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                     <IonItem
                                                         lines='none'
                                                         className="infoAdicionais-domicilio-radio radio-item">
-                                                        <IonRadio value="outro" />
+                                                        <IonRadio value="Sim Canabis" />
                                                         <IonLabel className="radioBox">Sim</IonLabel>
                                                     </IonItem>
                                                 </IonCol>
@@ -1379,8 +1549,8 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                             <IonRow>
                                                 <IonCol size-sm='12' size-md='12' size-lg='12'>
 
-                                                    <IonRadioGroup value={selectedAutuado_Testemunha}
-                                                        onIonChange={e => setSelectedAutuado_Testemunha(e.detail.value)}>
+                                                    <IonRadioGroup value={cocaina}
+                                                        onIonChange={e => setCocaina(e.detail.value)}>
 
                                                         <IonRow>
                                                             <IonCol size='3'>
@@ -1394,7 +1564,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                                 <IonItem
                                                                     lines='none'
                                                                     className="infoAdicionais-domicilio-radio radio-item">
-                                                                    <IonRadio value="fiscal" />
+                                                                    <IonRadio value="Não Cocaína" />
                                                                     <IonLabel className="radioBox">Não</IonLabel>
                                                                 </IonItem>
                                                             </IonCol>
@@ -1402,7 +1572,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                                 <IonItem
                                                                     lines='none'
                                                                     className="infoAdicionais-domicilio-radio radio-item">
-                                                                    <IonRadio value="outro" />
+                                                                    <IonRadio value="Sim Cocaína" />
                                                                     <IonLabel className="radioBox">Sim</IonLabel>
                                                                 </IonItem>
                                                             </IonCol>
@@ -1411,8 +1581,8 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                         <IonRow>
                                                             <IonCol size-sm='12' size-md='12' size-lg='12'>
 
-                                                                <IonRadioGroup value={selectedAutuado_Testemunha}
-                                                                    onIonChange={e => setSelectedAutuado_Testemunha(e.detail.value)}>
+                                                                <IonRadioGroup value={metanfetaminas}
+                                                                    onIonChange={e => setMetanfetaminas(e.detail.value)}>
 
                                                                     <IonRow>
                                                                         <IonCol size='3'>
@@ -1426,7 +1596,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                                             <IonItem
                                                                                 lines='none'
                                                                                 className="infoAdicionais-domicilio-radio radio-item">
-                                                                                <IonRadio value="fiscal" />
+                                                                                <IonRadio value="Não Metanfetaminas" />
                                                                                 <IonLabel className="radioBox">Não</IonLabel>
                                                                             </IonItem>
                                                                         </IonCol>
@@ -1434,7 +1604,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                                             <IonItem
                                                                                 lines='none'
                                                                                 className="infoAdicionais-domicilio-radio radio-item">
-                                                                                <IonRadio value="outro" />
+                                                                                <IonRadio value="Sim Metanfetaminas" />
                                                                                 <IonLabel className="radioBox">Sim</IonLabel>
                                                                             </IonItem>
                                                                         </IonCol>
@@ -1443,8 +1613,8 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                                     <IonRow>
                                                                         <IonCol size-sm='12' size-md='12' size-lg='12'>
 
-                                                                            <IonRadioGroup value={selectedAutuado_Testemunha}
-                                                                                onIonChange={e => setSelectedAutuado_Testemunha(e.detail.value)}>
+                                                                            <IonRadioGroup value={opio}
+                                                                                onIonChange={e => setOpio(e.detail.value)}>
 
                                                                                 <IonRow>
                                                                                     <IonCol size='3'>
@@ -1458,7 +1628,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                                                         <IonItem
                                                                                             lines='none'
                                                                                             className="infoAdicionais-domicilio-radio radio-item">
-                                                                                            <IonRadio value="fiscal" />
+                                                                                            <IonRadio value="Não Ópio" />
                                                                                             <IonLabel className="radioBox">Não</IonLabel>
                                                                                         </IonItem>
                                                                                     </IonCol>
@@ -1466,7 +1636,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                                                         <IonItem
                                                                                             lines='none'
                                                                                             className="infoAdicionais-domicilio-radio radio-item">
-                                                                                            <IonRadio value="outro" />
+                                                                                            <IonRadio value="Sim Ópio" />
                                                                                             <IonLabel className="radioBox">Sim</IonLabel>
                                                                                         </IonItem>
                                                                                     </IonCol>
@@ -1507,33 +1677,33 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                             <IonGrid>
                                 <div style={{ fontWeight: 'bold', fontSize: 18 }}>Local de Infração</div>
                                 <CardListItem
-                                    c1={{ titulo: 'Distrito', valor: 'null' }}
-                                    c2={{ titulo: 'Concelho', valor: 'null' }}
-                                    c3={{ titulo: 'Freguesia', valor: 'null' }}
+                                    c1={{ titulo: 'Distrito', valor: props.currentDadosInfracaoData?.localInfracaoData?.distrito?.descricao}}
+                                    c2={{ titulo: 'Concelho', valor: props.currentDadosInfracaoData?.localInfracaoData?.concelho?.descricao }}
+                                    c3={{ titulo: 'Freguesia', valor: props.currentDadosInfracaoData?.localInfracaoData?.freguesia?.descricao }}
                                 />
 
                                 <CardListItem
-                                    c1={{ titulo: 'Localidade', valor: 'null' }}
-                                    c2={{ titulo: 'Tipo Local', valor: 'null' }}
-                                    c3={{ titulo: 'Zona / Bairro', valor: 'null' }}
+                                    c1={{ titulo: 'Localidade', valor: props.currentDadosInfracaoData?.localInfracaoData?.localidade?.descricao }}
+                                    c2={{ titulo: 'Tipo Local', valor: props.currentDadosInfracaoData?.localInfracaoData?.tipo}}
+                                    c3={{ titulo: 'Zona / Bairro', valor: props.currentDadosInfracaoData?.localInfracaoData?.zona }}
                                 />
 
                                 <CardListItem
-                                    c1={{ titulo: 'Tipo de Via', valor: 'null' }}
-                                    c2={{ titulo: 'Arruamento / Via', valor: 'null' }}
-                                    c3={{ titulo: 'N° Polícia / KM', valor: 'null' }}
+                                    c1={{ titulo: 'Tipo de Via', valor: props.currentDadosInfracaoData?.localInfracaoData?.tipo }}
+                                    c2={{ titulo: 'Arruamento / Via', valor: props.currentDadosInfracaoData?.localInfracaoData?.arruamento  }}
+                                    c3={{ titulo: 'N° Polícia / KM', valor: props.currentDadosInfracaoData?.localInfracaoData?.numeroPolicia }}
                                 />
 
                                 <div style={{ fontWeight: 'bold', fontSize: 18, marginTop: 30 }}>Dados de identificação do examinado</div>
                                 <CardListItem
-                                    c1={{ titulo: 'Data de Nascimento', valor: 'null' }}
-                                    c2={{ titulo: 'Sexo', valor: 'null' }}
+                                    c1={{ titulo: 'Data de Nascimento', valor: props.currentIntervenientesData?.arguido?.dataNascimento }}
+                                    c2={{ titulo: 'Sexo', valor: '' }}
                                 />
 
                                 <div style={{ fontWeight: 'bold', fontSize: 18, marginTop: 30 }}>Dados de identificação do Veículo</div>
                                 <CardListItem
-                                    c1={{ titulo: 'Tipo de Veículo', valor: 'null' }}
-                                    c2={{ titulo: 'Matrícula', valor: 'null' }}
+                                    c1={{ titulo: 'Tipo de Veículo', valor: props.currentIntervenientesData?.veiculo?.tipo }}
+                                    c2={{ titulo: 'Matrícula', valor: props.currentIntervenientesData?.veiculo?.matricula }}
                                 />
                             </IonGrid>
 

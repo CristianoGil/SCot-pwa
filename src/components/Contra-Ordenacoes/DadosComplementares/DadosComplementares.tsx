@@ -8,7 +8,9 @@ import './DadosComplementares.scss';
 
 interface IProps {
     setCoDirectaData?: any,
-    active: boolean
+    active: boolean,
+    currentdadosInfracao?:any
+    currentIntervenientesData?:any
 }
 interface Infracao{
     id?:number,
@@ -25,7 +27,7 @@ const DadosComplementares: React.FC<IProps> = (props) => {
     const [arquidoNif, setArguidoNif]= useState('');
     const [infracoes, setInfracoes]= useState<Infracao[]>();
     const [depositoRequest, setDepositoRequest]= useState<DepositoRequest>();
-    const [accoesComplementaresParentData, setAccoesComplementaresParentData] = useState<any>();
+    const [accoesComplementares, setAccoesComplementaresParentData] = useState<any>();
     const keyup_refArguido = (e: any) => {
         setRefArguido(e.target.value);
     }
@@ -36,10 +38,11 @@ const DadosComplementares: React.FC<IProps> = (props) => {
             refArguido: refArguido,
             depositoRequest:depositoRequest,
             infracoes: infracoes,   
-            accoesComplementaresParentData: accoesComplementaresParentData
+            accoesComplementares: accoesComplementares
         }
         setArguidoNif(refArguido)
-    },[])
+        props.setCoDirectaData(data)
+    },[tipoProprietario,refArguido,depositoRequest,infracoes,accoesComplementares])
 
 
     return (
@@ -115,7 +118,7 @@ const DadosComplementares: React.FC<IProps> = (props) => {
             <IonRow>
                 <IonCol size-sm='12' size-md="12" size-lg="11">
                     {/*START: Ações Complementares*/}
-                    <AcoesComplementares setAccoesComplementaresParentData={setAccoesComplementaresParentData}/>
+                    <AcoesComplementares currentDadosInfracaoData={props.currentdadosInfracao} currentIntervenientesData={props.currentIntervenientesData} setAccoesComplementaresParentData={setAccoesComplementaresParentData}/>
                     {/*END: Ações Complementares*/}
                 </IonCol>
             </IonRow>

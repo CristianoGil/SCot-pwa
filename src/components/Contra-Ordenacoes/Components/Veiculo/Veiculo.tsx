@@ -281,7 +281,7 @@ const Veiculo: React.FC<IPROPS> = (props) => {
         }
 
         const veiculoRequest: IVeiculoRequest = {
-            matricula:pais,
+            matricula:veiculoMatricula,
             classe: classe,
             categoria: categoria,
             tipo: tipo,
@@ -375,14 +375,7 @@ const Veiculo: React.FC<IPROPS> = (props) => {
 
             const veiculoRequest: IVeiculoRequest = {
                 matricula: _livreteInfo.amatricula,
-        
-                categoria: _livreteInfo.jcategoriaCe,
-                tipo: _livreteInfo.j2Tipo,
-                marca: _livreteInfo.d1Marca,
-                modelo: _livreteInfo.d2Modelo,
-                cor: _livreteInfo.rcores
-                
-            }
+                    }
 
             new Contraordenacao().pesquisarVeiculosSemelhantes(veiculoRequest).then(veiculosResponse => {
                 const veiculosSemelhantesDto: VeiculoSemelhante[] = []
