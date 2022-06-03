@@ -1,11 +1,12 @@
 import { IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCheckbox, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonListHeader, IonPopover, IonRadio, IonRadioGroup, IonRow, IonSegment, IonSegmentButton, IonSelect, IonSelectOption, IonToolbar, useIonAlert, useIonLoading } from "@ionic/react";
 import { open, trash, remove, bookOutline } from "ionicons/icons";
 import { resolve } from "path";
-import React from "react";
+import React, { useContext } from "react";
 import { useState } from "react";
 import DataTable from 'react-data-table-component';
 import { Contraordenacao } from "../../../../api/Contraordenacao";
 import { FichaControleService } from "../../../../api/FichaControleService";
+import { UserContext } from "../../../../Context/UserContext";
 import { CarregarCombosApreensaoDocumento, MotivosApreensao } from "../../../../model/documentoapreendido";
 import { IID_DESCRICAO } from "../../../../model/extendable";
 import CardListItem from "../../../CardListItem";
@@ -21,6 +22,7 @@ interface IProps {
 }
 
 const AcoesComplementares: React.FC<IProps> = (props) => {
+    const userContext = useContext<any>(UserContext);
 
     const [openPopoverApreensaoDocumentosData, setOpenPopoverApreensaoDocumentosData] = useState(false);
     const [openPopoverFichaControladorData, setOpenPopoverFichaControladorData] = useState(false);
@@ -460,13 +462,13 @@ const on_addFichaControdor=()=>{
         data:dataHora,
         dataAtualizacao:dataUltimaAtualizacao,
         distrito:props.currentDadosInfracaoData?.localInfracaoData?.distrito?.descricao,
-        idUtilizador:"",
+        idUtilizador:userContext.user.nomeUsuario ,
         idade:"",
         matricula:props.currentIntervenientesData?.veiculo?.matricula,
         metanfetaminas:metanfetaminas,
         numDocumento:numeroDocumento,
         opio:opio,
-        qualidade:"null",
+        qualidade:"",
         recusaAlcool:recusaTesteAlcool,
         recusaEstupefacientes:recusaTesteEstupifaciente,
         sexo:"",

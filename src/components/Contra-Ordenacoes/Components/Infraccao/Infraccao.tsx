@@ -1,9 +1,10 @@
 import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCol, IonGrid, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonListHeader, IonRadio, IonRadioGroup, IonRow, IonSelect, IonSelectOption, IonTextarea } from "@ionic/react";
 import { search, text } from "ionicons/icons";
-import React from "react";
+import React, { useContext } from "react";
 import { useState } from "react";
 import { Contraordenacao } from "../../../../api/Contraordenacao";
 import { useAppSelector } from "../../../../app/hooks";
+import { UserContext } from "../../../../Context/UserContext";
 import { getInputValidations_Infraccao } from "../../../../Validations/Contra-Ordenacoes/InputValidationsSlice_Infraccao";
 import './Infraccao.scss';
 
@@ -14,6 +15,7 @@ interface InfracaoData {
 const Infraccao: React.FC<InfracaoData> = (props) => {
 
     const inputValidations_LocalInfraccao = useAppSelector(getInputValidations_Infraccao);
+    const userContext = useContext<any>(UserContext);
 
     interface InfracaoResponse {
         comarcas: ComonResult[]
@@ -58,7 +60,7 @@ const Infraccao: React.FC<InfracaoData> = (props) => {
     const [subtiposInfracao, setSubTiposInfracao] = useState<Subtificacao[]>();
     const [subtiposInfracaoPadrao, setSubtiposInfracaoPadrao] = useState<Subtificacao[]>();
 
-    const [autuante, setAutuante] = useState();
+    const [autuante, setAutuante] = useState(userContext.user.nomeUsuario);
     const [codigoDgv, setCodigoDgv] = useState();
     const [descricaoSumaria, setDescricaoSumaria] = useState<string | undefined | null>();
     const [normaQuePreveContraOrdenacao, setNormaQuePreveContraOrdenacao] = useState<string | undefined | null>();
