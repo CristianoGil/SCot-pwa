@@ -522,6 +522,8 @@ const CoDirecta: React.FC = () => {
         }
     }, [coDirectaComplementar])
 
+
+
     return (
         <IonPage>
             <Menu actionsCOBtn={<MenuActionsBtnSave isCOSaved={isCOSaved} onEmit={(e: any) => {
@@ -530,7 +532,6 @@ const CoDirecta: React.FC = () => {
                 onSave(e)
             }} onFinish={onFinish}/>}/>
             <IonContent className="contraordenacao" fullscreen={true}>
-
                 <IonGrid id="gridGeral" style={{marginBottom: 40}}>
 
                     <IonRow style={{marginBottom: 40, marginLeft: 10}}>
