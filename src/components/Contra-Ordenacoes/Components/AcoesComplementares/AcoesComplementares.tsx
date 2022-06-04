@@ -7,7 +7,7 @@ import DataTable from 'react-data-table-component';
 import { Contraordenacao } from "../../../../api/Contraordenacao";
 import { FichaControleService } from "../../../../api/FichaControleService";
 import { UserContext } from "../../../../Context/UserContext";
-import { CarregarCombosApreensaoDocumento, MotivosApreensao } from "../../../../model/documentoapreendido";
+import { CarregarCombosApreensaoDocumento, IComboApreensaoDocumento, MotivosApreensao } from "../../../../model/documentoapreendido";
 import { IID_DESCRICAO } from "../../../../model/extendable";
 import CardListItem from "../../../CardListItem";
 import DatePicker from "../../../Combos/DatePicker";
@@ -19,6 +19,7 @@ interface IProps {
     currentDadosInfracaoData?: any,
     currentIntervenientesData?: any
     setFichaControleData?: any
+    
 }
 
 const AcoesComplementares: React.FC<IProps> = (props) => {
@@ -159,27 +160,19 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
 
     const columnsMotivosApreensao = [
         {
-            name: 'id',
-            selector: (row: { _id: any; }) => row._id,
-        },
-        {
             name: 'Motivo',
-            cell: (row: { motivo: any }) => (
-                <>
-                    <IonIcon slot="start" icon={remove} />
-                </>
-            )
+            selector: (row: { descricao: string }) => row.descricao 
         },
+       
         {
             name: 'Ações',
-            cell: (row: { accoes: any }) => (
+            cell: (row: { id: number }) => (
                 <>
-                    <IonButton onClick={() => { }} size="small" color="primary" >
-                        ABRIR
-                        <IonIcon slot="start" icon={open} />
-                    </IonButton>
+                    <IonButton onClick={() => { 
+                       setMotivosApreensao(motivosApreensao.filter(m=>{return m.id !==row.id}))
+                       setTamanhoMotivoApreensao(tamanhoMotivoApreensao-1)
 
-                    <IonButton onClick={() => { }} size="small" color="danger" >
+                    }} size="small" color="danger" >
                         EXCLUIR
                         <IonIcon slot="start" icon={trash} />
                     </IonButton>
@@ -188,19 +181,13 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
         },
     ];
 
-    interface MotivoApreensaoTable {
-        id: number,
-        _id: number,
-        motivo: string,
-        accoes: string,
-    }
-    const dataMotivosApreensao: MotivoApreensaoTable[] = []
+    let dataMotivosApreensao: MotivosApreensao[] = []
     //-------------------------[Dados Apreensao Documentos]
 
     const columnsDadosApreensaoDocumentos = [
         {
             name: 'Documento',
-            selector: (row: { documento: any; }) => row.documento,
+            selector: (row: { documento:any }) => row.documento?.descricao,
         },
         {
             name: 'Número',
@@ -208,14 +195,15 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
         },
         {
             name: 'Ações',
-            cell: (row: { accoes: any }) => (
+            cell: (row: { id: any }) => (
                 <>
-                    <IonButton onClick={() => { }} size="small" color="primary" >
-                        ABRIR
-                        <IonIcon slot="start" icon={open} />
-                    </IonButton>
+            
+                    <IonButton onClick={() => { 
 
-                    <IonButton onClick={() => { }} size="small" color="danger" >
+                    setDocumentosApreendidos(documentosApreendidos.filter(m=>{return m.id !==row.id}))
+
+
+                    }} size="small" color="danger" >
                         EXCLUIR
                         <IonIcon slot="start" icon={trash} />
                     </IonButton>
@@ -230,18 +218,21 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
         documento: string,
         accoes: string,
     }
-    const dataDadosApreensaoDocumentos: DadosApreensaoDocumentos[] = []
+    const dataDadosApreensaoDocumentos: IComboApreensaoDocumento[] = []
 
     const [combos, setCombos] = useState<MotivosApreensao[]>();
-    const [motivosApreensao, setMotivosApreensao] = useState<MotivosApreensao[]>();
-    const [dadosApreensaoDocumento, setDadosApreensaoDocumento] = useState<MotivosApreensao[]>();
-    const [documento, setDocumento] = useState('');
-    const [motivoApreensao, setMotivoApreensao] = useState('');
+    const [motivosApreensao, setMotivosApreensao] = useState(dataMotivosApreensao);
+    const [dadosApreensaoDocumento, setDadosApreensaoDocumento] = useState(dataMotivosApreensao);
+    const [documentosApreendidos, setDocumentosApreendidos] = useState(dataDadosApreensaoDocumentos);
+    const [documento, setDocumento] = useState<any>();
+    const [motivoApreensao, setMotivoApreensao] = useState<any>();
     const [idMotivoApreensao, setIdMotivoApreensao] = useState(0);
     const [tamanhoMotivoApreensao, setTamanhoMotivoApreensao] = useState(0);
     const [numDocumento, setNumDocumento] = useState('');
     const [localApresentacao, setLocalApresentacao] = useState('');
+    const [camarasMunicipais, setCamarasMunicipais] = useState<IID_DESCRICAO[]>();
     const getCombos = async (): Promise<CarregarCombosApreensaoDocumento> => await new Contraordenacao().carregarCombosMotivoApreensao()
+    const carregarCombosLocalizacao = async (): Promise<any> => await new Contraordenacao().carregarCombosLocalizacao()
 
     interface CombosAlcoolResponse {
         marcaModelo: IID_DESCRICAO[],
@@ -251,32 +242,52 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
     }
     const getCombosAlcool = async (): Promise<CombosAlcoolResponse> => await new Contraordenacao().carregarCombosAlcool()
 
-
+   
     const onClick_addAMotivoApreensao = () => {
+       
+        const motivo= JSON.parse(motivoApreensao)    
+       
+       if(motivosApreensao?.find(m=> motivo.id===m.id)){
+        presentAlert({
+                    header: 'Error!',
+                    message: 'Motivo já adicionado!\n',
+                    buttons: [
+                        { text: 'Fechar' },
+                    ]
+                })
+       }else{
+          
+         setMotivosApreensao([...motivosApreensao, motivo])
+         setTamanhoMotivoApreensao(+motivosApreensao?.length+1)
 
-        const _idMotivoApreensao: any = combos?.find(motivo => motivo?.descricao === motivoApreensao)?.id
-        setIdMotivoApreensao(_idMotivoApreensao)
+       }
 
-        dataMotivosApreensao.push({
-            _id: idMotivoApreensao,
-            id: idMotivoApreensao,
-            motivo: motivoApreensao,
-            accoes: "null"
-        })
-        setTamanhoMotivoApreensao(dataMotivosApreensao?.length)
+    
 
-    }
+}
 
     const onClick_addDadosDocumentoApreensao = () => {
-        const id: any = dadosApreensaoDocumento?.find(doc => doc?.descricao === documento)?.id
-
-        dataDadosApreensaoDocumentos.push({
-            accoes: "",
-            documento: documento,
-            id: id,
-            numero: +numDocumento
-        })
-
+        const idDescricaoDocumento:MotivosApreensao= JSON.parse(documento)    
+        const documentoApreendido =
+            {
+                documento:{
+                    descricao: idDescricaoDocumento.descricao
+                }, numero:numDocumento, 
+                id:idDescricaoDocumento.id
+            }
+            if(documentosApreendidos?.find(doc=>doc.id === documentoApreendido.id || doc.numero === numDocumento)){
+                presentAlert({
+                    header: 'Error!',
+                    message: 'Documento e/ou mesmo número já adicionado!\n',
+                    buttons: [
+                        { text: 'Fechar' },
+                    ]
+                })
+            }else{
+                setDocumentosApreendidos([...documentosApreendidos,documentoApreendido ])
+                setNumDocumento("")
+            }
+        
     }
 
     const keyup_numDocumento = (e: any) => {
@@ -305,7 +316,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
     const [levantarDocsDiaUtilLocal, setLevantarDocsDiaUtilLocal] = useState('');
 
     const [enviaCamaraMunicipal, setEnviaCamaraMunicipal] = useState(false);
-    const [camaraMunicipal, setCamaraMunicipal] = useState('');
+    const [camaraMunicipal, setCamaraMunicipal] = useState<any>();;
 
     const [podeLevantarTituloConducao, setPodeLevantarTituloConducao] = useState(false);
     const [tituloConducao, setTituloConducao] = useState('');
@@ -318,7 +329,6 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
         id: any,
         descricao: any
     }
-    const camarasMunicipais: CamaraMunicipal[] = [];
 
     const [isDiaPagamento, setIsDiaPagamento] = useState(false);
     const [diaPagamento, setDiaPagamento] = useState('');
@@ -399,18 +409,19 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
 
     React.useEffect(() => {
         const data = {
-            dataMotivosApreensao: dataMotivosApreensao,
-            tamanhoMotivoApreensao: tamanhoMotivoApreensao,
-            dataDadosApreensaoDocumentos: dataDadosApreensaoDocumentos,
+            motivosApreensao: motivosApreensao,
+            tamanhoMotivosApreensao: tamanhoMotivoApreensao,
+            documentosApreendidos: documentosApreendidos,
             numDocumento: numDocumento,
             dataHora: dataHora,
             localApresentacao: localApresentacao,
-            levantarDocsDiaUtilLocal: levantarDocsDiaUtilLocal,
-            regularSituacaoLocal: regularSituacaoLocal,
-            camaraMunicipal: camaraMunicipal,
+            localLevantarDocumentos: levantarDocsDiaUtilLocal,
+            localRegularizacao: regularSituacaoLocal,
+            camaraMunicipal:camaraMunicipal,
             tituloConducao: tituloConducao,
             diaPagamento: diaPagamento,
             sancaoAplicada: sancaoAplicada,
+            aplicarSansao:aplicarSansao,
             numeroDocumento: numeroDocumento,
 
             isFichaControlePreenchida: isFichaControlePreenchida,
@@ -435,13 +446,14 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
         }
 
         props.setAccoesComplementaresParentData(data);
-    }, [isFichaControlePreenchida, tipoDeFichaControlador, circunstanciaExameAlcool, circunstanciaExameEstupefacientes, recusaTesteEstupifaciente, recusaTesteAlcool, tipoTesteAlcool, anfetaminas, canabis, cocaina, metanfetaminas, opio, tipoTesteEstupifaciente, alcoolimetroMarca, alcoolimetroSerie, alcoolimetroTipoVerificacao, alcoolimetroNumero, alcoolimetroDataHoraInfracao, alcoolimetroNumeroTalao, alcoolimetroValorRegistado, alcoolimetroValorApurado])
+    }, [motivosApreensao,tamanhoMotivoApreensao, documentosApreendidos,numDocumento,dataHora,localApresentacao, levantarDocsDiaUtilLocal, regularSituacaoLocal, camaraMunicipal,tituloConducao,diaPagamento,sancaoAplicada,numeroDocumento,isFichaControlePreenchida, tipoDeFichaControlador, circunstanciaExameAlcool, circunstanciaExameEstupefacientes, recusaTesteEstupifaciente, recusaTesteAlcool, tipoTesteAlcool, anfetaminas, canabis, cocaina, metanfetaminas, opio, tipoTesteEstupifaciente, alcoolimetroMarca, alcoolimetroSerie, alcoolimetroTipoVerificacao, alcoolimetroNumero, alcoolimetroDataHoraInfracao, alcoolimetroNumeroTalao, alcoolimetroValorRegistado, alcoolimetroValorApurado])
 
     // CarregarCombosApreensaoDocumento
     React.useEffect(() => {
         getCombos().then((combos) => {
             setCombos(combos?.motivosApreensao)
             setDadosApreensaoDocumento(combos?.documentosDadosApreensao)
+
         }).catch((error) => {
             console.error("Load emissao combos: \n", error);
         })
@@ -451,6 +463,14 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
             setAlcoolimetroVerificacoes(combosAlcool.tipoVerificacao)
         }).catch(err => {
             console.error("Load alcool combos: \n", err);
+        })
+
+        carregarCombosLocalizacao().then((response_local) => {
+            const _local = response_local
+            setCamarasMunicipais(_local?.distritos)
+         
+        }).catch((error) => {
+            console.error("Load localizacao combos: \n", error);
         })
     }, []);
 
@@ -578,11 +598,11 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                     <IonCol size-sm="9" size-md="10" size-lg="9" style={{ marginTop: 16 }}>
                                         <IonItem>
                                             <IonLabel>Motivos da Apreensão *</IonLabel>
-                                            <IonSelect interface="popover" onIonChange={e => setMotivoApreensao(e.detail.value)}>
+                                            <IonSelect interface="popover" value={motivoApreensao} onIonChange={(e) => setMotivoApreensao(e.detail.value)}>
                                                 {combos?.map((local: any) => {
                                                     return (
                                                         <IonSelectOption key={`${local.id}`}
-                                                            value={local.id}>{`${local.descricao}`}</IonSelectOption>
+                                                            value={JSON.stringify({id:local.id, descricao:local.descricao})}>{`${local.descricao}`}</IonSelectOption>
                                                     )
                                                 })}
                                             </IonSelect>
@@ -604,7 +624,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                     <IonCol size-sm='12' size-md='10' size-lg='12'>
                                         <DataTable
                                             columns={columnsMotivosApreensao}
-                                            data={dataMotivosApreensao}
+                                            data={motivosApreensao}
                                         />
                                     </IonCol>
                                 </IonRow>
@@ -645,11 +665,11 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                     <IonCol size-sm="9" size-md="10" size-lg="5" style={{ marginTop: 16 }}>
                                         <IonItem>
                                             <IonLabel>Documento *</IonLabel>
-                                            <IonSelect interface="popover" onIonChange={e => setDocumento(e.detail.value)}>
-                                                {combos?.map((local: any) => {
+                                            <IonSelect interface="popover" value={documento} onIonChange={(e) => setDocumento(e.detail.value)}>
+                                                {dadosApreensaoDocumento?.map((local: any) => {
                                                     return (
                                                         <IonSelectOption key={`${local.id}`}
-                                                            value={local.id}>{`${local.descricao}`}</IonSelectOption>
+                                                            value={JSON.stringify(local)}>{`${local.descricao}`}</IonSelectOption>
                                                     )
                                                 })}
                                             </IonSelect>
@@ -681,7 +701,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                     <IonCol size-sm='12' size-md='10' size-lg='12'>
                                         <DataTable
                                             columns={columnsDadosApreensaoDocumentos}
-                                            data={dataDadosApreensaoDocumentos}
+                                            data={documentosApreendidos}
                                         />
                                     </IonCol>
                                 </IonRow>
@@ -809,7 +829,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                 {camarasMunicipais?.map((local: any) => {
                                                     return (
                                                         <IonSelectOption key={`${local.id}`}
-                                                            value={local.id}>{`${local.descricao}`}</IonSelectOption>
+                                                            value={JSON.stringify(local)}>{`${local.descricao}`}</IonSelectOption>
                                                     )
                                                 })}
                                             </IonSelect>
@@ -838,7 +858,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                     <IonCol size-sm='12' size-md='10' size-lg='12'>
 
                                         <IonItem>
-                                            <IonLabel position="floating" itemType="text" placeholder="Nome infringida"></IonLabel>
+                                            <IonLabel position="floating" itemType="text" placeholder="Norma infringida"></IonLabel>
                                             <IonInput value={tituloConducao}
                                                 disabled={!podeLevantarTituloConducao}
                                                 onKeyUp={keyup_tituloConducao}
@@ -869,11 +889,11 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
 
                                         <IonItem>
                                             <IonLabel></IonLabel>
-                                            <IonSelect interface="popover" disabled={!isDiaPagamento} onIonChange={e => setDiaPagamento(e.detail.value)} >
-                                                {diasPagamentos?.map((local: any) => {
+                                            <IonSelect interface="popover" disabled={!isDiaPagamento}  value ={diaPagamento} onIonChange={e => setDiaPagamento(e.detail.value)} >
+                                                {camarasMunicipais?.map((local: any) => {
                                                     return (
                                                         <IonSelectOption key={`${local.id}`}
-                                                            value={local.id}>{`${local.descricao}`}</IonSelectOption>
+                                                            value={local}>{`${local.descricao}`}</IonSelectOption>
                                                     )
                                                 })}
 
@@ -904,7 +924,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                     <IonCol size-sm='12' size-md='10' size-lg='12'>
 
                                         <IonItem>
-                                            <IonLabel position="floating" itemType="text" placeholder="Nome infringida"></IonLabel>
+                                            <IonLabel position="floating" itemType="text" placeholder="Norma infringida"></IonLabel>
                                             <IonInput value={sancaoAplicada}
                                                 disabled={!aplicarSansao}
                                                 onKeyUp={keyup_sancaoAplicada}></IonInput>
