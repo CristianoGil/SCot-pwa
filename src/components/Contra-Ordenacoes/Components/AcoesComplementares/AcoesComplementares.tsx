@@ -1,4 +1,4 @@
-import { IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCheckbox, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonListHeader, IonPopover, IonRadio, IonRadioGroup, IonRow, IonSegment, IonSegmentButton, IonSelect, IonSelectOption, IonToolbar, useIonAlert, useIonLoading } from "@ionic/react";
+import { IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCheckbox, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonListHeader, IonPopover, IonRadio, IonRadioGroup, IonRow, IonSegment, IonSegmentButton, IonSelect, IonSelectOption, IonTextarea, IonToolbar, useIonAlert, useIonLoading } from "@ionic/react";
 import { open, trash, remove, bookOutline } from "ionicons/icons";
 import { resolve } from "path";
 import React, { useContext } from "react";
@@ -1187,7 +1187,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                             <IonCardTitle>Acções associadas</IonCardTitle>
                         </IonCardHeader>
 
-                        <IonCardContent style={{marginBottom:300}}>
+                        <IonCardContent style={{ marginBottom: 300 }}>
                             <IonGrid>
                                 {/*group1*/}
                                 <IonRow>
@@ -1313,14 +1313,14 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
 
                                     <IonCol size-sm='12' size-md='10' size-lg='12' style={{ padding: 21, marginTop: -20 }}>
 
-                                      
 
-                                            <IonCheckbox
 
-                                                checked={levantarDocsDiaCheckbox}
-                                                onIonChange={e => setLevantarDocsDiaCheckbox(e.detail.checked)} />
+                                        <IonCheckbox
 
-                                      
+                                            checked={levantarDocsDiaCheckbox}
+                                            onIonChange={e => setLevantarDocsDiaCheckbox(e.detail.checked)} />
+
+
                                         <IonLabel class="ion-margin-start">
                                             Para efeitos do dispositivo no nº5 do art. 174º do CE, a presente apreensão do veículo só produz efeitos a partir da data do dia
 
@@ -1380,7 +1380,249 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
 
                 <IonContent>
 
+                    {/* Bloqueamento */}
+                    <IonCard style={{ margin: 30 }}>
 
+                        <IonCardHeader>
+                            <IonCardTitle>Elementos identificadores
+                            </IonCardTitle>
+                        </IonCardHeader>
+
+                        <IonCardContent>
+
+                            <IonGrid>
+
+                                <IonRow>
+                                    <IonCol size-sm='12' size-md='12' size-lg='6'>
+
+                                        <IonRadioGroup value={recusaTesteAlcool}
+                                            onIonChange={e => setRecusaTesteAlcool(e.detail.value)}>
+
+                                            <IonRow>
+                                                <IonCol size='12'>
+                                                    <IonListHeader>
+                                                        <IonLabel>
+                                                            Houve bloqueamento? *
+                                                        </IonLabel>
+                                                    </IonListHeader>
+                                                </IonCol>
+                                                <IonCol size='6'>
+                                                    <IonItem
+                                                        lines='none'
+                                                        className="infoAdicionais-domicilio-radio radio-item">
+                                                        <IonRadio value="Sim" />
+                                                        <IonLabel className="radioBox">Sim</IonLabel>
+                                                    </IonItem>
+                                                </IonCol>
+                                                <IonCol size='6'>
+                                                    <IonItem
+                                                        lines='none'
+                                                        className="infoAdicionais-domicilio-radio radio-item">
+                                                        <IonRadio value="Não" />
+                                                        <IonLabel className="radioBox">Não</IonLabel>
+                                                    </IonItem>
+                                                </IonCol>
+                                            </IonRow>
+                                        </IonRadioGroup>
+                                    </IonCol>
+                                    <IonCol size-sm='12' size-md='12' size-lg='6' style={{ marginTop: 32 }}>
+                                        <IonItem>
+                                            <IonLabel position="floating" itemType="text" placeholder="N° do Bloq./Remoção do veículo">N° do Bloq./Remoção do veículo</IonLabel>
+                                            <IonInput></IonInput>
+                                        </IonItem>
+                                    </IonCol>
+
+                                    <IonCol size-sm='12' size-md='12' size-lg='12'>
+                                        <IonItem>
+                                            <IonLabel>Legislação associada</IonLabel>
+                                            <IonSelect interface="popover" onIonChange={e => setMotivoApreensao(e.detail.value)}>
+                                                {combos?.map((local: any) => {
+                                                    return (
+                                                        <IonSelectOption key={`${local.id}`}
+                                                            value={local.id}>{`${local.descricao}`}</IonSelectOption>
+                                                    )
+                                                })}
+                                            </IonSelect>
+                                        </IonItem>
+                                    </IonCol>
+                                </IonRow>
+                            </IonGrid>
+
+                        </IonCardContent>
+                    </IonCard>
+                    {/* Bloqueamento */}
+
+                    {/* Remoção */}
+                    <IonCard style={{ margin: 30 }}>
+
+                        <IonCardHeader>
+                            <IonCardTitle>Remoção
+                            </IonCardTitle>
+                        </IonCardHeader>
+
+                        <IonCardContent>
+
+                            <IonGrid>
+
+                                <IonRow>
+                                    <IonCol size-sm='12' size-md='12' size-lg='6'>
+
+                                        <IonRadioGroup value={recusaTesteAlcool}
+                                            onIonChange={e => setRecusaTesteAlcool(e.detail.value)}>
+
+                                            <IonRow>
+                                                <IonCol size='12'>
+                                                    <IonListHeader>
+                                                        <IonLabel>
+                                                            Houve remoção? *
+                                                        </IonLabel>
+                                                    </IonListHeader>
+                                                </IonCol>
+                                                <IonCol size='6'>
+                                                    <IonItem
+                                                        lines='none'
+                                                        className="infoAdicionais-domicilio-radio radio-item">
+                                                        <IonRadio value="Sim" />
+                                                        <IonLabel className="radioBox">Sim</IonLabel>
+                                                    </IonItem>
+                                                </IonCol>
+                                                <IonCol size='6'>
+                                                    <IonItem
+                                                        lines='none'
+                                                        className="infoAdicionais-domicilio-radio radio-item">
+                                                        <IonRadio value="Não" />
+                                                        <IonLabel className="radioBox">Não</IonLabel>
+                                                    </IonItem>
+                                                </IonCol>
+                                            </IonRow>
+                                        </IonRadioGroup>
+                                    </IonCol>
+                                    <IonCol size-sm='12' size-md='12' size-lg='6' style={{ marginTop: 46 }}>
+                                        <DatePicker inputName={'acoesComplementares-data_hora'} textLabel="Data/Hora *" setSelected={setDataHora}
+                                            selected={dataHora} />
+                                    </IonCol>
+
+                                    <IonCol size-sm='12' size-md='12' size-lg='12'>
+                                        <IonItem>
+                                            <IonLabel>Legislação associada</IonLabel>
+                                            <IonSelect interface="popover" onIonChange={e => setMotivoApreensao(e.detail.value)}>
+                                                {combos?.map((local: any) => {
+                                                    return (
+                                                        <IonSelectOption key={`${local.id}`}
+                                                            value={local.id}>{`${local.descricao}`}</IonSelectOption>
+                                                    )
+                                                })}
+                                            </IonSelect>
+                                        </IonItem>
+                                    </IonCol>
+
+                                    <IonCol size-sm='12' size-md='12' size-lg='12'>
+                                        <IonItem>
+                                            <IonLabel position="floating" itemType="text" placeholder="Número">Local de destino</IonLabel>
+                                            <IonInput></IonInput>
+                                        </IonItem>
+                                    </IonCol>
+
+                                    <IonCol size-sm='12' size-md='12' size-lg='12'>
+                                        <IonItem lines="none">
+                                            <IonLabel position="stacked">Motivo (Não remoção)</IonLabel>
+                                            <IonTextarea
+                                                rows={6}
+                                                cols={10}
+                                                placeholder="">
+                                            </IonTextarea>
+                                        </IonItem>
+                                    </IonCol>
+                                </IonRow>
+                            </IonGrid>
+
+                        </IonCardContent>
+                    </IonCard>
+                    {/* Remoção */}
+
+
+                    {/* Pagamento */}
+                    <IonCard style={{ margin: 30 }}>
+
+                        <IonCardHeader>
+                            <IonCardTitle>Pagamento
+                            </IonCardTitle>
+                        </IonCardHeader>
+
+                        <IonCardContent>
+
+                            <IonGrid>
+
+                                <IonRow>
+
+                                    <IonCol size-sm='12' size-md='12' size-lg='4' style={{marginTop:16}}>
+                                        <IonItem>
+                                            <IonLabel>Meio pagamento</IonLabel>
+                                            <IonSelect interface="popover" onIonChange={e => setMotivoApreensao(e.detail.value)}>
+                                                {combos?.map((local: any) => {
+                                                    return (
+                                                        <IonSelectOption key={`${local.id}`}
+                                                            value={local.id}>{`${local.descricao}`}</IonSelectOption>
+                                                    )
+                                                })}
+                                            </IonSelect>
+                                        </IonItem>
+                                    </IonCol>
+
+                                    <IonCol size-sm='12' size-md='12' size-lg='4'>
+                                        <IonItem>
+                                            <IonLabel position="floating" itemType="text" placeholder="Número">Número do cheque</IonLabel>
+                                            <IonInput></IonInput>
+                                        </IonItem>
+                                    </IonCol>
+
+                                    <IonCol size-sm='12' size-md='12' size-lg='4' style={{ marginTop: 16 }}>
+                                        <IonItem>
+                                            <IonLabel>Banco emissor</IonLabel>
+                                            <IonSelect interface="popover" onIonChange={e => setMotivoApreensao(e.detail.value)}>
+                                                {combos?.map((local: any) => {
+                                                    return (
+                                                        <IonSelectOption key={`${local.id}`}
+                                                            value={local.id}>{`${local.descricao}`}</IonSelectOption>
+                                                    )
+                                                })}
+                                            </IonSelect>
+                                        </IonItem>
+                                    </IonCol>
+                                </IonRow>
+
+                                <IonRow>
+
+                                    <IonCol size-sm='12' size-md='12' size-lg='3'>
+                                        <IonItem>
+                                            <IonLabel position="floating" itemType="text" placeholder="Valor bloqueamento">Valor bloqueamento</IonLabel>
+                                            <IonInput></IonInput>
+                                        </IonItem>
+                                    </IonCol>
+                                    <IonCol size-sm='12' size-md='12' size-lg='3' style={{ marginTop: 24 }}>
+                                        <IonItem>
+                                            <IonLabel position="floating" itemType="text" placeholder="Valor remoção">Valor remoção</IonLabel>
+                                            <IonInput></IonInput>
+                                        </IonItem>
+                                    </IonCol>
+                                    <IonCol size-sm='12' size-md='12' size-lg='3' style={{ marginTop: 24 }}>
+                                        <IonItem>
+                                            <IonLabel position="floating" itemType="text" placeholder="Valor total">Valor total</IonLabel>
+                                            <IonInput></IonInput>
+                                        </IonItem>
+                                    </IonCol>
+                                    <IonCol size-sm='12' size-md='12' size-lg='3'>
+                                        <IonItem>
+                                            <IonLabel position="floating" itemType="text" placeholder="Número">N° nota de cobrança (Manual)</IonLabel>
+                                            <IonInput></IonInput>
+                                        </IonItem>
+                                    </IonCol>
+                                </IonRow>
+                            </IonGrid>
+
+                        </IonCardContent>
+                    </IonCard>
+                    {/* Pagamento */}
                 </IonContent>
 
             </IonPopover>
