@@ -78,3 +78,7 @@ ion-textarea {
 ion-breadcrumbs {
     margin-left: -12px;
 }
+
+ion-segment-button {
+    white-space: normal !important
+}
