@@ -1432,7 +1432,9 @@ const on_addFichaControdor=()=>{
                                                     </IonItem>
                                                 </IonCol>
                                             </IonRow>
+
                                         </IonRadioGroup>
+
                                     </IonCol>
                                 </IonRow>
 
@@ -1511,13 +1513,8 @@ const on_addFichaControdor=()=>{
                                                     </IonItem>
                                                 </IonCol>
                                             </IonRow>
+
                                         </IonRadioGroup>
-                                    </IonCol>
-
-                                </IonRow>
-
-                                <IonRow>
-                                    <IonCol size-sm='12' size-md='12' size-lg='12'>
 
                                         <IonRadioGroup value={canabis}
                                             onIonChange={e => setCanabis(e.detail.value)}>
@@ -1547,113 +1544,98 @@ const on_addFichaControdor=()=>{
                                                     </IonItem>
                                                 </IonCol>
                                             </IonRow>
+ 
+                                        </IonRadioGroup>
+
+                                        <IonRadioGroup value={cocaina}
+                                            onIonChange={e => setCocaina(e.detail.value)}>
 
                                             <IonRow>
-                                                <IonCol size-sm='12' size-md='12' size-lg='12'>
-
-                                                    <IonRadioGroup value={cocaina}
-                                                        onIonChange={e => setCocaina(e.detail.value)}>
-
-                                                        <IonRow>
-                                                            <IonCol size='3'>
-                                                                <IonListHeader>
-                                                                    <IonLabel>
-                                                                        Cocaína *
-                                                                    </IonLabel>
-                                                                </IonListHeader>
-                                                            </IonCol>
-                                                            <IonCol size='3'>
-                                                                <IonItem
-                                                                    lines='none'
-                                                                    className="infoAdicionais-domicilio-radio radio-item">
-                                                                    <IonRadio value="Não Cocaína" />
-                                                                    <IonLabel className="radioBox">Não</IonLabel>
-                                                                </IonItem>
-                                                            </IonCol>
-                                                            <IonCol size='3'>
-                                                                <IonItem
-                                                                    lines='none'
-                                                                    className="infoAdicionais-domicilio-radio radio-item">
-                                                                    <IonRadio value="Sim Cocaína" />
-                                                                    <IonLabel className="radioBox">Sim</IonLabel>
-                                                                </IonItem>
-                                                            </IonCol>
-                                                        </IonRow>
-
-                                                        <IonRow>
-                                                            <IonCol size-sm='12' size-md='12' size-lg='12'>
-
-                                                                <IonRadioGroup value={metanfetaminas}
-                                                                    onIonChange={e => setMetanfetaminas(e.detail.value)}>
-
-                                                                    <IonRow>
-                                                                        <IonCol size='3'>
-                                                                            <IonListHeader>
-                                                                                <IonLabel>
-                                                                                    Metanfetaminas *
-                                                                                </IonLabel>
-                                                                            </IonListHeader>
-                                                                        </IonCol>
-                                                                        <IonCol size='3'>
-                                                                            <IonItem
-                                                                                lines='none'
-                                                                                className="infoAdicionais-domicilio-radio radio-item">
-                                                                                <IonRadio value="Não Metanfetaminas" />
-                                                                                <IonLabel className="radioBox">Não</IonLabel>
-                                                                            </IonItem>
-                                                                        </IonCol>
-                                                                        <IonCol size='3'>
-                                                                            <IonItem
-                                                                                lines='none'
-                                                                                className="infoAdicionais-domicilio-radio radio-item">
-                                                                                <IonRadio value="Sim Metanfetaminas" />
-                                                                                <IonLabel className="radioBox">Sim</IonLabel>
-                                                                            </IonItem>
-                                                                        </IonCol>
-                                                                    </IonRow>
-
-                                                                    <IonRow>
-                                                                        <IonCol size-sm='12' size-md='12' size-lg='12'>
-
-                                                                            <IonRadioGroup value={opio}
-                                                                                onIonChange={e => setOpio(e.detail.value)}>
-
-                                                                                <IonRow>
-                                                                                    <IonCol size='3'>
-                                                                                        <IonListHeader>
-                                                                                            <IonLabel>
-                                                                                                Ópio *
-                                                                                            </IonLabel>
-                                                                                        </IonListHeader>
-                                                                                    </IonCol>
-                                                                                    <IonCol size='3'>
-                                                                                        <IonItem
-                                                                                            lines='none'
-                                                                                            className="infoAdicionais-domicilio-radio radio-item">
-                                                                                            <IonRadio value="Não Ópio" />
-                                                                                            <IonLabel className="radioBox">Não</IonLabel>
-                                                                                        </IonItem>
-                                                                                    </IonCol>
-                                                                                    <IonCol size='3'>
-                                                                                        <IonItem
-                                                                                            lines='none'
-                                                                                            className="infoAdicionais-domicilio-radio radio-item">
-                                                                                            <IonRadio value="Sim Ópio" />
-                                                                                            <IonLabel className="radioBox">Sim</IonLabel>
-                                                                                        </IonItem>
-                                                                                    </IonCol>
-                                                                                </IonRow>
-                                                                            </IonRadioGroup>
-                                                                        </IonCol>
-
-                                                                    </IonRow>
-                                                                </IonRadioGroup>
-                                                            </IonCol>
-
-                                                        </IonRow>
-                                                    </IonRadioGroup>
+                                                <IonCol size='3'>
+                                                    <IonListHeader>
+                                                        <IonLabel>
+                                                            Cocaína *
+                                                        </IonLabel>
+                                                    </IonListHeader>
                                                 </IonCol>
+                                                <IonCol size='3'>
+                                                    <IonItem
+                                                        lines='none'
+                                                        className="infoAdicionais-domicilio-radio radio-item">
+                                                        <IonRadio value="Não Cocaína" />
+                                                        <IonLabel className="radioBox">Não</IonLabel>
+                                                    </IonItem>
+                                                </IonCol>
+                                                <IonCol size='3'>
+                                                    <IonItem
+                                                        lines='none'
+                                                        className="infoAdicionais-domicilio-radio radio-item">
+                                                        <IonRadio value="Sim Cocaína" />
+                                                        <IonLabel className="radioBox">Sim</IonLabel>
+                                                    </IonItem>
+                                                </IonCol>
+                                            </IonRow>
 
+                                        </IonRadioGroup>
+
+                                        <IonRadioGroup value={metanfetaminas}
+                                            onIonChange={e => setMetanfetaminas(e.detail.value)}>
+
+                                            <IonRow>
+                                                <IonCol size='3'>
+                                                    <IonListHeader>
+                                                        <IonLabel>
+                                                            Metanfetaminas *
+                                                        </IonLabel>
+                                                    </IonListHeader>
+                                                </IonCol>
+                                                <IonCol size='3'>
+                                                    <IonItem
+                                                        lines='none'
+                                                        className="infoAdicionais-domicilio-radio radio-item">
+                                                        <IonRadio value="Não Metanfetaminas" />
+                                                        <IonLabel className="radioBox">Não</IonLabel>
+                                                    </IonItem>
+                                                </IonCol>
+                                                <IonCol size='3'>
+                                                    <IonItem
+                                                        lines='none'
+                                                        className="infoAdicionais-domicilio-radio radio-item">
+                                                        <IonRadio value="Sim Metanfetaminas" />
+                                                        <IonLabel className="radioBox">Sim</IonLabel>
+                                                    </IonItem>
+                                                </IonCol>
+                                            </IonRow>
+  
+                                        </IonRadioGroup>
+
+                                        <IonRadioGroup value={opio}
+                                            onIonChange={e => setOpio(e.detail.value)}>
+
+                                            <IonRow>
+                                                <IonCol size='3'>
+                                                    <IonListHeader>
+                                                        <IonLabel>
+                                                            Ópio *
+                                                        </IonLabel>
+                                                    </IonListHeader>
+                                                </IonCol>
+                                                <IonCol size='3'>
+                                                    <IonItem
+                                                        lines='none'
+                                                        className="infoAdicionais-domicilio-radio radio-item">
+                                                        <IonRadio value="Não Ópio" />
+                                                        <IonLabel className="radioBox">Não</IonLabel>
+                                                    </IonItem>
+                                                </IonCol>
+                                                <IonCol size='3'>
+                                                    <IonItem
+                                                        lines='none'
+                                                        className="infoAdicionais-domicilio-radio radio-item">
+                                                        <IonRadio value="Sim Ópio" />
+                                                        <IonLabel className="radioBox">Sim</IonLabel>
+                                                    </IonItem>
+                                                </IonCol>
                                             </IonRow>
                                         </IonRadioGroup>
                                     </IonCol>
