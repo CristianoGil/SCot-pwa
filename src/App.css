@@ -79,6 +79,6 @@ ion-breadcrumbs {
     margin-left: -12px;
 }
 
-ion-segment-button {
+ion-segment-button, ion-label {
     white-space: normal !important
 }

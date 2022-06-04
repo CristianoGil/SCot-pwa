@@ -1,4 +1,4 @@
-import { IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCheckbox, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonListHeader, IonPopover, IonRadio, IonRadioGroup, IonRow, IonSegment, IonSegmentButton, IonSelect, IonSelectOption, IonToolbar, useIonAlert, useIonLoading } from "@ionic/react";
+import { IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCheckbox, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonListHeader, IonPopover, IonRadio, IonRadioGroup, IonRow, IonSegment, IonSegmentButton, IonSelect, IonSelectOption, IonTextarea, IonToolbar, useIonAlert, useIonLoading } from "@ionic/react";
 import { open, trash, remove, bookOutline } from "ionicons/icons";
 import { resolve } from "path";
 import React, { useContext } from "react";
@@ -25,6 +25,10 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
     const userContext = useContext<any>(UserContext);
 
     const [openPopoverApreensaoDocumentosData, setOpenPopoverApreensaoDocumentosData] = useState(false);
+    const [openPopoverApreensaoVeiculoData, setOpenPopoverApreensaoVeiculoData] = useState(false);
+    const [openPopoverBloqueamento_RemocaoVeiculoData, setOpenPopoverBloqueamento_RemocaoVeiculoData] = useState(false);
+    const [openPopoverSubstituicaoDocumentosData, setOpenPopoverSubstituicaoDocumentosData] = useState(false);
+    const [openPopoverApresentacaoDocumentoData, setOpenPopoverApresentacaoDocumentoData] = useState(false);
     const [openPopoverFichaControladorData, setOpenPopoverFichaControladorData] = useState(false);
     const [isFichaControlePreenchida, setIsFichaControlePreenchida] = useState(false)
     /* Enumeração de tipo de documento */
@@ -33,7 +37,8 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
         APREENSAO_VEICULO = 2,
         BLOQUEAMENTO_REMOCAO_VEICULO = 3,
         SUBSTITUICAO_DOCUMENTOS = 4,
-        FICHA_CONTROLADOR = 5,
+        APRESENTACAO_DOCUMENTOS = 5,
+        FICHA_CONTROLADOR = 6,
     }
     /* Enumeração de tipo de documento */
 
@@ -47,17 +52,22 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
             }
 
             case TipoDocumento.APREENSAO_VEICULO: {
-
+                setOpenPopoverApreensaoVeiculoData(true);
                 break;
             }
 
             case TipoDocumento.BLOQUEAMENTO_REMOCAO_VEICULO: {
-
+                setOpenPopoverBloqueamento_RemocaoVeiculoData(true);
                 break;
             }
 
             case TipoDocumento.SUBSTITUICAO_DOCUMENTOS: {
+                setOpenPopoverSubstituicaoDocumentosData(true);
+                break;
+            }
 
+            case TipoDocumento.APRESENTACAO_DOCUMENTOS: {
+                setOpenPopoverApresentacaoDocumentoData(true);
                 break;
             }
 
@@ -98,6 +108,12 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
         },
         {
             id: 5,
+            tipoDocumento: 'Apresentação de documentos',
+            estado: 'null',
+            abreTipoDocumento: TipoDocumento.APRESENTACAO_DOCUMENTOS,
+        },
+        {
+            id: 6,
             tipoDocumento: 'Ficha controlador',
             estado: isFichaControlePreenchida,
             abreTipoDocumento: TipoDocumento.FICHA_CONTROLADOR,
@@ -775,6 +791,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                     </IonCol>
 
                                 </IonRow>
+
                                 <IonRow>
 
                                     <IonCol size-sm='12' size-md='10' size-lg='12' style={{ marginTop: 10 }}>
@@ -944,6 +961,768 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
 
             </IonPopover>
             {/*Popover: Apreensão de documentos*/}
+
+            {/*Popover: Apreensão de veículo*/}
+            <IonPopover
+                isOpen={openPopoverApreensaoVeiculoData}
+                className="menu popoverArguido"
+                showBackdrop={true}
+                onDidDismiss={() => {
+                    setOpenPopoverApreensaoVeiculoData(false);
+                }}>
+
+                <IonHeader className="ion-no-border">
+                    <IonToolbar color='transparent'>
+                        <IonLabel slot='start'>
+                            <h1>
+                                Apreensão de veículo
+                            </h1>
+                        </IonLabel>
+
+                        <IonButton className="btn-use-data" fill="outline" color="primary" slot="end"
+                            onClick={() => { }}
+                        >
+                            EMITIR
+                        </IonButton>
+
+                        <IonButton className="btn-catalogo" fill="outline" color="medium" slot="end">
+                            IMPRIMIR <IonIcon slot="start" icon={bookOutline} />
+                        </IonButton>
+
+                        <IonButton className="btn-close" fill="outline" color="danger" slot="end" onClick={() => {
+                            setOpenPopoverApreensaoVeiculoData(false);
+                        }}>
+                            CANCELAR
+                        </IonButton>
+
+                    </IonToolbar>
+                </IonHeader>
+
+                <IonContent>
+
+                    {/* Motivos de Apreensão */}
+                    <IonCard style={{ margin: 30 }}>
+
+                        <IonCardContent>
+                            <IonGrid>
+                                <IonRow>
+                                    <IonCol size-sm="9" size-md="10" size-lg="9" style={{ marginTop: 16 }}>
+                                        <IonItem>
+                                            <IonLabel>Motivos da Apreensão *</IonLabel>
+                                            <IonSelect interface="popover" onIonChange={e => setMotivoApreensao(e.detail.value)}>
+                                                {combos?.map((local: any) => {
+                                                    return (
+                                                        <IonSelectOption key={`${local.id}`}
+                                                            value={local.id}>{`${local.descricao}`}</IonSelectOption>
+                                                    )
+                                                })}
+                                            </IonSelect>
+                                        </IonItem>
+                                    </IonCol>
+
+                                    <IonCol size-sm='12' size-md='10' size-lg='3' style={{ marginTop: 16 }}>
+                                        <IonItem lines='none'>
+                                            <IonButton style={{ background: '#084F87', borderRadius: 4 }}
+                                                color="#084F87"
+                                                slot="start"
+                                                size='default'
+                                                onClick={onClick_addAMotivoApreensao}> ADICIONAR </IonButton>
+
+                                        </IonItem>
+                                    </IonCol>
+                                </IonRow>
+                                <IonRow style={{ marginTop: 20 }}>
+                                    <IonCol size-sm='12' size-md='10' size-lg='12'>
+                                        <DataTable
+                                            columns={columnsMotivosApreensao}
+                                            data={dataMotivosApreensao}
+                                        />
+                                    </IonCol>
+                                </IonRow>
+                            </IonGrid>
+
+                        </IonCardContent>
+                    </IonCard>
+                    {/* Motivos de Apreensão */}
+
+                    {/* Fiel depositário */}
+                    <IonCard style={{ margin: 30 }}>
+
+                        <IonCardHeader>
+                            <IonCardTitle>Fiel depositário</IonCardTitle>
+                        </IonCardHeader>
+
+                        <IonCardContent>
+                            <IonGrid>
+                                <IonRow>
+                                    <IonCol size-sm='12' size-md='12' size-lg='12'>
+
+                                        <IonRadioGroup value={tipoTesteAlcool}
+                                            onIonChange={e => setTipoTesteAlcool(e.detail.value)}>
+
+                                            <IonRow>
+                                                <IonCol size='3'>
+                                                    <IonItem
+                                                        lines='none'
+                                                        className="infoAdicionais-domicilio-radio radio-item">
+                                                        <IonRadio value="Condutor" />
+                                                        <IonLabel className="radioBox">Condutor</IonLabel>
+                                                    </IonItem>
+                                                </IonCol>
+                                                <IonCol size='3'>
+                                                    <IonItem
+                                                        lines='none'
+                                                        className="infoAdicionais-domicilio-radio radio-item">
+                                                        <IonRadio value="Proprietário" />
+                                                        <IonLabel className="radioBox">Proprietário</IonLabel>
+                                                    </IonItem>
+                                                </IonCol>
+                                                <IonCol size='3'>
+                                                    <IonItem
+                                                        lines='none'
+                                                        className="infoAdicionais-domicilio-radio radio-item">
+                                                        <IonRadio value="Terceiro" />
+                                                        <IonLabel className="radioBox">Terceiro</IonLabel>
+                                                    </IonItem>
+                                                </IonCol>
+                                                <IonCol size='3'>
+                                                    <IonItem
+                                                        lines='none'
+                                                        className="infoAdicionais-domicilio-radio radio-item">
+                                                        <IonRadio value="GNR" />
+                                                        <IonLabel className="radioBox">GNR</IonLabel>
+                                                    </IonItem>
+                                                </IonCol>
+                                            </IonRow>
+                                        </IonRadioGroup>
+                                        <IonItem>
+                                            <IonLabel position="floating" itemType="number" placeholder="Nome">N° da apreensão de veículo</IonLabel>
+                                            <IonInput>
+
+                                            </IonInput>
+                                        </IonItem>
+                                    </IonCol>
+
+                                </IonRow>
+                                <IonRow>
+                                    <IonCol size-sm='12' size-md='10' size-lg='12'>
+                                        <IonItem>
+                                            <IonLabel position="floating" itemType="text" placeholder="Nome">Nome</IonLabel>
+                                            <IonInput>
+
+                                            </IonInput>
+                                        </IonItem>
+                                    </IonCol>
+                                </IonRow>
+                                <IonRow>
+                                    <IonCol size-sm='12' size-md='10' size-lg='12'>
+                                        <IonItem>
+                                            <IonLabel position="floating" itemType="text" placeholder="Morada">Morada</IonLabel>
+                                            <IonInput>
+
+                                            </IonInput>
+                                        </IonItem>
+                                    </IonCol>
+                                </IonRow>
+                                <IonRow>
+                                    <IonCol size-sm="9" size-md="10" size-lg="8" style={{ marginTop: 16 }}>
+                                        <IonItem>
+                                            <IonLabel>Documento *</IonLabel>
+                                            <IonSelect interface="popover" onIonChange={e => setDocumento(e.detail.value)}>
+                                                {combos?.map((local: any) => {
+                                                    return (
+                                                        <IonSelectOption key={`${local.id}`}
+                                                            value={local.id}>{`${local.descricao}`}</IonSelectOption>
+                                                    )
+                                                })}
+                                            </IonSelect>
+                                        </IonItem>
+                                    </IonCol>
+                                    <IonCol size-sm='12' size-md='10' size-lg='4'>
+                                        <IonItem>
+                                            <IonLabel position="floating" itemType="text" placeholder="Nome infringida">Número</IonLabel>
+                                            <IonInput value={numDocumento}
+                                                onKeyUp={keyup_numDocumento}
+
+                                            ></IonInput>
+                                        </IonItem>
+                                    </IonCol>
+                                </IonRow>
+
+                            </IonGrid>
+
+                        </IonCardContent>
+                    </IonCard>
+                    {/* Fiel depositário */}
+
+                    {/* Dados de apreensão do veículo */}
+                    <IonCard style={{ margin: 30 }}>
+
+                        <IonCardHeader>
+                            <IonCardTitle>Dados de apreensão do veículo</IonCardTitle>
+                        </IonCardHeader>
+
+                        <IonCardContent>
+                            <IonGrid>
+
+                                <IonRow>
+
+                                    <IonCol size-sm='12' size-md='10' size-lg='4'>
+                                        <IonItem>
+                                            <IonLabel position="floating" itemType="text" placeholder="kms">kms</IonLabel>
+                                            <IonInput></IonInput>
+                                        </IonItem>
+                                    </IonCol>
+
+                                    <IonCol size-sm='12' size-md='10' size-lg='4'>
+                                        <IonItem>
+                                            <IonLabel position="floating" itemType="text" placeholder="kms">Local de depósito</IonLabel>
+                                            <IonInput></IonInput>
+                                        </IonItem>
+                                    </IonCol>
+                                </IonRow>
+
+                            </IonGrid>
+
+                        </IonCardContent>
+                    </IonCard>
+                    {/* Dados de apreensão do veículo */}
+
+                    {/* Acções associadas */}
+                    <IonCard style={{ margin: 30 }}>
+
+                        <IonCardHeader>
+                            <IonCardTitle>Acções associadas</IonCardTitle>
+                        </IonCardHeader>
+
+                        <IonCardContent style={{ marginBottom: 300 }}>
+                            <IonGrid>
+                                {/*group1*/}
+                                <IonRow>
+
+                                    <IonCol size-sm='12' size-md='10' size-lg='12' style={{ marginTop: 10 }}>
+
+                                        <IonItem lines='none'>
+
+                                            <IonCheckbox
+
+                                                checked={levantarDocsDiaCheckbox}
+                                                onIonChange={e => setLevantarDocsDiaCheckbox(e.detail.checked)} />
+                                            <IonLabel class="ion-margin-start">
+                                                O documento de identificação di veículo não apreendido em virtude de
+                                            </IonLabel>
+                                        </IonItem>
+
+                                    </IonCol>
+
+                                </IonRow>
+                                <IonRow>
+                                    <IonCol size-sm='12' size-md='10' size-lg='12'>
+
+                                        <IonItem>
+                                            <IonLabel position="floating" itemType="text" placeholder="Nome infringida">Descreva aqui o motivo</IonLabel>
+                                            <IonInput
+
+                                                disabled={!levantarDocsDiaCheckbox}
+                                                value={levantarDocsDiaUtilLocal}
+                                                onKeyUp={keyup_levantarDocsDiaUtilLocal}
+                                            ></IonInput>
+                                        </IonItem>
+
+                                    </IonCol>
+
+                                </IonRow>
+                                {/*group1*/}
+
+
+                                {/*group2*/}
+                                <IonRow>
+
+                                    <IonCol size-sm='12' size-md='10' size-lg='12' style={{ marginTop: 10 }}>
+
+                                        <IonItem lines='none'>
+
+                                            <IonCheckbox
+
+                                                checked={levantarDocsDiaCheckbox}
+                                                onIonChange={e => setLevantarDocsDiaCheckbox(e.detail.checked)} />
+                                            <IonLabel class="ion-margin-start">
+                                                Apreensão de documentos
+                                            </IonLabel>
+                                        </IonItem>
+
+                                    </IonCol>
+
+                                </IonRow>
+                                <IonRow>
+                                    <IonCol size-sm="9" size-md="10" size-lg="8" style={{ marginTop: 16 }}>
+                                        <IonItem>
+                                            <IonLabel>Documento</IonLabel>
+                                            <IonSelect interface="popover" onIonChange={e => setDocumento(e.detail.value)}>
+                                                {combos?.map((local: any) => {
+                                                    return (
+                                                        <IonSelectOption key={`${local.id}`}
+                                                            value={local.id}>{`${local.descricao}`}</IonSelectOption>
+                                                    )
+                                                })}
+                                            </IonSelect>
+                                        </IonItem>
+                                    </IonCol>
+                                    <IonCol size-sm='12' size-md='10' size-lg='4'>
+                                        <IonItem>
+                                            <IonLabel position="floating" itemType="text" placeholder="Nome infringida">Número</IonLabel>
+                                            <IonInput value={numDocumento}
+                                                onKeyUp={keyup_numDocumento}
+
+                                            ></IonInput>
+                                        </IonItem>
+                                    </IonCol>
+                                </IonRow>
+                                <IonRow>
+                                    <IonCol size-sm="9" size-md="10" size-lg="8" style={{ marginTop: 16 }}>
+                                        <IonItem>
+                                            <IonLabel>O arguido poderá levantar o(s) documento(s) provisoriamente apreendido(s), no serviço desconcentrado do IMTT de</IonLabel>
+                                            <IonSelect interface="popover" onIonChange={e => setDocumento(e.detail.value)}>
+                                                {combos?.map((local: any) => {
+                                                    return (
+                                                        <IonSelectOption key={`${local.id}`}
+                                                            value={local.id}>{`${local.descricao}`}</IonSelectOption>
+                                                    )
+                                                })}
+                                            </IonSelect>
+                                        </IonItem>
+                                    </IonCol>
+                                </IonRow>
+                                {/*group2*/}
+
+                                {/*group3*/}
+                                <IonRow>
+
+                                    <IonCol size-sm='12' size-md='10' size-lg='12' style={{ marginTop: 10 }}>
+
+                                        <IonItem lines='none'>
+
+                                            <IonCheckbox
+
+                                                checked={levantarDocsDiaCheckbox}
+                                                onIonChange={e => setLevantarDocsDiaCheckbox(e.detail.checked)} />
+                                            <IonLabel class="ion-margin-start">
+                                                Foi passado o aviso de apreensão de documentos
+                                            </IonLabel>
+                                        </IonItem>
+
+                                    </IonCol>
+
+                                </IonRow>
+                                {/*group3*/}
+
+                                {/*group4*/}
+                                <IonRow>
+
+                                    <IonCol size-sm='12' size-md='10' size-lg='12' style={{ padding: 21, marginTop: -20 }}>
+
+
+
+                                        <IonCheckbox
+
+                                            checked={levantarDocsDiaCheckbox}
+                                            onIonChange={e => setLevantarDocsDiaCheckbox(e.detail.checked)} />
+
+
+                                        <IonLabel class="ion-margin-start">
+                                            Para efeitos do dispositivo no nº5 do art. 174º do CE, a presente apreensão do veículo só produz efeitos a partir da data do dia
+
+                                            <DatePicker inputName={'acoesComplementares-data_hora'} textLabel="Data/Hora *" setSelected={setDataHora}
+                                                selected={dataHora} />
+                                            data do termo de validade da Guia de Substituição emitida em substituição dos documentos provisoriamente apreendidos,nos termos do nº3 do art. 174º do CE (Infracções com sanções por cumprir).
+                                        </IonLabel>
+                                    </IonCol>
+
+                                </IonRow>
+                                {/*group4*/}
+                            </IonGrid>
+
+                        </IonCardContent>
+                    </IonCard>
+                    {/* Acções associadas */}
+                </IonContent>
+
+            </IonPopover>
+            {/*Popover: Apreensão de veículo*/}
+
+            {/*Popover: Bloqueamento/Remoção de veículo*/}
+            <IonPopover
+                isOpen={openPopoverBloqueamento_RemocaoVeiculoData}
+                className="menu popoverArguido"
+                showBackdrop={true}
+                onDidDismiss={() => {
+                    setOpenPopoverBloqueamento_RemocaoVeiculoData(false);
+                }}>
+
+                <IonHeader className="ion-no-border">
+                    <IonToolbar color='transparent'>
+                        <IonLabel slot='start'>
+                            <h1>
+                                Auto de bloqueamento
+                            </h1>
+                        </IonLabel>
+
+                        <IonButton className="btn-use-data" fill="outline" color="primary" slot="end"
+                            onClick={() => { }}
+                        >
+                            EMITIR
+                        </IonButton>
+
+                        <IonButton className="btn-catalogo" fill="outline" color="medium" slot="end">
+                            IMPRIMIR <IonIcon slot="start" icon={bookOutline} />
+                        </IonButton>
+
+                        <IonButton className="btn-close" fill="outline" color="danger" slot="end" onClick={() => {
+                            setOpenPopoverBloqueamento_RemocaoVeiculoData(false);
+                        }}>
+                            CANCELAR
+                        </IonButton>
+
+                    </IonToolbar>
+                </IonHeader>
+
+                <IonContent>
+
+                    {/* Bloqueamento */}
+                    <IonCard style={{ margin: 30 }}>
+
+                        <IonCardHeader>
+                            <IonCardTitle>Elementos identificadores
+                            </IonCardTitle>
+                        </IonCardHeader>
+
+                        <IonCardContent>
+
+                            <IonGrid>
+
+                                <IonRow>
+                                    <IonCol size-sm='12' size-md='12' size-lg='6'>
+
+                                        <IonRadioGroup value={recusaTesteAlcool}
+                                            onIonChange={e => setRecusaTesteAlcool(e.detail.value)}>
+
+                                            <IonRow>
+                                                <IonCol size='12'>
+                                                    <IonListHeader>
+                                                        <IonLabel>
+                                                            Houve bloqueamento? *
+                                                        </IonLabel>
+                                                    </IonListHeader>
+                                                </IonCol>
+                                                <IonCol size='6'>
+                                                    <IonItem
+                                                        lines='none'
+                                                        className="infoAdicionais-domicilio-radio radio-item">
+                                                        <IonRadio value="Sim" />
+                                                        <IonLabel className="radioBox">Sim</IonLabel>
+                                                    </IonItem>
+                                                </IonCol>
+                                                <IonCol size='6'>
+                                                    <IonItem
+                                                        lines='none'
+                                                        className="infoAdicionais-domicilio-radio radio-item">
+                                                        <IonRadio value="Não" />
+                                                        <IonLabel className="radioBox">Não</IonLabel>
+                                                    </IonItem>
+                                                </IonCol>
+                                            </IonRow>
+                                        </IonRadioGroup>
+                                    </IonCol>
+                                    <IonCol size-sm='12' size-md='12' size-lg='6' style={{ marginTop: 32 }}>
+                                        <IonItem>
+                                            <IonLabel position="floating" itemType="text" placeholder="N° do Bloq./Remoção do veículo">N° do Bloq./Remoção do veículo</IonLabel>
+                                            <IonInput></IonInput>
+                                        </IonItem>
+                                    </IonCol>
+
+                                    <IonCol size-sm='12' size-md='12' size-lg='12'>
+                                        <IonItem>
+                                            <IonLabel>Legislação associada</IonLabel>
+                                            <IonSelect interface="popover" onIonChange={e => setMotivoApreensao(e.detail.value)}>
+                                                {combos?.map((local: any) => {
+                                                    return (
+                                                        <IonSelectOption key={`${local.id}`}
+                                                            value={local.id}>{`${local.descricao}`}</IonSelectOption>
+                                                    )
+                                                })}
+                                            </IonSelect>
+                                        </IonItem>
+                                    </IonCol>
+                                </IonRow>
+                            </IonGrid>
+
+                        </IonCardContent>
+                    </IonCard>
+                    {/* Bloqueamento */}
+
+                    {/* Remoção */}
+                    <IonCard style={{ margin: 30 }}>
+
+                        <IonCardHeader>
+                            <IonCardTitle>Remoção
+                            </IonCardTitle>
+                        </IonCardHeader>
+
+                        <IonCardContent>
+
+                            <IonGrid>
+
+                                <IonRow>
+                                    <IonCol size-sm='12' size-md='12' size-lg='6'>
+
+                                        <IonRadioGroup value={recusaTesteAlcool}
+                                            onIonChange={e => setRecusaTesteAlcool(e.detail.value)}>
+
+                                            <IonRow>
+                                                <IonCol size='12'>
+                                                    <IonListHeader>
+                                                        <IonLabel>
+                                                            Houve remoção? *
+                                                        </IonLabel>
+                                                    </IonListHeader>
+                                                </IonCol>
+                                                <IonCol size='6'>
+                                                    <IonItem
+                                                        lines='none'
+                                                        className="infoAdicionais-domicilio-radio radio-item">
+                                                        <IonRadio value="Sim" />
+                                                        <IonLabel className="radioBox">Sim</IonLabel>
+                                                    </IonItem>
+                                                </IonCol>
+                                                <IonCol size='6'>
+                                                    <IonItem
+                                                        lines='none'
+                                                        className="infoAdicionais-domicilio-radio radio-item">
+                                                        <IonRadio value="Não" />
+                                                        <IonLabel className="radioBox">Não</IonLabel>
+                                                    </IonItem>
+                                                </IonCol>
+                                            </IonRow>
+                                        </IonRadioGroup>
+                                    </IonCol>
+                                    <IonCol size-sm='12' size-md='12' size-lg='6' style={{ marginTop: 46 }}>
+                                        <DatePicker inputName={'acoesComplementares-data_hora'} textLabel="Data/Hora *" setSelected={setDataHora}
+                                            selected={dataHora} />
+                                    </IonCol>
+
+                                    <IonCol size-sm='12' size-md='12' size-lg='12'>
+                                        <IonItem>
+                                            <IonLabel>Legislação associada</IonLabel>
+                                            <IonSelect interface="popover" onIonChange={e => setMotivoApreensao(e.detail.value)}>
+                                                {combos?.map((local: any) => {
+                                                    return (
+                                                        <IonSelectOption key={`${local.id}`}
+                                                            value={local.id}>{`${local.descricao}`}</IonSelectOption>
+                                                    )
+                                                })}
+                                            </IonSelect>
+                                        </IonItem>
+                                    </IonCol>
+
+                                    <IonCol size-sm='12' size-md='12' size-lg='12'>
+                                        <IonItem>
+                                            <IonLabel position="floating" itemType="text" placeholder="Número">Local de destino</IonLabel>
+                                            <IonInput></IonInput>
+                                        </IonItem>
+                                    </IonCol>
+
+                                    <IonCol size-sm='12' size-md='12' size-lg='12'>
+                                        <IonItem lines="none">
+                                            <IonLabel position="stacked">Motivo (Não remoção)</IonLabel>
+                                            <IonTextarea
+                                                rows={6}
+                                                cols={10}
+                                                placeholder="">
+                                            </IonTextarea>
+                                        </IonItem>
+                                    </IonCol>
+                                </IonRow>
+                            </IonGrid>
+
+                        </IonCardContent>
+                    </IonCard>
+                    {/* Remoção */}
+
+
+                    {/* Pagamento */}
+                    <IonCard style={{ margin: 30 }}>
+
+                        <IonCardHeader>
+                            <IonCardTitle>Pagamento
+                            </IonCardTitle>
+                        </IonCardHeader>
+
+                        <IonCardContent>
+
+                            <IonGrid>
+
+                                <IonRow>
+
+                                    <IonCol size-sm='12' size-md='12' size-lg='4' style={{marginTop:16}}>
+                                        <IonItem>
+                                            <IonLabel>Meio pagamento</IonLabel>
+                                            <IonSelect interface="popover" onIonChange={e => setMotivoApreensao(e.detail.value)}>
+                                                {combos?.map((local: any) => {
+                                                    return (
+                                                        <IonSelectOption key={`${local.id}`}
+                                                            value={local.id}>{`${local.descricao}`}</IonSelectOption>
+                                                    )
+                                                })}
+                                            </IonSelect>
+                                        </IonItem>
+                                    </IonCol>
+
+                                    <IonCol size-sm='12' size-md='12' size-lg='4'>
+                                        <IonItem>
+                                            <IonLabel position="floating" itemType="text" placeholder="Número">Número do cheque</IonLabel>
+                                            <IonInput></IonInput>
+                                        </IonItem>
+                                    </IonCol>
+
+                                    <IonCol size-sm='12' size-md='12' size-lg='4' style={{ marginTop: 16 }}>
+                                        <IonItem>
+                                            <IonLabel>Banco emissor</IonLabel>
+                                            <IonSelect interface="popover" onIonChange={e => setMotivoApreensao(e.detail.value)}>
+                                                {combos?.map((local: any) => {
+                                                    return (
+                                                        <IonSelectOption key={`${local.id}`}
+                                                            value={local.id}>{`${local.descricao}`}</IonSelectOption>
+                                                    )
+                                                })}
+                                            </IonSelect>
+                                        </IonItem>
+                                    </IonCol>
+                                </IonRow>
+
+                                <IonRow>
+
+                                    <IonCol size-sm='12' size-md='12' size-lg='3'>
+                                        <IonItem>
+                                            <IonLabel position="floating" itemType="text" placeholder="Valor bloqueamento">Valor bloqueamento</IonLabel>
+                                            <IonInput></IonInput>
+                                        </IonItem>
+                                    </IonCol>
+                                    <IonCol size-sm='12' size-md='12' size-lg='3' style={{ marginTop: 24 }}>
+                                        <IonItem>
+                                            <IonLabel position="floating" itemType="text" placeholder="Valor remoção">Valor remoção</IonLabel>
+                                            <IonInput></IonInput>
+                                        </IonItem>
+                                    </IonCol>
+                                    <IonCol size-sm='12' size-md='12' size-lg='3' style={{ marginTop: 24 }}>
+                                        <IonItem>
+                                            <IonLabel position="floating" itemType="text" placeholder="Valor total">Valor total</IonLabel>
+                                            <IonInput></IonInput>
+                                        </IonItem>
+                                    </IonCol>
+                                    <IonCol size-sm='12' size-md='12' size-lg='3'>
+                                        <IonItem>
+                                            <IonLabel position="floating" itemType="text" placeholder="Número">N° nota de cobrança (Manual)</IonLabel>
+                                            <IonInput></IonInput>
+                                        </IonItem>
+                                    </IonCol>
+                                </IonRow>
+                            </IonGrid>
+
+                        </IonCardContent>
+                    </IonCard>
+                    {/* Pagamento */}
+                </IonContent>
+
+            </IonPopover>
+            {/*Popover: Bloqueamento/Remoção de veículo*/}
+
+            {/*Popover: Substituição de documentos*/}
+            <IonPopover
+                isOpen={openPopoverSubstituicaoDocumentosData}
+                className="menu popoverArguido"
+                showBackdrop={true}
+                onDidDismiss={() => {
+                    setOpenPopoverSubstituicaoDocumentosData(false);
+                }}>
+
+                <IonHeader className="ion-no-border">
+                    <IonToolbar color='transparent'>
+                        <IonLabel slot='start'>
+                            <h1>
+                                Guia de substituição de documentos
+                            </h1>
+                        </IonLabel>
+
+                        <IonButton className="btn-use-data" fill="outline" color="primary" slot="end"
+                            onClick={() => { }}
+                        >
+                            EMITIR
+                        </IonButton>
+
+                        <IonButton className="btn-catalogo" fill="outline" color="medium" slot="end">
+                            IMPRIMIR <IonIcon slot="start" icon={bookOutline} />
+                        </IonButton>
+
+                        <IonButton className="btn-close" fill="outline" color="danger" slot="end" onClick={() => {
+                            setOpenPopoverSubstituicaoDocumentosData(false);
+                        }}>
+                            CANCELAR
+                        </IonButton>
+
+                    </IonToolbar>
+                </IonHeader>
+
+                <IonContent>
+
+
+                </IonContent>
+
+            </IonPopover>
+            {/*Popover: Substituição de documentos*/}
+
+            {/*Popover: Apresentação de documentos*/}
+            <IonPopover
+                isOpen={openPopoverApresentacaoDocumentoData}
+                className="menu popoverArguido"
+                showBackdrop={true}
+                onDidDismiss={() => {
+                    setOpenPopoverApresentacaoDocumentoData(false);
+                }}>
+
+                <IonHeader className="ion-no-border">
+                    <IonToolbar color='transparent'>
+                        <IonLabel slot='start'>
+                            <h1>
+                                Aviso para apresentação de documentos
+                            </h1>
+                        </IonLabel>
+
+                        <IonButton className="btn-use-data" fill="outline" color="primary" slot="end"
+                            onClick={() => { }}
+                        >
+                            EMITIR
+                        </IonButton>
+
+                        <IonButton className="btn-catalogo" fill="outline" color="medium" slot="end">
+                            IMPRIMIR <IonIcon slot="start" icon={bookOutline} />
+                        </IonButton>
+
+                        <IonButton className="btn-close" fill="outline" color="danger" slot="end" onClick={() => {
+                            setOpenPopoverApresentacaoDocumentoData(false);
+                        }}>
+                            CANCELAR
+                        </IonButton>
+
+                    </IonToolbar>
+                </IonHeader>
+
+                <IonContent>
+
+
+                </IonContent>
+
+            </IonPopover>
+            {/*Popover: Apresentação de documentos*/}
 
             {/*Popover: Ficha controlador*/}
             <IonPopover
@@ -1148,8 +1927,6 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                     </IonCol>
 
                                 </IonRow>
-
-
                                 <IonRow>
                                     <IonCol size-sm='12' size-md='12' size-lg='12'>
 
@@ -1363,9 +2140,8 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                     </IonCol>
 
                                     <IonCol size-sm="12" size-md="12" size-lg="4" style={{ marginTop: 16 }}>
-                                        <DatePicker inputName={'unidade-data_horaInfraccao'} textLabel="Data/Hora da infracção" selected={alcoolimetroDataHoraInfracao} setSelected={setAlcoolimetroDataHoraInfracao} />
+                                        <DatePicker inputName={'acoesComplementares-data_horaInfraccao'} textLabel="Data/Hora da infracção" selected={alcoolimetroDataHoraInfracao} setSelected={setAlcoolimetroDataHoraInfracao} />
                                     </IonCol>
-
 
                                     <IonCol size-sm="12" size-md="12" size-lg="4">
                                         <IonItem>
