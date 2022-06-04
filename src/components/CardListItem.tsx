@@ -1,4 +1,5 @@
 import { IonRow, IonCol, IonItem } from "@ionic/react";
+import './CardListItem.scss';
 
 interface Props {
     c1?: Coluna;
@@ -21,7 +22,7 @@ const CardListItem: React.FC<Props> = ({ c1, c2, c3, c4 }) => {
                 <IonItem lines='none'>
                     <div>
                         <small>{c1?.titulo}</small><br />
-                        <strong>{c1 ? c1.valor : "N/A" }</strong>
+                        <strong>{c1 ? c1.valor : "N/A"}</strong>
                     </div>
                 </IonItem>
             </IonCol>

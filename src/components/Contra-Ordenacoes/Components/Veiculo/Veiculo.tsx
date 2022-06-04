@@ -622,7 +622,7 @@ const Veiculo: React.FC<IPROPS> = (props) => {
 
                                 <section className={toggleBtnInformacaoIMT ? 'ion-hide' : ''}>
                                     <CardListItem
-                                        c1={{ titulo: 'Data primeira matrícula', valor: 'null' }}
+                                        c1={{ titulo: 'Data primeira matrícula', valor: '11111111111111111111111111111111114' }}
                                         c2={{ titulo: 'Dígito matrícula', valor: 'null' }}
                                         c3={{ titulo: 'Variante', valor: 'null' }}
                                         c4={{ titulo: 'Versão', valor: 'null' }}
@@ -864,7 +864,77 @@ const Veiculo: React.FC<IPROPS> = (props) => {
                                 />
 
                                 <section className={toggleBtnInformacaoDetalhesSemelhanteSelecionado ? 'ion-hide' : ''}>
-                                    {/*Conteúdo*/}
+                                    <CardListItem
+                                        c1={{ titulo: 'Data primeira matrícula', valor: 'null' }}
+                                        c2={{ titulo: 'Dígito matrícula', valor: 'null' }}
+                                        c3={{ titulo: 'Variante', valor: 'null' }}
+                                        c4={{ titulo: 'Versão', valor: 'null' }}
+                                    />
+
+                                    <CardListItem
+                                        c1={{ titulo: 'Peso bruto', valor: 'null' }}
+                                        c2={{ titulo: 'Peso bruto total', valor: 'null' }}
+                                        c3={{ titulo: 'Peso bruto conjunto', valor: 'null' }}
+                                        c4={{ titulo: 'Tara total', valor: 'null' }}
+                                    />
+
+                                    <CardListItem
+                                        c1={{ titulo: 'Data de validade', valor: 'null' }}
+                                        c2={{ titulo: 'Data de matrícula', valor: 'null' }}
+                                        c3={{ titulo: 'N° homologação CE', valor: 'null' }}
+                                        c4={{ titulo: 'Tara total', valor: 'null' }}
+                                    />
+
+                                    <CardListItem
+                                        c1={{ titulo: 'Cilindrada', valor: 'null' }}
+                                        c2={{ titulo: 'Potência efetiva', valor: 'null' }}
+                                        c3={{ titulo: 'Tipo combustível', valor: 'null' }}
+                                        c4={{ titulo: 'Potência rpm', valor: 'null' }}
+                                    />
+
+                                    <CardListItem
+                                        c1={{ titulo: 'Fração pot. efetiva de tara total', valor: 'null' }}
+                                        c2={{ titulo: 'N° de lugares', valor: 'null' }}
+                                        c3={{ titulo: 'Lotação em pé', valor: 'null' }}
+                                        c4={{ titulo: 'Categoria CE', valor: 'null' }}
+                                    />
+
+                                    <CardListItem
+                                        c1={{ titulo: 'Tipo de caixa', valor: 'null' }}
+                                        c2={{ titulo: 'Distância entre eixos', valor: 'null' }}
+                                        c3={{ titulo: 'Peso max. admissível 1', valor: 'null' }}
+                                        c4={{ titulo: 'Peso max. admissível 2', valor: 'null' }}
+                                    />
+
+                                    <CardListItem
+                                        c1={{ titulo: 'Peso max. admissível 3', valor: 'null' }}
+                                        c2={{ titulo: 'Peso max. admissível 4', valor: 'null' }}
+                                        c3={{ titulo: 'Peso max. admissível 5', valor: 'null' }}
+                                        c4={{ titulo: 'Peso bruto reb. com travão', valor: 'null' }}
+                                    />
+
+                                    <CardListItem
+                                        c1={{ titulo: 'Peso bruto reb. sem travão', valor: 'null' }}
+                                        c2={{ titulo: 'Nível sonoro estacionário', valor: 'null' }}
+                                        c3={{ titulo: 'Nível sonoro rpm', valor: 'null' }}
+                                        c4={{ titulo: 'Emissões CO tipo 1', valor: 'null' }}
+                                    />
+
+                                    <CardListItem
+                                        c1={{ titulo: 'Emissão de partículas', valor: 'null' }}
+                                        c2={{ titulo: 'CO2 combinado', valor: 'null' }}
+                                        c3={{ titulo: 'Medida pneus frente', valor: 'null' }}
+                                        c4={{ titulo: 'Medida pneus retaguarda', valor: 'null' }}
+                                    />
+
+                                    <CardListItem
+                                        c1={{ titulo: 'Comprimento caixa', valor: 'null' }}
+                                        c2={{ titulo: 'Poder elevação', valor: 'null' }}
+                                    />
+
+                                    <CardListItem
+                                        c1={{ titulo: 'Anotações', valor: 'null' }}
+                                    />
                                 </section>
 
                             </IonGrid>
