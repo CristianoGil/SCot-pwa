@@ -184,8 +184,8 @@ const handlerCoDirectaRequestData = (data: any): ICoDirecta => {
         subDestacamento: null,
 
         //dados complementares
-        proprietario: null, //arguido, condutor, outro
-        refArquivo: null,
+        proprietario: data?.tipoProprietario, //arguido, condutor, outro
+        refArquivo: data?.refArguido,
         pagamento: null,
         apreensaoDocumento: null,
         apreensaoVeiculo: null,
@@ -195,7 +195,18 @@ const handlerCoDirectaRequestData = (data: any): ICoDirecta => {
         infracoesAdicionais: null,
 
         //alcool
-        alcoolemia: null,
+        alcoolemia: {
+            alcool:{
+                dataHora:data?.accoesComplementares?.dataHora,
+                tipoTeste:data?.accoesComplementares?.tipoTesteAlcool,
+                marcaModelo:data?.accoesComplementares?.alcoolimetroMarca,
+                serie:data?.accoesComplementares?.alcoolimetroSerie,
+                tipoVerificacao:data?.accoesComplementares?.alcoolimetroTipoVerificacao,
+                numeroTalao:data?.accoesComplementares?.alcoolimetroNumeroTalao,
+                valorRegistado:data?.accoesComplementares?.alcoolimetroValorRegistado,
+                valorApurado:data?.accoesComplementares?.alcoolimetroValorApurado,
+            }
+        },
 
         //assinatura agente
         tipoAssinaturaOpcaoAgente: null,
@@ -522,6 +533,8 @@ const CoDirecta: React.FC = () => {
         }
     }, [coDirectaComplementar])
 
+
+
     return (
         <IonPage>
             <Menu actionsCOBtn={<MenuActionsBtnSave isCOSaved={isCOSaved} onEmit={(e: any) => {
@@ -530,7 +543,6 @@ const CoDirecta: React.FC = () => {
                 onSave(e)
             }} onFinish={onFinish}/>}/>
             <IonContent className="contraordenacao" fullscreen={true}>
-
                 <IonGrid id="gridGeral" style={{marginBottom: 40}}>
 
                     <IonRow style={{marginBottom: 40, marginLeft: 10}}>
@@ -567,8 +579,7 @@ const CoDirecta: React.FC = () => {
 
                 <DadosInfracao active={activeSegment === 'dados_da_infracao'} setCoDirectaData={setCoDirectaInfracao}/>)
 
-                <DadosComplementares active={activeSegment === 'dados_complemenatares'}
-                                     setCoDirectaData={setCoDirectaComplementar}/>
+                 <DadosComplementares active={activeSegment === 'dados_complemenatares'} setCoDirectaData={setCoDirectaComplementar} currentdadosInfracao={coDirectaInfracao} currentIntervenientesData={setCoDirectaIntervenientes}/>
 
 
             </IonContent>

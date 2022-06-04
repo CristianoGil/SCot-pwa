@@ -1,17 +1,17 @@
-import type {AxiosError, AxiosResponse} from "axios";
+import type { AxiosError, AxiosResponse } from "axios";
 import type {
     ICoDirecta,
     IPesquisarPessoaRequest,
     IPesquisarPessoaResponse,
     IPesquisarVeiculoResponse
 } from "../model/contraordenacao";
-import {URL_API_SCOT, VEICULOS_SEMELHANTES} from "../utils/const";
+import { URL_API_SCOT, VEICULOS_SEMELHANTES } from "../utils/const";
 import axios from '../config/axios.config';
-import {getPlatforms} from "@ionic/react";
-import {LoadOfflineData} from "./LoadOfflineData";
+import { getPlatforms } from "@ionic/react";
+import { LoadOfflineData } from "./LoadOfflineData";
 import _ from "underscore";
-import {IVeiculo, IVeiculoRequest, IVeiculoResponse} from "../model/veiculo";
-import {CarregarCombosApreensaoDocumento} from "../model/documentoapreendido";
+import { IVeiculo, IVeiculoRequest, IVeiculoResponse } from "../model/veiculo";
+import { CarregarCombosApreensaoDocumento } from "../model/documentoapreendido";
 import database from "../database";
 import {ApiUtils} from "./ApiUtils";
 import Veiculo from "../pages/RI-Catalogo/Veiculo/Veiculo";
@@ -22,20 +22,33 @@ export class Contraordenacao {
 
     prefix_url: string = 'v1/contraOrdenacao'
     prefix_local_url: string = 'v1/locais'
+    prefix_alcool_url: string = 'v1/alcoolemia/carregarCombosAlcool'
     prefix_dominio_url: string = 'v1/dominio'
     apiUtils = new ApiUtils()
 
-    pesquisarVeiculosSemelhantes(veiculo: IVeiculoRequest): Promise<IVeiculoResponse>  {
+    public carregarCombosAlcool(): Promise<any> {
         return new Promise((resolve, reject) => {
-                this.apiUtils.connectPostAPI(`${VEICULOS_SEMELHANTES}`,veiculo).then((response) => {
-                    resolve(response.data);
-                }).catch((error: AxiosError) => {
-                    reject(error)
-                })
+            this.apiUtils.connectGetAPI(`${this.prefix_alcool_url}`).then((response) => {
+                resolve(response.data);
+            }).catch((error: AxiosError) => {
+                reject(error)
+            })
+
+        })
+
+    }
+
+    public pesquisarVeiculosSemelhantes(veiculo: IVeiculoRequest): Promise<IVeiculoResponse> {
+        return new Promise((resolve, reject) => {
+            this.apiUtils.connectPostAPI(`${VEICULOS_SEMELHANTES}`, veiculo).then((response) => {
+                resolve(response.data);
+            }).catch((error: AxiosError) => {
+                reject(error)
+            })
 
         })
     }
- 
+
     getMapAddressByPosition(arg0: { position: { lat: any; lng: any; }; apiKey: string; }) {
         return new Promise((resolve, reject) => {
 
@@ -52,18 +65,18 @@ export class Contraordenacao {
 
     getCoordsByAddress
         (arg0: { address: string; apiKey: string; }): any {
-            return new Promise((resolve, reject) => {
-                let url = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${arg0.address}&fields=formatted_address,geometry&key=${arg0.apiKey}`;
-                axios
-                    .get(url)
-                    .then((response: AxiosResponse<any>) => {
-                        resolve(response)
-                    })
-                    .catch((error: AxiosError) => {
-                        reject(error)
-                    })
-            })
-         
+        return new Promise((resolve, reject) => {
+            let url = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${arg0.address}&fields=formatted_address,geometry&key=${arg0.apiKey}`;
+            axios
+                .get(url)
+                .then((response: AxiosResponse<any>) => {
+                    resolve(response)
+                })
+                .catch((error: AxiosError) => {
+                    reject(error)
+                })
+        })
+
     }
 
 
@@ -107,7 +120,7 @@ export class Contraordenacao {
                 return await this.guardarCODirecta(requestData);
             } else { // Is onfline
 
-                const {insertOne} = database();
+                const { insertOne } = database();
                 const localId = uid();
                 return new Promise((resolve, reject) => {
 
@@ -127,7 +140,7 @@ export class Contraordenacao {
         return new Promise((resolve, reject) => {
 
             const service_url = 'salvarContraOrdenacao';
-            this.connectPostAPI(`${this.prefix_url}/${service_url}`, {contraOrdenacao: requestData}).then((response) => {
+            this.connectPostAPI(`${this.prefix_url}/${service_url}`, { contraOrdenacao: requestData }).then((response) => {
                 resolve(response.data as unknown as ICoDirecta);
             }).catch((error: AxiosError) => {
                 console.error(`${this.prefix_url}/${service_url}:`, error)
@@ -172,7 +185,7 @@ export class Contraordenacao {
         return new Promise((resolve, reject) => {
 
             const service_url = 'emitirContraOrdenacao';
-            this.connectPostAPI(`${this.prefix_url}/${service_url}`, {contraOrdenacao: requestData}).then((response) => {
+            this.connectPostAPI(`${this.prefix_url}/${service_url}`, { contraOrdenacao: requestData }).then((response) => {
                 resolve(response.data as unknown as ICoDirecta);
             }).catch((error: AxiosError) => {
                 console.error(`${this.prefix_url}/${service_url}:`, error)
@@ -381,7 +394,7 @@ export class Contraordenacao {
 
             // } 
             // else { // Go to the internet for load data
-// carregarCombosInfracao
+            // carregarCombosInfracao
             const service_url = 'carregarCombosInfracao';
             this.connectGetAPI(`${this.prefix_url}/${service_url}`).then((response) => {
                 const data = response.data;
@@ -475,6 +488,8 @@ export class Contraordenacao {
             // }
         })
     }
+
+
 
 
 }
