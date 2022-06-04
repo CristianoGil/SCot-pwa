@@ -1,4 +1,5 @@
 import type {IID_DESCRICAO} from "./extendable";
+import { LivreteResponse } from "./livrete";
 
 export interface IVeiculo {
     id?: number
@@ -16,7 +17,10 @@ export interface IVeiculo {
     estadoPolicial?: IEstadoPolicial
     isCoimasEmAtraso?: boolean
     coimasEmAtraso?: ICoimaVeiculo[]
-    ipo?: boolean
+    ipo?: boolean,
+    livrete?: LivreteResponse
+
+
 }
 
 export interface ICategoriaVeiculo extends IID_DESCRICAO {

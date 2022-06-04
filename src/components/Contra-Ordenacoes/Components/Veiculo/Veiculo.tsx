@@ -374,6 +374,7 @@ const Veiculo: React.FC<IPROPS> = (props) => {
                     descricao: _livreteInfo.dscSituacao
                 },
                 ipo: false,
+                livrete:_livreteInfo
             }
             setVeiculoData(veiculo)
 
@@ -621,75 +622,75 @@ const Veiculo: React.FC<IPROPS> = (props) => {
 
                                 <section className={toggleBtnInformacaoIMT ? 'ion-hide' : ''}>
                                     <CardListItem
-                                        c1={{ titulo: 'Data primeira matrícula', valor: '11111111111111111111111111111111114' }}
-                                        c2={{ titulo: 'Dígito matrícula', valor: 'null' }}
-                                        c3={{ titulo: 'Variante', valor: 'null' }}
-                                        c4={{ titulo: 'Versão', valor: 'null' }}
+                                        c1={{ titulo: 'Data primeira matrícula', valor: veiculoData?.livrete?.bdtPrimeiraMatricula }}
+                                        c2={{ titulo: 'Dígito matrícula', valor: veiculoData?.livrete?.adigitoMatricula }}
+                                        c3={{ titulo: 'Variante', valor: veiculoData?.livrete?.d2Variante }}
+                                        c4={{ titulo: 'Versão', valor: veiculoData?.livrete?.d2Versao }}
                                     />
 
                                     <CardListItem
-                                        c1={{ titulo: 'Peso bruto', valor: 'null' }}
-                                        c2={{ titulo: 'Peso bruto total', valor: 'null' }}
-                                        c3={{ titulo: 'Peso bruto conjunto', valor: 'null' }}
-                                        c4={{ titulo: 'Tara total', valor: 'null' }}
+                                        c1={{ titulo: 'Peso bruto', valor: veiculoData?.livrete?.f1PesoBruto }}
+                                        c2={{ titulo: 'Peso bruto total', valor: veiculoData?.livrete?.f2PesoBrutoTotal }}
+                                        c3={{ titulo: 'Peso bruto conjunto', valor: veiculoData?.livrete?.f3PesoBrutoConjunto }}
+                                        c4={{ titulo: 'Tara total', valor: veiculoData?.livrete?.gtaraTotal }}
                                     />
 
                                     <CardListItem
-                                        c1={{ titulo: 'Data de validade', valor: 'null' }}
-                                        c2={{ titulo: 'Data de matrícula', valor: 'null' }}
-                                        c3={{ titulo: 'N° homologação CE', valor: 'null' }}
-                                        c4={{ titulo: 'Tara total', valor: 'null' }}
+                                        c1={{ titulo: 'Data de validade', valor: veiculoData?.livrete?.hdtValidade }}
+                                        c2={{ titulo: 'Data de matrícula', valor: veiculoData?.livrete?.idtMatricula }}
+                                        c3={{ titulo: 'N° homologação CE', valor: veiculoData?.livrete?.knrHomologacaoCe }}
+                                        c4={{ titulo: 'N° homologação Nacional', valor: veiculoData?.livrete?.k1NumHomologacaoNacional }}
                                     />
 
                                     <CardListItem
-                                        c1={{ titulo: 'Cilindrada', valor: 'null' }}
-                                        c2={{ titulo: 'Potência efetiva', valor: 'null' }}
-                                        c3={{ titulo: 'Tipo combustível', valor: 'null' }}
-                                        c4={{ titulo: 'Potência rpm', valor: 'null' }}
+                                        c1={{ titulo: 'Cilindrada', valor: veiculoData?.livrete?.p1Cilindrada }}
+                                        c2={{ titulo: 'Potência efetiva', valor: veiculoData?.livrete?.p2PotenciaEfetiva }}
+                                        c3={{ titulo: 'Tipo combustível', valor: veiculoData?.livrete?.p3TipoCombustivel }}
+                                        c4={{ titulo: 'Potência rpm', valor: veiculoData?.livrete?.p4PotenciaRpm }}
                                     />
 
                                     <CardListItem
-                                        c1={{ titulo: 'Fração pot. efetiva de tara total', valor: 'null' }}
-                                        c2={{ titulo: 'N° de lugares', valor: 'null' }}
-                                        c3={{ titulo: 'Lotação em pé', valor: 'null' }}
-                                        c4={{ titulo: 'Categoria CE', valor: 'null' }}
+                                        c1={{ titulo: 'Fração pot. efetiva de tara total', valor: veiculoData?.livrete?.qfracaoPotefetivaTaratotal }}
+                                        c2={{ titulo: 'N° de lugares', valor: veiculoData?.livrete?.s1NumLugares }}
+                                        c3={{ titulo: 'Lotação em pé', valor: veiculoData?.livrete?.s2LotacaoEmPe }}
+                                        c4={{ titulo: 'Categoria CE', valor: veiculoData?.livrete?.jcategoriaCe }}
                                     />
 
                                     <CardListItem
-                                        c1={{ titulo: 'Tipo de caixa', valor: 'null' }}
-                                        c2={{ titulo: 'Distância entre eixos', valor: 'null' }}
-                                        c3={{ titulo: 'Peso max. admissível 1', valor: 'null' }}
-                                        c4={{ titulo: 'Peso max. admissível 2', valor: 'null' }}
+                                        c1={{ titulo: 'Tipo de caixa', valor: veiculoData?.livrete?.j3TipoCaixa }}
+                                        c2={{ titulo: 'Distância entre eixos', valor: veiculoData?.livrete?.mdistanciaEntreEixos }}
+                                        c3={{ titulo: 'Peso max. admissível 1', valor: veiculoData?.livrete?.npesoMaxAdmimissivel1 }}
+                                        c4={{ titulo: 'Peso max. admissível 2', valor: veiculoData?.livrete?.npesoMaxAdmimissivel2}}
                                     />
 
                                     <CardListItem
-                                        c1={{ titulo: 'Peso max. admissível 3', valor: 'null' }}
-                                        c2={{ titulo: 'Peso max. admissível 4', valor: 'null' }}
-                                        c3={{ titulo: 'Peso max. admissível 5', valor: 'null' }}
-                                        c4={{ titulo: 'Peso bruto reb. com travão', valor: 'null' }}
+                                        c1={{ titulo: 'Peso max. admissível 3', valor: veiculoData?.livrete?.npesoMaxAdmimissivel3 }}
+                                        c2={{ titulo: 'Peso max. admissível 4', valor: veiculoData?.livrete?.npesoMaxAdmimissivel4 }}
+                                        c3={{ titulo: 'Peso max. admissível 5', valor: veiculoData?.livrete?.npesoMaxAdmimissivel5 }}
+                                        c4={{ titulo: 'Peso bruto reb. com travão', valor: veiculoData?.livrete?.o1PesoBrutoRebComTravao }}
                                     />
 
                                     <CardListItem
-                                        c1={{ titulo: 'Peso bruto reb. sem travão', valor: 'null' }}
-                                        c2={{ titulo: 'Nível sonoro estacionário', valor: 'null' }}
-                                        c3={{ titulo: 'Nível sonoro rpm', valor: 'null' }}
-                                        c4={{ titulo: 'Emissões CO tipo 1', valor: 'null' }}
+                                        c1={{ titulo: 'Peso bruto reb. sem travão', valor: veiculoData?.livrete?.o2PesoBrutoRebSemTravao }}
+                                        c2={{ titulo: 'Nível sonoro estacionário', valor: veiculoData?.livrete?.u1NivelSonoroEstacionario }}
+                                        c3={{ titulo: 'Nível sonoro rpm', valor: veiculoData?.livrete?.u2NivelSonoroRpm }}
+                                        c4={{ titulo: 'Emissões CO tipo 1', valor: veiculoData?.livrete?.v1EmissoesCoTipoi }}
                                     />
 
                                     <CardListItem
-                                        c1={{ titulo: 'Emissão de partículas', valor: 'null' }}
-                                        c2={{ titulo: 'CO2 combinado', valor: 'null' }}
-                                        c3={{ titulo: 'Medida pneus frente', valor: 'null' }}
-                                        c4={{ titulo: 'Medida pneus retaguarda', valor: 'null' }}
+                                        c1={{ titulo: 'Emissão de partículas', valor: veiculoData?.livrete?.v5EmissaoParticulas }}
+                                        c2={{ titulo: 'CO2 combinado', valor: veiculoData?.livrete?.v7Co2Combinado }}
+                                        c3={{ titulo: 'Medida pneus frente', valor: veiculoData?.livrete?.x1MedidaPneusFrente }}
+                                        c4={{ titulo: 'Medida pneus retaguarda', valor: veiculoData?.livrete?.x2MedidaPneusRetaguarda }}
                                     />
 
                                     <CardListItem
-                                        c1={{ titulo: 'Comprimento caixa', valor: 'null' }}
-                                        c2={{ titulo: 'Poder elevação', valor: 'null' }}
+                                        c1={{ titulo: 'Comprimento caixa', valor: veiculoData?.livrete?.z1ComprimentoCaixa }}
+                                        c2={{ titulo: 'Poder elevação', valor: veiculoData?.livrete?.z2PoderElevacao }}
                                     />
 
                                     <CardListItem
-                                        c1={{ titulo: 'Anotações', valor: 'null' }}
+                                        c1={{ titulo: 'Anotações', valor: veiculoData?.livrete?.z3AnotacoesEspeciais }}
                                     />
                                 </section>
 
@@ -863,76 +864,76 @@ const Veiculo: React.FC<IPROPS> = (props) => {
                                 />
 
                                 <section className={toggleBtnInformacaoDetalhesSemelhanteSelecionado ? 'ion-hide' : ''}>
-                                    <CardListItem
-                                        c1={{ titulo: 'Data primeira matrícula', valor: 'null' }}
-                                        c2={{ titulo: 'Dígito matrícula', valor: 'null' }}
-                                        c3={{ titulo: 'Variante', valor: 'null' }}
-                                        c4={{ titulo: 'Versão', valor: 'null' }}
+                                <CardListItem
+                                        c1={{ titulo: 'Data primeira matrícula', valor: veiculoSemelhanteData?.livrete?.bdtPrimeiraMatricula }}
+                                        c2={{ titulo: 'Dígito matrícula', valor: veiculoSemelhanteData?.livrete?.adigitoMatricula }}
+                                        c3={{ titulo: 'Variante', valor: veiculoSemelhanteData?.livrete?.d2Variante }}
+                                        c4={{ titulo: 'Versão', valor: veiculoSemelhanteData?.livrete?.d2Versao }}
                                     />
 
                                     <CardListItem
-                                        c1={{ titulo: 'Peso bruto', valor: 'null' }}
-                                        c2={{ titulo: 'Peso bruto total', valor: 'null' }}
-                                        c3={{ titulo: 'Peso bruto conjunto', valor: 'null' }}
-                                        c4={{ titulo: 'Tara total', valor: 'null' }}
+                                        c1={{ titulo: 'Peso bruto', valor: veiculoSemelhanteData?.livrete?.f1PesoBruto }}
+                                        c2={{ titulo: 'Peso bruto total', valor: veiculoSemelhanteData?.livrete?.f2PesoBrutoTotal }}
+                                        c3={{ titulo: 'Peso bruto conjunto', valor: veiculoSemelhanteData?.livrete?.f3PesoBrutoConjunto }}
+                                        c4={{ titulo: 'Tara total', valor: veiculoSemelhanteData?.livrete?.gtaraTotal }}
                                     />
 
                                     <CardListItem
-                                        c1={{ titulo: 'Data de validade', valor: 'null' }}
-                                        c2={{ titulo: 'Data de matrícula', valor: 'null' }}
-                                        c3={{ titulo: 'N° homologação CE', valor: 'null' }}
-                                        c4={{ titulo: 'Tara total', valor: 'null' }}
+                                        c1={{ titulo: 'Data de validade', valor: veiculoSemelhanteData?.livrete?.hdtValidade }}
+                                        c2={{ titulo: 'Data de matrícula', valor: veiculoSemelhanteData?.livrete?.idtMatricula }}
+                                        c3={{ titulo: 'N° homologação CE', valor: veiculoSemelhanteData?.livrete?.knrHomologacaoCe }}
+                                        c4={{ titulo: 'N° homologação Nacional', valor: veiculoSemelhanteData?.livrete?.k1NumHomologacaoNacional }}
                                     />
 
                                     <CardListItem
-                                        c1={{ titulo: 'Cilindrada', valor: 'null' }}
-                                        c2={{ titulo: 'Potência efetiva', valor: 'null' }}
-                                        c3={{ titulo: 'Tipo combustível', valor: 'null' }}
-                                        c4={{ titulo: 'Potência rpm', valor: 'null' }}
+                                        c1={{ titulo: 'Cilindrada', valor: veiculoSemelhanteData?.livrete?.p1Cilindrada }}
+                                        c2={{ titulo: 'Potência efetiva', valor: veiculoSemelhanteData?.livrete?.p2PotenciaEfetiva }}
+                                        c3={{ titulo: 'Tipo combustível', valor: veiculoSemelhanteData?.livrete?.p3TipoCombustivel }}
+                                        c4={{ titulo: 'Potência rpm', valor: veiculoSemelhanteData?.livrete?.p4PotenciaRpm }}
                                     />
 
                                     <CardListItem
-                                        c1={{ titulo: 'Fração pot. efetiva de tara total', valor: 'null' }}
-                                        c2={{ titulo: 'N° de lugares', valor: 'null' }}
-                                        c3={{ titulo: 'Lotação em pé', valor: 'null' }}
-                                        c4={{ titulo: 'Categoria CE', valor: 'null' }}
+                                        c1={{ titulo: 'Fração pot. efetiva de tara total', valor: veiculoSemelhanteData?.livrete?.qfracaoPotefetivaTaratotal }}
+                                        c2={{ titulo: 'N° de lugares', valor: veiculoSemelhanteData?.livrete?.s1NumLugares }}
+                                        c3={{ titulo: 'Lotação em pé', valor: veiculoSemelhanteData?.livrete?.s2LotacaoEmPe }}
+                                        c4={{ titulo: 'Categoria CE', valor: veiculoSemelhanteData?.livrete?.jcategoriaCe }}
                                     />
 
                                     <CardListItem
-                                        c1={{ titulo: 'Tipo de caixa', valor: 'null' }}
-                                        c2={{ titulo: 'Distância entre eixos', valor: 'null' }}
-                                        c3={{ titulo: 'Peso max. admissível 1', valor: 'null' }}
-                                        c4={{ titulo: 'Peso max. admissível 2', valor: 'null' }}
+                                        c1={{ titulo: 'Tipo de caixa', valor: veiculoSemelhanteData?.livrete?.j3TipoCaixa }}
+                                        c2={{ titulo: 'Distância entre eixos', valor: veiculoSemelhanteData?.livrete?.mdistanciaEntreEixos }}
+                                        c3={{ titulo: 'Peso max. admissível 1', valor: veiculoSemelhanteData?.livrete?.npesoMaxAdmimissivel1 }}
+                                        c4={{ titulo: 'Peso max. admissível 2', valor: veiculoSemelhanteData?.livrete?.npesoMaxAdmimissivel2}}
                                     />
 
                                     <CardListItem
-                                        c1={{ titulo: 'Peso max. admissível 3', valor: 'null' }}
-                                        c2={{ titulo: 'Peso max. admissível 4', valor: 'null' }}
-                                        c3={{ titulo: 'Peso max. admissível 5', valor: 'null' }}
-                                        c4={{ titulo: 'Peso bruto reb. com travão', valor: 'null' }}
+                                        c1={{ titulo: 'Peso max. admissível 3', valor: veiculoSemelhanteData?.livrete?.npesoMaxAdmimissivel3 }}
+                                        c2={{ titulo: 'Peso max. admissível 4', valor: veiculoSemelhanteData?.livrete?.npesoMaxAdmimissivel4 }}
+                                        c3={{ titulo: 'Peso max. admissível 5', valor: veiculoSemelhanteData?.livrete?.npesoMaxAdmimissivel5 }}
+                                        c4={{ titulo: 'Peso bruto reb. com travão', valor: veiculoSemelhanteData?.livrete?.o1PesoBrutoRebComTravao }}
                                     />
 
                                     <CardListItem
-                                        c1={{ titulo: 'Peso bruto reb. sem travão', valor: 'null' }}
-                                        c2={{ titulo: 'Nível sonoro estacionário', valor: 'null' }}
-                                        c3={{ titulo: 'Nível sonoro rpm', valor: 'null' }}
-                                        c4={{ titulo: 'Emissões CO tipo 1', valor: 'null' }}
+                                        c1={{ titulo: 'Peso bruto reb. sem travão', valor: veiculoSemelhanteData?.livrete?.o2PesoBrutoRebSemTravao }}
+                                        c2={{ titulo: 'Nível sonoro estacionário', valor: veiculoSemelhanteData?.livrete?.u1NivelSonoroEstacionario }}
+                                        c3={{ titulo: 'Nível sonoro rpm', valor: veiculoSemelhanteData?.livrete?.u2NivelSonoroRpm }}
+                                        c4={{ titulo: 'Emissões CO tipo 1', valor: veiculoSemelhanteData?.livrete?.v1EmissoesCoTipoi }}
                                     />
 
                                     <CardListItem
-                                        c1={{ titulo: 'Emissão de partículas', valor: 'null' }}
-                                        c2={{ titulo: 'CO2 combinado', valor: 'null' }}
-                                        c3={{ titulo: 'Medida pneus frente', valor: 'null' }}
-                                        c4={{ titulo: 'Medida pneus retaguarda', valor: 'null' }}
+                                        c1={{ titulo: 'Emissão de partículas', valor: veiculoSemelhanteData?.livrete?.v5EmissaoParticulas }}
+                                        c2={{ titulo: 'CO2 combinado', valor: veiculoSemelhanteData?.livrete?.v7Co2Combinado }}
+                                        c3={{ titulo: 'Medida pneus frente', valor: veiculoSemelhanteData?.livrete?.x1MedidaPneusFrente }}
+                                        c4={{ titulo: 'Medida pneus retaguarda', valor: veiculoSemelhanteData?.livrete?.x2MedidaPneusRetaguarda }}
                                     />
 
                                     <CardListItem
-                                        c1={{ titulo: 'Comprimento caixa', valor: 'null' }}
-                                        c2={{ titulo: 'Poder elevação', valor: 'null' }}
+                                        c1={{ titulo: 'Comprimento caixa', valor: veiculoSemelhanteData?.livrete?.z1ComprimentoCaixa }}
+                                        c2={{ titulo: 'Poder elevação', valor: veiculoSemelhanteData?.livrete?.z2PoderElevacao }}
                                     />
 
                                     <CardListItem
-                                        c1={{ titulo: 'Anotações', valor: 'null' }}
+                                        c1={{ titulo: 'Anotações', valor: veiculoSemelhanteData?.livrete?.z3AnotacoesEspeciais }}
                                     />
                                 </section>
 
