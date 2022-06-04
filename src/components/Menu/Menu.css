@@ -38,9 +38,10 @@ ion-toolbar {
     padding: 20px;
 }
 
-ion-toolbar ion-buttons {
-    margin-top: 20px;
-}
+    ion-toolbar ion-buttons {
+        margin-top: 20px;
+        margin-left: 12px;
+    }
 
 ion-toolbar ion-button.btnRound {
     border-radius: 100%;
