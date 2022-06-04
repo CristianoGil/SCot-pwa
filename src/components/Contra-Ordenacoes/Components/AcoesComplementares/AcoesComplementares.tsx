@@ -25,6 +25,9 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
     const userContext = useContext<any>(UserContext);
 
     const [openPopoverApreensaoDocumentosData, setOpenPopoverApreensaoDocumentosData] = useState(false);
+    const [openPopoverApreensaoVeiculoData, setOpenPopoverApreensaoVeiculoData] = useState(false);
+    const [openPopoverBloqueamento_RemocaoVeiculoData, setOpenPopoverBloqueamento_RemocaoVeiculoData] = useState(false);
+    const [openPopoverSubstituicaoDocumentosData, setOpenPopoverSubstituicaoDocumentosData] = useState(false);
     const [openPopoverFichaControladorData, setOpenPopoverFichaControladorData] = useState(false);
     const [isFichaControlePreenchida, setIsFichaControlePreenchida] = useState(false)
     /* Enumeração de tipo de documento */
@@ -47,17 +50,17 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
             }
 
             case TipoDocumento.APREENSAO_VEICULO: {
-
+                setOpenPopoverApreensaoVeiculoData(true);
                 break;
             }
 
             case TipoDocumento.BLOQUEAMENTO_REMOCAO_VEICULO: {
-
+                setOpenPopoverBloqueamento_RemocaoVeiculoData(true);
                 break;
             }
 
             case TipoDocumento.SUBSTITUICAO_DOCUMENTOS: {
-
+                setOpenPopoverSubstituicaoDocumentosData(true);
                 break;
             }
 
@@ -937,6 +940,138 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
             </IonPopover>
             {/*Popover: Apreensão de documentos*/}
 
+            {/*Popover: Apreensão de veículo*/}
+            <IonPopover
+                isOpen={openPopoverApreensaoVeiculoData}
+                className="menu popoverArguido"
+                showBackdrop={true}
+                onDidDismiss={() => {
+                    setOpenPopoverApreensaoVeiculoData(false);
+                }}>
+
+                <IonHeader className="ion-no-border">
+                    <IonToolbar color='transparent'>
+                        <IonLabel slot='start'>
+                            <h1>
+                                Apreensão de veículo
+                            </h1>
+                        </IonLabel>
+
+                        <IonButton className="btn-use-data" fill="outline" color="primary" slot="end"
+                            onClick={() => { }}
+                        >
+                            EMITIR
+                        </IonButton>
+
+                        <IonButton className="btn-catalogo" fill="outline" color="medium" slot="end">
+                            IMPRIMIR <IonIcon slot="start" icon={bookOutline} />
+                        </IonButton>
+
+                        <IonButton className="btn-close" fill="outline" color="danger" slot="end" onClick={() => {
+                            setOpenPopoverApreensaoVeiculoData(false);
+                        }}>
+                            CANCELAR
+                        </IonButton>
+
+                    </IonToolbar>
+                </IonHeader>
+
+                <IonContent>
+
+                    
+                </IonContent>
+
+            </IonPopover>
+            {/*Popover: Apreensão de veículo*/}
+
+            {/*Popover: Bloqueamento/Remoção de veículo*/}
+            <IonPopover
+                isOpen={openPopoverBloqueamento_RemocaoVeiculoData}
+                className="menu popoverArguido"
+                showBackdrop={true}
+                onDidDismiss={() => {
+                    setOpenPopoverBloqueamento_RemocaoVeiculoData(false);
+                }}>
+
+                <IonHeader className="ion-no-border">
+                    <IonToolbar color='transparent'>
+                        <IonLabel slot='start'>
+                            <h1>
+                                Auto de bloqueamento
+                            </h1>
+                        </IonLabel>
+
+                        <IonButton className="btn-use-data" fill="outline" color="primary" slot="end"
+                            onClick={() => { }}
+                        >
+                            EMITIR
+                        </IonButton>
+
+                        <IonButton className="btn-catalogo" fill="outline" color="medium" slot="end">
+                            IMPRIMIR <IonIcon slot="start" icon={bookOutline} />
+                        </IonButton>
+
+                        <IonButton className="btn-close" fill="outline" color="danger" slot="end" onClick={() => {
+                            setOpenPopoverBloqueamento_RemocaoVeiculoData(false);
+                        }}>
+                            CANCELAR
+                        </IonButton>
+
+                    </IonToolbar>
+                </IonHeader>
+
+                <IonContent>
+
+
+                </IonContent>
+
+            </IonPopover>
+            {/*Popover: Bloqueamento/Remoção de veículo*/}
+
+            {/*Popover: Substituição de documentos*/}
+            <IonPopover
+                isOpen={openPopoverSubstituicaoDocumentosData}
+                className="menu popoverArguido"
+                showBackdrop={true}
+                onDidDismiss={() => {
+                    setOpenPopoverSubstituicaoDocumentosData(false);
+                }}>
+
+                <IonHeader className="ion-no-border">
+                    <IonToolbar color='transparent'>
+                        <IonLabel slot='start'>
+                            <h1>
+                                Guia de substituição de documentos
+                            </h1>
+                        </IonLabel>
+
+                        <IonButton className="btn-use-data" fill="outline" color="primary" slot="end"
+                            onClick={() => { }}
+                        >
+                            EMITIR
+                        </IonButton>
+
+                        <IonButton className="btn-catalogo" fill="outline" color="medium" slot="end">
+                            IMPRIMIR <IonIcon slot="start" icon={bookOutline} />
+                        </IonButton>
+
+                        <IonButton className="btn-close" fill="outline" color="danger" slot="end" onClick={() => {
+                            setOpenPopoverSubstituicaoDocumentosData(false);
+                        }}>
+                            CANCELAR
+                        </IonButton>
+
+                    </IonToolbar>
+                </IonHeader>
+
+                <IonContent>
+
+
+                </IonContent>
+
+            </IonPopover>
+            {/*Popover: Substituição de documentos*/}
+
             {/*Popover: Ficha controlador*/}
             <IonPopover
                 isOpen={openPopoverFichaControladorData}
@@ -1140,8 +1275,6 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                     </IonCol>
 
                                 </IonRow>
-
-
                                 <IonRow>
                                     <IonCol size-sm='12' size-md='12' size-lg='12'>
 
@@ -1355,7 +1488,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                     </IonCol>
 
                                     <IonCol size-sm="12" size-md="12" size-lg="4" style={{ marginTop: 16 }}>
-                                        <DatePicker inputName={'unidade-data_horaInfraccao'} textLabel="Data/Hora da infracção" selected={alcoolimetroDataHoraInfracao} setSelected={setAlcoolimetroDataHoraInfracao} />
+                                        <DatePicker inputName={'acoesComplementares-data_horaInfraccao'} textLabel="Data/Hora da infracção" selected={alcoolimetroDataHoraInfracao} setSelected={setAlcoolimetroDataHoraInfracao} />
                                     </IonCol>
 
 
