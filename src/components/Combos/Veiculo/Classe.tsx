@@ -36,9 +36,9 @@ const Classe: React.FC<IClasse> = (props: IClasse) => {
     return (
         <IonItem>
             <IonLabel>{props.textLabel}</IonLabel>
-            <IonSelect value={props.selected?.id} interface={props.interface} name={props.inputName}
+            <IonSelect value={props.selected?.id || props.selected?.descricao} interface={props.interface} name={props.inputName}
                        onIonChange={(e) => {
-                           let value = (combos || []).find((d )=> d.id === e.detail.value)
+                           let value = (combos || []).find((d )=> d.id === e.detail.value || d.descricao === e.detail.value)
                            props.setSelected(value)
                        }}>
                 {(combos || []).map((classe: any) => {

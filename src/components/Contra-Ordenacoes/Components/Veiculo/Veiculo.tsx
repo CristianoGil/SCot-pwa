@@ -340,15 +340,14 @@ const Veiculo: React.FC<IPROPS> = (props) => {
         }).then(_livreteInfo => {
             const veiculo: IVeiculo = {
 
-                matricula: _livreteInfo.j1CategoriaNacional,
-                chassi: "",
+                matricula: _livreteInfo.amatricula,
+                chassi: _livreteInfo.enumQuadro,
                 ano: 0,
                 classe: {
-
-                    descricao: ""
+                    descricao:_livreteInfo.j1CategoriaNacional
                 },
                 categoria: {
-                    descricao: _livreteInfo.j1CategoriaNacional
+                    descricao: _livreteInfo.jcategoriaCe
                 }
                 , tipo: {
                     descricao: _livreteInfo.j2Tipo
