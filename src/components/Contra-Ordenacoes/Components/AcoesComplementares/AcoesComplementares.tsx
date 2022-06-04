@@ -16,9 +16,9 @@ import './AcoesComplementares.scss';
 
 interface IProps {
     setAccoesComplementaresParentData?: any
-    currentDadosInfracaoData?:any,
-    currentIntervenientesData?:any
-    setFichaControleData?:any
+    currentDadosInfracaoData?: any,
+    currentIntervenientesData?: any
+    setFichaControleData?: any
 }
 
 const AcoesComplementares: React.FC<IProps> = (props) => {
@@ -108,8 +108,6 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
         console.log(state);
     };
 
-
-
     const columns = [
         {
             name: 'Tipo de Documento',
@@ -140,8 +138,6 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
             )
         },
     ];
-
-   
 
     //-------------------------[Motivos Apreensao]
 
@@ -230,11 +226,11 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
     const [numDocumento, setNumDocumento] = useState('');
     const [localApresentacao, setLocalApresentacao] = useState('');
     const getCombos = async (): Promise<CarregarCombosApreensaoDocumento> => await new Contraordenacao().carregarCombosMotivoApreensao()
-  
+
     interface CombosAlcoolResponse {
-        marcaModelo:IID_DESCRICAO[],
-        serie:IID_DESCRICAO[],
-        tipoVerificacao:IID_DESCRICAO[]
+        marcaModelo: IID_DESCRICAO[],
+        serie: IID_DESCRICAO[],
+        tipoVerificacao: IID_DESCRICAO[]
 
     }
     const getCombosAlcool = async (): Promise<CombosAlcoolResponse> => await new Contraordenacao().carregarCombosAlcool()
@@ -335,8 +331,6 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
     // AutuadoTesteminha
     const [selectedAutuado_Testemunha, setSelectedAutuado_Testemunha] = useState<string>('fiscal');
 
- 
-     
     const [userTerminal, setUserTerminal] = useState('');
     const [tipoDeFichaControlador, setTipoDeFichaControlador] = useState('Álcool');
     const [circunstanciaExameAlcool, setCircunstanciaExameAlcool] = useState();
@@ -353,11 +347,11 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
     const [alcoolimetroMarcas, setAlcoolimetroMarcas] = useState<IID_DESCRICAO[]>();
     const [alcoolimetroSeries, setAlcoolimetroSeries] = useState<IID_DESCRICAO[]>();
     const [alcoolimetroTipoVerificacoes, setAlcoolimetroVerificacoes] = useState<IID_DESCRICAO[]>();
-   
+
     const [alcoolimetroMarca, setAlcoolimetroMarca] = useState<IID_DESCRICAO>();
     const [alcoolimetroSerie, setAlcoolimetroSerie] = useState<IID_DESCRICAO>();
     const [alcoolimetroTipoVerificacao, setAlcoolimetroVerificacao] = useState<IID_DESCRICAO>();
-   
+
     const [alcoolimetroNumero, setAlcoolimetroNumero] = useState();
     const [alcoolimetroDataHoraInfracao, setAlcoolimetroDataHoraInfracao] = useState();
     const [alcoolimetroNumeroTalao, setAlcoolimetroNumeroTalao] = useState();
@@ -366,66 +360,66 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
 
     const [presentAlert, dismissAlert] = useIonAlert();
     const [presentOnLoanding, dismissOnLoanding] = useIonLoading();
-    
-
-    const onChange_tipoControlador = (e:any)=>{
-    setTipoDeFichaControlador(e.detail.value)
-} 
-
- const onkeyup_alcoolimetroNumero = (e:any)=>{
-    setAlcoolimetroNumero(e.target.value)
-}
-
-const onkeyup_alcoolimetroNumeroTalao = (e:any)=>{
-    setAlcoolimetroNumeroTalao(e.target.value)
-}
-const onkeyup_alcoolimetroValorRegistado = (e:any)=>{
-    setAlcoolimetroValorRegistado(e.target.value)
-}
-const onkeyup_alcoolimetroValorApurado = (e:any)=>{
-    setAlcoolimetroValorApurado (e.target.value)
-}
 
 
-React.useEffect(() => {
-    const data = {
-        dataMotivosApreensao: dataMotivosApreensao,
-        tamanhoMotivoApreensao: tamanhoMotivoApreensao,
-        dataDadosApreensaoDocumentos: dataDadosApreensaoDocumentos,
-        numDocumento: numDocumento,
-        dataHora:dataHora,
-        localApresentacao: localApresentacao,
-        levantarDocsDiaUtilLocal: levantarDocsDiaUtilLocal,
-        regularSituacaoLocal: regularSituacaoLocal,
-        camaraMunicipal: camaraMunicipal,
-        tituloConducao: tituloConducao,
-        diaPagamento: diaPagamento,
-        sancaoAplicada: sancaoAplicada,
-        numeroDocumento: numeroDocumento,
-
-        isFichaControlePreenchida:isFichaControlePreenchida,
-        tipoDeFichaControlador:tipoDeFichaControlador,
-        circunstanciaExameAlcool:circunstanciaExameAlcool,
-        circunstanciaExameEstupefacientes:circunstanciaExameEstupefacientes,
-        recusaTesteEstupifaciente:recusaTesteEstupifaciente,
-        recusaTesteAlcool:recusaTesteAlcool,
-        tipoTesteAlcool:tipoTesteAlcool,
-        anfetaminas:anfetaminas,
-        canabis:canabis,
-        metanfetaminas:metanfetaminas,
-        opio:opio,
-        tipoTesteEstupifaciente:tipoTesteEstupifaciente,
-        alcoolimetroMarca:alcoolimetroMarca,
-        alcoolimetroSerie:alcoolimetroSerie,
-        alcoolimetroTipoVerificacao:alcoolimetroTipoVerificacao,
-        alcoolimetroDataHoraInfracao:alcoolimetroDataHoraInfracao,
-        alcoolimetroNumeroTalao:alcoolimetroNumeroTalao,
-        alcoolimetroValorRegistado:alcoolimetroValorRegistado,
-        alcoolimetroValorApurado:alcoolimetroValorApurado
+    const onChange_tipoControlador = (e: any) => {
+        setTipoDeFichaControlador(e.detail.value)
     }
 
-    props.setAccoesComplementaresParentData(data);
-}, [isFichaControlePreenchida,tipoDeFichaControlador,circunstanciaExameAlcool,circunstanciaExameEstupefacientes,recusaTesteEstupifaciente,recusaTesteAlcool,tipoTesteAlcool,anfetaminas,canabis,cocaina,metanfetaminas,opio,tipoTesteEstupifaciente,alcoolimetroMarca,alcoolimetroSerie,alcoolimetroTipoVerificacao,alcoolimetroNumero,alcoolimetroDataHoraInfracao,alcoolimetroNumeroTalao,alcoolimetroValorRegistado,alcoolimetroValorApurado])
+    const onkeyup_alcoolimetroNumero = (e: any) => {
+        setAlcoolimetroNumero(e.target.value)
+    }
+
+    const onkeyup_alcoolimetroNumeroTalao = (e: any) => {
+        setAlcoolimetroNumeroTalao(e.target.value)
+    }
+    const onkeyup_alcoolimetroValorRegistado = (e: any) => {
+        setAlcoolimetroValorRegistado(e.target.value)
+    }
+    const onkeyup_alcoolimetroValorApurado = (e: any) => {
+        setAlcoolimetroValorApurado(e.target.value)
+    }
+
+
+    React.useEffect(() => {
+        const data = {
+            dataMotivosApreensao: dataMotivosApreensao,
+            tamanhoMotivoApreensao: tamanhoMotivoApreensao,
+            dataDadosApreensaoDocumentos: dataDadosApreensaoDocumentos,
+            numDocumento: numDocumento,
+            dataHora: dataHora,
+            localApresentacao: localApresentacao,
+            levantarDocsDiaUtilLocal: levantarDocsDiaUtilLocal,
+            regularSituacaoLocal: regularSituacaoLocal,
+            camaraMunicipal: camaraMunicipal,
+            tituloConducao: tituloConducao,
+            diaPagamento: diaPagamento,
+            sancaoAplicada: sancaoAplicada,
+            numeroDocumento: numeroDocumento,
+
+            isFichaControlePreenchida: isFichaControlePreenchida,
+            tipoDeFichaControlador: tipoDeFichaControlador,
+            circunstanciaExameAlcool: circunstanciaExameAlcool,
+            circunstanciaExameEstupefacientes: circunstanciaExameEstupefacientes,
+            recusaTesteEstupifaciente: recusaTesteEstupifaciente,
+            recusaTesteAlcool: recusaTesteAlcool,
+            tipoTesteAlcool: tipoTesteAlcool,
+            anfetaminas: anfetaminas,
+            canabis: canabis,
+            metanfetaminas: metanfetaminas,
+            opio: opio,
+            tipoTesteEstupifaciente: tipoTesteEstupifaciente,
+            alcoolimetroMarca: alcoolimetroMarca,
+            alcoolimetroSerie: alcoolimetroSerie,
+            alcoolimetroTipoVerificacao: alcoolimetroTipoVerificacao,
+            alcoolimetroDataHoraInfracao: alcoolimetroDataHoraInfracao,
+            alcoolimetroNumeroTalao: alcoolimetroNumeroTalao,
+            alcoolimetroValorRegistado: alcoolimetroValorRegistado,
+            alcoolimetroValorApurado: alcoolimetroValorApurado
+        }
+
+        props.setAccoesComplementaresParentData(data);
+    }, [isFichaControlePreenchida, tipoDeFichaControlador, circunstanciaExameAlcool, circunstanciaExameEstupefacientes, recusaTesteEstupifaciente, recusaTesteAlcool, tipoTesteAlcool, anfetaminas, canabis, cocaina, metanfetaminas, opio, tipoTesteEstupifaciente, alcoolimetroMarca, alcoolimetroSerie, alcoolimetroTipoVerificacao, alcoolimetroNumero, alcoolimetroDataHoraInfracao, alcoolimetroNumeroTalao, alcoolimetroValorRegistado, alcoolimetroValorApurado])
 
     // CarregarCombosApreensaoDocumento
     React.useEffect(() => {
@@ -435,71 +429,72 @@ React.useEffect(() => {
         }).catch((error) => {
             console.error("Load emissao combos: \n", error);
         })
-        getCombosAlcool().then(combosAlcool=>{
-             setAlcoolimetroMarcas(combosAlcool.marcaModelo)
-             setAlcoolimetroSeries(combosAlcool.serie)
-             setAlcoolimetroVerificacoes(combosAlcool.tipoVerificacao)
-        }).catch(err=>{
+        getCombosAlcool().then(combosAlcool => {
+            setAlcoolimetroMarcas(combosAlcool.marcaModelo)
+            setAlcoolimetroSeries(combosAlcool.serie)
+            setAlcoolimetroVerificacoes(combosAlcool.tipoVerificacao)
+        }).catch(err => {
             console.error("Load alcool combos: \n", err);
         })
     }, []);
 
-const on_addFichaControdor=()=>{
+    const on_addFichaControdor = () => {
 
-    presentOnLoanding({
-        message: 'A guardar...'
-    });
-    new FichaControleService().gravarFichaControle(
-        {arg0:0,
-        arg1:
-        [{
-        anfetaminas:anfetaminas,
-        canabis:canabis,
-        circunstanciaAlcool:circunstanciaExameAlcool,
-        circunstanciaEstupefacientes:circunstanciaExameEstupefacientes,
-        cocaina: cocaina,
-        concelho:props.currentDadosInfracaoData?.localInfracaoData?.concelho?.descricao ,
-        data:dataHora,
-        dataAtualizacao:dataUltimaAtualizacao,
-        distrito:props.currentDadosInfracaoData?.localInfracaoData?.distrito?.descricao,
-        idUtilizador:userContext.user.nomeUsuario ,
-        idade:"",
-        matricula:props.currentIntervenientesData?.veiculo?.matricula,
-        metanfetaminas:metanfetaminas,
-        numDocumento:numeroDocumento,
-        opio:opio,
-        qualidade:"",
-        recusaAlcool:recusaTesteAlcool,
-        recusaEstupefacientes:recusaTesteEstupifaciente,
-        sexo:"",
-        taxaAlcool:alcoolimetroValorRegistado,
-        taxaAlcoolContra:alcoolimetroValorApurado,
-        tipoLocal:props.currentDadosInfracaoData?.localInfracaoData?.tipo,
-        tipoVia:props.currentDadosInfracaoData?.localInfracaoData?.arruamento,
-        via:props.currentDadosInfracaoData?.localInfracaoData?.arruamento
-    }]
-    }).then(response_ficha=>{
-        dismissOnLoanding();
-        presentAlert({
-            header: 'Resultado Ficha controlador \n' + response_ficha.resultado,
-            buttons: [
-                { text: 'Fechar' },
-            ]
-        })
-        setIsFichaControlePreenchida(true)
-        
-    }).catch(err_ficha=>{
-         presentAlert({
-                header: 'Error!',
-                message: 'Operação sem sucesso!\n' + err_ficha.message,
-                buttons: [
-                    { text: 'Fechar' },
-                ]
+        presentOnLoanding({
+            message: 'A guardar...'
+        });
+        new FichaControleService().gravarFichaControle(
+            {
+                arg0: 0,
+                arg1:
+                    [{
+                        anfetaminas: anfetaminas,
+                        canabis: canabis,
+                        circunstanciaAlcool: circunstanciaExameAlcool,
+                        circunstanciaEstupefacientes: circunstanciaExameEstupefacientes,
+                        cocaina: cocaina,
+                        concelho: props.currentDadosInfracaoData?.localInfracaoData?.concelho?.descricao,
+                        data: dataHora,
+                        dataAtualizacao: dataUltimaAtualizacao,
+                        distrito: props.currentDadosInfracaoData?.localInfracaoData?.distrito?.descricao,
+                        idUtilizador: userContext.user.nomeUsuario,
+                        idade: "",
+                        matricula: props.currentIntervenientesData?.veiculo?.matricula,
+                        metanfetaminas: metanfetaminas,
+                        numDocumento: numeroDocumento,
+                        opio: opio,
+                        qualidade: "",
+                        recusaAlcool: recusaTesteAlcool,
+                        recusaEstupefacientes: recusaTesteEstupifaciente,
+                        sexo: "",
+                        taxaAlcool: alcoolimetroValorRegistado,
+                        taxaAlcoolContra: alcoolimetroValorApurado,
+                        tipoLocal: props.currentDadosInfracaoData?.localInfracaoData?.tipo,
+                        tipoVia: props.currentDadosInfracaoData?.localInfracaoData?.arruamento,
+                        via: props.currentDadosInfracaoData?.localInfracaoData?.arruamento
+                    }]
+            }).then(response_ficha => {
+                dismissOnLoanding();
+                presentAlert({
+                    header: 'Resultado Ficha controlador \n' + response_ficha.resultado,
+                    buttons: [
+                        { text: 'Fechar' },
+                    ]
+                })
+                setIsFichaControlePreenchida(true)
+
+            }).catch(err_ficha => {
+                presentAlert({
+                    header: 'Error!',
+                    message: 'Operação sem sucesso!\n' + err_ficha.message,
+                    buttons: [
+                        { text: 'Fechar' },
+                    ]
+                })
+            }).finally(() => {
+                dismissOnLoanding();
             })
-    }).finally(()=>{
-        dismissOnLoanding();
-    })
-}
+    }
     return (
 
         <IonCard className={'co-acoesComplementares'}>
@@ -1004,11 +999,11 @@ const on_addFichaControdor=()=>{
                             <IonGrid className={activeSegment == "dadosGerais" ? "" : "ion-hide"}>
                                 <IonRow>
                                     <IonCol size-sm='12' size-md='12' size-lg='4' style={{ marginTop: 16 }}>
-                                        <DatePicker inputName={'unidade-data_horaInfraccao'} textLabel="Data/Hora *" setSelected={setDataHora}
+                                        <DatePicker inputName={'acoesComplementares-data_hora'} textLabel="Data/Hora *" setSelected={setDataHora}
                                             selected={dataHora} />
                                     </IonCol>
                                     <IonCol size-sm='12' size-md='12' size-lg='4' style={{ marginTop: 16 }}>
-                                        <DatePicker inputName={'unidade-data_horaInfraccao'} textLabel="Data de última atualização" setSelected={setDataUltimaAtualizacao}
+                                        <DatePicker inputName={'acoesComplementares-data_horaUltimaAtualizacao'} textLabel="Data de última atualização" setSelected={setDataUltimaAtualizacao}
                                             selected={dataUltimaAtualizacao} />
                                     </IonCol>
                                     <IonCol size-sm='12' size-md='12' size-lg='4' style={{ marginTop: 16 }}>
@@ -1094,7 +1089,7 @@ const on_addFichaControdor=()=>{
                                 </IonRow>
                                 {/* {tipoDeFichaControlador==="Alcool"?} */}
 
-  <IonRow>
+                                <IonRow>
                                     <IonCol size-sm='12' size-md='12' size-lg='12'>
 
                                         <IonRadioGroup value={circunstanciaExameAlcool}
@@ -1145,7 +1140,7 @@ const on_addFichaControdor=()=>{
                                     </IonCol>
 
                                 </IonRow>
-                              
+
 
                                 <IonRow>
                                     <IonCol size-sm='12' size-md='12' size-lg='12'>
@@ -1181,7 +1176,7 @@ const on_addFichaControdor=()=>{
                                         </IonRadioGroup>
                                     </IonCol>
 
-                                </IonRow>  
+                                </IonRow>
                                 <IonRow>
                                     <IonCol size-sm="12" size-md="12" size-lg="12" style={{ marginTop: 16 }}>
                                         <IonItem lines='none'>
@@ -1301,13 +1296,13 @@ const on_addFichaControdor=()=>{
                                         <IonItem>
 
                                             <IonLabel>Marca / Modela *</IonLabel>
-                                            <IonSelect interface="popover"  onIonChange={e => setAlcoolimetroMarca(e.detail.value)} >
-                                            {alcoolimetroMarcas?.map((local: any) => {
-                                        return (
-                                            <IonSelectOption key={`${local.id}`}
-                                                value={JSON.stringify({id:local.id, descricao:local.descricao})}>{`${local.descricao}`}</IonSelectOption>
-                                        )
-                                    })} 
+                                            <IonSelect interface="popover" onIonChange={e => setAlcoolimetroMarca(e.detail.value)} >
+                                                {alcoolimetroMarcas?.map((local: any) => {
+                                                    return (
+                                                        <IonSelectOption key={`${local.id}`}
+                                                            value={JSON.stringify({ id: local.id, descricao: local.descricao })}>{`${local.descricao}`}</IonSelectOption>
+                                                    )
+                                                })}
                                             </IonSelect>
 
                                         </IonItem>
@@ -1318,13 +1313,13 @@ const on_addFichaControdor=()=>{
                                         <IonItem>
 
                                             <IonLabel>Série *</IonLabel>
-                                            <IonSelect interface="popover"  onIonChange={e => setAlcoolimetroSerie(e.detail.value)} >
-                                            {alcoolimetroSeries?.map((local: any) => {
-                                        return (
-                                            <IonSelectOption key={`${local.id}`}
-                                                value={JSON.stringify({id:local.id, descricao:local.descricao})}>{`${local.descricao}`}</IonSelectOption>
-                                        )
-                                    })} 
+                                            <IonSelect interface="popover" onIonChange={e => setAlcoolimetroSerie(e.detail.value)} >
+                                                {alcoolimetroSeries?.map((local: any) => {
+                                                    return (
+                                                        <IonSelectOption key={`${local.id}`}
+                                                            value={JSON.stringify({ id: local.id, descricao: local.descricao })}>{`${local.descricao}`}</IonSelectOption>
+                                                    )
+                                                })}
                                             </IonSelect>
 
                                         </IonItem>
@@ -1334,13 +1329,13 @@ const on_addFichaControdor=()=>{
                                         <IonItem>
 
                                             <IonLabel>Tipo verificação *</IonLabel>
-                                            <IonSelect interface="popover"  onIonChange={e => setAlcoolimetroVerificacao(e.detail.value)} >
-                                            {alcoolimetroTipoVerificacoes?.map((local: any) => {
-                                        return (
-                                            <IonSelectOption key={`${local.id}`}
-                                                value={JSON.stringify({id:local.id, descricao:local.descricao})}>{`${local.descricao}`}</IonSelectOption>
-                                        )
-                                    })} 
+                                            <IonSelect interface="popover" onIonChange={e => setAlcoolimetroVerificacao(e.detail.value)} >
+                                                {alcoolimetroTipoVerificacoes?.map((local: any) => {
+                                                    return (
+                                                        <IonSelectOption key={`${local.id}`}
+                                                            value={JSON.stringify({ id: local.id, descricao: local.descricao })}>{`${local.descricao}`}</IonSelectOption>
+                                                    )
+                                                })}
                                             </IonSelect>
 
                                         </IonItem>
@@ -1544,7 +1539,7 @@ const on_addFichaControdor=()=>{
                                                     </IonItem>
                                                 </IonCol>
                                             </IonRow>
- 
+
                                         </IonRadioGroup>
 
                                         <IonRadioGroup value={cocaina}
@@ -1606,7 +1601,7 @@ const on_addFichaControdor=()=>{
                                                     </IonItem>
                                                 </IonCol>
                                             </IonRow>
-  
+
                                         </IonRadioGroup>
 
                                         <IonRadioGroup value={opio}
@@ -1661,20 +1656,20 @@ const on_addFichaControdor=()=>{
                             <IonGrid>
                                 <div style={{ fontWeight: 'bold', fontSize: 18 }}>Local de Infração</div>
                                 <CardListItem
-                                    c1={{ titulo: 'Distrito', valor: props.currentDadosInfracaoData?.localInfracaoData?.distrito?.descricao}}
+                                    c1={{ titulo: 'Distrito', valor: props.currentDadosInfracaoData?.localInfracaoData?.distrito?.descricao }}
                                     c2={{ titulo: 'Concelho', valor: props.currentDadosInfracaoData?.localInfracaoData?.concelho?.descricao }}
                                     c3={{ titulo: 'Freguesia', valor: props.currentDadosInfracaoData?.localInfracaoData?.freguesia?.descricao }}
                                 />
 
                                 <CardListItem
                                     c1={{ titulo: 'Localidade', valor: props.currentDadosInfracaoData?.localInfracaoData?.localidade?.descricao }}
-                                    c2={{ titulo: 'Tipo Local', valor: props.currentDadosInfracaoData?.localInfracaoData?.tipo}}
+                                    c2={{ titulo: 'Tipo Local', valor: props.currentDadosInfracaoData?.localInfracaoData?.tipo }}
                                     c3={{ titulo: 'Zona / Bairro', valor: props.currentDadosInfracaoData?.localInfracaoData?.zona }}
                                 />
 
                                 <CardListItem
                                     c1={{ titulo: 'Tipo de Via', valor: props.currentDadosInfracaoData?.localInfracaoData?.tipo }}
-                                    c2={{ titulo: 'Arruamento / Via', valor: props.currentDadosInfracaoData?.localInfracaoData?.arruamento  }}
+                                    c2={{ titulo: 'Arruamento / Via', valor: props.currentDadosInfracaoData?.localInfracaoData?.arruamento }}
                                     c3={{ titulo: 'N° Polícia / KM', valor: props.currentDadosInfracaoData?.localInfracaoData?.numeroPolicia }}
                                 />
 
