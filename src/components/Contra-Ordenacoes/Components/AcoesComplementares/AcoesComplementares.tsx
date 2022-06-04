@@ -19,6 +19,7 @@ interface IProps {
     currentDadosInfracaoData?: any,
     currentIntervenientesData?: any
     setFichaControleData?: any
+    
 }
 
 const AcoesComplementares: React.FC<IProps> = (props) => {
@@ -229,7 +230,9 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
     const [tamanhoMotivoApreensao, setTamanhoMotivoApreensao] = useState(0);
     const [numDocumento, setNumDocumento] = useState('');
     const [localApresentacao, setLocalApresentacao] = useState('');
+    const [camarasMunicipais, setCamarasMunicipais] = useState<IID_DESCRICAO[]>();
     const getCombos = async (): Promise<CarregarCombosApreensaoDocumento> => await new Contraordenacao().carregarCombosMotivoApreensao()
+    const carregarCombosLocalizacao = async (): Promise<any> => await new Contraordenacao().carregarCombosLocalizacao()
 
     interface CombosAlcoolResponse {
         marcaModelo: IID_DESCRICAO[],
@@ -313,7 +316,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
     const [levantarDocsDiaUtilLocal, setLevantarDocsDiaUtilLocal] = useState('');
 
     const [enviaCamaraMunicipal, setEnviaCamaraMunicipal] = useState(false);
-    const [camaraMunicipal, setCamaraMunicipal] = useState('');
+    const [camaraMunicipal, setCamaraMunicipal] = useState<any>();;
 
     const [podeLevantarTituloConducao, setPodeLevantarTituloConducao] = useState(false);
     const [tituloConducao, setTituloConducao] = useState('');
@@ -326,7 +329,6 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
         id: any,
         descricao: any
     }
-    const camarasMunicipais: CamaraMunicipal[] = [];
 
     const [isDiaPagamento, setIsDiaPagamento] = useState(false);
     const [diaPagamento, setDiaPagamento] = useState('');
@@ -409,16 +411,17 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
         const data = {
             motivosApreensao: motivosApreensao,
             tamanhoMotivosApreensao: tamanhoMotivoApreensao,
-            dadosApreensaoDocumentos: dadosApreensaoDocumento,
+            documentosApreendidos: documentosApreendidos,
             numDocumento: numDocumento,
             dataHora: dataHora,
             localApresentacao: localApresentacao,
-            levantarDocsDiaUtilLocal: levantarDocsDiaUtilLocal,
-            regularSituacaoLocal: regularSituacaoLocal,
-            camaraMunicipal: camaraMunicipal,
+            localLevantarDocumentos: levantarDocsDiaUtilLocal,
+            localRegularizacao: regularSituacaoLocal,
+            camaraMunicipal:camaraMunicipal,
             tituloConducao: tituloConducao,
             diaPagamento: diaPagamento,
             sancaoAplicada: sancaoAplicada,
+            aplicarSansao:aplicarSansao,
             numeroDocumento: numeroDocumento,
 
             isFichaControlePreenchida: isFichaControlePreenchida,
@@ -443,13 +446,14 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
         }
 
         props.setAccoesComplementaresParentData(data);
-    }, [isFichaControlePreenchida, tipoDeFichaControlador, circunstanciaExameAlcool, circunstanciaExameEstupefacientes, recusaTesteEstupifaciente, recusaTesteAlcool, tipoTesteAlcool, anfetaminas, canabis, cocaina, metanfetaminas, opio, tipoTesteEstupifaciente, alcoolimetroMarca, alcoolimetroSerie, alcoolimetroTipoVerificacao, alcoolimetroNumero, alcoolimetroDataHoraInfracao, alcoolimetroNumeroTalao, alcoolimetroValorRegistado, alcoolimetroValorApurado])
+    }, [motivosApreensao,tamanhoMotivoApreensao, documentosApreendidos,numDocumento,dataHora,localApresentacao, levantarDocsDiaUtilLocal, regularSituacaoLocal, camaraMunicipal,tituloConducao,diaPagamento,sancaoAplicada,numeroDocumento,isFichaControlePreenchida, tipoDeFichaControlador, circunstanciaExameAlcool, circunstanciaExameEstupefacientes, recusaTesteEstupifaciente, recusaTesteAlcool, tipoTesteAlcool, anfetaminas, canabis, cocaina, metanfetaminas, opio, tipoTesteEstupifaciente, alcoolimetroMarca, alcoolimetroSerie, alcoolimetroTipoVerificacao, alcoolimetroNumero, alcoolimetroDataHoraInfracao, alcoolimetroNumeroTalao, alcoolimetroValorRegistado, alcoolimetroValorApurado])
 
     // CarregarCombosApreensaoDocumento
     React.useEffect(() => {
         getCombos().then((combos) => {
             setCombos(combos?.motivosApreensao)
             setDadosApreensaoDocumento(combos?.documentosDadosApreensao)
+
         }).catch((error) => {
             console.error("Load emissao combos: \n", error);
         })
@@ -459,6 +463,14 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
             setAlcoolimetroVerificacoes(combosAlcool.tipoVerificacao)
         }).catch(err => {
             console.error("Load alcool combos: \n", err);
+        })
+
+        carregarCombosLocalizacao().then((response_local) => {
+            const _local = response_local
+            setCamarasMunicipais(_local?.distritos)
+         
+        }).catch((error) => {
+            console.error("Load localizacao combos: \n", error);
         })
     }, []);
 
@@ -817,7 +829,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                 {camarasMunicipais?.map((local: any) => {
                                                     return (
                                                         <IonSelectOption key={`${local.id}`}
-                                                            value={local.id}>{`${local.descricao}`}</IonSelectOption>
+                                                            value={JSON.stringify(local)}>{`${local.descricao}`}</IonSelectOption>
                                                     )
                                                 })}
                                             </IonSelect>
@@ -846,7 +858,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                     <IonCol size-sm='12' size-md='10' size-lg='12'>
 
                                         <IonItem>
-                                            <IonLabel position="floating" itemType="text" placeholder="Nome infringida"></IonLabel>
+                                            <IonLabel position="floating" itemType="text" placeholder="Norma infringida"></IonLabel>
                                             <IonInput value={tituloConducao}
                                                 disabled={!podeLevantarTituloConducao}
                                                 onKeyUp={keyup_tituloConducao}
@@ -877,11 +889,11 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
 
                                         <IonItem>
                                             <IonLabel></IonLabel>
-                                            <IonSelect interface="popover" disabled={!isDiaPagamento} onIonChange={e => setDiaPagamento(e.detail.value)} >
-                                                {diasPagamentos?.map((local: any) => {
+                                            <IonSelect interface="popover" disabled={!isDiaPagamento}  value ={diaPagamento} onIonChange={e => setDiaPagamento(e.detail.value)} >
+                                                {camarasMunicipais?.map((local: any) => {
                                                     return (
                                                         <IonSelectOption key={`${local.id}`}
-                                                            value={local.id}>{`${local.descricao}`}</IonSelectOption>
+                                                            value={local}>{`${local.descricao}`}</IonSelectOption>
                                                     )
                                                 })}
 
@@ -912,7 +924,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                     <IonCol size-sm='12' size-md='10' size-lg='12'>
 
                                         <IonItem>
-                                            <IonLabel position="floating" itemType="text" placeholder="Nome infringida"></IonLabel>
+                                            <IonLabel position="floating" itemType="text" placeholder="Norma infringida"></IonLabel>
                                             <IonInput value={sancaoAplicada}
                                                 disabled={!aplicarSansao}
                                                 onKeyUp={keyup_sancaoAplicada}></IonInput>
