@@ -568,7 +568,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                             </h1>
                         </IonLabel>
 
-                        <IonButton className="btn-use-data" fill="outline" color="primary" slot="end"
+                        <IonButton className="" fill="outline" color="primary" slot="end"
                             onClick={() => { }}
                         >
                             EMITIR
@@ -991,7 +991,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                             </h1>
                         </IonLabel>
 
-                        <IonButton className="btn-use-data" fill="outline" color="primary" slot="end"
+                        <IonButton className="" fill="outline" color="primary" slot="end"
                             onClick={() => { }}
                         >
                             EMITIR
@@ -1379,7 +1379,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                             </h1>
                         </IonLabel>
 
-                        <IonButton className="btn-use-data" fill="outline" color="primary" slot="end"
+                        <IonButton className="" fill="outline" color="primary" slot="end"
                             onClick={() => { }}
                         >
                             EMITIR
@@ -1665,7 +1665,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                             </h1>
                         </IonLabel>
 
-                        <IonButton className="btn-use-data" fill="outline" color="primary" slot="end"
+                        <IonButton className="" fill="outline" color="primary" slot="end"
                             onClick={() => { }}
                         >
                             EMITIR
@@ -1709,7 +1709,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                             </h1>
                         </IonLabel>
 
-                        <IonButton className="btn-use-data" fill="outline" color="primary" slot="end"
+                        <IonButton className="" fill="outline" color="primary" slot="end"
                             onClick={() => { }}
                         >
                             EMITIR
