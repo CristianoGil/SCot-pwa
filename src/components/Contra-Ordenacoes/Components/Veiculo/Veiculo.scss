@@ -23,3 +23,13 @@ ion-popover.popoverVeiculo{
 
   }
 }
+
+ion-accordion {
+    margin: 0 auto;
+}
+
+ion-accordion.accordion-expanding ion-item[slot="header"],
+ion-accordion.accordion-expanded ion-item[slot="header"] {
+/*    --color: #EBF2FF;
+*/
+}
