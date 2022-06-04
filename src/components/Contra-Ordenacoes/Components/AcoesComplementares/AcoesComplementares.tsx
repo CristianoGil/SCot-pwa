@@ -1,4 +1,4 @@
-import { IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCheckbox, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonListHeader, IonPopover, IonRadio, IonRadioGroup, IonRow, IonSegment, IonSegmentButton, IonSelect, IonSelectOption, IonTextarea, IonToolbar, useIonAlert, useIonLoading } from "@ionic/react";
+import { IonBadge, IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCheckbox, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonListHeader, IonPopover, IonRadio, IonRadioGroup, IonRow, IonSegment, IonSegmentButton, IonSelect, IonSelectOption, IonTextarea, IonToolbar, useIonAlert, useIonLoading } from "@ionic/react";
 import { open, trash, remove, bookOutline } from "ionicons/icons";
 import { resolve } from "path";
 import React, { useContext } from "react";
@@ -81,36 +81,41 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
             }
         }
     };
+    const [isSavedApreensaoDocumento, setIsSavedApreensaoDocumento] = useState(false);
+    const [isSavedApreensaoVeiculo, setIsSavedApreensaoVeiculo] = useState(false);
+    const [isSavedBloqueamento, setIsSavedBloqueamento] = useState(false);
+    const [isSavedSubstituicao, setIsSubstituicao] = useState(false);
+    const [isSavedApresentacaoDocumento, setIsSavedApresentacaoDocumento] = useState(false);
 
     const data = [
         {
             id: 1,
             tipoDocumento: 'Apreensão Documentos',
-            estado: 'null',
+            estado: isSavedApreensaoDocumento,
             abreTipoDocumento: TipoDocumento.APREENSAO_DOCUMENTOS,
         },
         {
             id: 2,
             tipoDocumento: 'Apreensão Veículo',
-            estado: 'null',
+            estado: isSavedApreensaoVeiculo,
             abreTipoDocumento: TipoDocumento.APREENSAO_VEICULO,
         },
         {
             id: 3,
             tipoDocumento: 'Bloqueamento/Remoção de Veículo',
-            estado: 'null',
+            estado: isSavedBloqueamento,
             abreTipoDocumento: TipoDocumento.BLOQUEAMENTO_REMOCAO_VEICULO,
         },
         {
             id: 4,
             tipoDocumento: 'Substituição de Documentos',
-            estado: 'null',
+            estado: isSavedSubstituicao,
             abreTipoDocumento: TipoDocumento.SUBSTITUICAO_DOCUMENTOS,
         },
         {
             id: 5,
             tipoDocumento: 'Apresentação de documentos',
-            estado: 'null',
+            estado: isSavedApresentacaoDocumento,
             abreTipoDocumento: TipoDocumento.APRESENTACAO_DOCUMENTOS,
         },
         {
@@ -133,9 +138,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
         {
             name: 'Estado',
             cell: (row: { estado: any }) => (
-                <>
-                    <IonIcon slot="start" icon={remove} />
-                </>
+                                row.estado?<> <IonBadge color="success">Emitido</IonBadge></>:""         
             )
         },
         {
@@ -531,6 +534,13 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                 dismissOnLoanding();
             })
     }
+
+    const onClick_SaveApreensaoDocumentos= () =>{
+        setIsSavedApreensaoDocumento(true)
+        console.log(isSavedApreensaoDocumento)
+        setOpenPopoverApreensaoDocumentosData(false);
+    }
+
     return (
 
         <IonCard className={'co-acoesComplementares'}>
@@ -574,7 +584,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                             EMITIR
                         </IonButton>
 
-                        <IonButton className="btn-catalogo" fill="outline" color="medium" slot="end">
+                        <IonButton className="btn-catalogo" fill="outline" color="medium" slot="end" onClick={onClick_SaveApreensaoDocumentos}>
                             IMPRIMIR <IonIcon slot="start" icon={bookOutline} />
                         </IonButton>
 
@@ -997,7 +1007,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                             EMITIR
                         </IonButton>
 
-                        <IonButton className="btn-catalogo" fill="outline" color="medium" slot="end">
+                        <IonButton className="btn-catalogo" fill="outline" color="medium" slot="end" >
                             IMPRIMIR <IonIcon slot="start" icon={bookOutline} />
                         </IonButton>
 
