@@ -24,7 +24,7 @@ export interface IBloqueamentoRemocaoVeiculo {
 }
 
 export interface IApreensaoVeiculo {
-    id: number | null;
+    id?: number | null;
     motivosApreensao: IID_DESCRICAO[] | null;
 
     //fiel depositario
