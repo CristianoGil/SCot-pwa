@@ -1,4 +1,4 @@
-import { IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCheckbox, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonListHeader, IonPopover, IonRadio, IonRadioGroup, IonRow, IonSegment, IonSegmentButton, IonSelect, IonSelectOption, IonTextarea, IonToolbar, useIonAlert, useIonLoading } from "@ionic/react";
+import { IonBadge, IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCheckbox, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonListHeader, IonPopover, IonRadio, IonRadioGroup, IonRow, IonSegment, IonSegmentButton, IonSelect, IonSelectOption, IonTextarea, IonToolbar, useIonAlert, useIonLoading } from "@ionic/react";
 import { open, trash, remove, bookOutline } from "ionicons/icons";
 import { resolve } from "path";
 import React, { useContext } from "react";
@@ -81,43 +81,54 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
             }
         }
     };
+    const [isSavedApreensaoDocumento, setIsSavedApreensaoDocumento] = useState(false);
+    const [isSavedApreensaoVeiculo, setIsSavedApreensaoVeiculo] = useState(false);
+    const [isSavedBloqueamento, setIsSavedBloqueamento] = useState(false);
+    const [isSavedSubstituicao, setIsSubstituicao] = useState(false);
+    const [isSavedApresentacaoDocumento, setIsSavedApresentacaoDocumento] = useState(false);
 
     const data = [
         {
             id: 1,
             tipoDocumento: 'Apreensão Documentos',
-            estado: 'null',
+            estado: isSavedApreensaoDocumento,
             abreTipoDocumento: TipoDocumento.APREENSAO_DOCUMENTOS,
+            isVisibleBtnExcluir: isSavedApreensaoDocumento,
         },
         {
             id: 2,
             tipoDocumento: 'Apreensão Veículo',
-            estado: 'null',
+            estado: isSavedApreensaoVeiculo,
             abreTipoDocumento: TipoDocumento.APREENSAO_VEICULO,
+            isVisibleBtnExcluir: isSavedApreensaoVeiculo,
         },
         {
             id: 3,
             tipoDocumento: 'Bloqueamento/Remoção de Veículo',
-            estado: 'null',
+            estado: isSavedBloqueamento,
             abreTipoDocumento: TipoDocumento.BLOQUEAMENTO_REMOCAO_VEICULO,
+            isVisibleBtnExcluir: isSavedBloqueamento,
         },
         {
             id: 4,
             tipoDocumento: 'Substituição de Documentos',
-            estado: 'null',
+            estado: isSavedSubstituicao,
             abreTipoDocumento: TipoDocumento.SUBSTITUICAO_DOCUMENTOS,
+            isVisibleBtnExcluir: isSavedSubstituicao,
         },
         {
             id: 5,
             tipoDocumento: 'Apresentação de documentos',
-            estado: 'null',
+            estado: isSavedApresentacaoDocumento,
             abreTipoDocumento: TipoDocumento.APRESENTACAO_DOCUMENTOS,
+            isVisibleBtnExcluir: isSavedApresentacaoDocumento,
         },
         {
             id: 6,
             tipoDocumento: 'Ficha controlador',
             estado: isFichaControlePreenchida,
             abreTipoDocumento: TipoDocumento.FICHA_CONTROLADOR,
+            isVisibleBtnExcluir: isFichaControlePreenchida,
         },
     ]
     const handleButtonClick_EXCLUIR = (state: any) => {
@@ -133,21 +144,19 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
         {
             name: 'Estado',
             cell: (row: { estado: any }) => (
-                <>
-                    <IonIcon slot="start" icon={remove} />
-                </>
+                                row.estado?<> <IonBadge color="success">Emitido</IonBadge></>:""         
             )
         },
         {
             name: 'Ações',
-            cell: (row: { abreTipoDocumento: any }) => (
+            cell: (row: { abreTipoDocumento: any, isVisibleBtnExcluir: boolean }) => (
                 <>
                     <IonButton onClick={() => handleButtonClick_ABRIR(row.abreTipoDocumento)} size="small" color="primary" >
                         ABRIR
                         <IonIcon slot="start" icon={open} />
                     </IonButton>
 
-                    <IonButton onClick={() => handleButtonClick_EXCLUIR(row.abreTipoDocumento)} size="small" color="danger" >
+                    <IonButton onClick={() => handleButtonClick_EXCLUIR(row.abreTipoDocumento)} size="small" color="danger" className={row.isVisibleBtnExcluir ? "" : "ion-hide"}>
                         EXCLUIR
                         <IonIcon slot="start" icon={trash} />
                     </IonButton>
@@ -531,6 +540,13 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                 dismissOnLoanding();
             })
     }
+
+    const onClick_SaveApreensaoDocumentos= () =>{
+        setIsSavedApreensaoDocumento(true)
+        console.log(isSavedApreensaoDocumento)
+        setOpenPopoverApreensaoDocumentosData(false);
+    }
+
     return (
 
         <IonCard className={'co-acoesComplementares'}>
@@ -574,7 +590,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                             EMITIR
                         </IonButton>
 
-                        <IonButton className="btn-catalogo" fill="outline" color="medium" slot="end">
+                        <IonButton className="btn-catalogo" fill="outline" color="medium" slot="end" onClick={onClick_SaveApreensaoDocumentos}>
                             IMPRIMIR <IonIcon slot="start" icon={bookOutline} />
                         </IonButton>
 
@@ -997,7 +1013,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                             EMITIR
                         </IonButton>
 
-                        <IonButton className="btn-catalogo" fill="outline" color="medium" slot="end">
+                        <IonButton className="btn-catalogo" fill="outline" color="medium" slot="end" >
                             IMPRIMIR <IonIcon slot="start" icon={bookOutline} />
                         </IonButton>
 
