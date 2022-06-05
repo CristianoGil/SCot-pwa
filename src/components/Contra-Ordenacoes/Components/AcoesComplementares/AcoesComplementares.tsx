@@ -93,36 +93,42 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
             tipoDocumento: 'Apreensão Documentos',
             estado: isSavedApreensaoDocumento,
             abreTipoDocumento: TipoDocumento.APREENSAO_DOCUMENTOS,
+            isVisibleBtnExcluir: isSavedApreensaoDocumento,
         },
         {
             id: 2,
             tipoDocumento: 'Apreensão Veículo',
             estado: isSavedApreensaoVeiculo,
             abreTipoDocumento: TipoDocumento.APREENSAO_VEICULO,
+            isVisibleBtnExcluir: isSavedApreensaoVeiculo,
         },
         {
             id: 3,
             tipoDocumento: 'Bloqueamento/Remoção de Veículo',
             estado: isSavedBloqueamento,
             abreTipoDocumento: TipoDocumento.BLOQUEAMENTO_REMOCAO_VEICULO,
+            isVisibleBtnExcluir: isSavedBloqueamento,
         },
         {
             id: 4,
             tipoDocumento: 'Substituição de Documentos',
             estado: isSavedSubstituicao,
             abreTipoDocumento: TipoDocumento.SUBSTITUICAO_DOCUMENTOS,
+            isVisibleBtnExcluir: isSavedSubstituicao,
         },
         {
             id: 5,
             tipoDocumento: 'Apresentação de documentos',
             estado: isSavedApresentacaoDocumento,
             abreTipoDocumento: TipoDocumento.APRESENTACAO_DOCUMENTOS,
+            isVisibleBtnExcluir: isSavedApresentacaoDocumento,
         },
         {
             id: 6,
             tipoDocumento: 'Ficha controlador',
             estado: isFichaControlePreenchida,
             abreTipoDocumento: TipoDocumento.FICHA_CONTROLADOR,
+            isVisibleBtnExcluir: isFichaControlePreenchida,
         },
     ]
     const handleButtonClick_EXCLUIR = (state: any) => {
@@ -143,14 +149,14 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
         },
         {
             name: 'Ações',
-            cell: (row: { abreTipoDocumento: any }) => (
+            cell: (row: { abreTipoDocumento: any, isVisibleBtnExcluir: boolean }) => (
                 <>
                     <IonButton onClick={() => handleButtonClick_ABRIR(row.abreTipoDocumento)} size="small" color="primary" >
                         ABRIR
                         <IonIcon slot="start" icon={open} />
                     </IonButton>
 
-                    <IonButton onClick={() => handleButtonClick_EXCLUIR(row.abreTipoDocumento)} size="small" color="danger" >
+                    <IonButton onClick={() => handleButtonClick_EXCLUIR(row.abreTipoDocumento)} size="small" color="danger" className={row.isVisibleBtnExcluir ? "" : "ion-hide"}>
                         EXCLUIR
                         <IonIcon slot="start" icon={trash} />
                     </IonButton>
