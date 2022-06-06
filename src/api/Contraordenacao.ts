@@ -18,6 +18,7 @@ import Veiculo from "../pages/RI-Catalogo/Veiculo/Veiculo";
 import {uid} from "../utils/apex-formatters";
 
 export class Contraordenacao {
+  
 
 
     prefix_url: string = 'v1/contraOrdenacao'
@@ -515,5 +516,59 @@ export class Contraordenacao {
         })
     }
 
+    public carregarCombosAutoBloqueamentoRemocaoVeiculos(): Promise<any> {
+        return new Promise((resolve, reject) => {
 
+            if (!_.contains(getPlatforms(), 'desktop')) { // Load offline data
+
+                const instanceOfflineData = new LoadOfflineData();
+                instanceOfflineData.fetch_combos('contraOrdenacao_carregarCombosAutoBloqueamentoRemocaoVeiculos'.toLowerCase()).then((data: any) => {
+                    resolve(data);
+                }).catch((error: AxiosError) => {
+                    reject(error);
+                })
+
+            } else { // Go to the internet for load data
+
+                const service_url = 'carregarCombosAutoBloqueamentoRemocaoVeiculos';
+                this.connectGetAPI(`${this.prefix_url}/${service_url}`).then((response) => {
+                    const data = response.data;
+                    resolve(data);
+                }).catch((error: AxiosError) => {
+                    reject(error);
+                })
+
+            }
+        })
+    }
+
+
+    
+    public carregarCombosPagamento(): Promise<any> {
+        return new Promise((resolve, reject) => {
+
+            if (!_.contains(getPlatforms(), 'desktop')) { // Load offline data
+
+                const instanceOfflineData = new LoadOfflineData();
+                instanceOfflineData.fetch_combos('contraOrdenacao_carregarCombosPagamento'.toLowerCase()).then((data: any) => {
+                    resolve(data);
+                }).catch((error: AxiosError) => {
+                    reject(error);
+                })
+
+            } else { // Go to the internet for load data
+
+                const service_url = 'carregarCombosPagamento';
+                this.connectGetAPI(`${this.prefix_url}/${service_url}`).then((response) => {
+                    const data = response.data;
+                    resolve(data);
+                }).catch((error: AxiosError) => {
+                    reject(error);
+                })
+
+            }
+        })
+    }
+
+    
 }
