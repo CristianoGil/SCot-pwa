@@ -2327,7 +2327,388 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
 
                 <IonContent>
 
+                    {/* N° da apresentação de documentos */}
+                    <IonCard style={{ margin: 30 }}>
 
+                        <IonCardHeader>
+                            <IonCardTitle>N° da apresentação de documentos*</IonCardTitle>
+                        </IonCardHeader>
+
+                        <IonCardContent>
+                            <IonGrid>
+
+                                <IonRow>
+
+                                    <IonCol size-sm='12' size-md='10' size-lg='6'>
+                                        <IonItem>
+                                            <IonLabel position="floating" itemType="text" placeholder="kms">N° da apresentação de documentos *</IonLabel>
+                                            <IonInput value={kmsApreensaoVeiculo} onKeyUp={onKeyup_kmsApreensaoVeiculo}></IonInput>
+                                        </IonItem>
+                                    </IonCol>
+                                </IonRow>
+
+                            </IonGrid>
+
+                        </IonCardContent>
+                    </IonCard>
+                    {/* N° da apresentação de documentos */}
+
+
+                    {/* Documentos a apresentar */}
+                    <IonCard style={{ margin: 30 }}>
+
+                        <IonCardHeader>
+                            <IonCardTitle>Documentos a apresentar *</IonCardTitle>
+                        </IonCardHeader>
+
+                        <IonCardContent>
+                            <IonGrid>
+                                {/*group1*/}
+                                <IonRow>
+
+                                    <IonCol size-sm='12' size-md='10' size-lg='12' style={{ marginTop: 10 }}>
+
+                                        <IonItem lines='none'>
+
+                                            <IonCheckbox
+
+                                                checked={isDocumentoVeiculoVirtudeDe}
+                                                onIonChange={e => setIsDocumentoVeiculoVirtudeDe(e.detail.checked)} />
+                                            <IonLabel class="ion-margin-start">
+                                                Título de condução
+                                            </IonLabel>
+                                        </IonItem>
+
+                                    </IonCol>
+
+                                </IonRow>
+                                {/*group1*/}
+
+                                {/*group2*/}
+                                <IonRow>
+
+                                    <IonCol size-sm='12' size-md='10' size-lg='12' style={{ marginTop: 10 }}>
+
+                                        <IonItem lines='none'>
+
+                                            <IonCheckbox
+
+                                                checked={isDocumentoVeiculoVirtudeDe}
+                                                onIonChange={e => setIsDocumentoVeiculoVirtudeDe(e.detail.checked)} />
+                                            <IonLabel class="ion-margin-start">
+                                                Certificado de matrícula
+                                            </IonLabel>
+                                        </IonItem>
+
+                                    </IonCol>
+
+                                </IonRow>
+                                {/*group2*/}
+
+                                {/*group3*/}
+                                <IonRow>
+
+                                    <IonCol size-sm='12' size-md='10' size-lg='12' style={{ marginTop: 10 }}>
+
+                                        <IonItem lines='none'>
+
+                                            <IonCheckbox
+
+                                                checked={isDocumentoVeiculoVirtudeDe}
+                                                onIonChange={e => setIsDocumentoVeiculoVirtudeDe(e.detail.checked)} />
+                                            <IonLabel class="ion-margin-start">
+                                                Documento de inspecção do veículo
+                                            </IonLabel>
+                                        </IonItem>
+
+                                    </IonCol>
+
+                                </IonRow>
+                                {/*group3*/}
+
+                                {/*group4*/}
+                                <IonRow>
+
+                                    <IonCol size-sm='12' size-md='10' size-lg='12' style={{ marginTop: 10 }}>
+
+                                        <IonItem lines='none'>
+
+                                            <IonCheckbox
+
+                                                checked={isDocumentoVeiculoVirtudeDe}
+                                                onIonChange={e => setIsDocumentoVeiculoVirtudeDe(e.detail.checked)} />
+                                            <IonLabel class="ion-margin-start">
+                                                Certificado de seguro válido do veículo
+                                            </IonLabel>
+                                        </IonItem>
+
+                                    </IonCol>
+
+                                </IonRow>
+                                {/*group4*/}
+
+                                {/*group5*/}
+                                <IonRow>
+
+                                    <IonCol size-sm='12' size-md='10' size-lg='12' style={{ marginTop: 10 }}>
+
+                                        <IonItem lines='none'>
+
+                                            <IonCheckbox
+
+                                                checked={isDocumentoVeiculoVirtudeDe}
+                                                onIonChange={e => setIsDocumentoVeiculoVirtudeDe(e.detail.checked)} />
+                                            <IonLabel class="ion-margin-start">
+                                                Bilhete de identidade
+                                            </IonLabel>
+                                        </IonItem>
+
+                                    </IonCol>
+
+                                </IonRow>
+                                {/*group5*/}
+
+                                {/*group6*/}
+                                <IonRow>
+
+                                    <IonCol size-sm='12' size-md='10' size-lg='12' style={{ marginTop: 10 }}>
+
+                                        <IonItem lines='none'>
+
+                                            <IonCheckbox
+
+                                                checked={isDocumentoVeiculoVirtudeDe}
+                                                onIonChange={e => setIsDocumentoVeiculoVirtudeDe(e.detail.checked)} />
+                                            <IonLabel class="ion-margin-start">
+                                                Cartão de cidadão
+                                            </IonLabel>
+                                        </IonItem>
+
+                                    </IonCol>
+
+                                </IonRow>
+                                {/*group6*/}
+
+                                {/*group7*/}
+                                <IonRow>
+
+                                    <IonCol size-sm='12' size-md='10' size-lg='12' style={{ marginTop: 10 }}>
+
+                                        <IonItem lines='none'>
+
+                                            <IonCheckbox
+
+                                                checked={isDocumentoVeiculoVirtudeDe}
+                                                onIonChange={e => setIsDocumentoVeiculoVirtudeDe(e.detail.checked)} />
+                                            <IonLabel class="ion-margin-start">
+                                                Passaporte
+                                            </IonLabel>
+                                        </IonItem>
+
+                                    </IonCol>
+
+                                </IonRow>
+                                {/*group7*/}
+
+                                {/*group8*/}
+                                <IonRow>
+
+                                    <IonCol size-sm='12' size-md='10' size-lg='12' style={{ marginTop: 10 }}>
+
+                                        <IonItem lines='none'>
+
+                                            <IonCheckbox
+
+                                                checked={isDocumentoVeiculoVirtudeDe}
+                                                onIonChange={e => setIsDocumentoVeiculoVirtudeDe(e.detail.checked)} />
+                                            <IonLabel class="ion-margin-start">
+                                                Título de residência
+                                            </IonLabel>
+                                        </IonItem>
+
+                                    </IonCol>
+
+                                </IonRow>
+                                {/*group8*/}
+
+                                {/*group9*/}
+                                <IonRow>
+
+                                    <IonCol size-sm='12' size-md='10' size-lg='12' style={{ marginTop: 10 }}>
+
+                                        <IonItem lines='none'>
+
+                                            <IonCheckbox
+
+                                                checked={isDocumentoVeiculoVirtudeDe}
+                                                onIonChange={e => setIsDocumentoVeiculoVirtudeDe(e.detail.checked)} />
+                                            <IonLabel class="ion-margin-start">
+                                                Outros
+                                            </IonLabel>
+                                        </IonItem>
+
+                                    </IonCol>
+
+                                </IonRow>
+                                {/*group9*/}
+                            </IonGrid>
+
+                        </IonCardContent>
+                    </IonCard>
+                    {/* Documentos a apresentar */}
+
+                    {/* Local de apresentação/entrega */}
+                    <IonCard style={{ margin: 30 }}>
+
+                        <IonCardHeader>
+                            <IonCardTitle>Local de apresentação/entrega *</IonCardTitle>
+                        </IonCardHeader>
+
+                        <IonCardContent>
+                            <IonGrid>
+                                <IonRow>
+                                    <IonCol size-sm="12" size-md="12" size-lg="12">
+                                        <IonItem>
+                                            <IonLabel position="floating" itemType="text" placeholder="Local de apresentação/entrega *">Local de apresentação/entrega *</IonLabel>
+                                            <IonInput value={alcoolimetroNumero} onKeyUp={onkeyup_alcoolimetroNumero}></IonInput>
+                                        </IonItem>
+                                    </IonCol>
+                                </IonRow>
+                                {/*group1*/}
+                                <IonRow>
+
+                                    <IonCol size-sm='12' size-md='10' size-lg='12' style={{ marginTop: 10 }}>
+
+                                        <IonItem lines='none'>
+
+                                            <IonCheckbox
+
+                                                checked={isDocumentoVeiculoVirtudeDe}
+                                                onIonChange={e => setIsDocumentoVeiculoVirtudeDe(e.detail.checked)} />
+                                            <IonLabel class="ion-margin-start">
+                                                Inserir o nº do processo referente à obrigatoriedade de entrega do documento
+                                            </IonLabel>
+                                        </IonItem>
+
+                                    </IonCol>
+
+                                </IonRow>
+                                {/*group1*/}
+
+                                {/*group2*/}
+                                <IonRow>
+
+                                    <IonCol size-sm='12' size-md='10' size-lg='12' style={{ marginTop: 10 }}>
+
+                                        <IonItem lines='none'>
+
+                                            <IonCheckbox
+
+                                                checked={isDocumentoVeiculoVirtudeDe}
+                                                onIonChange={e => setIsDocumentoVeiculoVirtudeDe(e.detail.checked)} />
+                                            <IonLabel class="ion-margin-start">
+                                                Inserir o email para envio do documento retirado da aplicação móvel
+                                            </IonLabel>
+                                        </IonItem>
+
+                                    </IonCol>
+
+                                </IonRow>
+                                {/*group2*/}
+                            </IonGrid>
+
+                        </IonCardContent>
+                    </IonCard>
+                    {/* Local de apresentação/entrega */}
+
+                    {/* Proprietário */}
+                    <IonCard style={{ margin: 30 }}>
+
+                        <IonCardHeader>
+                            <IonCardTitle>Proprietário</IonCardTitle>
+                        </IonCardHeader>
+
+                        <IonCardContent>
+                            <IonGrid>
+
+                                <IonRow>
+                                    <IonCol size-sm="12" size-md="12" size-lg="12">
+                                        <IonItem>
+                                            <IonLabel position="floating" itemType="text" placeholder="Nome">Nome</IonLabel>
+                                            <IonInput value={alcoolimetroNumero} onKeyUp={onkeyup_alcoolimetroNumero}></IonInput>
+                                        </IonItem>
+                                    </IonCol>
+                                </IonRow>
+
+                                <IonRow>
+                                    <IonCol size-sm="12" size-md="12" size-lg="12">
+                                        <IonItem>
+                                            <IonLabel position="floating" itemType="text" placeholder="Morada">Morada</IonLabel>
+                                            <IonInput value={alcoolimetroNumero} onKeyUp={onkeyup_alcoolimetroNumero}></IonInput>
+                                        </IonItem>
+                                    </IonCol>
+                                </IonRow>
+
+                                <IonRow>
+                                    <IonCol size-sm="9" size-md="10" size-lg="8" style={{ marginTop: 16 }}>
+                                        <IonItem>
+                                            <IonLabel>Documento *</IonLabel>
+                                            <IonSelect interface="popover" value={documentoDepositario} onIonChange={onChange_documentoDepositario}>
+                                                {dadosApreensaoDocumento?.map((local: any) => {
+                                                    return (
+                                                        <IonSelectOption key={`${local.id}`}
+                                                            value={local}>{`${local.descricao}`}</IonSelectOption>
+                                                    )
+                                                })}
+                                            </IonSelect>
+                                        </IonItem>
+                                    </IonCol>
+                                    <IonCol size-sm='12' size-md='10' size-lg='4'>
+                                        <IonItem>
+                                            <IonLabel position="floating" itemType="text" placeholder="Nome infringida">Número</IonLabel>
+                                            <IonInput value={numeroDocumentoDepositario}
+                                                onKeyUp={onKeyup_numeroDocumentoDepositario}
+
+                                            ></IonInput>
+                                        </IonItem>
+                                    </IonCol>
+                                </IonRow>
+                            </IonGrid>
+
+                        </IonCardContent>
+                    </IonCard>
+                    {/* Proprietário */}
+
+                    {/* Número de Documentos */}
+                    <IonCard style={{ margin: 30 }}>
+                        <IonCardContent>
+                            <IonGrid>
+                                <IonRow>
+
+                                    <IonCol size-sm='12' size-md='10' size-lg='12'>
+                                        <p style={{ color: 'red' }}>Apenas deverá preencher este número caso não tenha sido possível imprimir o documento e o tenha registado manualmente em pré-impresso(Não será gerado o respectivo expediente).</p>
+                                    </IonCol>
+
+                                </IonRow>
+                                <IonRow>
+
+                                    <IonCol size-sm='12' size-md='10' size-lg='4'>
+
+                                        <IonItem>
+                                            <IonLabel position="floating" itemType="text" placeholder="Número de Documento">Número de Documento</IonLabel>
+                                            <IonInput
+                                                value={numeroDocumento}
+                                                onKeyUp={keyup_numeroDocumento}
+                                            ></IonInput>
+                                        </IonItem>
+
+                                    </IonCol>
+
+                                </IonRow>
+                            </IonGrid>
+                        </IonCardContent>
+                    </IonCard>
+                    {/* Número de Documentos */}
                 </IonContent>
 
             </IonPopover>
