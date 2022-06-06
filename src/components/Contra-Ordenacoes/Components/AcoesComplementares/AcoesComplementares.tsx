@@ -1675,7 +1675,11 @@ const [notaCobrancaManual, setNotaCobrancaManual] = useState('');
                         </IonLabel>
 
                         <IonButton className="" fill="outline" color="primary" slot="end"
-                            onClick={() => { }}
+                            onClick={() => {
+                                setIsSavedBloqueamento(true)
+                                setOpenPopoverBloqueamento_RemocaoVeiculoData(false);
+
+                             }}
                         >
                             EMITIR
                         </IonButton>
