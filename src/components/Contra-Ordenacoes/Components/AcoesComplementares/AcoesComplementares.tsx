@@ -1,6 +1,5 @@
-import { IonBadge, IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCheckbox, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonListHeader, IonPopover, IonRadio, IonRadioGroup, IonRow, IonSegment, IonSegmentButton, IonSelect, IonSelectOption, IonTextarea, IonToolbar, useIonAlert, useIonLoading } from "@ionic/react";
+import { IonBadge, IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCheckbox, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonListHeader, IonPopover, IonRadio, IonRadioGroup, IonRow, IonSegment, IonSegmentButton, IonSelect, IonSelectOption, IonTextarea, IonToolbar, useIonAlert, useIonLoading } from "@ionic/react";
 import { open, trash, remove, bookOutline } from "ionicons/icons";
-import { resolve } from "path";
 import React, { useContext } from "react";
 import { useState } from "react";
 import DataTable from 'react-data-table-component';
@@ -11,7 +10,6 @@ import { CarregarCombosApreensaoDocumento, IComboApreensaoDocumento, MotivosApre
 import { IID_DESCRICAO } from "../../../../model/extendable";
 import CardListItem from "../../../CardListItem";
 import DatePicker from "../../../Combos/DatePicker";
-import NumeroDocumento from "../../../NumeroDocumento/NumeroDocumento";
 import './AcoesComplementares.scss';
 
 interface IProps {
@@ -19,7 +17,7 @@ interface IProps {
     currentDadosInfracaoData?: any,
     currentIntervenientesData?: any
     setFichaControleData?: any
-    
+
 }
 
 const AcoesComplementares: React.FC<IProps> = (props) => {
@@ -87,6 +85,47 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
     const [isSavedSubstituicao, setIsSubstituicao] = useState(false);
     const [isSavedApresentacaoDocumento, setIsSavedApresentacaoDocumento] = useState(false);
 
+    const columnsTituloConducao = [
+        {
+            name: 'Id',
+            selector: (row: { _id: any; }) => row._id,
+        },
+        {
+            name: 'Motivo',
+            selector: (row: { motivo: any; }) => row.motivo,
+        },
+        {
+            name: 'Ações',
+            cell: (row: { abreTipoDocumento: any }) => (
+                <>
+                    <IonButton onClick={() => { }} size="small" color="primary" >
+                        ABRIR
+                        <IonIcon slot="start" icon={open} />
+                    </IonButton>
+
+                    <IonButton onClick={() => { }} size="small" color="danger">
+                        EXCLUIR
+                        <IonIcon slot="start" icon={trash} />
+                    </IonButton>
+                </>
+            )
+        },
+    ];
+
+    const dataTituloConducao = [
+        {
+            id: 1,
+            _id: 'null',
+            motivo: 'null',
+            abreTipoDocumento: 'null',
+        },
+    ]
+
+    const handleButtonClick_EXCLUIR = (state: any) => {
+        console.log('clicked (EXCLUIR)');
+        console.log(state);
+    };
+
     const data = [
         {
             id: 1,
@@ -131,10 +170,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
             isVisibleBtnExcluir: isFichaControlePreenchida,
         },
     ]
-    const handleButtonClick_EXCLUIR = (state: any) => {
-        console.log('clicked (EXCLUIR)');
-        console.log(state);
-    };
+
 
     const columns = [
         {
@@ -144,7 +180,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
         {
             name: 'Estado',
             cell: (row: { estado: any }) => (
-                                row.estado?<> <IonBadge color="success">Emitido</IonBadge></>:""         
+                row.estado ? <> <IonBadge color="success">Emitido</IonBadge></> : ""
             )
         },
         {
@@ -165,21 +201,23 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
         },
     ];
 
+
+
     //-------------------------[Motivos Apreensao]
 
     const columnsMotivosApreensao = [
         {
             name: 'Motivo',
-            selector: (row: { descricao: string }) => row.descricao 
+            selector: (row: { descricao: string }) => row.descricao
         },
-       
+
         {
             name: 'Ações',
             cell: (row: { id: number }) => (
                 <>
-                    <IonButton onClick={() => { 
-                       setMotivosApreensao(motivosApreensao.filter(m=>{return m.id !==row.id}))
-                       setTamanhoMotivoApreensao(tamanhoMotivoApreensao-1)
+                    <IonButton onClick={() => {
+                        setMotivosApreensao(motivosApreensao.filter(m => { return m.id !== row.id }))
+                        setTamanhoMotivoApreensao(tamanhoMotivoApreensao - 1)
 
                     }} size="small" color="danger" >
                         EXCLUIR
@@ -190,31 +228,31 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
         },
     ];
 
-        //-------------------------[Motivos Apreensao Veiculos]
-        const columnsMotivosApreensaoVeiculo = [
-            {
-                name: 'Motivo',
-                selector: (row: { descricao: string }) => row.descricao 
-            },
-           
-            {
-                name: 'Ações',
-                cell: (row: { id?: number }) => (
-                    <>
-                        <IonButton onClick={() => { 
-                          setMotivosApreensaoVeiculo(motivosApreensaoVeiculo.filter(m=>{return m.id !==row.id}))
-    
-                        }} size="small" color="danger" >
-                            EXCLUIR
-                            <IonIcon slot="start" icon={trash} />
-                        </IonButton>
-                    </>
-                )
-            },
-        ];
-    
-    
-    
+    //-------------------------[Motivos Apreensao Veiculos]
+    const columnsMotivosApreensaoVeiculo = [
+        {
+            name: 'Motivo',
+            selector: (row: { descricao: string }) => row.descricao
+        },
+
+        {
+            name: 'Ações',
+            cell: (row: { id?: number }) => (
+                <>
+                    <IonButton onClick={() => {
+                        setMotivosApreensaoVeiculo(motivosApreensaoVeiculo.filter(m => { return m.id !== row.id }))
+
+                    }} size="small" color="danger" >
+                        EXCLUIR
+                        <IonIcon slot="start" icon={trash} />
+                    </IonButton>
+                </>
+            )
+        },
+    ];
+
+
+
     let dataMotivosApreensao: MotivosApreensao[] = []
     let dataMotivosApreensaoVeiculo: IID_DESCRICAO[] = []
     //-------------------------[Dados Apreensao Documentos]
@@ -222,7 +260,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
     const columnsDadosApreensaoDocumentos = [
         {
             name: 'Documento',
-            selector: (row: { documento:any }) => row.documento?.descricao,
+            selector: (row: { documento: any }) => row.documento?.descricao,
         },
         {
             name: 'Número',
@@ -232,10 +270,10 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
             name: 'Ações',
             cell: (row: { id: any }) => (
                 <>
-            
-                    <IonButton onClick={() => { 
 
-                    setDocumentosApreendidos(documentosApreendidos.filter(m=>{return m.id !==row.id}))
+                    <IonButton onClick={() => {
+
+                        setDocumentosApreendidos(documentosApreendidos.filter(m => { return m.id !== row.id }))
 
 
                     }} size="small" color="danger" >
@@ -278,52 +316,52 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
     }
     const getCombosAlcool = async (): Promise<CombosAlcoolResponse> => await new Contraordenacao().carregarCombosAlcool()
 
-   
+
     const onClick_addAMotivoApreensao = () => {
-       
-        const motivo= JSON.parse(motivoApreensao)    
-       
-       if(motivosApreensao?.find(m=> motivo.id===m.id)){
-        presentAlert({
-                    header: 'Error!',
-                    message: 'Motivo já adicionado!\n',
-                    buttons: [
-                        { text: 'Fechar' },
-                    ]
-                })
-       }else{
-          
-         setMotivosApreensao([...motivosApreensao, motivo])
-         setTamanhoMotivoApreensao(+motivosApreensao?.length+1)
 
-       }
+        const motivo = JSON.parse(motivoApreensao)
 
-    
+        if (motivosApreensao?.find(m => motivo.id === m.id)) {
+            presentAlert({
+                header: 'Error!',
+                message: 'Motivo já adicionado!\n',
+                buttons: [
+                    { text: 'Fechar' },
+                ]
+            })
+        } else {
 
-}
+            setMotivosApreensao([...motivosApreensao, motivo])
+            setTamanhoMotivoApreensao(+motivosApreensao?.length + 1)
+
+        }
+
+
+
+    }
 
     const onClick_addDadosDocumentoApreensao = () => {
-        const idDescricaoDocumento:MotivosApreensao= JSON.parse(documento)    
+        const idDescricaoDocumento: MotivosApreensao = JSON.parse(documento)
         const documentoApreendido =
-            {
-                documento:{
-                    descricao: idDescricaoDocumento.descricao
-                }, numero:numDocumento, 
-                id:idDescricaoDocumento.id
-            }
-            if(documentosApreendidos?.find(doc=>doc.id === documentoApreendido.id || doc.numero === numDocumento)){
-                presentAlert({
-                    header: 'Error!',
-                    message: 'Documento e/ou mesmo número já adicionado!\n',
-                    buttons: [
-                        { text: 'Fechar' },
-                    ]
-                })
-            }else{
-                setDocumentosApreendidos([...documentosApreendidos,documentoApreendido ])
-                setNumDocumento("")
-            }
-        
+        {
+            documento: {
+                descricao: idDescricaoDocumento.descricao
+            }, numero: numDocumento,
+            id: idDescricaoDocumento.id
+        }
+        if (documentosApreendidos?.find(doc => doc.id === documentoApreendido.id || doc.numero === numDocumento)) {
+            presentAlert({
+                header: 'Error!',
+                message: 'Documento e/ou mesmo número já adicionado!\n',
+                buttons: [
+                    { text: 'Fechar' },
+                ]
+            })
+        } else {
+            setDocumentosApreendidos([...documentosApreendidos, documentoApreendido])
+            setNumDocumento("")
+        }
+
     }
 
     const keyup_numDocumento = (e: any) => {
@@ -441,8 +479,8 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
     const [isApreensaoVeiculoProduzEfeito, setIsApreensaoVeiculoProduzEfeito] = useState(false);
     const [dataProduzEfeitoApreensao, setDataProduzEfeitoApreensao] = useState("");
     const [isApreendidoDocumentos, setIsApreendidoDocumentos] = useState(false);
-    
-    
+
+
 
     const [presentAlert, dismissAlert] = useIonAlert();
     const [presentOnLoanding, dismissOnLoanding] = useIonLoading();
@@ -477,29 +515,29 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
             localApresentacao: localApresentacao,
             localLevantarDocumentos: levantarDocsDiaUtilLocal,
             localRegularizacao: regularSituacaoLocal,
-            camaraMunicipal:camaraMunicipal,
+            camaraMunicipal: camaraMunicipal,
             tituloConducao: tituloConducao,
             diaPagamento: diaPagamento,
             sancaoAplicada: sancaoAplicada,
-            aplicarSansao:aplicarSansao,
+            aplicarSansao: aplicarSansao,
             numeroDocumento: numeroDocumento,
 
             // apreensao de veiculos
-            motivosApreensaoVeiculo:motivosApreensaoVeiculo,
-            tipoFielDepositario:fielDepositario,
-            numeroApreensaoVeiculo:numeroApreensaoVeiculo,
-            nomeFielDepositario:nomefielDepositario,
-            moradaFielDepositario:moradafielDepositario,
-            documentoFielDepositario:documentoDepositario,
-            numeroFielDepositario:numeroDocumentoDepositario,
-            dadosApreensaoKm:kmsApreensaoVeiculo,
-            dadosApreensaoLocalDeposito:localDeposito,
-            documentoVeiculoNaoFoiApreendidoEmVirtude:motivoDocumentoVeiculo,
-            documentoApreensao:documentoAccaoAssoc,
-            numeroDocumentoApreensao:numeroDocumentoAccaoAssoc,
-            arguidoPoderaLevantarDocumentoNoServicoIMTT:localLevantarIMTT,
+            motivosApreensaoVeiculo: motivosApreensaoVeiculo,
+            tipoFielDepositario: fielDepositario,
+            numeroApreensaoVeiculo: numeroApreensaoVeiculo,
+            nomeFielDepositario: nomefielDepositario,
+            moradaFielDepositario: moradafielDepositario,
+            documentoFielDepositario: documentoDepositario,
+            numeroFielDepositario: numeroDocumentoDepositario,
+            dadosApreensaoKm: kmsApreensaoVeiculo,
+            dadosApreensaoLocalDeposito: localDeposito,
+            documentoVeiculoNaoFoiApreendidoEmVirtude: motivoDocumentoVeiculo,
+            documentoApreensao: documentoAccaoAssoc,
+            numeroDocumentoApreensao: numeroDocumentoAccaoAssoc,
+            arguidoPoderaLevantarDocumentoNoServicoIMTT: localLevantarIMTT,
             foiPassadoAvisoApreensaoDocumentos: isAvisoApreensaoDocumentoPassado,
-            dataEfeitoApreensaoVeiculo:dataProduzEfeitoApreensao,
+            dataEfeitoApreensaoVeiculo: dataProduzEfeitoApreensao,
             // apreensao de veiculos
 
             isFichaControlePreenchida: isFichaControlePreenchida,
@@ -524,7 +562,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
         }
 
         props.setAccoesComplementaresParentData(data);
-    }, [motivosApreensaoVeiculo, fielDepositario,numeroApreensaoVeiculo, nomefielDepositario,moradafielDepositario,documentoDepositario,numeroDocumentoDepositario,kmsApreensaoVeiculo,localDeposito, motivoDocumentoVeiculo, documentoAccaoAssoc,numeroDocumentoAccaoAssoc,localLevantarIMTT,isAvisoApreensaoDocumentoPassado, dataProduzEfeitoApreensao,motivosApreensao,tamanhoMotivoApreensao, documentosApreendidos,numDocumento,dataHora,localApresentacao, levantarDocsDiaUtilLocal, regularSituacaoLocal, camaraMunicipal,tituloConducao,diaPagamento,sancaoAplicada,numeroDocumento,isFichaControlePreenchida, tipoDeFichaControlador, circunstanciaExameAlcool, circunstanciaExameEstupefacientes, recusaTesteEstupifaciente, recusaTesteAlcool, tipoTesteAlcool, anfetaminas, canabis, cocaina, metanfetaminas, opio, tipoTesteEstupifaciente, alcoolimetroMarca, alcoolimetroSerie, alcoolimetroTipoVerificacao, alcoolimetroNumero, alcoolimetroDataHoraInfracao, alcoolimetroNumeroTalao, alcoolimetroValorRegistado, alcoolimetroValorApurado])
+    }, [motivosApreensao, tamanhoMotivoApreensao, documentosApreendidos, numDocumento, dataHora, localApresentacao, levantarDocsDiaUtilLocal, regularSituacaoLocal, camaraMunicipal, tituloConducao, diaPagamento, sancaoAplicada, numeroDocumento, isFichaControlePreenchida, tipoDeFichaControlador, circunstanciaExameAlcool, circunstanciaExameEstupefacientes, recusaTesteEstupifaciente, recusaTesteAlcool, tipoTesteAlcool, anfetaminas, canabis, cocaina, metanfetaminas, opio, tipoTesteEstupifaciente, alcoolimetroMarca, alcoolimetroSerie, alcoolimetroTipoVerificacao, alcoolimetroNumero, alcoolimetroDataHoraInfracao, alcoolimetroNumeroTalao, alcoolimetroValorRegistado, alcoolimetroValorApurado])
 
     // CarregarCombosApreensaoDocumento
     React.useEffect(() => {
@@ -546,14 +584,14 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
         carregarCombosLocalizacao().then((response_local) => {
             const _local = response_local
             setCamarasMunicipais(_local?.distritos)
-         
+
         }).catch((error) => {
             console.error("Load localizacao combos: \n", error);
         })
         carregarCombosApreensaoVeiculos().then((apreensaoVeiculos) => {
-          console.log(apreensaoVeiculos)
-         setMotivosApreensaoVeiculoCombo(apreensaoVeiculos?.motivosApreensao)
-         setLocaisLevantarIMTT(apreensaoVeiculos?.unidades)
+            console.log(apreensaoVeiculos)
+            setMotivosApreensaoVeiculoCombo(apreensaoVeiculos?.motivosApreensao)
+            setLocaisLevantarIMTT(apreensaoVeiculos?.unidades)
         }).catch((error) => {
             console.error("Load apreensaoVeiculos combos: \n", error);
         })
@@ -620,7 +658,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
             })
     }
 
-    const onClick_SaveApreensaoDocumentos= () =>{
+    const onClick_SaveApreensaoDocumentos = () => {
         setIsSavedApreensaoDocumento(true)
         console.log(isSavedApreensaoDocumento)
         setOpenPopoverApreensaoDocumentosData(false);
@@ -628,61 +666,61 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
 
 
     // start Apreensao Veiculo functions
-    
-    const onClick_saveApreensaoVeiculo =()=>{
+
+    const onClick_saveApreensaoVeiculo = () => {
         setIsSavedApreensaoVeiculo(true)
-    setOpenPopoverApreensaoVeiculoData(false)
-}
-const onClick_addMotivoApreensaoVeiculo= ()=>{
-       if(motivosApreensaoVeiculo?.find(m=> motivoApreensaoVeiculo.id===m.id)){
-        presentAlert({
-                    header: 'Error!',
-                    message: 'Motivo já adicionado!\n',
-                    buttons: [
-                        { text: 'Fechar' },
-                    ]
-                })
-       }else{
-          
-         setMotivosApreensaoVeiculo([...motivosApreensaoVeiculo, motivoApreensaoVeiculo])
+        setOpenPopoverApreensaoVeiculoData(false)
+    }
+    const onClick_addMotivoApreensaoVeiculo = () => {
+        if (motivosApreensaoVeiculo?.find(m => motivoApreensaoVeiculo.id === m.id)) {
+            presentAlert({
+                header: 'Error!',
+                message: 'Motivo já adicionado!\n',
+                buttons: [
+                    { text: 'Fechar' },
+                ]
+            })
+        } else {
 
-       }
-   
+            setMotivosApreensaoVeiculo([...motivosApreensaoVeiculo, motivoApreensaoVeiculo])
+
+        }
 
 
-}
-const onKeyup_setNumeroApreensaoVeiculo =(e:any)=>{
-    setNumeroApreensaoVeiculo(e.target.value)
-}
 
-const onKeyup_setNomeFielDepositario =(e:any)=>{
-    setNomeFielDepositario(e.target.value)
-}
-const onKeyup_setMoradaFielDepositario =(e:any)=>{
-    setMoradaFielDepositario(e.target.value)
-}
-const onChange_documentoDepositario =(e:any)=>{
+    }
+    const onKeyup_setNumeroApreensaoVeiculo = (e: any) => {
+        setNumeroApreensaoVeiculo(e.target.value)
+    }
+
+    const onKeyup_setNomeFielDepositario = (e: any) => {
+        setNomeFielDepositario(e.target.value)
+    }
+    const onKeyup_setMoradaFielDepositario = (e: any) => {
+        setMoradaFielDepositario(e.target.value)
+    }
+    const onChange_documentoDepositario = (e: any) => {
         setDocumentoDepositario(e.detail.value)
-}
+    }
 
-const onKeyup_numeroDocumentoDepositario =(e:any)=>{
-    setNumeroDocumentoDepositario(e.target.value)
-}
+    const onKeyup_numeroDocumentoDepositario = (e: any) => {
+        setNumeroDocumentoDepositario(e.target.value)
+    }
 
-const onKeyup_kmsApreensaoVeiculo =(e:any)=>{
-    setKmsApreensaoVeiculo(e.target.value)
-}
-const onKeyup_localDeposito =(e:any)=>{
-    setLocalDeposito(e.target.value)
-}
+    const onKeyup_kmsApreensaoVeiculo = (e: any) => {
+        setKmsApreensaoVeiculo(e.target.value)
+    }
+    const onKeyup_localDeposito = (e: any) => {
+        setLocalDeposito(e.target.value)
+    }
 
 
-const keyup_motivoDocumentoVeiculo =(e:any)=>{
-    setMotivoDocumentoVeiculo(e.target.value)
-}
-const onKeyup_numeroDocumentoAccaoAssoc =(e:any)=>{
-    setNumeroDocumentoAccaoAssoc(e.target.value)
-}
+    const keyup_motivoDocumentoVeiculo = (e: any) => {
+        setMotivoDocumentoVeiculo(e.target.value)
+    }
+    const onKeyup_numeroDocumentoAccaoAssoc = (e: any) => {
+        setNumeroDocumentoAccaoAssoc(e.target.value)
+    }
 
 
     // end Apreensao Veiculo states and functions
@@ -759,7 +797,7 @@ const onKeyup_numeroDocumentoAccaoAssoc =(e:any)=>{
                                                 {combos?.map((local: any) => {
                                                     return (
                                                         <IonSelectOption key={`${local.id}`}
-                                                            value={JSON.stringify({id:local.id, descricao:local.descricao})}>{`${local.descricao}`}</IonSelectOption>
+                                                            value={JSON.stringify({ id: local.id, descricao: local.descricao })}>{`${local.descricao}`}</IonSelectOption>
                                                     )
                                                 })}
                                             </IonSelect>
@@ -1046,7 +1084,7 @@ const onKeyup_numeroDocumentoAccaoAssoc =(e:any)=>{
 
                                         <IonItem>
                                             <IonLabel></IonLabel>
-                                            <IonSelect interface="popover" disabled={!isDiaPagamento}  value ={diaPagamento} onIonChange={e => setDiaPagamento(e.detail.value)} >
+                                            <IonSelect interface="popover" disabled={!isDiaPagamento} value={diaPagamento} onIonChange={e => setDiaPagamento(e.detail.value)} >
                                                 {camarasMunicipais?.map((local: any) => {
                                                     return (
                                                         <IonSelectOption key={`${local.id}`}
@@ -1732,7 +1770,7 @@ const onKeyup_numeroDocumentoAccaoAssoc =(e:any)=>{
 
                                 <IonRow>
 
-                                    <IonCol size-sm='12' size-md='12' size-lg='4' style={{marginTop:16}}>
+                                    <IonCol size-sm='12' size-md='12' size-lg='4' style={{ marginTop: 16 }}>
                                         <IonItem>
                                             <IonLabel>Meio pagamento</IonLabel>
                                             <IonSelect interface="popover" onIonChange={e => setMotivoApreensao(e.detail.value)}>
@@ -1843,7 +1881,409 @@ const onKeyup_numeroDocumentoAccaoAssoc =(e:any)=>{
 
                 <IonContent>
 
+                    {/* Certificado de matrícula */}
+                    <IonCard style={{ margin: 30 }}>
 
+                        <IonCardHeader>
+                            <IonCardTitle>Certificado de matrícula</IonCardTitle>
+                        </IonCardHeader>
+
+                        <IonCardContent>
+                            <IonGrid>
+
+                                <IonRow>
+
+                                    <IonCol size-sm='12' size-md='12' size-lg='12' className="ion-margin-start">
+                                        <h2 style={{ fontWeight: 'bold' }}>- N/A</h2>
+                                    </IonCol>
+
+                                    <IonCol size-sm='12' size-md='12' size-lg='6'>
+
+                                        <IonRadioGroup value={recusaTesteAlcool}
+                                            onIonChange={e => setRecusaTesteAlcool(e.detail.value)}>
+
+                                            <IonRow>
+                                                <IonCol size='12'>
+                                                    <IonListHeader>
+                                                        <IonLabel>
+                                                            Substituir? *
+                                                        </IonLabel>
+                                                    </IonListHeader>
+                                                </IonCol>
+                                                <IonCol size='6'>
+                                                    <IonItem
+                                                        lines='none'
+                                                        className="infoAdicionais-domicilio-radio radio-item">
+                                                        <IonRadio value="Sim" />
+                                                        <IonLabel className="radioBox">Sim</IonLabel>
+                                                    </IonItem>
+                                                </IonCol>
+                                                <IonCol size='6'>
+                                                    <IonItem
+                                                        lines='none'
+                                                        className="infoAdicionais-domicilio-radio radio-item">
+                                                        <IonRadio value="Não" />
+                                                        <IonLabel className="radioBox">Não</IonLabel>
+                                                    </IonItem>
+                                                </IonCol>
+                                            </IonRow>
+                                        </IonRadioGroup>
+                                    </IonCol>
+                                    <IonCol size-sm='12' size-md='12' size-lg='6' style={{ marginTop: 32 }}>
+                                        <IonItem>
+                                            <IonLabel position="floating" itemType="text" placeholder="N° da substituição de documentos">N° da substituição de documentos *</IonLabel>
+                                            <IonInput></IonInput>
+                                        </IonItem>
+                                    </IonCol>
+                                </IonRow>
+                                <IonRow>
+                                    <IonCol size-sm="9" size-md="10" size-lg="6" style={{ marginTop: 16 }}>
+                                        <IonItem>
+                                            <IonLabel>Tipo de documento *</IonLabel>
+                                            <IonSelect interface="popover" value={documento} onIonChange={(e) => setDocumento(e.detail.value)}>
+                                                {dadosApreensaoDocumento?.map((local: any) => {
+                                                    return (
+                                                        <IonSelectOption key={`${local.id}`}
+                                                            value={JSON.stringify(local)}>{`${local.descricao}`}</IonSelectOption>
+                                                    )
+                                                })}
+                                            </IonSelect>
+                                        </IonItem>
+                                    </IonCol>
+                                    <IonCol size-sm='12' size-md='10' size-lg='4'>
+                                        <IonItem>
+                                            <IonLabel position="floating" itemType="text" placeholder="Nome infringida">Número</IonLabel>
+                                            <IonInput value={numDocumento}
+                                                onKeyUp={keyup_numDocumento}
+
+                                            ></IonInput>
+                                        </IonItem>
+                                    </IonCol>
+                                </IonRow>
+
+                                <IonRow>
+
+                                    <IonCol size-sm='12' size-md='10' size-lg='3'>
+                                        <IonItem>
+                                            <IonLabel position="floating" itemType="text" placeholder="Número chassi">Número chassi</IonLabel>
+                                            <IonInput value={numDocumento}
+                                                onKeyUp={keyup_numDocumento}
+
+                                            ></IonInput>
+                                        </IonItem>
+                                    </IonCol>
+
+                                    <IonCol size-sm="9" size-md="10" size-lg="4" style={{ marginTop: 16 }}>
+                                        <IonItem>
+                                            <IonLabel>Combustivel</IonLabel>
+                                            <IonSelect interface="popover" value={documento} onIonChange={(e) => setDocumento(e.detail.value)}>
+                                                {dadosApreensaoDocumento?.map((local: any) => {
+                                                    return (
+                                                        <IonSelectOption key={`${local.id}`}
+                                                            value={JSON.stringify(local)}>{`${local.descricao}`}</IonSelectOption>
+                                                    )
+                                                })}
+                                            </IonSelect>
+                                        </IonItem>
+                                    </IonCol>
+                                </IonRow>
+
+                                <IonRow>
+
+                                    <IonCol size-sm='12' size-md='10' size-lg='3'>
+                                        <IonItem>
+                                            <IonLabel position="floating" itemType="text" placeholder="Peso bruto (kg)">Peso bruto (kg)</IonLabel>
+                                            <IonInput value={numDocumento}
+                                                onKeyUp={keyup_numDocumento}
+
+                                            ></IonInput>
+                                        </IonItem>
+                                    </IonCol>
+
+                                    <IonCol size-sm='12' size-md='10' size-lg='3'>
+                                        <IonItem>
+                                            <IonLabel position="floating" itemType="text" placeholder="Taxa (kg)">Taxa (kg)</IonLabel>
+                                            <IonInput value={numDocumento}
+                                                onKeyUp={keyup_numDocumento}
+
+                                            ></IonInput>
+                                        </IonItem>
+                                    </IonCol>
+                                </IonRow>
+
+
+                                <IonRow>
+
+                                    <IonCol size-sm='12' size-md='10' size-lg='3'>
+                                        <IonItem>
+                                            <IonLabel position="floating" itemType="text" placeholder="Lotação">Lotação</IonLabel>
+                                            <IonInput value={numDocumento}
+                                                onKeyUp={keyup_numDocumento}
+
+                                            ></IonInput>
+                                        </IonItem>
+                                    </IonCol>
+
+                                    <IonCol size-sm='12' size-md='10' size-lg='3'>
+                                        <IonItem>
+                                            <IonLabel position="floating" itemType="text" placeholder="Cilindrada">Cilindrada</IonLabel>
+                                            <IonInput value={numDocumento}
+                                                onKeyUp={keyup_numDocumento}
+
+                                            ></IonInput>
+                                        </IonItem>
+                                    </IonCol>
+                                </IonRow>
+
+                                <IonRow>
+
+                                    <IonCol size-sm='12' size-md='10' size-lg='4'>
+                                        <IonItem>
+                                            <IonLabel position="floating" itemType="text" placeholder="Pneumáticos frente">Pneumáticos frente</IonLabel>
+                                            <IonInput value={numDocumento}
+                                                onKeyUp={keyup_numDocumento}
+
+                                            ></IonInput>
+                                        </IonItem>
+                                    </IonCol>
+
+                                    <IonCol size-sm='12' size-md='10' size-lg='4'>
+                                        <IonItem>
+                                            <IonLabel position="floating" itemType="text" placeholder="Pneumáticos retaguarda">Pneumáticos retaguarda</IonLabel>
+                                            <IonInput value={numDocumento}
+                                                onKeyUp={keyup_numDocumento}
+
+                                            ></IonInput>
+                                        </IonItem>
+                                    </IonCol>
+                                </IonRow>
+
+                                <IonRow style={{ marginTop: 16 }}>
+                                    <IonCol size='12'>
+                                        <IonListHeader>
+                                            <IonLabel>
+                                                A presente guia é válida
+                                            </IonLabel>
+                                        </IonListHeader>
+                                    </IonCol>
+                                    <IonCol size='3'>
+                                        <IonItem
+                                            lines='none'
+                                            className="infoAdicionais-domicilio-radio radio-item">
+                                            <IonRadio value="até ao dia" />
+                                            <IonLabel className="radioBox">até ao dia</IonLabel>
+                                        </IonItem>
+                                    </IonCol>
+                                    <IonCol size='6'>
+                                        <DatePicker inputName={'acoesComplementares-data'} textLabel="Data" setSelected={setDataHora}
+                                            selected={dataHora} />
+                                    </IonCol>
+                                </IonRow>
+
+                                <IonRow>
+                                    <IonCol size='12'>
+                                        <IonListHeader>
+                                            <IonLabel>
+                                                A presente guia é válida
+                                            </IonLabel>
+                                        </IonListHeader>
+                                    </IonCol>
+                                    <IonCol size='3'>
+                                        <IonItem
+                                            lines='none'
+                                            className="infoAdicionais-domicilio-radio radio-item">
+                                            <IonRadio value="até ao dia" />
+                                            <IonLabel className="radioBox">até ao local</IonLabel>
+                                        </IonItem>
+                                    </IonCol>
+                                    <IonCol size='6' style={{ marginTop: -16 }}>
+                                        <IonItem>
+                                            <IonLabel position="floating" itemType="text" placeholder="Número">Local</IonLabel>
+                                            <IonInput value={alcoolimetroNumero} onKeyUp={onkeyup_alcoolimetroNumero}></IonInput>
+                                        </IonItem>
+                                    </IonCol>
+                                </IonRow>
+                            </IonGrid>
+
+                        </IonCardContent>
+                    </IonCard>
+                    {/* Certificado de matrícula */}
+
+                    {/* Título de condução */}
+                    <IonCard style={{ margin: 30 }}>
+
+                        <IonCardHeader>
+                            <IonCardTitle>Título de condução</IonCardTitle>
+                        </IonCardHeader>
+
+                        <IonCardContent>
+                            <IonGrid>
+
+                                <IonRow>
+
+                                    <IonCol size-sm='12' size-md='12' size-lg='12' className="ion-margin-start">
+                                        <h2 style={{ fontWeight: 'bold' }}>, Carta de condução - -</h2>
+                                    </IonCol>
+
+                                    <IonCol size-sm='12' size-md='12' size-lg='6'>
+
+                                        <IonRadioGroup value={recusaTesteAlcool}
+                                            onIonChange={e => setRecusaTesteAlcool(e.detail.value)}>
+
+                                            <IonRow>
+                                                <IonCol size='12'>
+                                                    <IonListHeader>
+                                                        <IonLabel>
+                                                            Substituir? *
+                                                        </IonLabel>
+                                                    </IonListHeader>
+                                                </IonCol>
+                                                <IonCol size='6'>
+                                                    <IonItem
+                                                        lines='none'
+                                                        className="infoAdicionais-domicilio-radio radio-item">
+                                                        <IonRadio value="Sim" />
+                                                        <IonLabel className="radioBox">Sim</IonLabel>
+                                                    </IonItem>
+                                                </IonCol>
+                                                <IonCol size='6'>
+                                                    <IonItem
+                                                        lines='none'
+                                                        className="infoAdicionais-domicilio-radio radio-item">
+                                                        <IonRadio value="Não" />
+                                                        <IonLabel className="radioBox">Não</IonLabel>
+                                                    </IonItem>
+                                                </IonCol>
+                                            </IonRow>
+                                        </IonRadioGroup>
+                                    </IonCol>
+                                </IonRow>
+                                <IonRow>
+                                    <IonCol size-sm="9" size-md="10" size-lg="4" style={{ marginTop: 16 }}>
+                                        <IonItem>
+                                            <IonLabel>Documento *</IonLabel>
+                                            <IonSelect interface="popover" value={documento} onIonChange={(e) => setDocumento(e.detail.value)}>
+                                                {dadosApreensaoDocumento?.map((local: any) => {
+                                                    return (
+                                                        <IonSelectOption key={`${local.id}`}
+                                                            value={JSON.stringify(local)}>{`${local.descricao}`}</IonSelectOption>
+                                                    )
+                                                })}
+                                            </IonSelect>
+                                        </IonItem>
+                                    </IonCol>
+                                    <IonCol size-sm='12' size-md='10' size-lg='4' style={{ marginTop: 16 }}>
+                                        <IonItem
+                                            lines='none'
+                                            className="tituloCondutor-radio radio-item">
+                                            <IonCheckbox value="Grupo 2" />
+                                            <IonLabel className="radioBox">Grupo 2</IonLabel>
+                                        </IonItem>
+                                    </IonCol>
+                                    <IonCol size-sm='12' size-md='10' size-lg='4' style={{ marginTop: 16 }}>
+                                        <DatePicker inputName={'TituloConducao-dataEmissao'} textLabel="Data emissão" setSelected={setDataHora}
+                                            selected={dataHora} />
+                                    </IonCol>
+                                </IonRow>
+                                <IonRow>
+                                    <IonCol size-sm="9" size-md="10" size-lg="9" style={{ marginTop: 16 }}>
+                                        <IonItem>
+                                            <IonLabel>Documento *</IonLabel>
+                                            <IonSelect interface="popover" value={documento} onIonChange={(e) => setDocumento(e.detail.value)}>
+                                                {dadosApreensaoDocumento?.map((local: any) => {
+                                                    return (
+                                                        <IonSelectOption key={`${local.id}`}
+                                                            value={JSON.stringify(local)}>{`${local.descricao}`}</IonSelectOption>
+                                                    )
+                                                })}
+                                            </IonSelect>
+                                        </IonItem>
+                                    </IonCol>
+
+                                    <IonCol size-sm='12' size-md='10' size-lg='3' style={{ marginTop: 16 }}>
+                                        <IonItem lines='none'>
+                                            <IonButton style={{ background: '#084F87', borderRadius: 4 }}
+                                                color="#084F87"
+                                                slot="start"
+                                                size='default'
+                                                onClick={onClick_addAMotivoApreensao}> ADICIONAR </IonButton>
+
+                                        </IonItem>
+                                    </IonCol>
+                                </IonRow>
+                                <IonRow style={{ marginTop: 16 }}>
+                                    <IonCol size-sm='12' size-md='10' size-lg='12'>
+                                        <DataTable
+                                            columns={columnsTituloConducao}
+                                            data={dataTituloConducao}
+                                        />
+                                    </IonCol>
+                                </IonRow>
+
+                                <IonRow style={{ marginTop: 16 }}>
+                                    <IonCol size='12'>
+                                        <IonListHeader>
+                                            <IonLabel>
+                                                A presente guia é válida
+                                            </IonLabel>
+                                        </IonListHeader>
+                                    </IonCol>
+                                    <IonCol size='3'>
+                                        <IonItem
+                                            lines='none'
+                                            className="infoAdicionais-domicilio-radio radio-item">
+                                            <IonRadio value="até ao dia" />
+                                            <IonLabel className="radioBox">até ao dia</IonLabel>
+                                        </IonItem>
+                                    </IonCol>
+                                    <IonCol size='6'>
+                                        <DatePicker inputName={'acoesComplementares-data'} textLabel="Data" setSelected={setDataHora}
+                                            selected={dataHora} />
+                                    </IonCol>
+                                </IonRow>
+
+                                <IonRow>
+                                    <IonCol size='12'>
+                                        <IonListHeader>
+                                            <IonLabel>
+                                                A presente guia é válida
+                                            </IonLabel>
+                                        </IonListHeader>
+                                    </IonCol>
+                                    <IonCol size='3'>
+                                        <IonItem
+                                            lines='none'
+                                            className="infoAdicionais-domicilio-radio radio-item">
+                                            <IonRadio value="até ao dia" />
+                                            <IonLabel className="radioBox">até ao local</IonLabel>
+                                        </IonItem>
+                                    </IonCol>
+                                    <IonCol size='6' style={{ marginTop: -16 }}>
+                                        <IonItem>
+                                            <IonLabel position="floating" itemType="text" placeholder="Número">Local</IonLabel>
+                                            <IonInput value={alcoolimetroNumero} onKeyUp={onkeyup_alcoolimetroNumero}></IonInput>
+                                        </IonItem>
+                                    </IonCol>
+                                </IonRow>
+
+                                <IonRow>
+                                    <IonCol size-sm='12' size-md='12' size-lg='12'>
+                                        <IonItem lines="none">
+                                            <IonLabel position="stacked">Observações</IonLabel>
+                                            <IonTextarea
+                                                rows={6}
+                                                cols={10}
+                                                placeholder="">
+                                            </IonTextarea>
+                                        </IonItem>
+                                    </IonCol>
+                                </IonRow>
+
+                            </IonGrid>
+
+                        </IonCardContent>
+                    </IonCard>
+                    {/* Título de condução */}
                 </IonContent>
 
             </IonPopover>
