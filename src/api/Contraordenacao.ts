@@ -383,17 +383,17 @@ export class Contraordenacao {
     public carregarCombosInfracao(): Promise<any> {
         return new Promise((resolve, reject) => {
 
-            // if (!_.contains(getPlatforms(), 'desktop')) { // Load offline data
+            if (!_.contains(getPlatforms(), 'desktop')) { // Load offline data
 
-            //     const instanceOfflineData = new LoadOfflineData();
-            //     instanceOfflineData.fetch_combos('contraOrdenacao_carregarCombosApreensaoDocumentos'.toLowerCase()).then((data: any) => {
-            //         resolve(data);
-            //     }).catch((error: AxiosError) => {
-            //         reject(error);
-            //     })
+                const instanceOfflineData = new LoadOfflineData();
+                instanceOfflineData.fetch_combos('contraOrdenacao_carregarCombosInfracao'.toLowerCase()).then((data: any) => {
+                    resolve(data);
+                }).catch((error: AxiosError) => {
+                    reject(error);
+                })
 
-            // } 
-            // else { // Go to the internet for load data
+            } 
+            else { // Go to the internet for load data
             // carregarCombosInfracao
             const service_url = 'carregarCombosInfracao';
             this.connectGetAPI(`${this.prefix_url}/${service_url}`).then((response) => {
@@ -403,24 +403,24 @@ export class Contraordenacao {
                 reject(error);
             })
 
-            // }
+            }
         })
     }
 
     public carregarCombosUnidade(): Promise<any> {
         return new Promise((resolve, reject) => {
 
-            // if (!_.contains(getPlatforms(), 'desktop')) { // Load offline data
+            if (!_.contains(getPlatforms(), 'desktop')) { // Load offline data
 
-            //     const instanceOfflineData = new LoadOfflineData();
-            //     instanceOfflineData.fetch_combos('contraOrdenacao_carregarCombosApreensaoDocumentos'.toLowerCase()).then((data: any) => {
-            //         resolve(data);
-            //     }).catch((error: AxiosError) => {
-            //         reject(error);
-            //     })
+                const instanceOfflineData = new LoadOfflineData();
+                instanceOfflineData.fetch_combos('contraOrdenacao_carregarCombosUnidade'.toLowerCase()).then((data: any) => {
+                    resolve(data);
+                }).catch((error: AxiosError) => {
+                    reject(error);
+                })
 
-            // }
-            // else { // Go to the internet for load data
+            }
+            else { // Go to the internet for load data
 
             const service_url = 'carregarCombosUnidade';
             this.connectGetAPI(`${this.prefix_url}/${service_url}`).then((response) => {
@@ -430,7 +430,7 @@ export class Contraordenacao {
                 reject(error);
             })
 
-            // }
+            }
         })
     }
 
@@ -438,17 +438,17 @@ export class Contraordenacao {
     public carregarCombosLocalizacao(): Promise<any> {
         return new Promise((resolve, reject) => {
 
-            // if (!_.contains(getPlatforms(), 'desktop')) { // Load offline data
+            if (!_.contains(getPlatforms(), 'desktop')) { // Load offline data
 
-            //     const instanceOfflineData = new LoadOfflineData();
-            //     instanceOfflineData.fetch_combos('contraOrdenacao_carregarCombosApreensaoDocumentos'.toLowerCase()).then((data: any) => {
-            //         resolve(data);
-            //     }).catch((error: AxiosError) => {
-            //         reject(error);
-            //     })
+                const instanceOfflineData = new LoadOfflineData();
+                instanceOfflineData.fetch_combos('locais_carregarCombosLocal'.toLowerCase()).then((data: any) => {
+                    resolve(data);
+                }).catch((error: AxiosError) => {
+                    reject(error);
+                })
 
-            // }
-            // else { // Go to the internet for load data
+            }
+            else { // Go to the internet for load data
 
             const service_url = 'carregarCombosLocal';
             this.connectGetAPI(`${this.prefix_local_url}/${service_url}`).then((response) => {
@@ -458,24 +458,24 @@ export class Contraordenacao {
                 reject(error);
             })
 
-            // }
+            }
         })
     }
 
     public carregarComboLocalidades(idFreguesia: any): Promise<any> {
         return new Promise((resolve, reject) => {
 
-            // if (!_.contains(getPlatforms(), 'desktop')) { // Load offline data
+            if (!_.contains(getPlatforms(), 'desktop')) { // Load offline data
 
-            //     const instanceOfflineData = new LoadOfflineData();
-            //     instanceOfflineData.fetch_combos('contraOrdenacao_carregarCombosApreensaoDocumentos'.toLowerCase()).then((data: any) => {
-            //         resolve(data);
-            //     }).catch((error: AxiosError) => {
-            //         reject(error);
-            //     })
+                const instanceOfflineData = new LoadOfflineData();
+                instanceOfflineData.fetch_combos('dominio_carregarComboLocalidade'.toLowerCase()).then((data: any) => {
+                    resolve(data);
+                }).catch((error: AxiosError) => {
+                    reject(error);
+                })
 
-            // }
-            // else { // Go to the internet for load data
+            }
+            else { // Go to the internet for load data
 
             const service_url = 'carregarComboLocalidade';
             this.connectGetAPI(`${this.prefix_dominio_url}/${service_url}/${idFreguesia}`).then((response) => {
@@ -485,11 +485,35 @@ export class Contraordenacao {
                 reject(error);
             })
 
-            // }
+            }
         })
     }
 
+    public carregarCombosApreensaoVeiculos(): Promise<any> {
+        return new Promise((resolve, reject) => {
 
+            if (!_.contains(getPlatforms(), 'desktop')) { // Load offline data
+
+                const instanceOfflineData = new LoadOfflineData();
+                instanceOfflineData.fetch_combos('contraOrdenacao_carregarCombosApreensaoVeiculos'.toLowerCase()).then((data: any) => {
+                    resolve(data);
+                }).catch((error: AxiosError) => {
+                    reject(error);
+                })
+
+            } else { // Go to the internet for load data
+
+                const service_url = 'carregarCombosApreensaoVeiculos';
+                this.connectGetAPI(`${this.prefix_url}/${service_url}`).then((response) => {
+                    const data = response.data;
+                    resolve(data);
+                }).catch((error: AxiosError) => {
+                    reject(error);
+                })
+
+            }
+        })
+    }
 
 
 }
