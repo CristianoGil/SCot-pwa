@@ -10,6 +10,7 @@ import { CarregarCombosApreensaoDocumento, IComboApreensaoDocumento, MotivosApre
 import { IID_DESCRICAO } from "../../../../model/extendable";
 import CardListItem from "../../../CardListItem";
 import DatePicker from "../../../Combos/DatePicker";
+import InfraccoesAdicionais from "../InfraccoesAdicionais/InfraccoesAdicionais";
 import './AcoesComplementares.scss';
 
 interface IProps {
@@ -86,24 +87,21 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
     const [isSavedApresentacaoDocumento, setIsSavedApresentacaoDocumento] = useState(false);
 
     const columnsTituloConducao = [
-        {
-            name: 'Id',
-            selector: (row: { _id: any; }) => row._id,
-        },
+
         {
             name: 'Motivo',
-            selector: (row: { motivo: any; }) => row.motivo,
+            selector: (row: { descricao: any; }) => row.descricao,
         },
         {
             name: 'Ações',
-            cell: (row: { abreTipoDocumento: any }) => (
+            cell: (row: { id?: any }) => (
                 <>
-                    <IonButton onClick={() => { }} size="small" color="primary" >
-                        ABRIR
-                        <IonIcon slot="start" icon={open} />
-                    </IonButton>
+                    <IonButton onClick={() => {
 
-                    <IonButton onClick={() => { }} size="small" color="danger">
+                        setDocumentosSubstituirTituloConducao(documentosSubstituirTituloConducao.filter(m => { return m.id !== row.id }))
+
+
+                    }} size="small" color="danger">
                         EXCLUIR
                         <IonIcon slot="start" icon={trash} />
                     </IonButton>
@@ -112,14 +110,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
         },
     ];
 
-    const dataTituloConducao = [
-        {
-            id: 1,
-            _id: 'null',
-            motivo: 'null',
-            abreTipoDocumento: 'null',
-        },
-    ]
+    const dataTituloConducao: IID_DESCRICAO[] = []
 
     const handleButtonClick_EXCLUIR = (state: any) => {
         console.log('clicked (EXCLUIR)');
@@ -309,6 +300,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
     const carregarCombosApreensaoVeiculos = async (): Promise<any> => await new Contraordenacao().carregarCombosApreensaoVeiculos()
     const carregarCombosAutoBloqueamentoRemocaoVeiculos = async (): Promise<any> => await new Contraordenacao().carregarCombosAutoBloqueamentoRemocaoVeiculos()
     const carregarCombosPagamento = async (): Promise<any> => await new Contraordenacao().carregarCombosPagamento()
+    const carregarCombosSubstituicaoDocumentos = async (): Promise<any> => await new Contraordenacao().carregarCombosSubstituicaoDocumentos()
 
     interface CombosAlcoolResponse {
         marcaModelo: IID_DESCRICAO[],
@@ -482,56 +474,95 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
     const [dataProduzEfeitoApreensao, setDataProduzEfeitoApreensao] = useState("");
     const [isApreendidoDocumentos, setIsApreendidoDocumentos] = useState(false);
 
-// start auto bloqueamento veiculo 
-
- 
-const [houveBloquamento, setHouveBloqueamento] = useState(false);
-const [numeroBloqueamentoRemocaoVeiculo, setNumeroBloqueamentoRemocaoVeiculo] = useState('');
-const [legislacoesAssociadas, setLegislacoesAssociadas] = useState<IID_DESCRICAO[]>();
-const [legislacoesAssociadasRemocao, setLegislacoesAssociadasRemocao] = useState<IID_DESCRICAO[]>();
-const [legislacaoAssociadaBloqueamento, setLegislacaoAssociadaBloqueamento] = useState<any>();
-const [houveRemocao, setHouveRemocao] = useState(false);
-const [dataRemocao, setDataRemocao] = useState('');
-const [legislacaoAssociadaRemocao, setLegislacaoAssociadaRemocao] = useState<any>();
-const [localDestinoRemocao, setLocalDestinoRemocao] = useState('');
-const [motivoNaoRemocao, setMotivoNaoRemocao] = useState('');
-const [meiosPagamento, setMeiosPagamento] = useState<IID_DESCRICAO[]>();
-const [meioPagamento, setMeioPagamento] = useState<any>();
-const [numeroCheque, setNumeroCheque] = useState('');
-const [bancosEmissores, setBancosEmissores] = useState<IID_DESCRICAO[]>();
-const [bancoEmissor, setBancoEmissor] = useState<any>();
-const [valorBloqueamento, setValorBloqueamento] = useState(0);
-const [valorRemocao, setValorRemocao] = useState(0);
-const [valorTotalBloqueamentoRemocao, setValorTotalBloqueamentoRemocao] = useState(0);
-const [notaCobrancaManual, setNotaCobrancaManual] = useState('');
-
-// end auto bloqueamento veiculo 
-
-// apresentacao documento
-const [numeroApresentacaoDocumento, setNumeroApresentacaoDocumento] = useState('');
-const [isTituloConducao, setIsTituloConducao] = useState<boolean>();
-const [isCertificadoMatricula, setIsCertificadoMatricula] = useState<boolean>();
-const [isDocumentoInspecaoVeiculo, setIsDocumentoInspecaoVeiculo] = useState<boolean>();
-const [isCertificadoSeguroValidoVeiculo, setIsCertificadoSeguroValidoVeiculo] = useState<boolean>();
-const [isBilheteIdentidade, setIsBilheteIdentidade] = useState<boolean>();
-const [isCartaoCidadao, setIsCartaoCidadao] = useState<boolean>();
-const [isPassaporte, setIsPassaporte] = useState<boolean>();
-const [isTituloResidencia, setIsTituloResidencia] = useState<boolean>();
-const [isOutro, setIsOutro] = useState<boolean>();
-const [isInserirEmailEnvioDocumento, setIsInserirEmailEnvioDocumento] = useState<boolean>();
-const [isInserirNumeroProcessoReferenteObrigatoriedadeEntregaDocumento, setIsInserirNumeroProcessoReferenteObrigatoriedadeEntregaDocumento] = useState<boolean>();
-
-const [localApresentacaoEntrega, setLocalApresentacaoEntrega] = useState('');
-
-const [nomeProprietario, setNomeProprietario] = useState('');
-const [moradaProprietario, setMoradaProprietario] = useState('');
-const [documentoProprietario, setDocumentoProprietario] = useState<String>();
-const [numeroDocumentoProprietario, setNumeroDocumentoProprietario] = useState('');
-const [numeroDocumentoApresentacaoDocumento, setNumeroDocumentoApresentacaoDocumento] = useState('');
+    // start auto bloqueamento veiculo 
 
 
-// apresentacao documento 
+    const [houveBloquamento, setHouveBloqueamento] = useState(false);
+    const [numeroBloqueamentoRemocaoVeiculo, setNumeroBloqueamentoRemocaoVeiculo] = useState('');
+    const [legislacoesAssociadas, setLegislacoesAssociadas] = useState<IID_DESCRICAO[]>();
+    const [legislacoesAssociadasRemocao, setLegislacoesAssociadasRemocao] = useState<IID_DESCRICAO[]>();
+    const [legislacaoAssociadaBloqueamento, setLegislacaoAssociadaBloqueamento] = useState<any>();
+    const [houveRemocao, setHouveRemocao] = useState(false);
+    const [dataRemocao, setDataRemocao] = useState('');
+    const [legislacaoAssociadaRemocao, setLegislacaoAssociadaRemocao] = useState<any>();
+    const [localDestinoRemocao, setLocalDestinoRemocao] = useState('');
+    const [motivoNaoRemocao, setMotivoNaoRemocao] = useState('');
+    const [meiosPagamento, setMeiosPagamento] = useState<IID_DESCRICAO[]>();
+    const [meioPagamento, setMeioPagamento] = useState<any>();
+    const [numeroCheque, setNumeroCheque] = useState('');
+    const [bancosEmissores, setBancosEmissores] = useState<IID_DESCRICAO[]>();
+    const [bancoEmissor, setBancoEmissor] = useState<any>();
+    const [valorBloqueamento, setValorBloqueamento] = useState(0);
+    const [valorRemocao, setValorRemocao] = useState(0);
+    const [valorTotalBloqueamentoRemocao, setValorTotalBloqueamentoRemocao] = useState(0);
+    const [notaCobrancaManual, setNotaCobrancaManual] = useState('');
 
+    // end auto bloqueamento veiculo 
+
+    // apresentacao documento
+    const [numeroApresentacaoDocumento, setNumeroApresentacaoDocumento] = useState('');
+    const [isTituloConducao, setIsTituloConducao] = useState<boolean>();
+    const [isCertificadoMatricula, setIsCertificadoMatricula] = useState<boolean>();
+    const [isDocumentoInspecaoVeiculo, setIsDocumentoInspecaoVeiculo] = useState<boolean>();
+    const [isCertificadoSeguroValidoVeiculo, setIsCertificadoSeguroValidoVeiculo] = useState<boolean>();
+    const [isBilheteIdentidade, setIsBilheteIdentidade] = useState<boolean>();
+    const [isCartaoCidadao, setIsCartaoCidadao] = useState<boolean>();
+    const [isPassaporte, setIsPassaporte] = useState<boolean>();
+    const [isTituloResidencia, setIsTituloResidencia] = useState<boolean>();
+    const [isOutro, setIsOutro] = useState<boolean>();
+    const [isInserirEmailEnvioDocumento, setIsInserirEmailEnvioDocumento] = useState<boolean>();
+    const [isInserirNumeroProcessoReferenteObrigatoriedadeEntregaDocumento, setIsInserirNumeroProcessoReferenteObrigatoriedadeEntregaDocumento] = useState<boolean>();
+
+    const [localApresentacaoEntrega, setLocalApresentacaoEntrega] = useState('');
+
+    const [nomeProprietario, setNomeProprietario] = useState('');
+    const [moradaProprietario, setMoradaProprietario] = useState('');
+    const [documentoProprietario, setDocumentoProprietario] = useState<String>();
+    const [numeroDocumentoProprietario, setNumeroDocumentoProprietario] = useState('');
+    const [numeroDocumentoApresentacaoDocumento, setNumeroDocumentoApresentacaoDocumento] = useState('');
+
+
+    // apresentacao documento 
+
+
+    //Substituicao de Documentos
+    const [substituirCertificadoMatricula, setSubstituirCertificadoMatricula] = useState(false);
+    const [numeroSubstituicaoDocumento, setNumeroSubstituicaoDocumento] = useState('');
+    const [tipoDocumentoSubstituicao, setTipoDocumentoSubstituicao] = useState<any>();
+    const [tiposDocumentoSubstituicao, setTiposDocumentoSubstituicao] = useState<IID_DESCRICAO[]>();
+    const [numeroTipoDocumentoSubstituicao, setNumeroTipoDocumentoSubstituicao] = useState('');
+    const [numeroChassi, setNumeroChassi] = useState('');
+    const [combustivel, setCombustivel] = useState<any>();
+    const [combustiveis, setCombustiveis] = useState<IID_DESCRICAO[]>();
+    const [pesoBruto, setPesoBruto] = useState('');
+    const [taxa, setTaxa] = useState('');
+
+    const [lotacao, setLotacao] = useState('');
+    const [cilindrada, setCilidranda] = useState('');
+    const [pneumaticoFrente, setPneumaticoFrente] = useState('');
+    const [pneumaticoRetaguarda, setPneumaticoRetaguarda] = useState('');
+    const [ateDia, setAteDia] = useState(false);
+    const [dataGuia, setDataGuia] = useState('');
+    const [ateLocal, setLocal] = useState(false);
+    const [validadeLocal, setValidadeLocal] = useState('');
+
+
+    const [substituirCartaConducao, setSubstituirCartaConducao] = useState(false);
+    const [documentosCartaConducao, setDocumentosCartaConducao] = useState<IID_DESCRICAO[]>();
+    const [documentoCartaConducao, setDocumentoCartaConducao] = useState<any>();
+    const [grupo2, setGrupo2] = useState(false);
+    const [dataEmissao, setDataEmissao] = useState('');
+    const [documentosCombo, setDocumentosCombo] = useState<IID_DESCRICAO[]>();
+    const [documentoCombo, setDocumentoCombo] = useState<any>();
+    const [documentosSubstituirTituloConducao, setDocumentosSubstituirTituloConducao] = useState(dataTituloConducao);
+    const [dataValidadeGuia, setDataValidadeGuia] = useState('');
+    const [ateDiaGuia, setAteDiaGuia] = useState(false);
+
+    const [localValidadeGuia, setLocalValidadeGuia] = useState('');
+    const [observacaoSubstituicaoTituloConducao, setObservacaoSubstituicaoTituloConducao] = useState('');
+    const [ateDiaLocal, setAteDiaLocal] = useState(false);
+
+    //Substituicao de Documentos
     const [presentAlert, dismissAlert] = useIonAlert();
     const [presentOnLoanding, dismissOnLoanding] = useIonLoading();
 
@@ -591,44 +622,76 @@ const [numeroDocumentoApresentacaoDocumento, setNumeroDocumentoApresentacaoDocum
             // apreensao de veiculos
 
             // auto BloqueamentoRemocao
-            houveBloquamento:houveBloquamento,
-            numeroBloqueamentoRemocaoVeiculo:numeroBloqueamentoRemocaoVeiculo,
-            legislacaoAssociadaBloqueamento:legislacaoAssociadaBloqueamento,
-            houveRemocao:houveRemocao,
-            dataRemocao:dataRemocao,
-            localDestinoRemocao:localDestinoRemocao,
-            motivoNaoRemocao:motivoNaoRemocao,
-            meioPagamento:meioPagamento,
-            numeroCheque:numeroCheque,
-            bancoEmissor:bancoEmissor,
-            valorBloqueamento:valorBloqueamento,
-            valorRemocao:valorRemocao,
-            valorTotalBloqueamentoRemocao:valorTotalBloqueamentoRemocao,
-            notaCobrancaManual:notaCobrancaManual,
+            houveBloquamento: houveBloquamento,
+            houveRemocao: houveRemocao,
+            numeroBloqueamentoRemocaoVeiculo: numeroBloqueamentoRemocaoVeiculo,
+            legislacaoAssociadaBloqueamento: legislacaoAssociadaBloqueamento,
+            legislacaoAssociadaRemocao:legislacaoAssociadaRemocao,
+            dataRemocao: dataRemocao,
+            localDestinoRemocao: localDestinoRemocao,
+            motivoNaoRemocao: motivoNaoRemocao,
+            meioPagamento: meioPagamento,
+            numeroCheque: numeroCheque,
+            bancoEmissor: bancoEmissor,
+            valorBloqueamento: valorBloqueamento,
+            valorRemocao: valorRemocao,
+            valorTotalBloqueamentoRemocao: valorTotalBloqueamentoRemocao,
+            notaCobrancaManual: notaCobrancaManual,
 
             // auto BloqueamentoRemocao
 
 
             // apresentacao documento
-            numeroApresentacaoDocumento:numeroApresentacaoDocumento,
-            isTituloConducao:isTituloConducao,
-            isCertificadoMatricula:isCertificadoMatricula,
-            isDocumentoInspecaoVeiculo:isDocumentoInspecaoVeiculo,
-            isCertificadoSeguroValidoVeiculo:isCertificadoSeguroValidoVeiculo,
-            isBilheteIdentidade:isBilheteIdentidade,
-            isCartaoCidadao:isCartaoCidadao,
-            isPassaporte:isPassaporte,
-            isTituloResidencia:isTituloResidencia,
-            isOutro:isOutro,
-            isInserirEmailEnvioDocumento:isInserirEmailEnvioDocumento,
-            isInserirNumeroProcessoReferenteObrigatoriedadeEntregaDocumento:isInserirNumeroProcessoReferenteObrigatoriedadeEntregaDocumento,
-            localApresentacaoEntrega:localApresentacaoEntrega,
-            nomeProprietario:nomeProprietario,
-            documentoProprietario:documentoProprietario,
-            numeroDocumentoProprietario:numeroDocumentoProprietario,
-            numeroDocumentoApresentacaoDocumento:numeroDocumentoApresentacaoDocumento,
+            numeroApresentacaoDocumento: numeroApresentacaoDocumento,
+            isTituloConducao: isTituloConducao,
+            isCertificadoMatricula: isCertificadoMatricula,
+            isDocumentoInspecaoVeiculo: isDocumentoInspecaoVeiculo,
+            isCertificadoSeguroValidoVeiculo: isCertificadoSeguroValidoVeiculo,
+            isBilheteIdentidade: isBilheteIdentidade,
+            isCartaoCidadao: isCartaoCidadao,
+            isPassaporte: isPassaporte,
+            isTituloResidencia: isTituloResidencia,
+            isOutro: isOutro,
+            isInserirEmailEnvioDocumento: isInserirEmailEnvioDocumento,
+            isInserirNumeroProcessoReferenteObrigatoriedadeEntregaDocumento: isInserirNumeroProcessoReferenteObrigatoriedadeEntregaDocumento,
+            localApresentacaoEntrega: localApresentacaoEntrega,
+            nomeProprietario: nomeProprietario,
+            moradaProprietario:moradaProprietario,
+            documentoProprietario: documentoProprietario,
+            numeroDocumentoProprietario: numeroDocumentoProprietario,
+            numeroDocumentoApresentacaoDocumento: numeroDocumentoApresentacaoDocumento,
 
             // apresentacao documento
+
+            // substituicao de documentos
+            substituirCertificadoMatricula:substituirCertificadoMatricula,
+            numeroSubstituicaoDocumento:numeroSubstituicaoDocumento,
+            tipoDocumentoSubstituicao:tipoDocumentoSubstituicao,
+            numeroTipoDocumentoSubstituicao:numeroTipoDocumentoSubstituicao,
+            numeroChassi:numeroChassi,
+            combustivel:combustivel,
+            pesoBruto:pesoBruto,
+            taxa:taxa,
+            lotacao:lotacao,
+            cilindrada:cilindrada,
+            pneumaticoFrente:pneumaticoFrente,
+            pneumaticoRetaguarda:pneumaticoRetaguarda,
+            ateDia:ateDia,
+            dataGuia:dataGuia,
+            ateLocal:ateLocal,
+            validadeLocal:validadeLocal,
+            substituirCartaConducao:substituirCartaConducao,
+            documentoCartaConducao:documentoCartaConducao,
+            grupo2:grupo2,
+            dataEmissao:dataEmissao,
+            documentoCombo:documentoCombo,
+            documentosSubstituirTituloConducao:documentosSubstituirTituloConducao,
+            dataValidadeGuia:dataValidadeGuia,
+            ateDiaGuia:ateDiaGuia,
+            localValidadeGuia:localValidadeGuia,
+            observacaoSubstituicaoTituloConducao:observacaoSubstituicaoTituloConducao,
+            ateDiaLocal:ateDiaLocal,
+            // substituicao de documentos
 
             isFichaControlePreenchida: isFichaControlePreenchida,
             tipoDeFichaControlador: tipoDeFichaControlador,
@@ -652,7 +715,7 @@ const [numeroDocumentoApresentacaoDocumento, setNumeroDocumentoApresentacaoDocum
         }
 
         props.setAccoesComplementaresParentData(data);
-    }, [numeroApresentacaoDocumento,isTituloConducao,isCertificadoMatricula,isDocumentoInspecaoVeiculo,isCertificadoSeguroValidoVeiculo,isBilheteIdentidade,isCartaoCidadao,isPassaporte,isTituloResidencia,isOutro,isInserirEmailEnvioDocumento,isInserirNumeroProcessoReferenteObrigatoriedadeEntregaDocumento,localApresentacaoEntrega,nomeProprietario,moradaProprietario,documentoProprietario,numeroDocumentoProprietario,numeroDocumentoApresentacaoDocumento,notaCobrancaManual,valorTotalBloqueamentoRemocao,valorRemocao,valorBloqueamento,bancoEmissor,numeroCheque,meioPagamento,motivoNaoRemocao,localDestinoRemocao,legislacaoAssociadaRemocao,dataRemocao,houveRemocao,legislacaoAssociadaBloqueamento,houveBloquamento,numeroBloqueamentoRemocaoVeiculo,motivosApreensao, tamanhoMotivoApreensao, documentosApreendidos, numDocumento, dataHora, localApresentacao, levantarDocsDiaUtilLocal, regularSituacaoLocal, camaraMunicipal, tituloConducao, diaPagamento, sancaoAplicada, numeroDocumento, isFichaControlePreenchida, tipoDeFichaControlador, circunstanciaExameAlcool, circunstanciaExameEstupefacientes, recusaTesteEstupifaciente, recusaTesteAlcool, tipoTesteAlcool, anfetaminas, canabis, cocaina, metanfetaminas, opio, tipoTesteEstupifaciente, alcoolimetroMarca, alcoolimetroSerie, alcoolimetroTipoVerificacao, alcoolimetroNumero, alcoolimetroDataHoraInfracao, alcoolimetroNumeroTalao, alcoolimetroValorRegistado, alcoolimetroValorApurado])
+    }, [moradaProprietario,numeroApresentacaoDocumento, isTituloConducao, isCertificadoMatricula, isDocumentoInspecaoVeiculo, isCertificadoSeguroValidoVeiculo, isBilheteIdentidade, isCartaoCidadao, isPassaporte, isTituloResidencia, isOutro, isInserirEmailEnvioDocumento, isInserirNumeroProcessoReferenteObrigatoriedadeEntregaDocumento, localApresentacaoEntrega, nomeProprietario, moradaProprietario, documentoProprietario, numeroDocumentoProprietario, numeroDocumentoApresentacaoDocumento, notaCobrancaManual, valorTotalBloqueamentoRemocao, valorRemocao, valorBloqueamento, bancoEmissor, numeroCheque, meioPagamento, motivoNaoRemocao, localDestinoRemocao, legislacaoAssociadaRemocao, dataRemocao, houveRemocao, legislacaoAssociadaBloqueamento, houveBloquamento, numeroBloqueamentoRemocaoVeiculo, motivosApreensao, tamanhoMotivoApreensao, documentosApreendidos, numDocumento, dataHora, localApresentacao, levantarDocsDiaUtilLocal, regularSituacaoLocal, camaraMunicipal, tituloConducao, diaPagamento, sancaoAplicada, numeroDocumento, isFichaControlePreenchida, tipoDeFichaControlador, circunstanciaExameAlcool, circunstanciaExameEstupefacientes, recusaTesteEstupifaciente, recusaTesteAlcool, tipoTesteAlcool, anfetaminas, canabis, cocaina, metanfetaminas, opio, tipoTesteEstupifaciente, alcoolimetroMarca, alcoolimetroSerie, alcoolimetroTipoVerificacao, alcoolimetroNumero, alcoolimetroDataHoraInfracao, alcoolimetroNumeroTalao, alcoolimetroValorRegistado, alcoolimetroValorApurado,numeroChassi,combustivel,pesoBruto,taxa,lotacao,cilindrada,pneumaticoFrente,pneumaticoRetaguarda,ateDia,dataGuia,ateLocal,validadeLocal,substituirCartaConducao,documentoCartaConducao,grupo2,dataEmissao,documentoCombo,documentosSubstituirTituloConducao,dataValidadeGuia,ateDiaGuia,localValidadeGuia,observacaoSubstituicaoTituloConducao,ateDiaLocal,substituirCertificadoMatricula,numeroSubstituicaoDocumento,tipoDocumentoSubstituicao,numeroTipoDocumentoSubstituicao])
 
     // CarregarCombosApreensaoDocumento
     React.useEffect(() => {
@@ -688,17 +751,24 @@ const [numeroDocumentoApresentacaoDocumento, setNumeroDocumentoApresentacaoDocum
         carregarCombosAutoBloqueamentoRemocaoVeiculos().then((autobloqueioVeiculos) => {
             setLegislacoesAssociadas(autobloqueioVeiculos?.legislacoesAssociadas)
             setLegislacoesAssociadasRemocao(autobloqueioVeiculos?.legislacoesAssociadasRemocao)
-        
+
         }).catch((error) => {
             console.error("Load auto bloqueamento combos: \n", error);
         })
 
-          carregarCombosPagamento().then((pagamentos) => {
+        carregarCombosPagamento().then((pagamentos) => {
             setBancosEmissores(pagamentos?.bancosEmissores)
             setMeiosPagamento(pagamentos?.meiosPagamento)
-        
+
         }).catch((error) => {
             console.error("Load auto bloqueamento combos: \n", error);
+        })
+        carregarCombosSubstituicaoDocumentos().then((substituicao_res) => {
+            setCombustiveis(substituicao_res?.combustiveis)
+            setTiposDocumentoSubstituicao(substituicao_res?.tiposDocumento)
+            // setCategoriasSubstituicaoDocumento(substituicao_res?.categorias)
+        }).catch((error) => {
+            console.error("Load substituicaoDocumento combos: \n", error);
         })
 
 
@@ -827,77 +897,170 @@ const [numeroDocumentoApresentacaoDocumento, setNumeroDocumentoApresentacaoDocum
         setNumeroDocumentoAccaoAssoc(e.target.value)
     }
 
-    
-    
+
+
     // end Apreensao Veiculo states and functions
-    
-    
+
+
     // start auto bloqueamento 
-   
+
 
     const onKeyup_numeroBloqueamentoRemocaoViatura = (e: any) => {
-       setNumeroBloqueamentoRemocaoVeiculo(e.target.value)
-       }  
-       
-       const onKeyup_localDestinoRemocao = (e: any) => {
+        setNumeroBloqueamentoRemocaoVeiculo(e.target.value)
+    }
+
+    const onKeyup_localDestinoRemocao = (e: any) => {
         setLocalDestinoRemocao(e.target.value)
-       }
-       const onkeyup_motivoNaoRemocao = (e: any) => {
+    }
+    const onkeyup_motivoNaoRemocao = (e: any) => {
         setMotivoNaoRemocao(e.target.value)
-       }
+    }
 
- const onKeyup_numeroCheque = (e: any) => {
-    setNumeroCheque(e.target.value)
-       }
+    const onKeyup_numeroCheque = (e: any) => {
+        setNumeroCheque(e.target.value)
+    }
 
-        const onkeyup_valorBloqueamento = (e: any) => {
-            setValorBloqueamento(e.target.value)
-            setValorTotalBloqueamentoRemocao(+valorRemocao + +valorBloqueamento)
+    const onkeyup_valorBloqueamento = (e: any) => {
+        setValorBloqueamento(e.target.value)
+        setValorTotalBloqueamentoRemocao(+valorRemocao + +valorBloqueamento)
 
-       }
+    }
 
- const onkeyup_valorRemocao = (e: any) => {
-            setValorRemocao(e.target.value)
+    const onkeyup_valorRemocao = (e: any) => {
+        setValorRemocao(e.target.value)
 
-          
-            setValorTotalBloqueamentoRemocao(+valorRemocao + +valorBloqueamento)
-           
-       }
 
-       const onkeyup_notaCobrancaManual = (e: any) => {
+        setValorTotalBloqueamentoRemocao(+valorRemocao + +valorBloqueamento)
+
+    }
+
+    const onkeyup_notaCobrancaManual = (e: any) => {
         setNotaCobrancaManual(e.target.value)
-           }
+    }
 
     // end auto bloqueamento 
-     
-//start Apresentacao do documento
 
-const onkeyup_numeroApresentacaoDocumento =(e:any)=>{
-    setNumeroApresentacaoDocumento(e.target.value)
+    //start Apresentacao do documento
 
-}
-const onkeyup_nomeProprietario =(e:any)=>{
-    setNomeProprietario(e.target.value)
+    const onkeyup_numeroApresentacaoDocumento = (e: any) => {
+        setNumeroApresentacaoDocumento(e.target.value)
 
-}
-const onkeyup_moradaProprietario =(e:any)=>{
-    setMoradaProprietario(e.target.value)
+    }
+    const onkeyup_nomeProprietario = (e: any) => {
+        setNomeProprietario(e.target.value)
 
-}
-const onkeyup_numeroDocumentoProprietario =(e:any)=>{
-    setNumeroDocumentoProprietario(e.target.value)
+    }
+    const onkeyup_moradaProprietario = (e: any) => {
+        setMoradaProprietario(e.target.value)
 
-}
-const onkeyup_localApresentacaoEntrega =(e:any)=>{
-    setLocalApresentacaoEntrega(e.target.value)
+    }
+    const onkeyup_numeroDocumentoProprietario = (e: any) => {
+        setNumeroDocumentoProprietario(e.target.value)
 
-}
+    }
+    const onkeyup_localApresentacaoEntrega = (e: any) => {
+        setLocalApresentacaoEntrega(e.target.value)
 
-const onkeyup_numeroDocumentoApresentacaoDocumento =(e:any)=>{
-    setNumeroDocumentoApresentacaoDocumento(e.target.value)
+    }
 
-}
-// end Apresentacao do documento
+    const onkeyup_numeroDocumentoApresentacaoDocumento = (e: any) => {
+        setNumeroDocumentoApresentacaoDocumento(e.target.value)
+
+    }
+    // end Apresentacao do documento
+    // start substituicao de documento 
+
+    const onkeyup_numeroSubstituicaoDocumento = (e: any) => {
+        setNumeroSubstituicaoDocumento(e.target.value)
+
+    }
+    const onkeyup_numeroTipoDocumentoSubstituicao = (e: any) => {
+        setNumeroTipoDocumentoSubstituicao(e.target.value)
+
+    }
+    const onkeyup_numeroChassi = (e: any) => {
+        setNumeroChassi(e.target.value)
+
+    }
+
+    const onkeyup_pesoBruto = (e: any) => {
+        setPesoBruto(e.target.value)
+
+    }
+    const onkeyup_lotacao = (e: any) => {
+        setLotacao(e.target.value)
+
+    }
+    const onkeyup_cilidranda = (e: any) => {
+        setCilidranda(e.target.value)
+
+    }
+    const onkeyup_taxa = (e: any) => {
+        setTaxa(e.target.value)
+
+    }
+    const onkeyup_pneumaticoFrente = (e: any) => {
+        setPneumaticoFrente(e.target.value)
+
+    }
+    const onkeyup_pneumaticoRetaguarda = (e: any) => {
+        setPneumaticoRetaguarda(e.target.value)
+
+    }
+    const onChange_ateDia = (e: any) => {
+        setAteDia(e.target.value)
+    }
+    const onChange_ateLocal = (e: any) => {
+        setLocal(e.target.value)
+    }
+
+    const onkeyup_validadeLocal = (e: any) => {
+        setValidadeLocal(e.target.value)
+
+    }
+
+    //titulo conducao
+
+
+    const onChange_grupo2 = (e: any) => {
+        setGrupo2(e.target.value)
+    }
+    const onChange_ateDiaLocal = (e: any) => {
+        setAteDiaLocal(e.target.value)
+    }
+    const onChange_ateDiaGuia = (e: any) => {
+        setAteDiaGuia(e.target.value)
+    }
+
+    const onClick_addDocumentoSubstituicao = () => {
+
+
+        if (documentosSubstituirTituloConducao?.find(doc => documentoCombo.id === doc.id)) {
+            presentAlert({
+                header: 'Error!',
+                message: 'documento já adicionado!\n',
+                buttons: [
+                    { text: 'Fechar' },
+                ]
+            })
+        } else {
+
+            setDocumentosSubstituirTituloConducao([...documentosSubstituirTituloConducao, documentoCombo])
+
+        }
+
+
+
+    }
+    const onkeyup_localValidadeGuia = (e: any) => {
+        setLocalValidadeGuia(e.target.value)
+
+    }
+    const onkeyup_observacaoSubstituicaoTituloConducao = (e: any) => {
+        setObservacaoSubstituicaoTituloConducao(e.target.value)
+
+    }
+    // end substituicao de documento  
 
     return (
 
@@ -1752,7 +1915,7 @@ const onkeyup_numeroDocumentoApresentacaoDocumento =(e:any)=>{
                                 setIsSavedBloqueamento(true)
                                 setOpenPopoverBloqueamento_RemocaoVeiculoData(false);
 
-                             }}
+                            }}
                         >
                             EMITIR
                         </IonButton>
@@ -1952,7 +2115,7 @@ const onkeyup_numeroDocumentoApresentacaoDocumento =(e:any)=>{
                                     <IonCol size-sm='12' size-md='12' size-lg='4' style={{ marginTop: 16 }}>
                                         <IonItem>
                                             <IonLabel>Meio pagamento</IonLabel>
-                                            <IonSelect interface="popover" value={meioPagamento}  onIonChange={e => setMeioPagamento(e.detail.value)}>
+                                            <IonSelect interface="popover" value={meioPagamento} onIonChange={e => setMeioPagamento(e.detail.value)}>
                                                 {meiosPagamento?.map((local: any) => {
                                                     return (
                                                         <IonSelectOption key={`${local.id}`}
@@ -1973,7 +2136,7 @@ const onkeyup_numeroDocumentoApresentacaoDocumento =(e:any)=>{
                                     <IonCol size-sm='12' size-md='12' size-lg='4' style={{ marginTop: 16 }}>
                                         <IonItem>
                                             <IonLabel>Banco emissor</IonLabel>
-                                            <IonSelect interface="popover" value={bancoEmissor}  onIonChange={e => setBancoEmissor(e.detail.value)}>
+                                            <IonSelect interface="popover" value={bancoEmissor} onIonChange={e => setBancoEmissor(e.detail.value)}>
                                                 {bancosEmissores?.map((local: any) => {
                                                     return (
                                                         <IonSelectOption key={`${local.id}`}
@@ -2040,7 +2203,11 @@ const onkeyup_numeroDocumentoApresentacaoDocumento =(e:any)=>{
                         </IonLabel>
 
                         <IonButton className="" fill="outline" color="primary" slot="end"
-                            onClick={() => { }}
+                            onClick={() => {
+                                setIsSubstituicao(true)
+                                setOpenPopoverSubstituicaoDocumentosData(false)
+
+                            }}
                         >
                             EMITIR
                         </IonButton>
@@ -2078,8 +2245,8 @@ const onkeyup_numeroDocumentoApresentacaoDocumento =(e:any)=>{
 
                                     <IonCol size-sm='12' size-md='12' size-lg='6'>
 
-                                        <IonRadioGroup value={recusaTesteAlcool}
-                                            onIonChange={e => setRecusaTesteAlcool(e.detail.value)}>
+                                        <IonRadioGroup value={substituirCertificadoMatricula}
+                                            onIonChange={e => setSubstituirCertificadoMatricula(e.detail.value)}>
 
                                             <IonRow>
                                                 <IonCol size='12'>
@@ -2111,7 +2278,7 @@ const onkeyup_numeroDocumentoApresentacaoDocumento =(e:any)=>{
                                     <IonCol size-sm='12' size-md='12' size-lg='6' style={{ marginTop: 32 }}>
                                         <IonItem>
                                             <IonLabel position="floating" itemType="text" placeholder="N° da substituição de documentos">N° da substituição de documentos *</IonLabel>
-                                            <IonInput></IonInput>
+                                            <IonInput value={numeroSubstituicaoDocumento} onKeyUp={onkeyup_numeroSubstituicaoDocumento}></IonInput>
                                         </IonItem>
                                     </IonCol>
                                 </IonRow>
@@ -2119,11 +2286,11 @@ const onkeyup_numeroDocumentoApresentacaoDocumento =(e:any)=>{
                                     <IonCol size-sm="9" size-md="10" size-lg="6" style={{ marginTop: 16 }}>
                                         <IonItem>
                                             <IonLabel>Tipo de documento *</IonLabel>
-                                            <IonSelect interface="popover" value={documento} onIonChange={(e) => setDocumento(e.detail.value)}>
-                                                {dadosApreensaoDocumento?.map((local: any) => {
+                                            <IonSelect interface="popover" value={tipoDocumentoSubstituicao} onIonChange={(e) => setTipoDocumentoSubstituicao(e.detail.value)}>
+                                                {tiposDocumentoSubstituicao?.map((local: any) => {
                                                     return (
                                                         <IonSelectOption key={`${local.id}`}
-                                                            value={JSON.stringify(local)}>{`${local.descricao}`}</IonSelectOption>
+                                                            value={local}>{`${local.descricao}`}</IonSelectOption>
                                                     )
                                                 })}
                                             </IonSelect>
@@ -2132,8 +2299,8 @@ const onkeyup_numeroDocumentoApresentacaoDocumento =(e:any)=>{
                                     <IonCol size-sm='12' size-md='10' size-lg='4'>
                                         <IonItem>
                                             <IonLabel position="floating" itemType="text" placeholder="Nome infringida">Número</IonLabel>
-                                            <IonInput value={numDocumento}
-                                                onKeyUp={keyup_numDocumento}
+                                            <IonInput value={numeroTipoDocumentoSubstituicao}
+                                                onKeyUp={onkeyup_numeroTipoDocumentoSubstituicao}
 
                                             ></IonInput>
                                         </IonItem>
@@ -2145,8 +2312,8 @@ const onkeyup_numeroDocumentoApresentacaoDocumento =(e:any)=>{
                                     <IonCol size-sm='12' size-md='10' size-lg='3'>
                                         <IonItem>
                                             <IonLabel position="floating" itemType="text" placeholder="Número chassi">Número chassi</IonLabel>
-                                            <IonInput value={numDocumento}
-                                                onKeyUp={keyup_numDocumento}
+                                            <IonInput value={numeroChassi}
+                                                onKeyUp={onkeyup_numeroChassi}
 
                                             ></IonInput>
                                         </IonItem>
@@ -2155,11 +2322,11 @@ const onkeyup_numeroDocumentoApresentacaoDocumento =(e:any)=>{
                                     <IonCol size-sm="9" size-md="10" size-lg="4" style={{ marginTop: 16 }}>
                                         <IonItem>
                                             <IonLabel>Combustivel</IonLabel>
-                                            <IonSelect interface="popover" value={documento} onIonChange={(e) => setDocumento(e.detail.value)}>
-                                                {dadosApreensaoDocumento?.map((local: any) => {
+                                            <IonSelect interface="popover" value={combustivel} onIonChange={(e) => setCombustivel(e.detail.value)}>
+                                                {combustiveis?.map((local: any) => {
                                                     return (
                                                         <IonSelectOption key={`${local.id}`}
-                                                            value={JSON.stringify(local)}>{`${local.descricao}`}</IonSelectOption>
+                                                            value={local}>{`${local.descricao}`}</IonSelectOption>
                                                     )
                                                 })}
                                             </IonSelect>
@@ -2172,8 +2339,8 @@ const onkeyup_numeroDocumentoApresentacaoDocumento =(e:any)=>{
                                     <IonCol size-sm='12' size-md='10' size-lg='3'>
                                         <IonItem>
                                             <IonLabel position="floating" itemType="text" placeholder="Peso bruto (kg)">Peso bruto (kg)</IonLabel>
-                                            <IonInput value={numDocumento}
-                                                onKeyUp={keyup_numDocumento}
+                                            <IonInput value={pesoBruto}
+                                                onKeyUp={onkeyup_pesoBruto}
 
                                             ></IonInput>
                                         </IonItem>
@@ -2182,8 +2349,8 @@ const onkeyup_numeroDocumentoApresentacaoDocumento =(e:any)=>{
                                     <IonCol size-sm='12' size-md='10' size-lg='3'>
                                         <IonItem>
                                             <IonLabel position="floating" itemType="text" placeholder="Taxa (kg)">Taxa (kg)</IonLabel>
-                                            <IonInput value={numDocumento}
-                                                onKeyUp={keyup_numDocumento}
+                                            <IonInput value={taxa}
+                                                onKeyUp={onkeyup_taxa}
 
                                             ></IonInput>
                                         </IonItem>
@@ -2196,8 +2363,8 @@ const onkeyup_numeroDocumentoApresentacaoDocumento =(e:any)=>{
                                     <IonCol size-sm='12' size-md='10' size-lg='3'>
                                         <IonItem>
                                             <IonLabel position="floating" itemType="text" placeholder="Lotação">Lotação</IonLabel>
-                                            <IonInput value={numDocumento}
-                                                onKeyUp={keyup_numDocumento}
+                                            <IonInput value={lotacao}
+                                                onKeyUp={onkeyup_lotacao}
 
                                             ></IonInput>
                                         </IonItem>
@@ -2206,8 +2373,8 @@ const onkeyup_numeroDocumentoApresentacaoDocumento =(e:any)=>{
                                     <IonCol size-sm='12' size-md='10' size-lg='3'>
                                         <IonItem>
                                             <IonLabel position="floating" itemType="text" placeholder="Cilindrada">Cilindrada</IonLabel>
-                                            <IonInput value={numDocumento}
-                                                onKeyUp={keyup_numDocumento}
+                                            <IonInput value={cilindrada}
+                                                onKeyUp={onkeyup_cilidranda}
 
                                             ></IonInput>
                                         </IonItem>
@@ -2219,8 +2386,8 @@ const onkeyup_numeroDocumentoApresentacaoDocumento =(e:any)=>{
                                     <IonCol size-sm='12' size-md='10' size-lg='4'>
                                         <IonItem>
                                             <IonLabel position="floating" itemType="text" placeholder="Pneumáticos frente">Pneumáticos frente</IonLabel>
-                                            <IonInput value={numDocumento}
-                                                onKeyUp={keyup_numDocumento}
+                                            <IonInput value={pneumaticoFrente}
+                                                onKeyUp={onkeyup_pneumaticoFrente}
 
                                             ></IonInput>
                                         </IonItem>
@@ -2229,8 +2396,8 @@ const onkeyup_numeroDocumentoApresentacaoDocumento =(e:any)=>{
                                     <IonCol size-sm='12' size-md='10' size-lg='4'>
                                         <IonItem>
                                             <IonLabel position="floating" itemType="text" placeholder="Pneumáticos retaguarda">Pneumáticos retaguarda</IonLabel>
-                                            <IonInput value={numDocumento}
-                                                onKeyUp={keyup_numDocumento}
+                                            <IonInput value={pneumaticoRetaguarda}
+                                                onKeyUp={onkeyup_pneumaticoRetaguarda}
 
                                             ></IonInput>
                                         </IonItem>
@@ -2249,13 +2416,13 @@ const onkeyup_numeroDocumentoApresentacaoDocumento =(e:any)=>{
                                         <IonItem
                                             lines='none'
                                             className="infoAdicionais-domicilio-radio radio-item">
-                                            <IonRadio value="até ao dia" />
+                                            <IonRadio value={ateDia} onChange={onChange_ateDia} />
                                             <IonLabel className="radioBox">até ao dia</IonLabel>
                                         </IonItem>
                                     </IonCol>
                                     <IonCol size='6'>
-                                        <DatePicker inputName={'acoesComplementares-data'} textLabel="Data" setSelected={setDataHora}
-                                            selected={dataHora} />
+                                        <DatePicker inputName={'acoesComplementares-data'} textLabel="Data" setSelected={setDataGuia}
+                                            selected={dataGuia} />
                                     </IonCol>
                                 </IonRow>
 
@@ -2271,14 +2438,14 @@ const onkeyup_numeroDocumentoApresentacaoDocumento =(e:any)=>{
                                         <IonItem
                                             lines='none'
                                             className="infoAdicionais-domicilio-radio radio-item">
-                                            <IonRadio value="até ao dia" />
+                                            <IonRadio value={ateLocal} onChange={onChange_ateLocal} />
                                             <IonLabel className="radioBox">até ao local</IonLabel>
                                         </IonItem>
                                     </IonCol>
                                     <IonCol size='6' style={{ marginTop: -16 }}>
                                         <IonItem>
                                             <IonLabel position="floating" itemType="text" placeholder="Número">Local</IonLabel>
-                                            <IonInput value={alcoolimetroNumero} onKeyUp={onkeyup_alcoolimetroNumero}></IonInput>
+                                            <IonInput value={validadeLocal} onKeyUp={onkeyup_validadeLocal}></IonInput>
                                         </IonItem>
                                     </IonCol>
                                 </IonRow>
@@ -2306,8 +2473,8 @@ const onkeyup_numeroDocumentoApresentacaoDocumento =(e:any)=>{
 
                                     <IonCol size-sm='12' size-md='12' size-lg='6'>
 
-                                        <IonRadioGroup value={recusaTesteAlcool}
-                                            onIonChange={e => setRecusaTesteAlcool(e.detail.value)}>
+                                        <IonRadioGroup value={substituirCartaConducao}
+                                            onIonChange={e => setSubstituirCartaConducao(e.detail.value)}>
 
                                             <IonRow>
                                                 <IonCol size='12'>
@@ -2341,11 +2508,11 @@ const onkeyup_numeroDocumentoApresentacaoDocumento =(e:any)=>{
                                     <IonCol size-sm="9" size-md="10" size-lg="4" style={{ marginTop: 16 }}>
                                         <IonItem>
                                             <IonLabel>Documento *</IonLabel>
-                                            <IonSelect interface="popover" value={documento} onIonChange={(e) => setDocumento(e.detail.value)}>
-                                                {dadosApreensaoDocumento?.map((local: any) => {
+                                            <IonSelect interface="popover" value={documentoCartaConducao} onIonChange={(e) => setDocumentoCartaConducao(e.detail.value)}>
+                                                {tiposDocumentoSubstituicao?.map((local: any) => {
                                                     return (
                                                         <IonSelectOption key={`${local.id}`}
-                                                            value={JSON.stringify(local)}>{`${local.descricao}`}</IonSelectOption>
+                                                            value={local}>{`${local.descricao}`}</IonSelectOption>
                                                     )
                                                 })}
                                             </IonSelect>
@@ -2355,24 +2522,24 @@ const onkeyup_numeroDocumentoApresentacaoDocumento =(e:any)=>{
                                         <IonItem
                                             lines='none'
                                             className="tituloCondutor-radio radio-item">
-                                            <IonCheckbox value="Grupo 2" />
+                                            <IonCheckbox value={grupo2} onChange={onChange_grupo2} />
                                             <IonLabel className="radioBox">Grupo 2</IonLabel>
                                         </IonItem>
                                     </IonCol>
                                     <IonCol size-sm='12' size-md='10' size-lg='4' style={{ marginTop: 16 }}>
-                                        <DatePicker inputName={'TituloConducao-dataEmissao'} textLabel="Data emissão" setSelected={setDataHora}
-                                            selected={dataHora} />
+                                        <DatePicker inputName={'TituloConducao-dataEmissao'} textLabel="Data emissão" setSelected={setDataEmissao}
+                                            selected={dataEmissao} />
                                     </IonCol>
                                 </IonRow>
                                 <IonRow>
                                     <IonCol size-sm="9" size-md="10" size-lg="9" style={{ marginTop: 16 }}>
                                         <IonItem>
                                             <IonLabel>Documento *</IonLabel>
-                                            <IonSelect interface="popover" value={documento} onIonChange={(e) => setDocumento(e.detail.value)}>
-                                                {dadosApreensaoDocumento?.map((local: any) => {
+                                            <IonSelect interface="popover" value={documentoCombo} onIonChange={(e) => setDocumentoCombo(e.detail.value)}>
+                                                {tiposDocumentoSubstituicao?.map((local: any) => {
                                                     return (
                                                         <IonSelectOption key={`${local.id}`}
-                                                            value={JSON.stringify(local)}>{`${local.descricao}`}</IonSelectOption>
+                                                            value={local}>{`${local.descricao}`}</IonSelectOption>
                                                     )
                                                 })}
                                             </IonSelect>
@@ -2385,7 +2552,7 @@ const onkeyup_numeroDocumentoApresentacaoDocumento =(e:any)=>{
                                                 color="#084F87"
                                                 slot="start"
                                                 size='default'
-                                                onClick={onClick_addAMotivoApreensao}> ADICIONAR </IonButton>
+                                                onClick={onClick_addDocumentoSubstituicao}> ADICIONAR </IonButton>
 
                                         </IonItem>
                                     </IonCol>
@@ -2394,7 +2561,7 @@ const onkeyup_numeroDocumentoApresentacaoDocumento =(e:any)=>{
                                     <IonCol size-sm='12' size-md='10' size-lg='12'>
                                         <DataTable
                                             columns={columnsTituloConducao}
-                                            data={dataTituloConducao}
+                                            data={documentosSubstituirTituloConducao}
                                         />
                                     </IonCol>
                                 </IonRow>
@@ -2411,13 +2578,13 @@ const onkeyup_numeroDocumentoApresentacaoDocumento =(e:any)=>{
                                         <IonItem
                                             lines='none'
                                             className="infoAdicionais-domicilio-radio radio-item">
-                                            <IonRadio value="até ao dia" />
+                                            <IonRadio value={ateDiaGuia} onChange={onChange_ateDiaGuia} />
                                             <IonLabel className="radioBox">até ao dia</IonLabel>
                                         </IonItem>
                                     </IonCol>
                                     <IonCol size='6'>
-                                        <DatePicker inputName={'acoesComplementares-data'} textLabel="Data" setSelected={setDataHora}
-                                            selected={dataHora} />
+                                        <DatePicker inputName={'acoesComplementares-data'} textLabel="Data" setSelected={setDataValidadeGuia}
+                                            selected={dataValidadeGuia} />
                                     </IonCol>
                                 </IonRow>
 
@@ -2433,14 +2600,14 @@ const onkeyup_numeroDocumentoApresentacaoDocumento =(e:any)=>{
                                         <IonItem
                                             lines='none'
                                             className="infoAdicionais-domicilio-radio radio-item">
-                                            <IonRadio value="até ao dia" />
+                                            <IonRadio value={ateDiaLocal} onChange={onChange_ateDiaLocal} />
                                             <IonLabel className="radioBox">até ao local</IonLabel>
                                         </IonItem>
                                     </IonCol>
                                     <IonCol size='6' style={{ marginTop: -16 }}>
                                         <IonItem>
                                             <IonLabel position="floating" itemType="text" placeholder="Número">Local</IonLabel>
-                                            <IonInput value={alcoolimetroNumero} onKeyUp={onkeyup_alcoolimetroNumero}></IonInput>
+                                            <IonInput value={localValidadeGuia} onKeyUp={onkeyup_localValidadeGuia}></IonInput>
                                         </IonItem>
                                     </IonCol>
                                 </IonRow>
@@ -2452,7 +2619,7 @@ const onkeyup_numeroDocumentoApresentacaoDocumento =(e:any)=>{
                                             <IonTextarea
                                                 rows={6}
                                                 cols={10}
-                                                placeholder="">
+                                                placeholder="" value={observacaoSubstituicaoTituloConducao} onKeyUp={onkeyup_observacaoSubstituicaoTituloConducao}>
                                             </IonTextarea>
                                         </IonItem>
                                     </IonCol>
@@ -2486,7 +2653,7 @@ const onkeyup_numeroDocumentoApresentacaoDocumento =(e:any)=>{
                         </IonLabel>
 
                         <IonButton className="" fill="outline" color="primary" slot="end"
-                            onClick={() => { 
+                            onClick={() => {
                                 setOpenPopoverApresentacaoDocumentoData(false);
                                 setIsSavedApresentacaoDocumento(true)
                             }}
@@ -2835,7 +3002,7 @@ const onkeyup_numeroDocumentoApresentacaoDocumento =(e:any)=>{
                                     <IonCol size-sm="9" size-md="10" size-lg="8" style={{ marginTop: 16 }}>
                                         <IonItem>
                                             <IonLabel>Documento *</IonLabel>
-                                            <IonSelect interface="popover" value={documentoProprietario} onIonChange={(e)=>{setDocumentoProprietario(e.detail.value)}}>
+                                            <IonSelect interface="popover" value={documentoProprietario} onIonChange={(e) => { setDocumentoProprietario(e.detail.value) }}>
                                                 {documentosApreendidos?.map((local: any) => {
                                                     return (
                                                         <IonSelectOption key={`${local.id}`}

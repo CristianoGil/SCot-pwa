@@ -5,7 +5,7 @@ import { IVeiculo } from "./veiculo";
 
 
 export interface IBloqueamentoRemocaoVeiculo {
-    id: number | null;
+    id?: number | null;
     houveBloqueamento: boolean | null;
     houveRemocao: boolean | null;
     numeroBloqueamentoRemocaoVeiculo: string | null;

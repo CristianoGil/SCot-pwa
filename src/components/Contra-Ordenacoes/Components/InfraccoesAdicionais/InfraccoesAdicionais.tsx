@@ -5,15 +5,11 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import DataTable from 'react-data-table-component';
 import _ from 'underscore';
+import { IID_DESCRICAO } from "../../../../model/extendable";
+import { IInfracaoAdicional } from "../../../../model/infracaoAdicional";
+import { IEntidade } from "../../../../model/person";
 
-interface Infracao{
-     id?:number,
-    _id:number,
-    entidade:string,
-    infraccoesAdicionais:string,
-    acoes: any
 
-}
 interface IInfraccoesAdicionais {
     setParentInfracoesData?: any
 }
@@ -22,31 +18,26 @@ interface IInfraccoesAdicionais {
 const InfraccoesAdicionais:React.FC<IInfraccoesAdicionais> = (props) => {
     const columns = [
         {
-            name: 'id',
-            selector: (row: { _id: number; }) => row._id,
-        },
-        {
             name: 'Entidade',
-            selector: (row: { entidade: string; }) => row.entidade,
+            selector: (row: { entidade: any; }) => row.entidade.descricao,
         },
         {
             name: 'Infracções Adicionais',
-            selector: (row: { infraccoesAdicionais: string; }) => row.infraccoesAdicionais,
+            selector: (row: { descricao: any; }) => row.descricao,
         },
         {
             name: 'Ações',
-            cell: (row: { acoes: any }) => (
+            cell: (row: { id: any }) => (
                 <IonButton onClick={(e) =>{
-                    console.log("im clicking" , e)
-                    console.log(row.acoes)
-                    data = infracoesData.filter(item => {return item.id !== row.acoes})
-                    setInfracoesData(data)
+                   
+                    data = infracoesData.filter(item => {return item.id !== row.id})
+                     setInfracoesData(data)
                 }}   size="small" color="primary" >
                     <IonIcon slot="start" icon={informationCircle} />
                 </IonButton>
             )
         },
-    ];let data:Infracao[] = []
+    ];let data:IInfracaoAdicional[] = []
     
 
     
@@ -72,16 +63,13 @@ const InfraccoesAdicionais:React.FC<IInfraccoesAdicionais> = (props) => {
             index = infracoesData.length+1 
         } 
         
-        const temp_data = {
-                id:index,
-                _id:index,
-                entidade:nomeInfrigida,
-                infraccoesAdicionais:descricaoInfrigida,
-                acoes:index
-            }
-            data.push(...infracoesData)
-
-            setInfracoesData([...data, temp_data]) 
+             setInfracoesData([...infracoesData, {
+                entidade:{
+                    descricao:nomeInfrigida,
+                    id:index
+                },descricao:descricaoInfrigida,
+                id:index
+             }]) 
 
     
     }
@@ -90,15 +78,15 @@ const InfraccoesAdicionais:React.FC<IInfraccoesAdicionais> = (props) => {
 
     }
 
-    useEffect(()=>{
-        if (_.has(props, 'setParentInfracoesData')) {
+    React.useEffect(()=>{
+       
             const _data = {
                 infracoes: infracoesData,
             }
             props.setParentInfracoesData(_data)
-        }
+      
                 
-    },[]);
+    },[infracoesData]);
 
     return (
 
