@@ -507,7 +507,30 @@ const [notaCobrancaManual, setNotaCobrancaManual] = useState('');
 
 // end auto bloqueamento veiculo 
 
+// apresentacao documento
+const [numeroApresentacaoDocumento, setNumeroApresentacaoDocumento] = useState('');
+const [isTituloConducao, setIsTituloConducao] = useState<boolean>();
+const [isCertificadoMatricula, setIsCertificadoMatricula] = useState<boolean>();
+const [isDocumentoInspecaoVeiculo, setIsDocumentoInspecaoVeiculo] = useState<boolean>();
+const [isCertificadoSeguroValidoVeiculo, setIsCertificadoSeguroValidoVeiculo] = useState<boolean>();
+const [isBilheteIdentidade, setIsBilheteIdentidade] = useState<boolean>();
+const [isCartaoCidadao, setIsCartaoCidadao] = useState<boolean>();
+const [isPassaporte, setIsPassaporte] = useState<boolean>();
+const [isTituloResidencia, setIsTituloResidencia] = useState<boolean>();
+const [isOutro, setIsOutro] = useState<boolean>();
+const [isInserirEmailEnvioDocumento, setIsInserirEmailEnvioDocumento] = useState<boolean>();
+const [isInserirNumeroProcessoReferenteObrigatoriedadeEntregaDocumento, setIsInserirNumeroProcessoReferenteObrigatoriedadeEntregaDocumento] = useState<boolean>();
 
+const [localApresentacaoEntrega, setLocalApresentacaoEntrega] = useState('');
+
+const [nomeProprietario, setNomeProprietario] = useState('');
+const [moradaProprietario, setMoradaProprietario] = useState('');
+const [documentoProprietario, setDocumentoProprietario] = useState<String>();
+const [numeroDocumentoProprietario, setNumeroDocumentoProprietario] = useState('');
+const [numeroDocumentoApresentacaoDocumento, setNumeroDocumentoApresentacaoDocumento] = useState('');
+
+
+// apresentacao documento 
 
     const [presentAlert, dismissAlert] = useIonAlert();
     const [presentOnLoanding, dismissOnLoanding] = useIonLoading();
@@ -585,6 +608,28 @@ const [notaCobrancaManual, setNotaCobrancaManual] = useState('');
 
             // auto BloqueamentoRemocao
 
+
+            // apresentacao documento
+            numeroApresentacaoDocumento:numeroApresentacaoDocumento,
+            isTituloConducao:isTituloConducao,
+            isCertificadoMatricula:isCertificadoMatricula,
+            isDocumentoInspecaoVeiculo:isDocumentoInspecaoVeiculo,
+            isCertificadoSeguroValidoVeiculo:isCertificadoSeguroValidoVeiculo,
+            isBilheteIdentidade:isBilheteIdentidade,
+            isCartaoCidadao:isCartaoCidadao,
+            isPassaporte:isPassaporte,
+            isTituloResidencia:isTituloResidencia,
+            isOutro:isOutro,
+            isInserirEmailEnvioDocumento:isInserirEmailEnvioDocumento,
+            isInserirNumeroProcessoReferenteObrigatoriedadeEntregaDocumento:isInserirNumeroProcessoReferenteObrigatoriedadeEntregaDocumento,
+            localApresentacaoEntrega:localApresentacaoEntrega,
+            nomeProprietario:nomeProprietario,
+            documentoProprietario:documentoProprietario,
+            numeroDocumentoProprietario:numeroDocumentoProprietario,
+            numeroDocumentoApresentacaoDocumento:numeroDocumentoApresentacaoDocumento,
+
+            // apresentacao documento
+
             isFichaControlePreenchida: isFichaControlePreenchida,
             tipoDeFichaControlador: tipoDeFichaControlador,
             circunstanciaExameAlcool: circunstanciaExameAlcool,
@@ -607,7 +652,7 @@ const [notaCobrancaManual, setNotaCobrancaManual] = useState('');
         }
 
         props.setAccoesComplementaresParentData(data);
-    }, [notaCobrancaManual,valorTotalBloqueamentoRemocao,valorRemocao,valorBloqueamento,bancoEmissor,numeroCheque,meioPagamento,motivoNaoRemocao,localDestinoRemocao,legislacaoAssociadaRemocao,dataRemocao,houveRemocao,legislacaoAssociadaBloqueamento,houveBloquamento,numeroBloqueamentoRemocaoVeiculo,motivosApreensao, tamanhoMotivoApreensao, documentosApreendidos, numDocumento, dataHora, localApresentacao, levantarDocsDiaUtilLocal, regularSituacaoLocal, camaraMunicipal, tituloConducao, diaPagamento, sancaoAplicada, numeroDocumento, isFichaControlePreenchida, tipoDeFichaControlador, circunstanciaExameAlcool, circunstanciaExameEstupefacientes, recusaTesteEstupifaciente, recusaTesteAlcool, tipoTesteAlcool, anfetaminas, canabis, cocaina, metanfetaminas, opio, tipoTesteEstupifaciente, alcoolimetroMarca, alcoolimetroSerie, alcoolimetroTipoVerificacao, alcoolimetroNumero, alcoolimetroDataHoraInfracao, alcoolimetroNumeroTalao, alcoolimetroValorRegistado, alcoolimetroValorApurado])
+    }, [numeroApresentacaoDocumento,isTituloConducao,isCertificadoMatricula,isDocumentoInspecaoVeiculo,isCertificadoSeguroValidoVeiculo,isBilheteIdentidade,isCartaoCidadao,isPassaporte,isTituloResidencia,isOutro,isInserirEmailEnvioDocumento,isInserirNumeroProcessoReferenteObrigatoriedadeEntregaDocumento,localApresentacaoEntrega,nomeProprietario,moradaProprietario,documentoProprietario,numeroDocumentoProprietario,numeroDocumentoApresentacaoDocumento,notaCobrancaManual,valorTotalBloqueamentoRemocao,valorRemocao,valorBloqueamento,bancoEmissor,numeroCheque,meioPagamento,motivoNaoRemocao,localDestinoRemocao,legislacaoAssociadaRemocao,dataRemocao,houveRemocao,legislacaoAssociadaBloqueamento,houveBloquamento,numeroBloqueamentoRemocaoVeiculo,motivosApreensao, tamanhoMotivoApreensao, documentosApreendidos, numDocumento, dataHora, localApresentacao, levantarDocsDiaUtilLocal, regularSituacaoLocal, camaraMunicipal, tituloConducao, diaPagamento, sancaoAplicada, numeroDocumento, isFichaControlePreenchida, tipoDeFichaControlador, circunstanciaExameAlcool, circunstanciaExameEstupefacientes, recusaTesteEstupifaciente, recusaTesteAlcool, tipoTesteAlcool, anfetaminas, canabis, cocaina, metanfetaminas, opio, tipoTesteEstupifaciente, alcoolimetroMarca, alcoolimetroSerie, alcoolimetroTipoVerificacao, alcoolimetroNumero, alcoolimetroDataHoraInfracao, alcoolimetroNumeroTalao, alcoolimetroValorRegistado, alcoolimetroValorApurado])
 
     // CarregarCombosApreensaoDocumento
     React.useEffect(() => {
@@ -825,6 +870,34 @@ const [notaCobrancaManual, setNotaCobrancaManual] = useState('');
 
     // end auto bloqueamento 
      
+//start Apresentacao do documento
+
+const onkeyup_numeroApresentacaoDocumento =(e:any)=>{
+    setNumeroApresentacaoDocumento(e.target.value)
+
+}
+const onkeyup_nomeProprietario =(e:any)=>{
+    setNomeProprietario(e.target.value)
+
+}
+const onkeyup_moradaProprietario =(e:any)=>{
+    setMoradaProprietario(e.target.value)
+
+}
+const onkeyup_numeroDocumentoProprietario =(e:any)=>{
+    setNumeroDocumentoProprietario(e.target.value)
+
+}
+const onkeyup_localApresentacaoEntrega =(e:any)=>{
+    setLocalApresentacaoEntrega(e.target.value)
+
+}
+
+const onkeyup_numeroDocumentoApresentacaoDocumento =(e:any)=>{
+    setNumeroDocumentoApresentacaoDocumento(e.target.value)
+
+}
+// end Apresentacao do documento
 
     return (
 
@@ -2413,7 +2486,10 @@ const [notaCobrancaManual, setNotaCobrancaManual] = useState('');
                         </IonLabel>
 
                         <IonButton className="" fill="outline" color="primary" slot="end"
-                            onClick={() => { }}
+                            onClick={() => { 
+                                setOpenPopoverApresentacaoDocumentoData(false);
+                                setIsSavedApresentacaoDocumento(true)
+                            }}
                         >
                             EMITIR
                         </IonButton>
@@ -2448,7 +2524,7 @@ const [notaCobrancaManual, setNotaCobrancaManual] = useState('');
                                     <IonCol size-sm='12' size-md='10' size-lg='6'>
                                         <IonItem>
                                             <IonLabel position="floating" itemType="text" placeholder="kms">N° da apresentação de documentos *</IonLabel>
-                                            <IonInput value={kmsApreensaoVeiculo} onKeyUp={onKeyup_kmsApreensaoVeiculo}></IonInput>
+                                            <IonInput value={numeroApresentacaoDocumento} onKeyUp={onkeyup_numeroApresentacaoDocumento}></IonInput>
                                         </IonItem>
                                     </IonCol>
                                 </IonRow>
@@ -2478,8 +2554,8 @@ const [notaCobrancaManual, setNotaCobrancaManual] = useState('');
 
                                             <IonCheckbox
 
-                                                checked={isDocumentoVeiculoVirtudeDe}
-                                                onIonChange={e => setIsDocumentoVeiculoVirtudeDe(e.detail.checked)} />
+                                                checked={isTituloConducao}
+                                                onIonChange={e => setIsTituloConducao(e.detail.checked)} />
                                             <IonLabel class="ion-margin-start">
                                                 Título de condução
                                             </IonLabel>
@@ -2499,8 +2575,8 @@ const [notaCobrancaManual, setNotaCobrancaManual] = useState('');
 
                                             <IonCheckbox
 
-                                                checked={isDocumentoVeiculoVirtudeDe}
-                                                onIonChange={e => setIsDocumentoVeiculoVirtudeDe(e.detail.checked)} />
+                                                checked={isCertificadoMatricula}
+                                                onIonChange={e => setIsCertificadoMatricula(e.detail.checked)} />
                                             <IonLabel class="ion-margin-start">
                                                 Certificado de matrícula
                                             </IonLabel>
@@ -2520,8 +2596,8 @@ const [notaCobrancaManual, setNotaCobrancaManual] = useState('');
 
                                             <IonCheckbox
 
-                                                checked={isDocumentoVeiculoVirtudeDe}
-                                                onIonChange={e => setIsDocumentoVeiculoVirtudeDe(e.detail.checked)} />
+                                                checked={isDocumentoInspecaoVeiculo}
+                                                onIonChange={e => setIsDocumentoInspecaoVeiculo(e.detail.checked)} />
                                             <IonLabel class="ion-margin-start">
                                                 Documento de inspecção do veículo
                                             </IonLabel>
@@ -2541,8 +2617,8 @@ const [notaCobrancaManual, setNotaCobrancaManual] = useState('');
 
                                             <IonCheckbox
 
-                                                checked={isDocumentoVeiculoVirtudeDe}
-                                                onIonChange={e => setIsDocumentoVeiculoVirtudeDe(e.detail.checked)} />
+                                                checked={isCertificadoSeguroValidoVeiculo}
+                                                onIonChange={e => setIsCertificadoSeguroValidoVeiculo(e.detail.checked)} />
                                             <IonLabel class="ion-margin-start">
                                                 Certificado de seguro válido do veículo
                                             </IonLabel>
@@ -2562,8 +2638,8 @@ const [notaCobrancaManual, setNotaCobrancaManual] = useState('');
 
                                             <IonCheckbox
 
-                                                checked={isDocumentoVeiculoVirtudeDe}
-                                                onIonChange={e => setIsDocumentoVeiculoVirtudeDe(e.detail.checked)} />
+                                                checked={isBilheteIdentidade}
+                                                onIonChange={e => setIsBilheteIdentidade(e.detail.checked)} />
                                             <IonLabel class="ion-margin-start">
                                                 Bilhete de identidade
                                             </IonLabel>
@@ -2583,8 +2659,8 @@ const [notaCobrancaManual, setNotaCobrancaManual] = useState('');
 
                                             <IonCheckbox
 
-                                                checked={isDocumentoVeiculoVirtudeDe}
-                                                onIonChange={e => setIsDocumentoVeiculoVirtudeDe(e.detail.checked)} />
+                                                checked={isCartaoCidadao}
+                                                onIonChange={e => setIsCartaoCidadao(e.detail.checked)} />
                                             <IonLabel class="ion-margin-start">
                                                 Cartão de cidadão
                                             </IonLabel>
@@ -2604,8 +2680,8 @@ const [notaCobrancaManual, setNotaCobrancaManual] = useState('');
 
                                             <IonCheckbox
 
-                                                checked={isDocumentoVeiculoVirtudeDe}
-                                                onIonChange={e => setIsDocumentoVeiculoVirtudeDe(e.detail.checked)} />
+                                                checked={isPassaporte}
+                                                onIonChange={e => setIsPassaporte(e.detail.checked)} />
                                             <IonLabel class="ion-margin-start">
                                                 Passaporte
                                             </IonLabel>
@@ -2625,8 +2701,8 @@ const [notaCobrancaManual, setNotaCobrancaManual] = useState('');
 
                                             <IonCheckbox
 
-                                                checked={isDocumentoVeiculoVirtudeDe}
-                                                onIonChange={e => setIsDocumentoVeiculoVirtudeDe(e.detail.checked)} />
+                                                checked={isTituloResidencia}
+                                                onIonChange={e => setIsTituloResidencia(e.detail.checked)} />
                                             <IonLabel class="ion-margin-start">
                                                 Título de residência
                                             </IonLabel>
@@ -2646,8 +2722,8 @@ const [notaCobrancaManual, setNotaCobrancaManual] = useState('');
 
                                             <IonCheckbox
 
-                                                checked={isDocumentoVeiculoVirtudeDe}
-                                                onIonChange={e => setIsDocumentoVeiculoVirtudeDe(e.detail.checked)} />
+                                                checked={isOutro}
+                                                onIonChange={e => setIsOutro(e.detail.checked)} />
                                             <IonLabel class="ion-margin-start">
                                                 Outros
                                             </IonLabel>
@@ -2676,7 +2752,7 @@ const [notaCobrancaManual, setNotaCobrancaManual] = useState('');
                                     <IonCol size-sm="12" size-md="12" size-lg="12">
                                         <IonItem>
                                             <IonLabel position="floating" itemType="text" placeholder="Local de apresentação/entrega *">Local de apresentação/entrega *</IonLabel>
-                                            <IonInput value={alcoolimetroNumero} onKeyUp={onkeyup_alcoolimetroNumero}></IonInput>
+                                            <IonInput value={localApresentacaoEntrega} onKeyUp={onkeyup_localApresentacaoEntrega}></IonInput>
                                         </IonItem>
                                     </IonCol>
                                 </IonRow>
@@ -2689,8 +2765,8 @@ const [notaCobrancaManual, setNotaCobrancaManual] = useState('');
 
                                             <IonCheckbox
 
-                                                checked={isDocumentoVeiculoVirtudeDe}
-                                                onIonChange={e => setIsDocumentoVeiculoVirtudeDe(e.detail.checked)} />
+                                                checked={isInserirNumeroProcessoReferenteObrigatoriedadeEntregaDocumento}
+                                                onIonChange={e => setIsInserirNumeroProcessoReferenteObrigatoriedadeEntregaDocumento(e.detail.checked)} />
                                             <IonLabel class="ion-margin-start">
                                                 Inserir o nº do processo referente à obrigatoriedade de entrega do documento
                                             </IonLabel>
@@ -2710,8 +2786,8 @@ const [notaCobrancaManual, setNotaCobrancaManual] = useState('');
 
                                             <IonCheckbox
 
-                                                checked={isDocumentoVeiculoVirtudeDe}
-                                                onIonChange={e => setIsDocumentoVeiculoVirtudeDe(e.detail.checked)} />
+                                                checked={isInserirEmailEnvioDocumento}
+                                                onIonChange={e => setIsInserirEmailEnvioDocumento(e.detail.checked)} />
                                             <IonLabel class="ion-margin-start">
                                                 Inserir o email para envio do documento retirado da aplicação móvel
                                             </IonLabel>
@@ -2741,7 +2817,7 @@ const [notaCobrancaManual, setNotaCobrancaManual] = useState('');
                                     <IonCol size-sm="12" size-md="12" size-lg="12">
                                         <IonItem>
                                             <IonLabel position="floating" itemType="text" placeholder="Nome">Nome</IonLabel>
-                                            <IonInput value={alcoolimetroNumero} onKeyUp={onkeyup_alcoolimetroNumero}></IonInput>
+                                            <IonInput value={nomeProprietario} onKeyUp={onkeyup_nomeProprietario}></IonInput>
                                         </IonItem>
                                     </IonCol>
                                 </IonRow>
@@ -2750,7 +2826,7 @@ const [notaCobrancaManual, setNotaCobrancaManual] = useState('');
                                     <IonCol size-sm="12" size-md="12" size-lg="12">
                                         <IonItem>
                                             <IonLabel position="floating" itemType="text" placeholder="Morada">Morada</IonLabel>
-                                            <IonInput value={alcoolimetroNumero} onKeyUp={onkeyup_alcoolimetroNumero}></IonInput>
+                                            <IonInput value={moradaProprietario} onKeyUp={onkeyup_moradaProprietario}></IonInput>
                                         </IonItem>
                                     </IonCol>
                                 </IonRow>
@@ -2759,8 +2835,8 @@ const [notaCobrancaManual, setNotaCobrancaManual] = useState('');
                                     <IonCol size-sm="9" size-md="10" size-lg="8" style={{ marginTop: 16 }}>
                                         <IonItem>
                                             <IonLabel>Documento *</IonLabel>
-                                            <IonSelect interface="popover" value={documentoDepositario} onIonChange={onChange_documentoDepositario}>
-                                                {dadosApreensaoDocumento?.map((local: any) => {
+                                            <IonSelect interface="popover" value={documentoProprietario} onIonChange={(e)=>{setDocumentoProprietario(e.detail.value)}}>
+                                                {documentosApreendidos?.map((local: any) => {
                                                     return (
                                                         <IonSelectOption key={`${local.id}`}
                                                             value={local}>{`${local.descricao}`}</IonSelectOption>
@@ -2772,8 +2848,8 @@ const [notaCobrancaManual, setNotaCobrancaManual] = useState('');
                                     <IonCol size-sm='12' size-md='10' size-lg='4'>
                                         <IonItem>
                                             <IonLabel position="floating" itemType="text" placeholder="Nome infringida">Número</IonLabel>
-                                            <IonInput value={numeroDocumentoDepositario}
-                                                onKeyUp={onKeyup_numeroDocumentoDepositario}
+                                            <IonInput value={numeroDocumentoProprietario}
+                                                onKeyUp={onkeyup_numeroDocumentoProprietario}
 
                                             ></IonInput>
                                         </IonItem>
@@ -2803,8 +2879,8 @@ const [notaCobrancaManual, setNotaCobrancaManual] = useState('');
                                         <IonItem>
                                             <IonLabel position="floating" itemType="text" placeholder="Número de Documento">Número de Documento</IonLabel>
                                             <IonInput
-                                                value={numeroDocumento}
-                                                onKeyUp={keyup_numeroDocumento}
+                                                value={numeroDocumentoApresentacaoDocumento}
+                                                onKeyUp={onkeyup_numeroDocumentoApresentacaoDocumento}
                                             ></IonInput>
                                         </IonItem>
 
