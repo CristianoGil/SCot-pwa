@@ -3,6 +3,7 @@ import {IonLabel, IonItem, IonSelect, IonSelectOption} from '@ionic/react';
 import country from 'country-list-js';
 import {getEmojiFlag} from 'countries-list';
 import {Contraordenacao} from "../../../api/Contraordenacao";
+import { customPopoverOptions } from "../../../utils/customPopoverOptions";
 
 interface IPais {
     inputName: string,
@@ -42,8 +43,8 @@ const Pais: React.FC<IPais> = (props: IPais) => {
 
     return (
         <IonItem>
-            <IonLabel>{props.textLabel}</IonLabel>
-            <IonSelect value={props.selected?.id} interface={props.interface} name={props.inputName}
+            <IonLabel position="floating">{props.textLabel}</IonLabel>
+            <IonSelect interfaceOptions={customPopoverOptions} value={props.selected?.id} interface={props.interface} name={props.inputName}
                        onIonChange={(e) => {
                            let value = (combos || []).find((d )=> d.id === e.detail.value)
                            if(props.setSelected) {

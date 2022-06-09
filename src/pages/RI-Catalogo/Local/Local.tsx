@@ -2,7 +2,6 @@ import {
     IonAccordion,
     IonAccordionGroup,
     IonButton,
-    IonButtons,
     IonCol, IonContent, IonGrid, IonInput, IonItem, IonItemGroup, IonLabel, IonList, IonPage, IonRow, IonSelect, IonSelectOption,
 } from '@ionic/react';
 import Menu from '../../../components/Menu/Menu';
@@ -10,6 +9,7 @@ import React from 'react';
 import './Local.scss';
 import DataTable from 'react-data-table-component';
 import LocalPartial from '../../../components/RI-Catalogo/Components/LocalPartial/LocalPartial';
+import { customPopoverOptions } from '../../../utils/customPopoverOptions';
 
 const columns = [
     {
@@ -85,8 +85,8 @@ const Local: React.FC = () => {
                                                 <IonRow>
                                                     <IonCol size-sm='12' size-md='10' size-lg='4' style={{ marginTop: 16 }}>
                                                         <IonItem>
-                                                            <IonLabel>Tipo Arruamento</IonLabel>
-                                                            <IonSelect interface="popover">
+                                                            <IonLabel position="floating">Tipo Arruamento</IonLabel>
+                                                            <IonSelect interfaceOptions={customPopoverOptions} interface="popover">
                                                                 <IonSelectOption value="TipoArruamento">Tipo Arruamento 1</IonSelectOption>
                                                             </IonSelect>
                                                         </IonItem>
@@ -94,8 +94,8 @@ const Local: React.FC = () => {
 
                                                     <IonCol size-sm='12' size-md='10' size-lg='4' style={{ marginTop: 16 }}>
                                                         <IonItem>
-                                                            <IonLabel>Tipo</IonLabel>
-                                                            <IonSelect interface="popover">
+                                                            <IonLabel position="floating">Tipo</IonLabel>
+                                                            <IonSelect interfaceOptions={customPopoverOptions} interface="popover">
                                                                 <IonSelectOption value="Tipo">Tipo 1</IonSelectOption>
                                                             </IonSelect>
                                                         </IonItem>
@@ -103,8 +103,8 @@ const Local: React.FC = () => {
 
                                                     <IonCol size-sm='12' size-md='10' size-lg='4' style={{ marginTop: 16 }}>
                                                         <IonItem>
-                                                            <IonLabel>Subtipo</IonLabel>
-                                                            <IonSelect interface="popover">
+                                                            <IonLabel position="floating">Subtipo</IonLabel>
+                                                            <IonSelect interfaceOptions={customPopoverOptions} interface="popover">
                                                                 <IonSelectOption value="Subtipo">Subtipo 1</IonSelectOption>
                                                             </IonSelect>
                                                         </IonItem>
@@ -126,8 +126,8 @@ const Local: React.FC = () => {
 
                                                     <IonCol size-sm='12' size-md='10' size-lg='4' style={{ marginTop: 16 }}>
                                                         <IonItem>
-                                                            <IonLabel>País</IonLabel>
-                                                            <IonSelect interface="popover">
+                                                            <IonLabel position="floating">País</IonLabel>
+                                                            <IonSelect interfaceOptions={customPopoverOptions} interface="popover">
                                                                 <IonSelectOption value="País">País 1</IonSelectOption>
                                                             </IonSelect>
                                                         </IonItem>
@@ -135,8 +135,8 @@ const Local: React.FC = () => {
 
                                                     <IonCol size-sm='12' size-md='10' size-lg='4' style={{ marginTop: 16 }}>
                                                         <IonItem>
-                                                            <IonLabel>Distrito</IonLabel>
-                                                            <IonSelect interface="popover">
+                                                            <IonLabel position="floating">Distrito</IonLabel>
+                                                            <IonSelect interfaceOptions={customPopoverOptions} interface="popover">
                                                                 <IonSelectOption value="Distrito">Distrito 1</IonSelectOption>
                                                             </IonSelect>
                                                         </IonItem>
@@ -146,8 +146,8 @@ const Local: React.FC = () => {
                                                 <IonRow>
                                                     <IonCol size-sm='12' size-md='10' size-lg='4' style={{ marginTop: 16 }}>
                                                         <IonItem>
-                                                            <IonLabel>Conselho</IonLabel>
-                                                            <IonSelect interface="popover">
+                                                            <IonLabel position="floating">Conselho</IonLabel>
+                                                            <IonSelect interfaceOptions={customPopoverOptions} interface="popover">
                                                                 <IonSelectOption value="Conselho">Conselho 1</IonSelectOption>
                                                             </IonSelect>
                                                         </IonItem>
@@ -155,8 +155,8 @@ const Local: React.FC = () => {
 
                                                     <IonCol size-sm='12' size-md='10' size-lg='4' style={{ marginTop: 16 }}>
                                                         <IonItem>
-                                                            <IonLabel>Fraguesia</IonLabel>
-                                                            <IonSelect interface="popover">
+                                                            <IonLabel position="floating">Fraguesia</IonLabel>
+                                                            <IonSelect interfaceOptions={customPopoverOptions} interface="popover">
                                                                 <IonSelectOption value="Fraguesia">Fraguesia 1</IonSelectOption>
                                                             </IonSelect>
                                                         </IonItem>
@@ -164,8 +164,8 @@ const Local: React.FC = () => {
 
                                                     <IonCol size-sm='12' size-md='10' size-lg='4' style={{ marginTop: 16 }}>
                                                         <IonItem>
-                                                            <IonLabel>Localidade</IonLabel>
-                                                            <IonSelect interface="popover">
+                                                            <IonLabel position="floating">Localidade</IonLabel>
+                                                            <IonSelect interfaceOptions={customPopoverOptions} interface="popover">
                                                                 <IonSelectOption value="Localidade">Localidade 1</IonSelectOption>
                                                             </IonSelect>
                                                         </IonItem>

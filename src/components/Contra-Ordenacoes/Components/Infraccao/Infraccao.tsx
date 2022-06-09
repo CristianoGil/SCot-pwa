@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Contraordenacao } from "../../../../api/Contraordenacao";
 import { useAppSelector } from "../../../../app/hooks";
 import { UserContext } from "../../../../Context/UserContext";
+import { customPopoverOptions } from "../../../../utils/customPopoverOptions";
 import { getInputValidations_Infraccao } from "../../../../Validations/Contra-Ordenacoes/InputValidationsSlice_Infraccao";
 import './Infraccao.scss';
 
@@ -201,10 +202,9 @@ const Infraccao: React.FC<InfracaoData> = (props) => {
 
                         <IonCol size-sm='12' size-md='10' size-lg='3' style={{ marginTop: 16 }}>
                             <IonItem>
-                            <IonLabel>Comarca *</IonLabel>
-                                <IonSelect interface="popover" selectedText={comarcaDto?.descricao}>
+                                <IonLabel position="floating">Comarca *</IonLabel>
+                                <IonSelect interfaceOptions={customPopoverOptions} interface="popover" selectedText={comarcaDto?.descricao}>
                                             <IonSelectOption value={comarcaDto?.id}>{comarcaDto?.descricao}</IonSelectOption>
-
                                 </IonSelect>
                             </IonItem>
                             <IonItem className="componentError" lines="none" hidden={inputValidations_LocalInfraccao.comarca_isValid}>Campo obrigatório</IonItem>
@@ -212,8 +212,8 @@ const Infraccao: React.FC<InfracaoData> = (props) => {
 
                         <IonCol size-sm='12' size-md='10' size-lg='3' style={{ marginTop: 16 }}>
                             <IonItem>
-                                <IonLabel>Entidade</IonLabel>
-                                <IonSelect interface="popover" onIonChange={(e)=>setEntidade(e.detail.value)}>
+                                <IonLabel position="floating">Entidade</IonLabel>
+                                <IonSelect interfaceOptions={customPopoverOptions} interface="popover" onIonChange={(e)=>setEntidade(e.detail.value)}>
                                     {entidades?.map((local: any) => {
                                         return (
                                             <IonSelectOption key={`${local.id}`}
@@ -256,8 +256,8 @@ const Infraccao: React.FC<InfracaoData> = (props) => {
                         </IonCol>
                         <IonCol size-sm='12' size-md='10' size-lg='6'>
                             <IonItem>
-                                <IonLabel>Tipificação da Infracção *</IonLabel>
-                                <IonSelect interface="popover" onIonChange={onchange_filtrarSubtificacaoPorTipificacao}>
+                                <IonLabel position="floating">Tipificação da Infracção *</IonLabel>
+                                <IonSelect interfaceOptions={customPopoverOptions} interface="popover" onIonChange={onchange_filtrarSubtificacaoPorTipificacao}>
                                     {tiposInfracao?.map((local: any) => {
                                         return (
                                             <IonSelectOption key={`${local.id}`}
@@ -269,8 +269,8 @@ const Infraccao: React.FC<InfracaoData> = (props) => {
                         </IonCol>
                         <IonCol size-sm='12' size-md='10' size-lg='6' offset="6">
                             <IonItem>
-                                <IonLabel>Subtipificação da Infracção *</IonLabel>
-                                <IonSelect interface="popover" onIonChange={onchange_subtificacao}>
+                                <IonLabel position="floating">Subtipificação da Infracção *</IonLabel>
+                                <IonSelect interfaceOptions={customPopoverOptions} interface="popover" onIonChange={onchange_subtificacao}>
                                     {subtiposInfracao?.map((local: any) => {
                                         return (
                                             <IonSelectOption key={`${local.id}`}

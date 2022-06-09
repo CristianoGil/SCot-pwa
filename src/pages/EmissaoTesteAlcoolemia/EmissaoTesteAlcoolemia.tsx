@@ -10,8 +10,6 @@ import Menu from '../../components/Menu/Menu';
 import React, { useState } from 'react';
 import './EmissaoTesteAlcoolemia.scss';
 import Veiculo from '../../components/Contra-Ordenacoes/Components/Veiculo/Veiculo';
-import Unidade from '../../components/Contra-Ordenacoes/Components/Unidade/Unidade';
-import Infraccao from '../../components/Contra-Ordenacoes/Components/Infraccao/Infraccao';
 import TituloConducao from '../../components/Contra-Ordenacoes/Components/TituloConducao/TituloConducao';
 import Arguido from '../../components/Contra-Ordenacoes/Components/Arguido/Arguido';
 import DocumentoIdentificacao from '../../components/Contra-Ordenacoes/Components/DocumentoIdentificacao/DocumentoIdentificacao';
@@ -19,6 +17,7 @@ import InformacoesAdicionais from '../../components/Contra-Ordenacoes/Components
 import LocalInfraccao from '../../components/Contra-Ordenacoes/Components/LocalInfraccao/LocalInfraccao';
 import DatePicker from '../../components/Combos/DatePicker';
 import NumeroDocumento from '../../components/NumeroDocumento/NumeroDocumento';
+import { customPopoverOptions } from '../../utils/customPopoverOptions';
 
 const CoIndirecta: React.FC = () => {
 
@@ -168,24 +167,24 @@ const CoIndirecta: React.FC = () => {
                                         <IonRow>
                                             <IonCol size-sm='12' size-md='10' size-lg='4' style={{ marginTop: 16 }}>
                                                 <IonItem>
-                                                    <IonLabel>Marca/Modelo *</IonLabel>
-                                                    <IonSelect interface="popover">
+                                                    <IonLabel position="floating">Marca/Modelo *</IonLabel>
+                                                    <IonSelect interfaceOptions={customPopoverOptions} interface="popover">
                                                         <IonSelectOption value="Marca_Modelo">Marca/Modelo 1</IonSelectOption>
                                                     </IonSelect>
                                                 </IonItem>
                                             </IonCol>
                                             <IonCol size-sm='12' size-md='10' size-lg='4' style={{ marginTop: 16 }}>
                                                 <IonItem>
-                                                    <IonLabel>Série *</IonLabel>
-                                                    <IonSelect interface="popover">
+                                                    <IonLabel position="floating">Série *</IonLabel>
+                                                    <IonSelect interfaceOptions={customPopoverOptions} interface="popover">
                                                         <IonSelectOption value="Serie">Série 1</IonSelectOption>
                                                     </IonSelect>
                                                 </IonItem>
                                             </IonCol>
                                             <IonCol size-sm='12' size-md='10' size-lg='4' style={{ marginTop: 16 }}>
                                                 <IonItem>
-                                                    <IonLabel>Tipo Verificação *</IonLabel>
-                                                    <IonSelect interface="popover">
+                                                    <IonLabel position="floating">Tipo Verificação *</IonLabel>
+                                                    <IonSelect interfaceOptions={customPopoverOptions} interface="popover">
                                                         <IonSelectOption value="Tipo_Verificação">Tipo Verificação 1</IonSelectOption>
                                                     </IonSelect>
                                                 </IonItem>

@@ -8,9 +8,9 @@ import { FichaControleService } from "../../../../api/FichaControleService";
 import { UserContext } from "../../../../Context/UserContext";
 import { CarregarCombosApreensaoDocumento, IComboApreensaoDocumento, MotivosApreensao } from "../../../../model/documentoapreendido";
 import { IID_DESCRICAO } from "../../../../model/extendable";
+import { customPopoverOptions } from "../../../../utils/customPopoverOptions";
 import CardListItem from "../../../CardListItem";
 import DatePicker from "../../../Combos/DatePicker";
-import InfraccoesAdicionais from "../InfraccoesAdicionais/InfraccoesAdicionais";
 import './AcoesComplementares.scss';
 
 interface IProps {
@@ -1128,8 +1128,8 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                 <IonRow>
                                     <IonCol size-sm="9" size-md="10" size-lg="9" style={{ marginTop: 16 }}>
                                         <IonItem>
-                                            <IonLabel>Motivos da Apreensão *</IonLabel>
-                                            <IonSelect interface="popover" value={motivoApreensao} onIonChange={(e) => setMotivoApreensao(e.detail.value)}>
+                                            <IonLabel position="floating">Motivos da Apreensão *</IonLabel>
+                                            <IonSelect interfaceOptions={customPopoverOptions} interface="popover" value={motivoApreensao} onIonChange={(e) => setMotivoApreensao(e.detail.value)}>
                                                 {combos?.map((local: any) => {
                                                     return (
                                                         <IonSelectOption key={`${local.id}`}
@@ -1195,8 +1195,8 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                 <IonRow>
                                     <IonCol size-sm="9" size-md="10" size-lg="5" style={{ marginTop: 16 }}>
                                         <IonItem>
-                                            <IonLabel>Documento *</IonLabel>
-                                            <IonSelect interface="popover" value={documento} onIonChange={(e) => setDocumento(e.detail.value)}>
+                                            <IonLabel position="floating">Documento *</IonLabel>
+                                            <IonSelect interfaceOptions={customPopoverOptions} interface="popover" value={documento} onIonChange={(e) => setDocumento(e.detail.value)}>
                                                 {dadosApreensaoDocumento?.map((local: any) => {
                                                     return (
                                                         <IonSelectOption key={`${local.id}`}
@@ -1354,9 +1354,9 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                     <IonCol size-sm='12' size-md='10' size-lg='12'>
 
                                         <IonItem>
-                                            <IonLabel></IonLabel>
+                                            <IonLabel position="floating"></IonLabel>
 
-                                            <IonSelect interface="popover" value={camaraMunicipal} disabled={!enviaCamaraMunicipal} onIonChange={e => setCamaraMunicipal(e.detail.value)}>
+                                            <IonSelect interfaceOptions={customPopoverOptions} interface="popover" value={camaraMunicipal} disabled={!enviaCamaraMunicipal} onIonChange={e => setCamaraMunicipal(e.detail.value)}>
                                                 {camarasMunicipais?.map((local: any) => {
                                                     return (
                                                         <IonSelectOption key={`${local.id}`}
@@ -1419,15 +1419,14 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                     <IonCol size-sm='12' size-md='10' size-lg='12'>
 
                                         <IonItem>
-                                            <IonLabel></IonLabel>
-                                            <IonSelect interface="popover" disabled={!isDiaPagamento} value={diaPagamento} onIonChange={e => setDiaPagamento(e.detail.value)} >
+                                            <IonLabel position="floating"></IonLabel>
+                                            <IonSelect interfaceOptions={customPopoverOptions} interface="popover" disabled={!isDiaPagamento} value={diaPagamento} onIonChange={e => setDiaPagamento(e.detail.value)} >
                                                 {camarasMunicipais?.map((local: any) => {
                                                     return (
                                                         <IonSelectOption key={`${local.id}`}
                                                             value={local}>{`${local.descricao}`}</IonSelectOption>
                                                     )
                                                 })}
-
 
                                             </IonSelect>
                                         </IonItem>
@@ -1551,8 +1550,8 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                 <IonRow>
                                     <IonCol size-sm="9" size-md="10" size-lg="9" style={{ marginTop: 16 }}>
                                         <IonItem>
-                                            <IonLabel>Motivos da Apreensão *</IonLabel>
-                                            <IonSelect interface="popover" onIonChange={e => setMotivoApreensaoVeiculo(e.detail.value)}>
+                                            <IonLabel position="floating">Motivos da Apreensão *</IonLabel>
+                                            <IonSelect interfaceOptions={customPopoverOptions} interface="popover" onIonChange={e => setMotivoApreensaoVeiculo(e.detail.value)}>
                                                 {motivosApreensaoVeiculoCombo?.map((local: any) => {
                                                     return (
                                                         <IonSelectOption key={`${local.id}`}
@@ -1670,8 +1669,8 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                 <IonRow>
                                     <IonCol size-sm="9" size-md="10" size-lg="8" style={{ marginTop: 16 }}>
                                         <IonItem>
-                                            <IonLabel>Documento *</IonLabel>
-                                            <IonSelect interface="popover" value={documentoDepositario} onIonChange={onChange_documentoDepositario}>
+                                            <IonLabel position="floating">Documento *</IonLabel>
+                                            <IonSelect interfaceOptions={customPopoverOptions} interface="popover" value={documentoDepositario} onIonChange={onChange_documentoDepositario}>
                                                 {dadosApreensaoDocumento?.map((local: any) => {
                                                     return (
                                                         <IonSelectOption key={`${local.id}`}
@@ -1800,8 +1799,8 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                 <IonRow>
                                     <IonCol size-sm="9" size-md="10" size-lg="8" style={{ marginTop: 16 }}>
                                         <IonItem>
-                                            <IonLabel>Documento</IonLabel>
-                                            <IonSelect interface="popover" disabled={!isApreendidoDocumentos} onIonChange={e => setDocumentoAccaoAssoc(e.detail.value)}>
+                                            <IonLabel position="floating">Documento</IonLabel>
+                                            <IonSelect interfaceOptions={customPopoverOptions} interface="popover" disabled={!isApreendidoDocumentos} onIonChange={e => setDocumentoAccaoAssoc(e.detail.value)}>
                                                 {dadosApreensaoDocumento?.map((local: any) => {
                                                     return (
                                                         <IonSelectOption key={`${local.id}`}
@@ -1824,8 +1823,8 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                 <IonRow>
                                     <IonCol size-sm="9" size-md="10" size-lg="8" style={{ marginTop: 16 }}>
                                         <IonItem>
-                                            <IonLabel>O arguido poderá levantar o(s) documento(s) provisoriamente apreendido(s), no serviço desconcentrado do IMTT de</IonLabel>
-                                            <IonSelect interface="popover" value={localLevantarIMTT} onIonChange={e => setLocalLevantarIMTT(e.detail.value)}>
+                                            <IonLabel position="floating">O arguido poderá levantar o(s) documento(s) provisoriamente apreendido(s), no serviço desconcentrado do IMTT de</IonLabel>
+                                            <IonSelect interfaceOptions={customPopoverOptions} interface="popover" value={localLevantarIMTT} onIonChange={e => setLocalLevantarIMTT(e.detail.value)}>
                                                 {locaisLevantarIMTT?.map((local: any) => {
                                                     return (
                                                         <IonSelectOption key={`${local.id}`}
@@ -1989,8 +1988,8 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
 
                                     <IonCol size-sm='12' size-md='12' size-lg='12'>
                                         <IonItem>
-                                            <IonLabel>Legislação associada</IonLabel>
-                                            <IonSelect interface="popover" value={legislacaoAssociadaBloqueamento} onIonChange={e => setLegislacaoAssociadaBloqueamento(e.detail.value)}>
+                                            <IonLabel position="floating">Legislação associada</IonLabel>
+                                            <IonSelect interfaceOptions={customPopoverOptions} interface="popover" value={legislacaoAssociadaBloqueamento} onIonChange={e => setLegislacaoAssociadaBloqueamento(e.detail.value)}>
                                                 {legislacoesAssociadas?.map((local: any) => {
                                                     return (
                                                         <IonSelectOption key={`${local.id}`}
@@ -2059,8 +2058,8 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
 
                                     <IonCol size-sm='12' size-md='12' size-lg='12'>
                                         <IonItem>
-                                            <IonLabel>Legislação associada</IonLabel>
-                                            <IonSelect interface="popover" value={legislacaoAssociadaRemocao} onIonChange={e => setLegislacaoAssociadaRemocao(e.detail.value)}>
+                                            <IonLabel position="floating">Legislação associada</IonLabel>
+                                            <IonSelect interfaceOptions={customPopoverOptions} interface="popover" value={legislacaoAssociadaRemocao} onIonChange={e => setLegislacaoAssociadaRemocao(e.detail.value)}>
                                                 {legislacoesAssociadasRemocao?.map((local: any) => {
                                                     return (
                                                         <IonSelectOption key={`${local.id}`}
@@ -2114,8 +2113,8 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
 
                                     <IonCol size-sm='12' size-md='12' size-lg='4' style={{ marginTop: 16 }}>
                                         <IonItem>
-                                            <IonLabel>Meio pagamento</IonLabel>
-                                            <IonSelect interface="popover" value={meioPagamento} onIonChange={e => setMeioPagamento(e.detail.value)}>
+                                            <IonLabel position="floating">Meio pagamento</IonLabel>
+                                            <IonSelect interfaceOptions={customPopoverOptions} interface="popover" value={meioPagamento} onIonChange={e => setMeioPagamento(e.detail.value)}>
                                                 {meiosPagamento?.map((local: any) => {
                                                     return (
                                                         <IonSelectOption key={`${local.id}`}
@@ -2135,8 +2134,8 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
 
                                     <IonCol size-sm='12' size-md='12' size-lg='4' style={{ marginTop: 16 }}>
                                         <IonItem>
-                                            <IonLabel>Banco emissor</IonLabel>
-                                            <IonSelect interface="popover" value={bancoEmissor} onIonChange={e => setBancoEmissor(e.detail.value)}>
+                                            <IonLabel position="floating">Banco emissor</IonLabel>
+                                            <IonSelect interfaceOptions={customPopoverOptions} interface="popover" value={bancoEmissor} onIonChange={e => setBancoEmissor(e.detail.value)}>
                                                 {bancosEmissores?.map((local: any) => {
                                                     return (
                                                         <IonSelectOption key={`${local.id}`}
@@ -2285,8 +2284,8 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                 <IonRow>
                                     <IonCol size-sm="9" size-md="10" size-lg="6" style={{ marginTop: 16 }}>
                                         <IonItem>
-                                            <IonLabel>Tipo de documento *</IonLabel>
-                                            <IonSelect interface="popover" value={tipoDocumentoSubstituicao} onIonChange={(e) => setTipoDocumentoSubstituicao(e.detail.value)}>
+                                            <IonLabel position="floating">Tipo de documento *</IonLabel>
+                                            <IonSelect interfaceOptions={customPopoverOptions} interface="popover" value={tipoDocumentoSubstituicao} onIonChange={(e) => setTipoDocumentoSubstituicao(e.detail.value)}>
                                                 {tiposDocumentoSubstituicao?.map((local: any) => {
                                                     return (
                                                         <IonSelectOption key={`${local.id}`}
@@ -2321,8 +2320,8 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
 
                                     <IonCol size-sm="9" size-md="10" size-lg="4" style={{ marginTop: 16 }}>
                                         <IonItem>
-                                            <IonLabel>Combustivel</IonLabel>
-                                            <IonSelect interface="popover" value={combustivel} onIonChange={(e) => setCombustivel(e.detail.value)}>
+                                            <IonLabel position="floating">Combustivel</IonLabel>
+                                            <IonSelect interfaceOptions={customPopoverOptions} interface="popover" value={combustivel} onIonChange={(e) => setCombustivel(e.detail.value)}>
                                                 {combustiveis?.map((local: any) => {
                                                     return (
                                                         <IonSelectOption key={`${local.id}`}
@@ -2507,8 +2506,8 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                 <IonRow>
                                     <IonCol size-sm="9" size-md="10" size-lg="4" style={{ marginTop: 16 }}>
                                         <IonItem>
-                                            <IonLabel>Documento *</IonLabel>
-                                            <IonSelect interface="popover" value={documentoCartaConducao} onIonChange={(e) => setDocumentoCartaConducao(e.detail.value)}>
+                                            <IonLabel position="floating">Documento *</IonLabel>
+                                            <IonSelect interfaceOptions={customPopoverOptions} interface="popover" value={documentoCartaConducao} onIonChange={(e) => setDocumentoCartaConducao(e.detail.value)}>
                                                 {tiposDocumentoSubstituicao?.map((local: any) => {
                                                     return (
                                                         <IonSelectOption key={`${local.id}`}
@@ -2534,8 +2533,8 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                 <IonRow>
                                     <IonCol size-sm="9" size-md="10" size-lg="9" style={{ marginTop: 16 }}>
                                         <IonItem>
-                                            <IonLabel>Documento *</IonLabel>
-                                            <IonSelect interface="popover" value={documentoCombo} onIonChange={(e) => setDocumentoCombo(e.detail.value)}>
+                                            <IonLabel position="floating">Documento *</IonLabel>
+                                            <IonSelect interfaceOptions={customPopoverOptions} interface="popover" value={documentoCombo} onIonChange={(e) => setDocumentoCombo(e.detail.value)}>
                                                 {tiposDocumentoSubstituicao?.map((local: any) => {
                                                     return (
                                                         <IonSelectOption key={`${local.id}`}
@@ -3001,8 +3000,8 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                 <IonRow>
                                     <IonCol size-sm="9" size-md="10" size-lg="8" style={{ marginTop: 16 }}>
                                         <IonItem>
-                                            <IonLabel>Documento *</IonLabel>
-                                            <IonSelect interface="popover" value={documentoProprietario} onIonChange={(e) => { setDocumentoProprietario(e.detail.value) }}>
+                                            <IonLabel position="floating">Documento *</IonLabel>
+                                            <IonSelect interfaceOptions={customPopoverOptions} interface="popover" value={documentoProprietario} onIonChange={(e) => { setDocumentoProprietario(e.detail.value) }}>
                                                 {documentosApreendidos?.map((local: any) => {
                                                     return (
                                                         <IonSelectOption key={`${local.id}`}
@@ -3419,8 +3418,8 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
 
                                         <IonItem>
 
-                                            <IonLabel>Marca / Modela *</IonLabel>
-                                            <IonSelect interface="popover" onIonChange={e => setAlcoolimetroMarca(e.detail.value)} >
+                                            <IonLabel position="floating">Marca / Modela *</IonLabel>
+                                            <IonSelect interfaceOptions={customPopoverOptions} interface="popover" onIonChange={e => setAlcoolimetroMarca(e.detail.value)} >
                                                 {alcoolimetroMarcas?.map((local: any) => {
                                                     return (
                                                         <IonSelectOption key={`${local.id}`}
@@ -3436,8 +3435,8 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                     <IonCol size-sm="12" size-md="12" size-lg="4">
                                         <IonItem>
 
-                                            <IonLabel>Série *</IonLabel>
-                                            <IonSelect interface="popover" onIonChange={e => setAlcoolimetroSerie(e.detail.value)} >
+                                            <IonLabel position="floating">Série *</IonLabel>
+                                            <IonSelect interfaceOptions={customPopoverOptions} interface="popover" onIonChange={e => setAlcoolimetroSerie(e.detail.value)} >
                                                 {alcoolimetroSeries?.map((local: any) => {
                                                     return (
                                                         <IonSelectOption key={`${local.id}`}
@@ -3452,8 +3451,8 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                     <IonCol size-sm="12" size-md="12" size-lg="4">
                                         <IonItem>
 
-                                            <IonLabel>Tipo verificação *</IonLabel>
-                                            <IonSelect interface="popover" onIonChange={e => setAlcoolimetroVerificacao(e.detail.value)} >
+                                            <IonLabel position="floating">Tipo verificação *</IonLabel>
+                                            <IonSelect interfaceOptions={customPopoverOptions} interface="popover" onIonChange={e => setAlcoolimetroVerificacao(e.detail.value)} >
                                                 {alcoolimetroTipoVerificacoes?.map((local: any) => {
                                                     return (
                                                         <IonSelectOption key={`${local.id}`}

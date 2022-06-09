@@ -1,5 +1,6 @@
 import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCol, IonGrid, IonIcon, IonInput, IonItem, IonLabel, IonRow, IonSelect, IonSelectOption } from "@ionic/react";
 import { search, eye } from "ionicons/icons";
+import { customPopoverOptions } from "../../../../utils/customPopoverOptions";
 
 const VeiculoPartial: React.FC = () => {
 
@@ -63,8 +64,8 @@ const VeiculoPartial: React.FC = () => {
 
                         <IonCol size-sm='12' size-md='10' size-lg='3' style={{ marginTop: 16 }}>
                             <IonItem>
-                                <IonLabel>País</IonLabel>
-                                <IonSelect interface="popover">
+                                <IonLabel position="floating">País</IonLabel>
+                                <IonSelect interfaceOptions={customPopoverOptions} interface="popover">
                                     <IonSelectOption value="pais">País 1</IonSelectOption>
                                 </IonSelect>
                             </IonItem>
@@ -72,8 +73,8 @@ const VeiculoPartial: React.FC = () => {
 
                         <IonCol size-sm='12' size-md='10' size-lg='3' style={{ marginTop: 16 }}>
                             <IonItem>
-                                <IonLabel>Marca</IonLabel>
-                                <IonSelect interface="popover">
+                                <IonLabel position="floating">Marca</IonLabel>
+                                <IonSelect interfaceOptions={customPopoverOptions} interface="popover">
                                     <IonSelectOption value="marca">Marca 1</IonSelectOption>
                                 </IonSelect>
                             </IonItem>
@@ -81,8 +82,8 @@ const VeiculoPartial: React.FC = () => {
 
                         <IonCol size-sm='12' size-md='10' size-lg='3' style={{ marginTop: 16 }}>
                             <IonItem>
-                                <IonLabel>Modelo</IonLabel>
-                                <IonSelect interface="popover">
+                                <IonLabel position="floating">Modelo</IonLabel>
+                                <IonSelect interfaceOptions={customPopoverOptions} interface="popover">
                                     <IonSelectOption value="modelo">Modelo 1</IonSelectOption>
                                 </IonSelect>
                             </IonItem>
@@ -93,16 +94,17 @@ const VeiculoPartial: React.FC = () => {
 
                         <IonCol size-sm='12' size-md='10' size-lg='3' style={{ marginTop: 16 }}>
                             <IonItem>
-                                <IonLabel>Cor</IonLabel>
-                                <IonSelect interface="popover">
+                                <IonLabel position="floating">Cor</IonLabel>
+                                <IonSelect interfaceOptions={customPopoverOptions} interface="popover">
                                     <IonSelectOption value="cor">Cor 1</IonSelectOption>
                                 </IonSelect>
                             </IonItem>
                         </IonCol>
                         <IonCol size-sm='12' size-md='10' size-lg='3' style={{ marginTop: 16 }}>
                             <IonItem>
-                                <IonLabel>Categoria</IonLabel>
-                                <IonSelect interface="popover">
+                                <IonLabel position="floating"
+                                >Categoria</IonLabel>
+                                <IonSelect interfaceOptions={customPopoverOptions} interface="popover">
                                     <IonSelectOption value="categoria">Categoria 1</IonSelectOption>
                                 </IonSelect>
                             </IonItem>
@@ -110,8 +112,8 @@ const VeiculoPartial: React.FC = () => {
 
                         <IonCol size-sm='12' size-md='10' size-lg='3' style={{ marginTop: 16 }}>
                             <IonItem>
-                                <IonLabel>Classe</IonLabel>
-                                <IonSelect interface="popover">
+                                <IonLabel position="floating">Classe</IonLabel>
+                                <IonSelect interfaceOptions={customPopoverOptions} interface="popover">
                                     <IonSelectOption value="classe">Classe 1</IonSelectOption>
                                 </IonSelect>
                             </IonItem>
@@ -119,8 +121,8 @@ const VeiculoPartial: React.FC = () => {
 
                         <IonCol size-sm='12' size-md='10' size-lg='3' style={{ marginTop: 16 }}>
                             <IonItem>
-                                <IonLabel>Tipo</IonLabel>
-                                <IonSelect interface="popover">
+                                <IonLabel position="floating">Tipo</IonLabel>
+                                <IonSelect interfaceOptions={customPopoverOptions} interface="popover">
                                     <IonSelectOption value="tipo">Tipo 1</IonSelectOption>
                                 </IonSelect>
                             </IonItem>
@@ -131,8 +133,8 @@ const VeiculoPartial: React.FC = () => {
 
                         <IonCol size-sm='12' size-md='10' size-lg='3' style={{ marginTop: 16 }}>
                             <IonItem>
-                                <IonLabel>Subclasse</IonLabel>
-                                <IonSelect interface="popover">
+                                <IonLabel position="floating">Subclasse</IonLabel>
+                                <IonSelect interfaceOptions={customPopoverOptions} interface="popover">
                                     <IonSelectOption value="subclasse">Subclasse 1</IonSelectOption>
                                 </IonSelect>
                             </IonItem>

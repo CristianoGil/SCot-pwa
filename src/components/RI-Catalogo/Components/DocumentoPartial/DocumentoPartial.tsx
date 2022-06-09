@@ -1,5 +1,6 @@
 import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCol, IonGrid, IonIcon, IonInput, IonItem, IonLabel, IonRow, IonSelect, IonSelectOption } from "@ionic/react";
 import { search, eye } from "ionicons/icons";
+import { customPopoverOptions } from "../../../../utils/customPopoverOptions";
 import DatePicker from "../../../Combos/DatePicker";
 
 const DocumentoPartial: React.FC = () => {
@@ -53,8 +54,8 @@ const DocumentoPartial: React.FC = () => {
 
                         <IonCol size-sm='12' size-md='10' size-lg='3' style={{ marginTop: 16 }}>
                             <IonItem>
-                                <IonLabel>Estado Policial</IonLabel>
-                                <IonSelect interface="popover">
+                                <IonLabel position="floating">Estado Policial</IonLabel>
+                                <IonSelect interfaceOptions={customPopoverOptions} interface="popover">
                                     <IonSelectOption value="estadoPolicial">Estado Policial 1</IonSelectOption>
                                 </IonSelect>
                             </IonItem>
@@ -62,8 +63,8 @@ const DocumentoPartial: React.FC = () => {
 
                         <IonCol size-sm='12' size-md='10' size-lg='3' style={{ marginTop: 16 }}>
                             <IonItem>
-                                <IonLabel>Tipo</IonLabel>
-                                <IonSelect interface="popover">
+                                <IonLabel position="floating">Tipo</IonLabel>
+                                <IonSelect interfaceOptions={customPopoverOptions} interface="popover">
                                     <IonSelectOption value="tipo">Tipo 1</IonSelectOption>
                                 </IonSelect>
                             </IonItem>
@@ -90,8 +91,8 @@ const DocumentoPartial: React.FC = () => {
 
                         <IonCol size-sm='12' size-md='10' size-lg='3' style={{ marginTop: 16 }}>
                             <IonItem>
-                                <IonLabel>Entidade</IonLabel>
-                                <IonSelect interface="popover">
+                                <IonLabel position="floating">Entidade</IonLabel>
+                                <IonSelect interfaceOptions={customPopoverOptions} interface="popover">
                                     <IonSelectOption value="entidade">Entidade 1</IonSelectOption>
                                 </IonSelect>
                             </IonItem>
@@ -103,8 +104,8 @@ const DocumentoPartial: React.FC = () => {
 
                         <IonCol size-sm='12' size-md='10' size-lg='3' style={{ marginTop: 16 }}>
                             <IonItem>
-                                <IonLabel>Local</IonLabel>
-                                <IonSelect interface="popover">
+                                <IonLabel position="floating">Local</IonLabel>
+                                <IonSelect interfaceOptions={customPopoverOptions} interface="popover">
                                     <IonSelectOption value="local">Local 1</IonSelectOption>
                                 </IonSelect>
                             </IonItem>

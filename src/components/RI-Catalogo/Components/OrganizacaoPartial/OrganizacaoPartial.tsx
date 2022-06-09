@@ -1,5 +1,6 @@
 import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCol, IonGrid, IonIcon, IonInput, IonItem, IonLabel, IonRow, IonSelect, IonSelectOption } from "@ionic/react";
 import { search, eye } from "ionicons/icons";
+import { customPopoverOptions } from "../../../../utils/customPopoverOptions";
 
 const OrganizacaoPartial: React.FC = () => {
 
@@ -87,8 +88,8 @@ const OrganizacaoPartial: React.FC = () => {
 
                         <IonCol size-sm='12' size-md='10' size-lg='3' style={{ marginTop: 16 }}>
                             <IonItem>
-                                <IonLabel>Zona/Bairro</IonLabel>
-                                <IonSelect interface="popover">
+                                <IonLabel position="floating">Zona/Bairro</IonLabel>
+                                <IonSelect interfaceOptions={customPopoverOptions} interface="popover">
                                     <IonSelectOption value="zonaBairro">Zona/Bairro 1</IonSelectOption>
                                 </IonSelect>
                             </IonItem>
@@ -99,8 +100,8 @@ const OrganizacaoPartial: React.FC = () => {
 
                         <IonCol size-sm='12' size-md='10' size-lg='3' style={{ marginTop: 16 }}>
                             <IonItem>
-                                <IonLabel>Tipo</IonLabel>
-                                <IonSelect interface="popover">
+                                <IonLabel position="floating">Tipo</IonLabel>
+                                <IonSelect interfaceOptions={customPopoverOptions} interface="popover">
                                     <IonSelectOption value="tipo">Tipo 1</IonSelectOption>
                                 </IonSelect>
                             </IonItem>

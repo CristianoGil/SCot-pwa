@@ -7,6 +7,7 @@ import React from "react";
 import { setTimeout } from "timers";
 import { useAppSelector } from "../../../../app/hooks";
 import { getInputValidations_LocalInfraccao } from "../../../../Validations/Contra-Ordenacoes/InputValidationsSlice_LocalInfraccao";
+import { customPopoverOptions } from "../../../../utils/customPopoverOptions";
 
 interface LocalInfracaoData{
     setParentLocalInfracaoData?:any
@@ -284,8 +285,8 @@ const LocalInfraccao: React.FC<LocalInfracaoData> = (props) => {
 
                             <IonItem>
 
-                                <IonLabel>Distrito *</IonLabel>
-                                <IonSelect interface="popover" onIonChange={onchange_filterConcelhoByDistritoId}>
+                                <IonLabel position="floating">Distrito *</IonLabel>
+                                <IonSelect interfaceOptions={customPopoverOptions} interface="popover" onIonChange={onchange_filterConcelhoByDistritoId}>
                                     {distritos?.map((local: any) => {
                                         return (
                                             <IonSelectOption key={`${local.id}`}
@@ -301,8 +302,8 @@ const LocalInfraccao: React.FC<LocalInfracaoData> = (props) => {
 
                         <IonCol size-sm="9" size-md="12" size-lg="4" style={{ marginTop: 16 }}>
                             <IonItem>
-                                <IonLabel>Concelho *</IonLabel>
-                                <IonSelect interface="popover" onIonChange={onchange_filterFreguesiasByConcelhoId}>
+                                <IonLabel position="floating">Concelho *</IonLabel>
+                                <IonSelect interfaceOptions={customPopoverOptions} interface="popover" onIonChange={onchange_filterFreguesiasByConcelhoId}>
                                     {concelhos?.map((local: any) => {
                                         return (
                                             <IonSelectOption key={`${local.id}`}
@@ -316,8 +317,8 @@ const LocalInfraccao: React.FC<LocalInfracaoData> = (props) => {
 
                         <IonCol size-sm="9" size-md="12" size-lg="4" style={{ marginTop: 16 }}>
                             <IonItem>
-                                <IonLabel>Freguesia *</IonLabel>
-                                <IonSelect interface="popover" onIonChange={onchange_filterLocalidadesByFreguesiaId}>
+                                <IonLabel position="floating">Freguesia *</IonLabel>
+                                <IonSelect interfaceOptions={customPopoverOptions} interface="popover" onIonChange={onchange_filterLocalidadesByFreguesiaId}>
                                     {freguesias?.map((local: any) => {
                                         return (
                                             <IonSelectOption key={`${local.id}`}
@@ -334,8 +335,8 @@ const LocalInfraccao: React.FC<LocalInfracaoData> = (props) => {
                     <IonRow>
                         <IonCol size-sm="9" size-md="12" size-lg="4" style={{ marginTop: 16 }}>
                             <IonItem>
-                                <IonLabel>Localidade *</IonLabel>
-                                <IonSelect interface="popover" value={localidade} onIonChange={(e)=>{ setLocalidade(e.detail.value)}}>
+                                <IonLabel position="floating">Localidade *</IonLabel>
+                                <IonSelect interfaceOptions={customPopoverOptions} interface="popover" value={localidade} onIonChange={(e)=>{ setLocalidade(e.detail.value)}}>
                                     {localidades?.map((local: any) => {
                                         return (
                                             <IonSelectOption key={`${local.id}`}
@@ -366,8 +367,8 @@ const LocalInfraccao: React.FC<LocalInfracaoData> = (props) => {
                     <IonRow>
                         <IonCol size-sm="9" size-md="12" size-lg="4">
                             <IonItem>
-                                <IonLabel>Tipo *</IonLabel>
-                                <IonSelect interface="popover" onIonChange={(e)=>{setTipo(e.detail.value)}}>
+                                <IonLabel position="floating">Tipo *</IonLabel>
+                                <IonSelect interfaceOptions={customPopoverOptions} interface="popover" onIonChange={(e)=>{setTipo(e.detail.value)}}>
                                     {tipos?.map((local: any) => {
                                         return (
                                             <IonSelectOption key={`${local.id}`}

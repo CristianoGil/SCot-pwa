@@ -1,8 +1,7 @@
-import { IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCol, IonGrid, IonHeader, IonInput, IonItem, IonLabel, IonRadio, IonRadioGroup, IonRow, IonSelect, IonSelectOption, useIonAlert, useIonLoading } from "@ionic/react";
+import { IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonGrid, IonSelect, useIonAlert, useIonLoading } from "@ionic/react";
 import { useEffect, useState } from "react";
 import { Deposito48hrService } from "../../../../api/Deposito48hrService";
 import { DepositosNaoPago, DepositoResponse } from "../../../../model/deposito";
-import DatePicker from "../../../Combos/DatePicker";
 import Deposito from "./Depositos";
 
 

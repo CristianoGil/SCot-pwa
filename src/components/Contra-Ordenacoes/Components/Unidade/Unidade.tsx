@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Contraordenacao } from "../../../../api/Contraordenacao";
 import DatePicker from "../../../Combos/DatePicker";
 import _ from 'underscore';
+import { customPopoverOptions } from "../../../../utils/customPopoverOptions";
 
 interface UnidadeData {
     setUnidadeData?: any
@@ -80,8 +81,8 @@ const Unidade: React.FC<UnidadeData> = (props) => {
                     <IonRow>
                         <IonCol size-sm="9" size-md="12" size-lg="4" style={{ marginTop: 16 }}>
                             <IonItem>
-                                <IonLabel>Unidade/Comando *</IonLabel>
-                                <IonSelect interface="popover" onIonChange={onchange_getSelectedUnidade} >
+                                <IonLabel position="floating">Unidade/Comando *</IonLabel>
+                                <IonSelect interfaceOptions={customPopoverOptions} interface="popover" onIonChange={onchange_getSelectedUnidade} >
                                     {unidadesImt?.map((local: any) => {
                                         return (
                                             <IonSelectOption key={`${local.id}`}

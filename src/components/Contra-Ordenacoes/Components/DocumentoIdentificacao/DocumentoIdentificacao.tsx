@@ -1,13 +1,9 @@
 import {
-    IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCol, IonDatetime, IonGrid,
-    IonIcon, IonInput, IonItem, IonLabel, IonPopover, IonRow,
-    IonSelect, IonSelectOption, IonToggle
+    IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCol, IonGrid, IonInput, IonItem, IonLabel, IonRow, IonToggle
 } from "@ionic/react"
-import {calendar} from "ionicons/icons"
 import React from "react";
-import {useState} from "react";
+import { useState } from "react";
 import _ from "underscore";
-import {IDocumentoPessoa} from "../../../../model/person"
 import DatePicker from "../../../Combos/DatePicker";
 import DocIdentificacao from "../../../Combos/Pessoa/DocIdentificacao";
 import EntidadeEmissora from "../../../Combos/Pessoa/EntidadeEmissora";
@@ -42,7 +38,7 @@ const DocumentoIdentificacao: React.FC<IDocumentoIdentificacao> = (props) => {
     React.useEffect(() => {
         const _data = {
             isPresentedDocumentoIdentificacao,
-            docIdentificacao:  docIdentificacao,
+            docIdentificacao: docIdentificacao,
             numero,
             paisEmissao: paisDeEmissao,
             entidadeEmissora: entidadeEmissora,
@@ -52,8 +48,8 @@ const DocumentoIdentificacao: React.FC<IDocumentoIdentificacao> = (props) => {
         if (_.has(props, 'setParentDocumentoIdentificacaoData')) {
             props.setParentDocumentoIdentificacaoData(_data)
         }
-        
-    }, [isPresentedDocumentoIdentificacao, docIdentificacao,numero,paisDeEmissao,entidadeEmissora, localEmissao]);
+
+    }, [isPresentedDocumentoIdentificacao, docIdentificacao, numero, paisDeEmissao, entidadeEmissora, localEmissao]);
 
     return (
         <IonCard>
@@ -82,20 +78,20 @@ const DocumentoIdentificacao: React.FC<IDocumentoIdentificacao> = (props) => {
 
                     <IonRow>
 
-                        <IonCol size-sm="9" size-md="8" size-lg="4" style={{marginTop: 16}}>
+                        <IonCol size-sm="9" size-md="8" size-lg="4" style={{ marginTop: 16 }}>
                             <DocIdentificacao
                                 selected={docIdentificacao}
                                 setSelected={setDocIdentificacao}
                                 inputName="inputDocIdentificacao"
                                 interface="popover"
-                                textLabel="Doc. de Identificação"/>
+                                textLabel="Doc. de Identificação" />
                         </IonCol>
 
                         <IonCol size-sm="3" size-md="3" size-lg="3">
                             <IonItem>
                                 <IonLabel position="floating" itemType="number"
-                                          placeholder="Enter Number">Número</IonLabel>
-                                <IonInput name="numero" value={numero} onIonChange={(e)=> setNumero(e.detail.value!)}></IonInput>
+                                    placeholder="Enter Number">Número</IonLabel>
+                                <IonInput name="numero" value={numero} onIonChange={(e) => setNumero(e.detail.value!)}></IonInput>
                             </IonItem>
                         </IonCol>
                     </IonRow>
@@ -107,7 +103,7 @@ const DocumentoIdentificacao: React.FC<IDocumentoIdentificacao> = (props) => {
                                 setSelected={setPaisDeEmissao}
                                 inputName={'docIdentificacao-paisEmissao'}
                                 textLabel={'País de emissão'}
-                                  interface="popover"/>
+                                interface="popover" />
                         </IonCol>
 
                         <IonCol size-sm='12' size-md='12' size-lg='4'>
@@ -116,7 +112,7 @@ const DocumentoIdentificacao: React.FC<IDocumentoIdentificacao> = (props) => {
                                 setSelected={setEntidadeEmissora}
                                 inputName={'docIdentificacao-entidadeEmissora'}
                                 textLabel={'Entidade de Emissora'}
-                                interface="popover"/>
+                                interface="popover" />
                         </IonCol>
 
                         <IonCol size-sm='12' size-md='12' size-lg='4'>
@@ -125,7 +121,7 @@ const DocumentoIdentificacao: React.FC<IDocumentoIdentificacao> = (props) => {
                                 setSelected={setLocalEmissao}
                                 inputName={'docIdentificacao-localEmissao'}
                                 textLabel={'Local de Emissão'}
-                                interface="popover"/>
+                                interface="popover" />
                         </IonCol>
 
                         <IonCol size-sm='12' size-md='12' size-lg='4'>
@@ -133,7 +129,7 @@ const DocumentoIdentificacao: React.FC<IDocumentoIdentificacao> = (props) => {
                                 selected={dataEmissao}
                                 setSelected={setDataEmissao}
                                 inputName={'docIdentificacao-dataEmissao'}
-                                textLabel="Data de Emissão"/>
+                                textLabel="Data de Emissão" />
                         </IonCol>
 
                     </IonRow>

@@ -5,6 +5,7 @@ import {Contraordenacao} from "../../api/Contraordenacao";
 import _ from "underscore";
 import {IID_DESCRICAO} from "../../model/extendable";
 import { cleanString } from "../../utils/apex-formatters";
+import { customPopoverOptions } from "../../utils/customPopoverOptions";
 
 const tipoAssinaturaOpcao = [
     {id: 0, descricao: 'Chave Móvel Digital'},
@@ -66,8 +67,8 @@ const FormatoAssinaturasQualificadas: React.FC<IModelo> = (props) => {
 
     return (
         <IonItem>
-            <IonLabel>Formato de Assinatura</IonLabel>
-            <IonSelect value={selected} interface={props.interface}
+            <IonLabel position="floating">Formato de Assinatura</IonLabel>
+            <IonSelect interfaceOptions={customPopoverOptions} value={selected} interface={props.interface}
                        name={props.inputName}
                        placeholder="Seleciona a assinatura"
                        onIonChange={e =>

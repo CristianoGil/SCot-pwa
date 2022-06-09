@@ -2,6 +2,7 @@ import {IonItem, IonLabel, IonSelect, IonSelectOption} from "@ionic/react";
 import React from "react";
 import {useState} from "react";
 import {Contraordenacao} from "../../../api/Contraordenacao";
+import { customPopoverOptions } from "../../../utils/customPopoverOptions";
 
 interface IPROPSLocalEmissao {
     inputName: string
@@ -33,8 +34,8 @@ const LocalEmissao: React.FC<IPROPSLocalEmissao> = (props: IPROPSLocalEmissao) =
 
     return (
         <IonItem>
-            <IonLabel>{props.textLabel}</IonLabel>
-            <IonSelect name={props.inputName} value={props.selected?.id} interface={props.interface}
+            <IonLabel position="floating">{props.textLabel}</IonLabel>
+            <IonSelect interfaceOptions={customPopoverOptions} name={props.inputName} value={props.selected?.id} interface={props.interface}
                        onIonChange={(e) => {
                            let value = (combos || []).find((d )=> d.id === e.detail.value)
                            props.setSelected(value)
