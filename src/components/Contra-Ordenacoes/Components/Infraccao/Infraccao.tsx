@@ -55,7 +55,7 @@ const Infraccao: React.FC<InfracaoData> = (props) => {
     const [comarca, setComarca] = useState<number>();
     const [comarcaDto, setComarcaDto] = useState<ComonResult>();
     const [comarcasPadrao, setComarcasPadrao] = useState<ComonResult[]>();
-    const [entidades, setEntidades] = useState<ComonResult[]>();
+    const [entidades, setEntidades] = useState(userContext.user.entidade);
     const [tiposInfracao, setTiposInfracao] = useState<ComonResult[]>();
     const [subtiposInfracao, setSubTiposInfracao] = useState<Subtificacao[]>();
     const [subtiposInfracaoPadrao, setSubtiposInfracaoPadrao] = useState<Subtificacao[]>();
@@ -103,13 +103,19 @@ const Infraccao: React.FC<InfracaoData> = (props) => {
 
     const getInfracao = async (): Promise<InfracaoResponse> => await new Contraordenacao().carregarCombosInfracao()
     React.useEffect(() => {
+        
         getInfracao().then((response_infracao) => {
             setEntidades(response_infracao?.entidades)
+          
+            let entidadeDoUtilizadorLogado = userContext.user.entidade;
+            entidadeDoUtilizadorLogado = entidades?.find((e: { descricao: any; })=> e?.descricao ===entidadeDoUtilizadorLogado?.descricao)
+            setEntidade(entidadeDoUtilizadorLogado)
             setComarcas(response_infracao?.comarcas)
             setComarcasPadrao(response_infracao?.comarcas)
             setTiposInfracao(response_infracao?.tipificacoes)
             setSubtiposInfracaoPadrao(response_infracao?.subtipificacoes)
             setSubTiposInfracao(response_infracao?.subtipificacoes)
+             console.log(response_infracao)
         }).catch((error) => {
             console.error("Load infracao combos: \n", error);
         })
@@ -119,6 +125,8 @@ const Infraccao: React.FC<InfracaoData> = (props) => {
             setComarca(comarcaSelecionada?.id)
             setComarcaDto(comarcaSelecionada)
         }
+        
+        // entidade
 
     }, [props.currentComarca]);
 
@@ -213,11 +221,11 @@ const Infraccao: React.FC<InfracaoData> = (props) => {
                         <IonCol size-sm='12' size-md='10' size-lg='3' style={{ marginTop: 16 }}>
                             <IonItem>
                                 <IonLabel>Entidade</IonLabel>
-                                <IonSelect interface="popover" onIonChange={(e)=>setEntidade(e.detail.value)}>
+                                <IonSelect interface="popover" value={entidade} onIonChange={(e)=>setEntidade(e.detail.value)} selectedText={entidade?.descricao}>
                                     {entidades?.map((local: any) => {
                                         return (
                                             <IonSelectOption key={`${local.id}`}
-                                                value={JSON.stringify({id: local.id, descricao:local.descricao})}>{`${local.descricao}`}</IonSelectOption>
+                                                value={local}>{`${local.descricao}`}</IonSelectOption>
                                         )
                                     })}
                                 </IonSelect>
