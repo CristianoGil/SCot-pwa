@@ -1,4 +1,6 @@
 import {
+    IonAccordion,
+    IonAccordionGroup,
     IonButton,
     IonCard,
     IonCardContent,
@@ -14,6 +16,7 @@ import {
     IonInput,
     IonItem,
     IonLabel,
+    IonList,
     IonPopover,
     IonRow,
     IonToggle,
@@ -21,18 +24,18 @@ import {
     useIonAlert,
     useIonLoading,
 } from '@ionic/react';
-import {useContext, useState} from 'react';
-import {bookSharp, search, newspaperSharp, informationCircle} from 'ionicons/icons';
+import { useContext, useState } from 'react';
+import { bookSharp, search, newspaperSharp, informationCircle, chevronDownOutline, chevronUpOutline } from 'ionicons/icons';
 import React from 'react';
 import './Veiculo.scss';
 import Pais from '../../../Combos/Veiculo/Pais';
-import {AlertNetworkOfflineContext} from '../../../../Context/AlertNetworkOfflineContext';
+import { AlertNetworkOfflineContext } from '../../../../Context/AlertNetworkOfflineContext';
 import _ from 'underscore';
-import {Contraordenacao} from '../../../../api/Contraordenacao';
-import {IPesquisarVeiculoResponse} from '../../../../model/contraordenacao';
+import { Contraordenacao } from '../../../../api/Contraordenacao';
+import { IPesquisarVeiculoResponse } from '../../../../model/contraordenacao';
 import CardListItem from '../../../CardListItem';
 import DataTable from 'react-data-table-component';
-import {dateFormat} from '../../../../utils/apex-formatters';
+import { dateFormat } from '../../../../utils/apex-formatters';
 import Marca from '../../../Combos/Veiculo/Marca';
 import Modelo from '../../../Combos/Veiculo/Modelo';
 import Cor from '../../../Combos/Veiculo/Cor';
@@ -40,9 +43,9 @@ import Categoria from '../../../Combos/Veiculo/Categoria';
 import Classe from '../../../Combos/Veiculo/Classe';
 import Tipo from '../../../Combos/Veiculo/Tipo';
 import Subclasse from '../../../Combos/Veiculo/Subclasse';
-import {ICoimaVeiculo, IVeiculo, IVeiculoRequest} from '../../../../model/veiculo';
-import {veiculoSchema} from '../../../../Validations/VeiculoValidation';
-import {LivreteService} from '../../../../api/LivreteService';
+import { ICoimaVeiculo, IVeiculo, IVeiculoRequest } from '../../../../model/veiculo';
+import { veiculoSchema } from '../../../../Validations/VeiculoValidation';
+import { LivreteService } from '../../../../api/LivreteService';
 
 
 
@@ -93,25 +96,25 @@ const Veiculo: React.FC<IPROPS> = (props) => {
         {
             name: 'Ações',
             cell: (row: { accao: any }) => (
-                <IonButton onClick={(e) =>{
-                    
-                    const veiculoSemelhante = veiculos.find(v=> v.matricula ===row.accao)
-                    console.log(veiculoSemelhante,"veiculo")
+                <IonButton onClick={(e) => {
+
+                    const veiculoSemelhante = veiculos.find(v => v.matricula === row.accao)
+                    console.log(veiculoSemelhante, "veiculo")
                     setVeiculoSemelhanteData(veiculoSemelhante)
-                    
-                }}   size="small" color="primary" >
+
+                }} size="small" color="primary" >
                     <IonIcon slot="start" icon={informationCircle} />
                 </IonButton>
             )
         }
-    
-    ]; 
+
+    ];
     const alertOfflineContext = useContext<any>(AlertNetworkOfflineContext)
 
     const [inputMatricula_color, setInputMatricula_color] = useState<string>();
     const inputMatricula_canSearch = () => {
 
-        const matricula_IsValid = veiculoSchema.isValidSync({matricula: veiculoMatricula})
+        const matricula_IsValid = veiculoSchema.isValidSync({ matricula: veiculoMatricula })
         let inputColor: string;
 
         if (matricula_IsValid) {
@@ -153,7 +156,7 @@ const Veiculo: React.FC<IPROPS> = (props) => {
                 header: 'Atenção!',
                 message: 'Matricula inválido.',
                 buttons: [
-                    {text: 'Fechar'},
+                    { text: 'Fechar' },
                 ]
             })
             return;
@@ -178,8 +181,8 @@ const Veiculo: React.FC<IPROPS> = (props) => {
     const searchVeiculoByMatricula = async () => {
 
         const instanceContraordenacao = new Contraordenacao();
-        await instanceContraordenacao.pesquisarVeiculo({matricula: veiculoMatricula}).then((_veiculoData: IPesquisarVeiculoResponse) => {
-             
+        await instanceContraordenacao.pesquisarVeiculo({ matricula: veiculoMatricula }).then((_veiculoData: IPesquisarVeiculoResponse) => {
+
             setTimeout(() => {
                 setOpenPopoverVeiculoData(true);
                 setTimeout(() => {
@@ -194,7 +197,7 @@ const Veiculo: React.FC<IPROPS> = (props) => {
                 header: 'Error!',
                 message: 'Operação sem sucesso!\n' + e.message,
                 buttons: [
-                    {text: 'Fechar'},
+                    { text: 'Fechar' },
                 ]
             })
         }).finally(() => {
@@ -237,8 +240,11 @@ const Veiculo: React.FC<IPROPS> = (props) => {
     // Tipo
     const [tipo, setTipo] = useState<any>();
 
+    const [toggleBtnInformacaoIMT, setToggleBtnInformacaoIMT] = useState<boolean>(true);
+    const [toggleBtnInformacaoDetalhesSemelhanteSelecionado, setToggleBtnInformacaoDetalhesSemelhanteSelecionado] = useState<boolean>(true);
+
     const [currentVeiculoData, setCurrentVeiculoData] = useState<IVeiculo>();
-    const handlerFullfillFormVeiculoSemelhante = ()=>{
+    const handlerFullfillFormVeiculoSemelhante = () => {
         props.setParentVeiculoData(veiculoSemelhanteData);
         setCurrentVeiculoData(veiculoSemelhanteData)
         setOpenPopoverVeiculoData(false);
@@ -258,10 +264,10 @@ const Veiculo: React.FC<IPROPS> = (props) => {
             setModelo(veiculoData?.modelo);
             setSubclasse(veiculoData?.subclasse);
             setTipo(veiculoData?.tipo);
-}
+        }
 
 
-       
+
     }
 
     React.useEffect(() => {
@@ -281,14 +287,14 @@ const Veiculo: React.FC<IPROPS> = (props) => {
         }
 
         const veiculoRequest: IVeiculoRequest = {
-            matricula:pais,
+            matricula: veiculoMatricula,
             classe: classe,
             categoria: categoria,
             tipo: tipo,
             marca: marca,
             modelo: modelo,
             cor: cor
-            
+
         }
 
 
@@ -334,15 +340,14 @@ const Veiculo: React.FC<IPROPS> = (props) => {
         }).then(_livreteInfo => {
             const veiculo: IVeiculo = {
 
-                matricula: _livreteInfo.j1CategoriaNacional,
-                chassi: "",
+                matricula: _livreteInfo.amatricula,
+                chassi: _livreteInfo.enumQuadro,
                 ano: 0,
                 classe: {
-
-                    descricao: ""
+                    descricao:_livreteInfo.j1CategoriaNacional
                 },
                 categoria: {
-                    descricao: _livreteInfo.j1CategoriaNacional
+                    descricao: _livreteInfo.jcategoriaCe
                 }
                 , tipo: {
                     descricao: _livreteInfo.j2Tipo
@@ -369,19 +374,13 @@ const Veiculo: React.FC<IPROPS> = (props) => {
                     descricao: _livreteInfo.dscSituacao
                 },
                 ipo: false,
+                livrete:_livreteInfo
             }
             setVeiculoData(veiculo)
 
 
             const veiculoRequest: IVeiculoRequest = {
                 matricula: _livreteInfo.amatricula,
-        
-                categoria: _livreteInfo.jcategoriaCe,
-                tipo: _livreteInfo.j2Tipo,
-                marca: _livreteInfo.d1Marca,
-                modelo: _livreteInfo.d2Modelo,
-                cor: _livreteInfo.rcores
-                
             }
 
             new Contraordenacao().pesquisarVeiculosSemelhantes(veiculoRequest).then(veiculosResponse => {
@@ -410,7 +409,7 @@ const Veiculo: React.FC<IPROPS> = (props) => {
                     header: 'Error!',
                     message: 'Operação sem sucesso!\n' + veiculosError.message,
                     buttons: [
-                        {text: 'Fechar'},
+                        { text: 'Fechar' },
                     ]
                 })
             })
@@ -425,7 +424,7 @@ const Veiculo: React.FC<IPROPS> = (props) => {
                 header: 'Error!',
                 message: 'Operação sem sucesso!\n' + e.message,
                 buttons: [
-                    {text: 'Fechar'},
+                    { text: 'Fechar' },
                 ]
             })
 
@@ -459,7 +458,7 @@ const Veiculo: React.FC<IPROPS> = (props) => {
                         <IonCol size-sm='8' size-md='5' size-lg='3'>
                             <IonItem>
                                 <IonButton color='medium' fill="clear" id="open-search-input-1">
-                                    <IonIcon icon={search}/>
+                                    <IonIcon icon={search} />
                                 </IonButton>
                                 <IonInput
                                     maxlength={8}
@@ -470,17 +469,17 @@ const Veiculo: React.FC<IPROPS> = (props) => {
                                     name='Veiculo-matricula'
                                     value={veiculoMatricula}
                                     onKeyUp={keyup_VeiculoMatricula}
-                                    placeholder='Matrícula *'/>
+                                    placeholder='Matrícula *' />
                             </IonItem>
                         </IonCol>
                         <IonCol size-sm='4' size-md='5' size-lg='2'>
                             <IonItem lines='none'>
-                                <IonButton style={{background: '#084F87', borderRadius: 4}}
-                                           color="#084F87"
-                                           slot="start"
-                                           disabled={inputMatricula_canSearch()}
-                                           size='default'
-                                           onClick={handler_VeiculoSearchByMatricula}> Pesquisar </IonButton>
+                                <IonButton style={{ background: '#084F87', borderRadius: 4 }}
+                                    color="#084F87"
+                                    slot="start"
+                                    disabled={inputMatricula_canSearch()}
+                                    size='default'
+                                    onClick={handler_VeiculoSearchByMatricula}> Pesquisar </IonButton>
 
                             </IonItem>
                         </IonCol>
@@ -493,8 +492,8 @@ const Veiculo: React.FC<IPROPS> = (props) => {
                                 border: 'none'
                             }}>
                                 <IonImg src={'assets/images/Group 4529_icon.png'}
-                                        style={{width: 'fit-content'}}></IonImg>
-                                <strong style={{marginTop: 12, marginLeft: 2, color: 'black'}}>Dados sujeitos a
+                                    style={{ width: 'fit-content' }}></IonImg>
+                                <strong style={{ marginTop: 12, marginLeft: 2, color: 'black' }}>Dados sujeitos a
                                     validação</strong>
                             </div>
                         </IonCol>
@@ -504,42 +503,42 @@ const Veiculo: React.FC<IPROPS> = (props) => {
                     <IonRow>
                         <IonCol size-sm='12' size-md='12' size-lg='3'>
                             <Pais selected={pais} setSelected={setPais} inputName={'veiculo-pais'} textLabel={'País'}
-                                  interface="popover"/>
+                                interface="popover" />
                         </IonCol>
 
                         <IonCol size-sm='12' size-md='12' size-lg='3'>
                             <Marca selected={marca} setSelected={setMarca} inputName={'veiculo-marca'}
-                                   textLabel={'Marca'} interface="popover"/>
+                                textLabel={'Marca'} interface="popover" />
                         </IonCol>
 
                         <IonCol size-sm='12' size-md='12' size-lg='3'>
                             <Modelo selected={modelo} setSelected={setModelo} inputName={'veiculo-modelo'}
-                                    textLabel={'Modelo'} interface="popover"/>
+                                textLabel={'Modelo'} interface="popover" />
                         </IonCol>
                         <IonCol size-sm='12' size-md='12' size-lg='3'>
-                            <Cor selected={cor} setSelected={setCor} interface="popover" inputName={'veiculo-cor'} textLabel={'Cor'}/>
+                            <Cor selected={cor} setSelected={setCor} interface="popover" inputName={'veiculo-cor'} textLabel={'Cor'} />
                         </IonCol>
                     </IonRow>
 
                     <IonRow>
                         <IonCol size-sm='12' size-md='12' size-lg='3'>
                             <Categoria selected={categoria} setSelected={setCategoria} inputName={'veiculo-categoria'}
-                                       textLabel={'Categoria'} interface="popover"/>
+                                textLabel={'Categoria'} interface="popover" />
                         </IonCol>
 
                         <IonCol size-sm='12' size-md='12' size-lg='3'>
                             <Classe selected={classe} setSelected={setClasse} inputName={'veiculo-classe'}
-                                    textLabel={'Classe'} interface="popover"/>
+                                textLabel={'Classe'} interface="popover" />
                         </IonCol>
 
                         <IonCol size-sm='12' size-md='12' size-lg='3'>
                             <Tipo selected={tipo} setSelected={setTipo} inputName={'veiculo-tipo'} textLabel={'Tipo'}
-                                  interface="popover"/>
+                                interface="popover" />
                         </IonCol>
 
                         <IonCol size-sm='12' size-md='12' size-lg='3'>
                             <Subclasse selected={subclasse} setSelected={setSubclasse} inputName={'veiculo-subclasse'}
-                                       textLabel={'Subclasse'} interface="popover"/>
+                                textLabel={'Subclasse'} interface="popover" />
                         </IonCol>
 
 
@@ -568,8 +567,8 @@ const Veiculo: React.FC<IPROPS> = (props) => {
                         </IonLabel>
 
                         <IonButton className="btn-catalogo" fill="outline" color="medium" slot="end"
-                                   onClick={carregarInformacaoLivreve}>
-                            Catálogo <IonIcon slot="start" icon={bookSharp}/>
+                            onClick={carregarInformacaoLivreve}>
+                            Catálogo <IonIcon slot="start" icon={bookSharp} />
                         </IonButton>
 
                         <IonButton className="btn-close" fill="outline" color="medium" slot="end" onClick={() => {
@@ -584,7 +583,7 @@ const Veiculo: React.FC<IPROPS> = (props) => {
                 <IonContent>
 
                     {/* Informação do IMT */}
-                    <IonCard style={{margin: 30}}>
+                    <IonCard style={{ margin: 30 }}>
 
                         <IonCardHeader>
                             <IonCardTitle>Informação do IMT
@@ -594,41 +593,124 @@ const Veiculo: React.FC<IPROPS> = (props) => {
                         <IonCardContent>
 
                             <IonButton className="btn-apply-info" fill="solid" color="primary" slot="end"
-                                       onClick={handlerFullfillForm}>
-                                Utilizar estes dados <IonIcon slot="start" icon={newspaperSharp}/>
+                                onClick={handlerFullfillForm}>
+                                Utilizar estes dados <IonIcon slot="start" icon={newspaperSharp} />
                             </IonButton>
 
                             <IonGrid>
 
                                 <CardListItem
-                                    c1={{titulo: 'Categoria', valor: veiculoData?.categoria?.descricao}}
-                                    c2={{titulo: 'Classe', valor: veiculoData?.classe?.descricao}}
-                                    c3={{titulo: 'Tipo', valor: veiculoData?.tipo?.descricao}}
-                                    c4={{titulo: 'Subclasse', valor: veiculoData?.subclasse?.descricao}}
+                                    c1={{ titulo: 'Categoria', valor: veiculoData?.categoria?.descricao }}
+                                    c2={{ titulo: 'Classe', valor: veiculoData?.classe?.descricao }}
+                                    c3={{ titulo: 'Tipo', valor: veiculoData?.tipo?.descricao }}
+                                    c4={{ titulo: 'Subclasse', valor: veiculoData?.subclasse?.descricao }}
                                 />
 
                                 <CardListItem
-                                    c1={{titulo: 'Matrícula', valor: veiculoData?.matricula}}
-                                    c2={{titulo: 'Chassi', valor: veiculoData?.chassi}}
-                                    c3={{titulo: 'Ano Origem', valor: veiculoData?.ano}}
-                                    c4={{titulo: 'País de Origem', valor: veiculoData?.pais?.descricao}}
+                                    c1={{ titulo: 'Matrícula', valor: veiculoData?.matricula }}
+                                    c2={{ titulo: 'Chassi', valor: veiculoData?.chassi }}
+                                    c3={{ titulo: 'Ano Origem', valor: veiculoData?.ano }}
+                                    c4={{ titulo: 'País de Origem', valor: veiculoData?.pais?.descricao }}
                                 />
 
                                 <CardListItem
-                                    c1={{titulo: 'Marca', valor: veiculoData?.marca?.descricao}}
-                                    c2={{titulo: 'Modelo', valor: veiculoData?.modelo?.descricao}}
-                                    c3={{titulo: 'Cor principal', valor: veiculoData?.cor?.descricao}}
-                                    c4={{titulo: 'Situação do veículo', valor: veiculoData?.estadoPolicial?.descricao}}
+                                    c1={{ titulo: 'Marca', valor: veiculoData?.marca?.descricao }}
+                                    c2={{ titulo: 'Modelo', valor: veiculoData?.modelo?.descricao }}
+                                    c3={{ titulo: 'Cor principal', valor: veiculoData?.cor?.descricao }}
+                                    c4={{ titulo: 'Situação do veículo', valor: veiculoData?.estadoPolicial?.descricao }}
                                 />
+
+                                <section className={toggleBtnInformacaoIMT ? 'ion-hide' : ''}>
+                                    <CardListItem
+                                        c1={{ titulo: 'Data primeira matrícula', valor: veiculoData?.livrete?.bdtPrimeiraMatricula }}
+                                        c2={{ titulo: 'Dígito matrícula', valor: veiculoData?.livrete?.adigitoMatricula }}
+                                        c3={{ titulo: 'Variante', valor: veiculoData?.livrete?.d2Variante }}
+                                        c4={{ titulo: 'Versão', valor: veiculoData?.livrete?.d2Versao }}
+                                    />
+
+                                    <CardListItem
+                                        c1={{ titulo: 'Peso bruto', valor: veiculoData?.livrete?.f1PesoBruto }}
+                                        c2={{ titulo: 'Peso bruto total', valor: veiculoData?.livrete?.f2PesoBrutoTotal }}
+                                        c3={{ titulo: 'Peso bruto conjunto', valor: veiculoData?.livrete?.f3PesoBrutoConjunto }}
+                                        c4={{ titulo: 'Tara total', valor: veiculoData?.livrete?.gtaraTotal }}
+                                    />
+
+                                    <CardListItem
+                                        c1={{ titulo: 'Data de validade', valor: veiculoData?.livrete?.hdtValidade }}
+                                        c2={{ titulo: 'Data de matrícula', valor: veiculoData?.livrete?.idtMatricula }}
+                                        c3={{ titulo: 'N° homologação CE', valor: veiculoData?.livrete?.knrHomologacaoCe }}
+                                        c4={{ titulo: 'N° homologação Nacional', valor: veiculoData?.livrete?.k1NumHomologacaoNacional }}
+                                    />
+
+                                    <CardListItem
+                                        c1={{ titulo: 'Cilindrada', valor: veiculoData?.livrete?.p1Cilindrada }}
+                                        c2={{ titulo: 'Potência efetiva', valor: veiculoData?.livrete?.p2PotenciaEfetiva }}
+                                        c3={{ titulo: 'Tipo combustível', valor: veiculoData?.livrete?.p3TipoCombustivel }}
+                                        c4={{ titulo: 'Potência rpm', valor: veiculoData?.livrete?.p4PotenciaRpm }}
+                                    />
+
+                                    <CardListItem
+                                        c1={{ titulo: 'Fração pot. efetiva de tara total', valor: veiculoData?.livrete?.qfracaoPotefetivaTaratotal }}
+                                        c2={{ titulo: 'N° de lugares', valor: veiculoData?.livrete?.s1NumLugares }}
+                                        c3={{ titulo: 'Lotação em pé', valor: veiculoData?.livrete?.s2LotacaoEmPe }}
+                                        c4={{ titulo: 'Categoria CE', valor: veiculoData?.livrete?.jcategoriaCe }}
+                                    />
+
+                                    <CardListItem
+                                        c1={{ titulo: 'Tipo de caixa', valor: veiculoData?.livrete?.j3TipoCaixa }}
+                                        c2={{ titulo: 'Distância entre eixos', valor: veiculoData?.livrete?.mdistanciaEntreEixos }}
+                                        c3={{ titulo: 'Peso max. admissível 1', valor: veiculoData?.livrete?.npesoMaxAdmimissivel1 }}
+                                        c4={{ titulo: 'Peso max. admissível 2', valor: veiculoData?.livrete?.npesoMaxAdmimissivel2}}
+                                    />
+
+                                    <CardListItem
+                                        c1={{ titulo: 'Peso max. admissível 3', valor: veiculoData?.livrete?.npesoMaxAdmimissivel3 }}
+                                        c2={{ titulo: 'Peso max. admissível 4', valor: veiculoData?.livrete?.npesoMaxAdmimissivel4 }}
+                                        c3={{ titulo: 'Peso max. admissível 5', valor: veiculoData?.livrete?.npesoMaxAdmimissivel5 }}
+                                        c4={{ titulo: 'Peso bruto reb. com travão', valor: veiculoData?.livrete?.o1PesoBrutoRebComTravao }}
+                                    />
+
+                                    <CardListItem
+                                        c1={{ titulo: 'Peso bruto reb. sem travão', valor: veiculoData?.livrete?.o2PesoBrutoRebSemTravao }}
+                                        c2={{ titulo: 'Nível sonoro estacionário', valor: veiculoData?.livrete?.u1NivelSonoroEstacionario }}
+                                        c3={{ titulo: 'Nível sonoro rpm', valor: veiculoData?.livrete?.u2NivelSonoroRpm }}
+                                        c4={{ titulo: 'Emissões CO tipo 1', valor: veiculoData?.livrete?.v1EmissoesCoTipoi }}
+                                    />
+
+                                    <CardListItem
+                                        c1={{ titulo: 'Emissão de partículas', valor: veiculoData?.livrete?.v5EmissaoParticulas }}
+                                        c2={{ titulo: 'CO2 combinado', valor: veiculoData?.livrete?.v7Co2Combinado }}
+                                        c3={{ titulo: 'Medida pneus frente', valor: veiculoData?.livrete?.x1MedidaPneusFrente }}
+                                        c4={{ titulo: 'Medida pneus retaguarda', valor: veiculoData?.livrete?.x2MedidaPneusRetaguarda }}
+                                    />
+
+                                    <CardListItem
+                                        c1={{ titulo: 'Comprimento caixa', valor: veiculoData?.livrete?.z1ComprimentoCaixa }}
+                                        c2={{ titulo: 'Poder elevação', valor: veiculoData?.livrete?.z2PoderElevacao }}
+                                    />
+
+                                    <CardListItem
+                                        c1={{ titulo: 'Anotações', valor: veiculoData?.livrete?.z3AnotacoesEspeciais }}
+                                    />
+                                </section>
 
                             </IonGrid>
-
+                            <div>
+                                <IonButton style={{ background: '#EBF2FF', borderRadius: 4, color: 'black' }}
+                                    color="#EBF2FF"
+                                    slot="start"
+                                    size='default' expand="full" onClick={() => {
+                                        setToggleBtnInformacaoIMT(!toggleBtnInformacaoIMT);
+                                    }}>
+                                    <IonIcon slot="start" icon={toggleBtnInformacaoIMT ? chevronDownOutline : chevronUpOutline} /> {toggleBtnInformacaoIMT ? 'Ver dados complementares do veículo' : 'Esconder dados complementares do veículo'}
+                                </IonButton>
+                            </div>
                         </IonCardContent>
                     </IonCard>
                     {/* Informação do IMT */}
 
                     {/* Informações adicionais */}
-                    <IonCard style={{margin: 30}}>
+                    <IonCard style={{ margin: 30 }}>
 
                         <IonCardHeader>
                             <IonCardTitle>Informações adicionais</IonCardTitle>
@@ -639,13 +721,13 @@ const Veiculo: React.FC<IPROPS> = (props) => {
                             <IonGrid>
 
                                 <CardListItem
-                                    c1={{titulo: 'Estado da viatura', valor: ""}}
-                                    c2={{titulo: 'Inspeção em Atraso-IPO', valor: veiculoData?.ipo ? 'Sim' : 'Não'}}
-                                    // c3={{
-                                    //     titulo: 'Coimas em Atraso',
-                                    //     valor: veiculoData?.isCoimasEmAtraso ? 'Sim' : 'Não'
-                                    // }}
-                                    // c4={{ titulo: 'Sanções acessórias', valor: 'n/d' }}
+                                    c1={{ titulo: 'Estado da viatura', valor: "" }}
+                                    c2={{ titulo: 'Inspeção em Atraso-IPO', valor: veiculoData?.ipo ? 'Sim' : 'Não' }}
+                                // c3={{
+                                //     titulo: 'Coimas em Atraso',
+                                //     valor: veiculoData?.isCoimasEmAtraso ? 'Sim' : 'Não'
+                                // }}
+                                // c4={{ titulo: 'Sanções acessórias', valor: 'n/d' }}
                                 />
 
                                 <IonCardContent>
@@ -653,67 +735,67 @@ const Veiculo: React.FC<IPROPS> = (props) => {
 
                                         {
                                             (veiculoData?.coimasEmAtraso || []).map((coimas: ICoimaVeiculo, index: number) => {
-                                                    return (
-                                                        <IonCardContent key={`${coimas.id}-${coimas.data}-${index}`}>
+                                                return (
+                                                    <IonCardContent key={`${coimas.id}-${coimas.data}-${index}`}>
 
-                                                            <IonCardHeader>
-                                                                <IonCardSubtitle>Coima - {++index}</IonCardSubtitle>
-                                                            </IonCardHeader>
+                                                        <IonCardHeader>
+                                                            <IonCardSubtitle>Coima - {++index}</IonCardSubtitle>
+                                                        </IonCardHeader>
 
-                                                            < CardListItem
-                                                                c1={{
-                                                                    titulo: 'Data',
-                                                                    valor: dateFormat(`${coimas?.data}`, 'yyyy-MM-DD')
-                                                                }}
-                                                                c2={{
-                                                                    titulo: 'Número do Auto',
-                                                                    valor: coimas?.numeroAuto
-                                                                }}
-                                                                c3={{
-                                                                    titulo: 'Codigo de Infração',
-                                                                    valor: coimas?.codigoInfracao
-                                                                }}
-                                                                c4={{
-                                                                    titulo: 'Valor',
-                                                                    valor: coimas?.valor
-                                                                }}
+                                                        < CardListItem
+                                                            c1={{
+                                                                titulo: 'Data',
+                                                                valor: dateFormat(`${coimas?.data}`, 'yyyy-MM-DD')
+                                                            }}
+                                                            c2={{
+                                                                titulo: 'Número do Auto',
+                                                                valor: coimas?.numeroAuto
+                                                            }}
+                                                            c3={{
+                                                                titulo: 'Codigo de Infração',
+                                                                valor: coimas?.codigoInfracao
+                                                            }}
+                                                            c4={{
+                                                                titulo: 'Valor',
+                                                                valor: coimas?.valor
+                                                            }}
 
-                                                            />
+                                                        />
 
-                                                            < CardListItem
-                                                                c1={{
-                                                                    titulo: 'Valor Checado',
-                                                                    valor: coimas?.valorChecado ? 'Sim' : 'Não'
-                                                                }}
-                                                                c2={{titulo: 'Custas', valor: coimas?.custas}}
-                                                                c3={{
-                                                                    titulo: 'Custas Checada',
-                                                                    valor: coimas?.valorChecado ? 'Sim' : 'Não'
-                                                                }}
-                                                                c4={{
-                                                                    titulo: 'Total',
-                                                                    valor: coimas?.total
-                                                                }}
+                                                        < CardListItem
+                                                            c1={{
+                                                                titulo: 'Valor Checado',
+                                                                valor: coimas?.valorChecado ? 'Sim' : 'Não'
+                                                            }}
+                                                            c2={{ titulo: 'Custas', valor: coimas?.custas }}
+                                                            c3={{
+                                                                titulo: 'Custas Checada',
+                                                                valor: coimas?.valorChecado ? 'Sim' : 'Não'
+                                                            }}
+                                                            c4={{
+                                                                titulo: 'Total',
+                                                                valor: coimas?.total
+                                                            }}
 
-                                                            />
-                                                            < CardListItem
-                                                                c1={{
-                                                                    titulo: 'Data Prazo',
-                                                                    valor: dateFormat(`${coimas?.dataPrazo}`, 'yyyy-MM-DD')
-                                                                }}
-                                                                c2={{
-                                                                    titulo: 'Está pago',
-                                                                    valor: coimas?.isPago ? 'Sim' : 'Não'
-                                                                }}
-                                                                c3={{
-                                                                    titulo: 'Sanções acessórias',
-                                                                    valor: coimas?.sancaoAcessoria
-                                                                }}
+                                                        />
+                                                        < CardListItem
+                                                            c1={{
+                                                                titulo: 'Data Prazo',
+                                                                valor: dateFormat(`${coimas?.dataPrazo}`, 'yyyy-MM-DD')
+                                                            }}
+                                                            c2={{
+                                                                titulo: 'Está pago',
+                                                                valor: coimas?.isPago ? 'Sim' : 'Não'
+                                                            }}
+                                                            c3={{
+                                                                titulo: 'Sanções acessórias',
+                                                                valor: coimas?.sancaoAcessoria
+                                                            }}
 
-                                                            />
-                                                        </IonCardContent>
-                                                    )
-                                                }
+                                                        />
+                                                    </IonCardContent>
+                                                )
+                                            }
                                             )}
                                     </IonGrid>
                                 </IonCardContent>
@@ -724,7 +806,7 @@ const Veiculo: React.FC<IPROPS> = (props) => {
                     </IonCard>
 
                     {/* START: Semelhantes */}
-                    <IonCard style={{margin: 30}}>
+                    <IonCard style={{ margin: 30 }}>
 
                         <IonCardHeader>
                             <IonCardTitle>Semelhantes</IonCardTitle>
@@ -744,7 +826,7 @@ const Veiculo: React.FC<IPROPS> = (props) => {
 
 
                     {/* Detallhes do semelhante selecionado */}
-                    <IonCard style={{margin: 30}}>
+                    <IonCard style={{ margin: 30 }}>
 
                         <IonCardHeader>
                             <IonCardTitle>Detalhes do semelhante selecionado
@@ -754,34 +836,118 @@ const Veiculo: React.FC<IPROPS> = (props) => {
                         <IonCardContent>
 
                             <IonButton className="btn-apply-info" fill="solid" color="primary" slot="end"
-                                       onClick={handlerFullfillFormVeiculoSemelhante}>
-                                Utilizar estes dados <IonIcon slot="start" icon={newspaperSharp}/>
+                                onClick={handlerFullfillFormVeiculoSemelhante}>
+                                Utilizar estes dados <IonIcon slot="start" icon={newspaperSharp} />
                             </IonButton>
 
                             <IonGrid>
 
                                 <CardListItem
-                                    c1={{titulo: 'Categoria', valor: veiculoSemelhanteData?.categoria?.descricao}}
-                                    c2={{titulo: 'Classe', valor: veiculoSemelhanteData?.classe?.descricao}}
-                                    c3={{titulo: 'Tipo', valor: veiculoSemelhanteData?.tipo?.descricao}}
-                                    c4={{titulo: 'Subclasse', valor: veiculoSemelhanteData?.subclasse?.descricao}}
+                                    c1={{ titulo: 'Categoria', valor: veiculoSemelhanteData?.categoria?.descricao }}
+                                    c2={{ titulo: 'Classe', valor: veiculoSemelhanteData?.classe?.descricao }}
+                                    c3={{ titulo: 'Tipo', valor: veiculoSemelhanteData?.tipo?.descricao }}
+                                    c4={{ titulo: 'Subclasse', valor: veiculoSemelhanteData?.subclasse?.descricao }}
                                 />
 
                                 <CardListItem
-                                    c1={{titulo: 'Matrícula', valor: veiculoSemelhanteData?.matricula}}
-                                    c2={{titulo: 'Chassi', valor: veiculoSemelhanteData?.chassi}}
-                                    c3={{titulo: 'Ano Origem', valor: veiculoSemelhanteData?.ano}}
-                                    c4={{titulo: 'País de Origem', valor: veiculoSemelhanteData?.pais?.descricao}}
+                                    c1={{ titulo: 'Matrícula', valor: veiculoSemelhanteData?.matricula }}
+                                    c2={{ titulo: 'Chassi', valor: veiculoSemelhanteData?.chassi }}
+                                    c3={{ titulo: 'Ano Origem', valor: veiculoSemelhanteData?.ano }}
+                                    c4={{ titulo: 'País de Origem', valor: veiculoSemelhanteData?.pais?.descricao }}
                                 />
 
                                 <CardListItem
-                                    c1={{titulo: 'Marca', valor: veiculoSemelhanteData?.marca?.descricao}}
-                                    c2={{titulo: 'Modelo', valor: veiculoSemelhanteData?.modelo?.descricao}}
-                                    c3={{titulo: 'Cor principal', valor: veiculoSemelhanteData?.cor?.descricao}}
-                                    c4={{titulo: 'Situação do veículo', valor: veiculoSemelhanteData?.estadoPolicial?.descricao}}
+                                    c1={{ titulo: 'Marca', valor: veiculoSemelhanteData?.marca?.descricao }}
+                                    c2={{ titulo: 'Modelo', valor: veiculoSemelhanteData?.modelo?.descricao }}
+                                    c3={{ titulo: 'Cor principal', valor: veiculoSemelhanteData?.cor?.descricao }}
+                                    c4={{ titulo: 'Situação do veículo', valor: veiculoSemelhanteData?.estadoPolicial?.descricao }}
                                 />
+
+                                <section className={toggleBtnInformacaoDetalhesSemelhanteSelecionado ? 'ion-hide' : ''}>
+                                <CardListItem
+                                        c1={{ titulo: 'Data primeira matrícula', valor: veiculoSemelhanteData?.livrete?.bdtPrimeiraMatricula }}
+                                        c2={{ titulo: 'Dígito matrícula', valor: veiculoSemelhanteData?.livrete?.adigitoMatricula }}
+                                        c3={{ titulo: 'Variante', valor: veiculoSemelhanteData?.livrete?.d2Variante }}
+                                        c4={{ titulo: 'Versão', valor: veiculoSemelhanteData?.livrete?.d2Versao }}
+                                    />
+
+                                    <CardListItem
+                                        c1={{ titulo: 'Peso bruto', valor: veiculoSemelhanteData?.livrete?.f1PesoBruto }}
+                                        c2={{ titulo: 'Peso bruto total', valor: veiculoSemelhanteData?.livrete?.f2PesoBrutoTotal }}
+                                        c3={{ titulo: 'Peso bruto conjunto', valor: veiculoSemelhanteData?.livrete?.f3PesoBrutoConjunto }}
+                                        c4={{ titulo: 'Tara total', valor: veiculoSemelhanteData?.livrete?.gtaraTotal }}
+                                    />
+
+                                    <CardListItem
+                                        c1={{ titulo: 'Data de validade', valor: veiculoSemelhanteData?.livrete?.hdtValidade }}
+                                        c2={{ titulo: 'Data de matrícula', valor: veiculoSemelhanteData?.livrete?.idtMatricula }}
+                                        c3={{ titulo: 'N° homologação CE', valor: veiculoSemelhanteData?.livrete?.knrHomologacaoCe }}
+                                        c4={{ titulo: 'N° homologação Nacional', valor: veiculoSemelhanteData?.livrete?.k1NumHomologacaoNacional }}
+                                    />
+
+                                    <CardListItem
+                                        c1={{ titulo: 'Cilindrada', valor: veiculoSemelhanteData?.livrete?.p1Cilindrada }}
+                                        c2={{ titulo: 'Potência efetiva', valor: veiculoSemelhanteData?.livrete?.p2PotenciaEfetiva }}
+                                        c3={{ titulo: 'Tipo combustível', valor: veiculoSemelhanteData?.livrete?.p3TipoCombustivel }}
+                                        c4={{ titulo: 'Potência rpm', valor: veiculoSemelhanteData?.livrete?.p4PotenciaRpm }}
+                                    />
+
+                                    <CardListItem
+                                        c1={{ titulo: 'Fração pot. efetiva de tara total', valor: veiculoSemelhanteData?.livrete?.qfracaoPotefetivaTaratotal }}
+                                        c2={{ titulo: 'N° de lugares', valor: veiculoSemelhanteData?.livrete?.s1NumLugares }}
+                                        c3={{ titulo: 'Lotação em pé', valor: veiculoSemelhanteData?.livrete?.s2LotacaoEmPe }}
+                                        c4={{ titulo: 'Categoria CE', valor: veiculoSemelhanteData?.livrete?.jcategoriaCe }}
+                                    />
+
+                                    <CardListItem
+                                        c1={{ titulo: 'Tipo de caixa', valor: veiculoSemelhanteData?.livrete?.j3TipoCaixa }}
+                                        c2={{ titulo: 'Distância entre eixos', valor: veiculoSemelhanteData?.livrete?.mdistanciaEntreEixos }}
+                                        c3={{ titulo: 'Peso max. admissível 1', valor: veiculoSemelhanteData?.livrete?.npesoMaxAdmimissivel1 }}
+                                        c4={{ titulo: 'Peso max. admissível 2', valor: veiculoSemelhanteData?.livrete?.npesoMaxAdmimissivel2}}
+                                    />
+
+                                    <CardListItem
+                                        c1={{ titulo: 'Peso max. admissível 3', valor: veiculoSemelhanteData?.livrete?.npesoMaxAdmimissivel3 }}
+                                        c2={{ titulo: 'Peso max. admissível 4', valor: veiculoSemelhanteData?.livrete?.npesoMaxAdmimissivel4 }}
+                                        c3={{ titulo: 'Peso max. admissível 5', valor: veiculoSemelhanteData?.livrete?.npesoMaxAdmimissivel5 }}
+                                        c4={{ titulo: 'Peso bruto reb. com travão', valor: veiculoSemelhanteData?.livrete?.o1PesoBrutoRebComTravao }}
+                                    />
+
+                                    <CardListItem
+                                        c1={{ titulo: 'Peso bruto reb. sem travão', valor: veiculoSemelhanteData?.livrete?.o2PesoBrutoRebSemTravao }}
+                                        c2={{ titulo: 'Nível sonoro estacionário', valor: veiculoSemelhanteData?.livrete?.u1NivelSonoroEstacionario }}
+                                        c3={{ titulo: 'Nível sonoro rpm', valor: veiculoSemelhanteData?.livrete?.u2NivelSonoroRpm }}
+                                        c4={{ titulo: 'Emissões CO tipo 1', valor: veiculoSemelhanteData?.livrete?.v1EmissoesCoTipoi }}
+                                    />
+
+                                    <CardListItem
+                                        c1={{ titulo: 'Emissão de partículas', valor: veiculoSemelhanteData?.livrete?.v5EmissaoParticulas }}
+                                        c2={{ titulo: 'CO2 combinado', valor: veiculoSemelhanteData?.livrete?.v7Co2Combinado }}
+                                        c3={{ titulo: 'Medida pneus frente', valor: veiculoSemelhanteData?.livrete?.x1MedidaPneusFrente }}
+                                        c4={{ titulo: 'Medida pneus retaguarda', valor: veiculoSemelhanteData?.livrete?.x2MedidaPneusRetaguarda }}
+                                    />
+
+                                    <CardListItem
+                                        c1={{ titulo: 'Comprimento caixa', valor: veiculoSemelhanteData?.livrete?.z1ComprimentoCaixa }}
+                                        c2={{ titulo: 'Poder elevação', valor: veiculoSemelhanteData?.livrete?.z2PoderElevacao }}
+                                    />
+
+                                    <CardListItem
+                                        c1={{ titulo: 'Anotações', valor: veiculoSemelhanteData?.livrete?.z3AnotacoesEspeciais }}
+                                    />
+                                </section>
 
                             </IonGrid>
+                            <div>
+                                <IonButton style={{ background: '#EBF2FF', borderRadius: 4, color: 'black' }}
+                                    color="#EBF2FF"
+                                    slot="start"
+                                    size='default' expand="full" onClick={() => {
+                                        setToggleBtnInformacaoDetalhesSemelhanteSelecionado(!toggleBtnInformacaoDetalhesSemelhanteSelecionado);
+                                    }}>
+                                    <IonIcon slot="start" icon={toggleBtnInformacaoDetalhesSemelhanteSelecionado ? chevronDownOutline : chevronUpOutline} /> {toggleBtnInformacaoDetalhesSemelhanteSelecionado ? 'Ver dados complementares do veículo' : 'Esconder dados complementares do veículo'}
+                                </IonButton>
+                            </div>
 
                         </IonCardContent>
                     </IonCard>

@@ -184,18 +184,116 @@ const handlerCoDirectaRequestData = (data: any): ICoDirecta => {
         subDestacamento: null,
 
         //dados complementares
-        proprietario: null, //arguido, condutor, outro
-        refArquivo: null,
+        proprietario: data?.tipoProprietario, //arguido, condutor, outro
+        refArquivo: data?.refArguido,
         pagamento: null,
-        apreensaoDocumento: null,
-        apreensaoVeiculo: null,
-        bloqueamentoRemocaoVeiculo: null,
-        substituicaoDocumento: null,
-        apresentacaoDocumento: null,
-        infracoesAdicionais: null,
+        apreensaoDocumento:{
+            motivosApreensao: data?.accoesComplementares?.motivosApreensao,
+            numeroApreensaoDocumentos:data?.accoesComplementares?.documentosApreendidos.length,
+            dadosApreensaoDocumento:data?.accoesComplementares?.documentosApreendidos,
+            localApresentacao:data?.accoesComplementares?.localApresentacao,
+            localRegularizacao:data?.accoesComplementares?.localRegularizacao,
+            localLevantarDocumentos:data?.accoesComplementares?.localLevantarDocumentos,
+            localCamaraMunicipal:data?.accoesComplementares?.camaraMunicipal,
+            documentoPagamentoIntegral:data?.accoesComplementares?.diaPagamento,
+            localLevantarTituloConducao:data?.accoesComplementares?.tituloConducao,
+            numeroDocumento:data?.accoesComplementares?.numeroDocumento,
+            apreensaoSancaoAcessoria:data?.accoesComplementares?.aplicarSansao,
+            conducaoVeiculoArtigo:data?.accoesComplementares?.sancaoAplicada,
+   },
+        apreensaoVeiculo: {
+            tipoFielDepositario:data?.accoesComplementares?.tipoFielDepositario,
+            numeroApreensaoVeiculo:data?.accoesComplementares?.numeroApreensaoVeiculo,
+            nomeFielDepositario:data?.accoesComplementares?.nomeFielDepositario,
+            moradaFielDepositario:data?.accoesComplementares?.moradaFielDepositario,
+            documentoFielDepositario:data?.accoesComplementares?.documentoFielDepositario,
+            numeroFielDepositario:data?.accoesComplementares?.numeroFielDepositario,
+            dadosApreensaoKm:data?.accoesComplementares?.dadosApreensaoKm,
+            dadosApreensaoLocalDeposito:data?.accoesComplementares?.dadosApreensaoLocalDeposito,
+            documentoVeiculoNaoFoiApreendidoEmVirtude:data?.accoesComplementares?.documentoVeiculoNaoFoiApreendidoEmVirtude,
+            documentoApreensao:data?.accoesComplementares?.documentoApreensao,
+            numeroDocumentoApreensao:data?.accoesComplementares?.numeroDocumentoApreensao,
+            arguidoPoderaLevantarDocumentoNoServicoIMTT:data?.accoesComplementares?.arguidoPoderaLevantarDocumentoNoServicoIMTT,
+            dataEfeitoApreensaoVeiculo:data?.accoesComplementares?.dataEfeitoApreensaoVeiculo,
+            motivosApreensao:data?.accoesComplementares?.motivosApreensaoVeiculo,
+            foiPassadoAvisoApreensaoDocumentos:data?.accoesComplementares?.foiPassadoAvisoApreensaoDocumentos,
+
+        },
+        bloqueamentoRemocaoVeiculo: {
+            houveBloqueamento:data?.accoesComplementares?.houveBloquamento,
+            houveRemocao:data?.accoesComplementares?.houveRemocao,
+            numeroBloqueamentoRemocaoVeiculo:data?.accoesComplementares?.numeroBloqueamentoRemocaoVeiculo,
+            legislacaoAssociada:data?.accoesComplementares?.legislacaoAssociadaBloqueamento,
+            legislacaoAssociadaRemocao:data?.accoesComplementares?.legislacaoAssociadaRemocao,
+            dataHora:data?.accoesComplementares?.dataRemocao,
+            localDestino:data?.accoesComplementares?.localDestinoRemocao,
+            motivoNaoRemocao:data?.accoesComplementares?.motivoNaoRemocao,
+            meioPagamento:data?.accoesComplementares?.meioPagamento,
+            numeroCheque:data?.accoesComplementares?.numeroCheque,
+            bancoEmissor:data?.accoesComplementares?.bancoEmissor,
+            valorBloqueamento:data?.accoesComplementares?.valorBloqueamento,
+            valorRemocao:data?.accoesComplementares?.valorRemocao,
+            valorTotal:data?.accoesComplementares?.valorTotalBloqueamentoRemocao,
+            numeroNotaCobranca:data?.accoesComplementares?.notaCobrancaManual,
+
+        },
+        substituicaoDocumento: {
+            numeroGuiaSubstituicaoDocumento:data?.accoesComplementares?.numeroSubstituicaoDocumento, 
+            substituirVeiculo:data?.accoesComplementares?.substituirCertificadoMatricula, 
+            numeroSubstituicaoDocumento:data?.accoesComplementares?.substituirCertificadoMatricula, 
+            tipoDocumento:data?.accoesComplementares?.tipoDocumentoSubstituicao, 
+            numeroDocumento:data?.accoesComplementares?.numeroTipoDocumentoSubstituicao, 
+            numeroChassi:data?.accoesComplementares?.numeroChassi, 
+            combustivel:data?.accoesComplementares?.combustivel, 
+            pesoBruto:data?.accoesComplementares?.pesoBruto, 
+            taxa:data?.accoesComplementares?.taxa, 
+            lotacao:data?.accoesComplementares?.lotacao, 
+            cilindrada:data?.accoesComplementares?.cilindrada, 
+            pneumaticaFrente:data?.accoesComplementares?.pneumaticoFrente, 
+            pneumaticaRetaguarda:data?.accoesComplementares?.pneumaticoRetaguarda, 
+            dataValidadeGuiaVeiculo:data?.accoesComplementares?.dataGuia, 
+            localValidadeGuiaVeiculo:data?.accoesComplementares?.validadeLocal, 
+            substituirTituloConducao:data?.accoesComplementares?.substituirCartaConducao, 
+            documento:data?.accoesComplementares?.documentoCartaConducao, 
+            dataEmissao:data?.accoesComplementares?.dataEmissao, 
+            grupo2:data?.accoesComplementares?.grupo2, 
+            dataValidadeGuiaTituloConducao:data?.accoesComplementares?.dataValidadeGuia, 
+            localValidadeGuiaTituloConducao:data?.accoesComplementares?.localValidadeGuia, 
+            observacoes:data?.accoesComplementares?.observacaoSubstituicaoTituloConducao, 
+        },
+        apresentacaoDocumento: {
+            numeroApresentacaoDocumentos:data?.accoesComplementares?.numeroApresentacaoDocumento,
+            tituloConducao:data?.accoesComplementares?.isTituloConducao,
+            certificadoMatricula:data?.accoesComplementares?.isCertificadoMatricula,
+            inspeccaoVeiculo:data?.accoesComplementares?.isDocumentoInspecaoVeiculo,
+            certificadoSeguro:data?.accoesComplementares?.isCertificadoSeguroValidoVeiculo,
+            bilheteIdentidade:data?.accoesComplementares?.isBilheteIdentidade,
+            cartaoCidadao:data?.accoesComplementares?.isCartaoCidadao,
+            passaporte:data?.accoesComplementares?.isPassaporte,
+            tituloResidencia:data?.accoesComplementares?.isTituloResidencia,
+            outros:data?.accoesComplementares?.isOutro,
+            localApresentacao:data?.accoesComplementares?.localApresentacaoEntrega,
+            nomeProprietario:data?.accoesComplementares?.nomeProprietario,
+            moradaProprietario:data?.accoesComplementares?.moradaProprietario,
+            documentoProprietario:data?.accoesComplementares?.documentoProprietario,
+            numeroProprietario:data?.accoesComplementares?.numeroDocumentoProprietario,
+            numeroDocumento:data?.accoesComplementares?.numeroDocumentoApresentacaoDocumento,
+        },
+        infracoesAdicionais: data?.infracoes,
 
         //alcool
-        alcoolemia: null,
+        alcoolemia: {
+            alcool:{
+                dataHora:data?.accoesComplementares?.dataHora,
+                tipoTeste:data?.accoesComplementares?.tipoTesteAlcool,
+                marcaModelo:data?.accoesComplementares?.alcoolimetroMarca,
+                serie:data?.accoesComplementares?.alcoolimetroSerie,
+                tipoVerificacao:data?.accoesComplementares?.alcoolimetroTipoVerificacao,
+                numeroTalao:data?.accoesComplementares?.alcoolimetroNumeroTalao,
+                valorRegistado:data?.accoesComplementares?.alcoolimetroValorRegistado,
+                valorApurado:data?.accoesComplementares?.alcoolimetroValorApurado,
+            }
+        },
 
         //assinatura agente
         tipoAssinaturaOpcaoAgente: null,
@@ -568,8 +666,7 @@ const CoDirecta: React.FC = () => {
 
                 <DadosInfracao active={activeSegment === 'dados_da_infracao'} setCoDirectaData={setCoDirectaInfracao}/>)
 
-                <DadosComplementares active={activeSegment === 'dados_complemenatares'}
-                                     setCoDirectaData={setCoDirectaComplementar}/>
+                 <DadosComplementares active={activeSegment === 'dados_complemenatares'} setCoDirectaData={setCoDirectaComplementar} currentdadosInfracao={coDirectaInfracao} currentIntervenientesData={setCoDirectaIntervenientes}/>
 
 
             </IonContent>

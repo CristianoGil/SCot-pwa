@@ -5,7 +5,7 @@ import { IVeiculo } from "./veiculo";
 
 
 export interface IBloqueamentoRemocaoVeiculo {
-    id: number | null;
+    id?: number | null;
     houveBloqueamento: boolean | null;
     houveRemocao: boolean | null;
     numeroBloqueamentoRemocaoVeiculo: string | null;
@@ -24,7 +24,7 @@ export interface IBloqueamentoRemocaoVeiculo {
 }
 
 export interface IApreensaoVeiculo {
-    id: number | null;
+    id?: number | null;
     motivosApreensao: IID_DESCRICAO[] | null;
 
     //fiel depositario

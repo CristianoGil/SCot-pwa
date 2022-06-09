@@ -5,7 +5,7 @@ import { IVeiculo } from "./veiculo";
 
 
 export interface IApresentacaoDocumento {
-  id: number | null;
+  id?: number | null;
   numeroApresentacaoDocumentos: string | null;
   tituloConducao: boolean | null;
   certificadoMatricula: boolean | null;
@@ -17,8 +17,8 @@ export interface IApresentacaoDocumento {
   tituloResidencia: boolean | null;
   outros: string | null;
   localApresentacao: string | null;
-  numeroProcessoLocalApresentacao: string | null;
-  emailLocalApresentacao: string | null;
+  numeroProcessoLocalApresentacao?: string | null;
+  emailLocalApresentacao?: string | null;
   nomeProprietario: string | null;
   moradaProprietario: string | null;
   documentoProprietario: IID_DESCRICAO | null;

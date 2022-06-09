@@ -185,7 +185,7 @@ const LocalInfraccao: React.FC<LocalInfracaoData> = (props) => {
             setConcelhos(_local?.concelhos)
             setConcelhosPadrao(_local?.concelhos)
             setFreguesiasPadrao(_local?.freguesias)
-            setTipos(_local.tipos)
+            setTipos(_local.tiposArruamento)
         }).catch((error) => {
             console.error("Load localizacao combos: \n", error);
         })

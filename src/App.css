@@ -74,3 +74,11 @@ ion-grid.dadosComplementares {
 ion-textarea {
     padding-inline:20px;
 }
+
+ion-breadcrumbs {
+    margin-left: -12px;
+}
+
+ion-segment-button, ion-label {
+    white-space: normal !important
+}

@@ -52,9 +52,9 @@ export interface IComboApreensaoDocumento {
 }
 
 export interface ISubstituicaoDocumento {
-    id: number | null;
-    legislacaoAssociada: IID_DESCRICAO | null;
-    numeroGuiaSubstituicaoDocumento: string | null;
+    id?: number | null;
+    legislacaoAssociada?: IID_DESCRICAO | null;
+    numeroGuiaSubstituicaoDocumento?: string | null;
 
     //certificado de matricula
     substituirVeiculo: boolean | null;
@@ -77,7 +77,7 @@ export interface ISubstituicaoDocumento {
     documento: IID_DESCRICAO | null;
     dataEmissao: string | null;
     grupo2: boolean | null;
-    categorias: IID_DESCRICAO[] | null;
+    categorias?: IID_DESCRICAO[] | null;
     dataValidadeGuiaTituloConducao: string | null;
     localValidadeGuiaTituloConducao: string | null;
     observacoes: string | null;
@@ -85,21 +85,21 @@ export interface ISubstituicaoDocumento {
 }
 
 export interface IApreensaoDocumento {
-    id: number | null;
-    motivosApreensao: IID_DESCRICAO[] | null;
-    apreensaoSancaoAcessoria: boolean | null;
-    numeroApreensaoDocumentos: string | null;
-    dadosApreensaoDocumento: IComboApreensaoDocumento[] | null;
-    localApresentacao: string | null;
-    localRegularizacao: string | null;
-    localLevantarDocumentos: string | null;
-    documentoPagamentoIntegral: IID_DESCRICAO | null;
-    localCamaraMunicipal: IID_DESCRICAO | null;
-    localLevantarTituloConducao: string | null;
-    documentoPagamentoIntegralTituloConducao: IID_DESCRICAO | null;
-    localCamaraMunicipalTituloConducao: IID_DESCRICAO | null;
-    conducaoVeiculoArtigo: string | null;
-    numeroDocumento: string | null;
+    id?: number | null;
+    motivosApreensao?: IID_DESCRICAO[] | null;
+    apreensaoSancaoAcessoria?: boolean | null;
+    numeroApreensaoDocumentos?: string | null;
+    dadosApreensaoDocumento?: IComboApreensaoDocumento[] | null;
+    localApresentacao?: string | null;
+    localRegularizacao?: string | null;
+    localLevantarDocumentos?: string | null;
+    documentoPagamentoIntegral?: IID_DESCRICAO | null;
+    localCamaraMunicipal?: IID_DESCRICAO | null;
+    localLevantarTituloConducao?: string | null;
+    documentoPagamentoIntegralTituloConducao?: IID_DESCRICAO | null;
+    localCamaraMunicipalTituloConducao?: IID_DESCRICAO | null;
+    conducaoVeiculoArtigo?: string | null;
+    numeroDocumento?: string | null;
 }
 
 
