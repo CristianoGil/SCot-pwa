@@ -2,7 +2,7 @@ import jsPDF from "jspdf";
 import {IteratorArray} from "../common/iterator";
 import {base64ToArrayBuffer, blobToBase64, cleanString, createCanvas} from "../utils/apex-formatters";
 
-export const generatePDF_HTML = (): Promise<any> => {
+export const generatePDF_HTML = (pagesNumber = 3, pages?: HTMLElement[]): Promise<any> => {
     return new Promise((resolve, reject) => {
         const pdf = new jsPDF({
             orientation: 'p',
@@ -11,13 +11,20 @@ export const generatePDF_HTML = (): Promise<any> => {
             putOnlyUsedFonts: true
         });
 
-        const JR_PAGE_ANCHOR_0_1 = document.getElementById('CO_DIRECTA_JR_PAGE_ANCHOR_0_1');
-        const JR_PAGE_ANCHOR_0_2 = document.getElementById('CO_DIRECTA_JR_PAGE_ANCHOR_0_2');
+        if (!pages) {
+
+            const JR_PAGE_ANCHOR_0_1 = document.getElementById('CO_DIRECTA_JR_PAGE_ANCHOR_0_1');
+            const JR_PAGE_ANCHOR_0_2 = document.getElementById('CO_DIRECTA_JR_PAGE_ANCHOR_0_2');
+
+            if(JR_PAGE_ANCHOR_0_1 && JR_PAGE_ANCHOR_0_2) {
+                pages = [JR_PAGE_ANCHOR_0_1, JR_PAGE_ANCHOR_0_2, JR_PAGE_ANCHOR_0_1]
+            }
+
+        }
 
 
-        const iteratorPages: any = new IteratorArray([JR_PAGE_ANCHOR_0_1, JR_PAGE_ANCHOR_0_2, JR_PAGE_ANCHOR_0_1]);
+        const iteratorPages: any = new IteratorArray(pages || []);
 
-        let pagesNumber = 3;
         const _funcIterable = async (): Promise<void> => {
 
             const dataValue: IteratorResult<any> = iteratorPages.next();
@@ -36,12 +43,7 @@ export const generatePDF_HTML = (): Promise<any> => {
                     const canvas = await createCanvas(page);
 
                     const imgData = canvas.toDataURL('image/JPEG');
-
-                    // console.log("width: ", width)
-                    // console.log("height: ", height)
-                    // console.log(imgData)
-                    // console.log(page.id)
-                    // console.log("========================")
+                    
                     if(page.id === "CO_DIRECTA_JR_PAGE_ANCHOR_0_2") {
                         width = width - 65;
                         x = 32.5

@@ -1,15 +1,52 @@
-import { IonBadge, IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCheckbox, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonListHeader, IonPopover, IonRadio, IonRadioGroup, IonRow, IonSegment, IonSegmentButton, IonSelect, IonSelectOption, IonTextarea, IonToolbar, useIonAlert, useIonLoading } from "@ionic/react";
-import { open, trash, remove, bookOutline } from "ionicons/icons";
-import React, { useContext } from "react";
-import { useState } from "react";
+import {
+    IonBadge,
+    IonButton,
+    IonCard,
+    IonCardContent,
+    IonCardHeader,
+    IonCardTitle,
+    IonCheckbox,
+    IonCol,
+    IonContent,
+    IonGrid,
+    IonHeader,
+    IonIcon,
+    IonInput,
+    IonItem,
+    IonLabel,
+    IonListHeader,
+    IonPopover,
+    IonRadio,
+    IonRadioGroup,
+    IonRow,
+    IonSegment,
+    IonSegmentButton,
+    IonSelect,
+    IonSelectOption,
+    IonTextarea,
+    IonToolbar,
+    useIonAlert,
+    useIonLoading
+} from "@ionic/react";
+import {open, trash, remove, bookOutline} from "ionicons/icons";
+import jsPDF from "jspdf";
+import React, {useContext} from "react";
+import {useState} from "react";
 import DataTable from 'react-data-table-component';
-import { Contraordenacao } from "../../../../api/Contraordenacao";
-import { FichaControleService } from "../../../../api/FichaControleService";
-import { UserContext } from "../../../../Context/UserContext";
-import { CarregarCombosApreensaoDocumento, IComboApreensaoDocumento, MotivosApreensao } from "../../../../model/documentoapreendido";
-import { IID_DESCRICAO } from "../../../../model/extendable";
+import {Contraordenacao} from "../../../../api/Contraordenacao";
+import {FichaControleService} from "../../../../api/FichaControleService";
+import {generatePDF_HTML} from "../../../../app/SignPDF_HTML";
+import {UserContext} from "../../../../Context/UserContext";
+import {
+    CarregarCombosApreensaoDocumento,
+    IComboApreensaoDocumento,
+    MotivosApreensao
+} from "../../../../model/documentoapreendido";
+import {IID_DESCRICAO} from "../../../../model/extendable";
+import {createCanvas, downloadFile} from "../../../../utils/apex-formatters";
 import CardListItem from "../../../CardListItem";
 import DatePicker from "../../../Combos/DatePicker";
+import { ApreensaoDocumento } from "../../../Relatorios/templates/ApreensaoDocumento/ApreensaoDocumento";
 import InfraccoesAdicionais from "../InfraccoesAdicionais/InfraccoesAdicionais";
 import './AcoesComplementares.scss';
 
@@ -23,6 +60,7 @@ interface IProps {
 
 const AcoesComplementares: React.FC<IProps> = (props) => {
     const userContext = useContext<any>(UserContext);
+    const [presentLoad, dismissLoad] = useIonLoading();
 
     const [openPopoverApreensaoDocumentosData, setOpenPopoverApreensaoDocumentosData] = useState(false);
     const [openPopoverApreensaoVeiculoData, setOpenPopoverApreensaoVeiculoData] = useState(false);
@@ -31,6 +69,8 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
     const [openPopoverApresentacaoDocumentoData, setOpenPopoverApresentacaoDocumentoData] = useState(false);
     const [openPopoverFichaControladorData, setOpenPopoverFichaControladorData] = useState(false);
     const [isFichaControlePreenchida, setIsFichaControlePreenchida] = useState(false)
+
+    const [accoesComplementaresData, setAccoesComplementaresData] = useState<any>({})
     /* Enumeração de tipo de documento */
     enum TipoDocumento {
         APREENSAO_DOCUMENTOS = 1,
@@ -40,6 +80,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
         APRESENTACAO_DOCUMENTOS = 5,
         FICHA_CONTROLADOR = 6,
     }
+
     /* Enumeração de tipo de documento */
 
     const handleButtonClick_ABRIR = (tipoDocumento: any) => {
@@ -98,12 +139,14 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                 <>
                     <IonButton onClick={() => {
 
-                        setDocumentosSubstituirTituloConducao(documentosSubstituirTituloConducao.filter(m => { return m.id !== row.id }))
+                        setDocumentosSubstituirTituloConducao(documentosSubstituirTituloConducao.filter(m => {
+                            return m.id !== row.id
+                        }))
 
 
                     }} size="small" color="danger">
                         EXCLUIR
-                        <IonIcon slot="start" icon={trash} />
+                        <IonIcon slot="start" icon={trash}/>
                     </IonButton>
                 </>
             )
@@ -178,20 +221,21 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
             name: 'Ações',
             cell: (row: { abreTipoDocumento: any, isVisibleBtnExcluir: boolean }) => (
                 <>
-                    <IonButton onClick={() => handleButtonClick_ABRIR(row.abreTipoDocumento)} size="small" color="primary" >
+                    <IonButton onClick={() => handleButtonClick_ABRIR(row.abreTipoDocumento)} size="small"
+                               color="primary">
                         ABRIR
-                        <IonIcon slot="start" icon={open} />
+                        <IonIcon slot="start" icon={open}/>
                     </IonButton>
 
-                    <IonButton onClick={() => handleButtonClick_EXCLUIR(row.abreTipoDocumento)} size="small" color="danger" className={row.isVisibleBtnExcluir ? "" : "ion-hide"}>
+                    <IonButton onClick={() => handleButtonClick_EXCLUIR(row.abreTipoDocumento)} size="small"
+                               color="danger" className={row.isVisibleBtnExcluir ? "" : "ion-hide"}>
                         EXCLUIR
-                        <IonIcon slot="start" icon={trash} />
+                        <IonIcon slot="start" icon={trash}/>
                     </IonButton>
                 </>
             )
         },
     ];
-
 
 
     //-------------------------[Motivos Apreensao]
@@ -207,12 +251,14 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
             cell: (row: { id: number }) => (
                 <>
                     <IonButton onClick={() => {
-                        setMotivosApreensao(motivosApreensao.filter(m => { return m.id !== row.id }))
+                        setMotivosApreensao(motivosApreensao.filter(m => {
+                            return m.id !== row.id
+                        }))
                         setTamanhoMotivoApreensao(tamanhoMotivoApreensao - 1)
 
-                    }} size="small" color="danger" >
+                    }} size="small" color="danger">
                         EXCLUIR
-                        <IonIcon slot="start" icon={trash} />
+                        <IonIcon slot="start" icon={trash}/>
                     </IonButton>
                 </>
             )
@@ -231,17 +277,18 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
             cell: (row: { id?: number }) => (
                 <>
                     <IonButton onClick={() => {
-                        setMotivosApreensaoVeiculo(motivosApreensaoVeiculo.filter(m => { return m.id !== row.id }))
+                        setMotivosApreensaoVeiculo(motivosApreensaoVeiculo.filter(m => {
+                            return m.id !== row.id
+                        }))
 
-                    }} size="small" color="danger" >
+                    }} size="small" color="danger">
                         EXCLUIR
-                        <IonIcon slot="start" icon={trash} />
+                        <IonIcon slot="start" icon={trash}/>
                     </IonButton>
                 </>
             )
         },
     ];
-
 
 
     let dataMotivosApreensao: MotivosApreensao[] = []
@@ -264,12 +311,14 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
 
                     <IonButton onClick={() => {
 
-                        setDocumentosApreendidos(documentosApreendidos.filter(m => { return m.id !== row.id }))
+                        setDocumentosApreendidos(documentosApreendidos.filter(m => {
+                            return m.id !== row.id
+                        }))
 
 
-                    }} size="small" color="danger" >
+                    }} size="small" color="danger">
                         EXCLUIR
-                        <IonIcon slot="start" icon={trash} />
+                        <IonIcon slot="start" icon={trash}/>
                     </IonButton>
                 </>
             )
@@ -282,6 +331,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
         documento: string,
         accoes: string,
     }
+
     const dataDadosApreensaoDocumentos: IComboApreensaoDocumento[] = []
 
     const [combos, setCombos] = useState<MotivosApreensao[]>();
@@ -308,6 +358,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
         tipoVerificacao: IID_DESCRICAO[]
 
     }
+
     const getCombosAlcool = async (): Promise<CombosAlcoolResponse> => await new Contraordenacao().carregarCombosAlcool()
 
 
@@ -320,7 +371,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                 header: 'Error!',
                 message: 'Motivo já adicionado!\n',
                 buttons: [
-                    { text: 'Fechar' },
+                    {text: 'Fechar'},
                 ]
             })
         } else {
@@ -331,24 +382,23 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
         }
 
 
-
     }
 
     const onClick_addDadosDocumentoApreensao = () => {
         const idDescricaoDocumento: MotivosApreensao = JSON.parse(documento)
         const documentoApreendido =
-        {
-            documento: {
-                descricao: idDescricaoDocumento.descricao
-            }, numero: numDocumento,
-            id: idDescricaoDocumento.id
-        }
+            {
+                documento: {
+                    descricao: idDescricaoDocumento.descricao
+                }, numero: numDocumento,
+                id: idDescricaoDocumento.id
+            }
         if (documentosApreendidos?.find(doc => doc.id === documentoApreendido.id || doc.numero === numDocumento)) {
             presentAlert({
                 header: 'Error!',
                 message: 'Documento e/ou mesmo número já adicionado!\n',
                 buttons: [
-                    { text: 'Fechar' },
+                    {text: 'Fechar'},
                 ]
             })
         } else {
@@ -384,7 +434,8 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
     const [levantarDocsDiaUtilLocal, setLevantarDocsDiaUtilLocal] = useState('');
 
     const [enviaCamaraMunicipal, setEnviaCamaraMunicipal] = useState(false);
-    const [camaraMunicipal, setCamaraMunicipal] = useState<any>();;
+    const [camaraMunicipal, setCamaraMunicipal] = useState<any>();
+    ;
 
     const [podeLevantarTituloConducao, setPodeLevantarTituloConducao] = useState(false);
     const [tituloConducao, setTituloConducao] = useState('');
@@ -405,6 +456,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
         id: any,
         descricao: any
     }
+
     const diasPagamentos: DiaPagamento[] = [];
 
     const [aplicarSansao, setAplicarSansao] = useState(false);
@@ -626,7 +678,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
             houveRemocao: houveRemocao,
             numeroBloqueamentoRemocaoVeiculo: numeroBloqueamentoRemocaoVeiculo,
             legislacaoAssociadaBloqueamento: legislacaoAssociadaBloqueamento,
-            legislacaoAssociadaRemocao:legislacaoAssociadaRemocao,
+            legislacaoAssociadaRemocao: legislacaoAssociadaRemocao,
             dataRemocao: dataRemocao,
             localDestinoRemocao: localDestinoRemocao,
             motivoNaoRemocao: motivoNaoRemocao,
@@ -656,7 +708,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
             isInserirNumeroProcessoReferenteObrigatoriedadeEntregaDocumento: isInserirNumeroProcessoReferenteObrigatoriedadeEntregaDocumento,
             localApresentacaoEntrega: localApresentacaoEntrega,
             nomeProprietario: nomeProprietario,
-            moradaProprietario:moradaProprietario,
+            moradaProprietario: moradaProprietario,
             documentoProprietario: documentoProprietario,
             numeroDocumentoProprietario: numeroDocumentoProprietario,
             numeroDocumentoApresentacaoDocumento: numeroDocumentoApresentacaoDocumento,
@@ -664,33 +716,33 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
             // apresentacao documento
 
             // substituicao de documentos
-            substituirCertificadoMatricula:substituirCertificadoMatricula,
-            numeroSubstituicaoDocumento:numeroSubstituicaoDocumento,
-            tipoDocumentoSubstituicao:tipoDocumentoSubstituicao,
-            numeroTipoDocumentoSubstituicao:numeroTipoDocumentoSubstituicao,
-            numeroChassi:numeroChassi,
-            combustivel:combustivel,
-            pesoBruto:pesoBruto,
-            taxa:taxa,
-            lotacao:lotacao,
-            cilindrada:cilindrada,
-            pneumaticoFrente:pneumaticoFrente,
-            pneumaticoRetaguarda:pneumaticoRetaguarda,
-            ateDia:ateDia,
-            dataGuia:dataGuia,
-            ateLocal:ateLocal,
-            validadeLocal:validadeLocal,
-            substituirCartaConducao:substituirCartaConducao,
-            documentoCartaConducao:documentoCartaConducao,
-            grupo2:grupo2,
-            dataEmissao:dataEmissao,
-            documentoCombo:documentoCombo,
-            documentosSubstituirTituloConducao:documentosSubstituirTituloConducao,
-            dataValidadeGuia:dataValidadeGuia,
-            ateDiaGuia:ateDiaGuia,
-            localValidadeGuia:localValidadeGuia,
-            observacaoSubstituicaoTituloConducao:observacaoSubstituicaoTituloConducao,
-            ateDiaLocal:ateDiaLocal,
+            substituirCertificadoMatricula: substituirCertificadoMatricula,
+            numeroSubstituicaoDocumento: numeroSubstituicaoDocumento,
+            tipoDocumentoSubstituicao: tipoDocumentoSubstituicao,
+            numeroTipoDocumentoSubstituicao: numeroTipoDocumentoSubstituicao,
+            numeroChassi: numeroChassi,
+            combustivel: combustivel,
+            pesoBruto: pesoBruto,
+            taxa: taxa,
+            lotacao: lotacao,
+            cilindrada: cilindrada,
+            pneumaticoFrente: pneumaticoFrente,
+            pneumaticoRetaguarda: pneumaticoRetaguarda,
+            ateDia: ateDia,
+            dataGuia: dataGuia,
+            ateLocal: ateLocal,
+            validadeLocal: validadeLocal,
+            substituirCartaConducao: substituirCartaConducao,
+            documentoCartaConducao: documentoCartaConducao,
+            grupo2: grupo2,
+            dataEmissao: dataEmissao,
+            documentoCombo: documentoCombo,
+            documentosSubstituirTituloConducao: documentosSubstituirTituloConducao,
+            dataValidadeGuia: dataValidadeGuia,
+            ateDiaGuia: ateDiaGuia,
+            localValidadeGuia: localValidadeGuia,
+            observacaoSubstituicaoTituloConducao: observacaoSubstituicaoTituloConducao,
+            ateDiaLocal: ateDiaLocal,
             // substituicao de documentos
 
             isFichaControlePreenchida: isFichaControlePreenchida,
@@ -715,7 +767,11 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
         }
 
         props.setAccoesComplementaresParentData(data);
-    }, [moradaProprietario,numeroApresentacaoDocumento, isTituloConducao, isCertificadoMatricula, isDocumentoInspecaoVeiculo, isCertificadoSeguroValidoVeiculo, isBilheteIdentidade, isCartaoCidadao, isPassaporte, isTituloResidencia, isOutro, isInserirEmailEnvioDocumento, isInserirNumeroProcessoReferenteObrigatoriedadeEntregaDocumento, localApresentacaoEntrega, nomeProprietario, moradaProprietario, documentoProprietario, numeroDocumentoProprietario, numeroDocumentoApresentacaoDocumento, notaCobrancaManual, valorTotalBloqueamentoRemocao, valorRemocao, valorBloqueamento, bancoEmissor, numeroCheque, meioPagamento, motivoNaoRemocao, localDestinoRemocao, legislacaoAssociadaRemocao, dataRemocao, houveRemocao, legislacaoAssociadaBloqueamento, houveBloquamento, numeroBloqueamentoRemocaoVeiculo, motivosApreensao, tamanhoMotivoApreensao, documentosApreendidos, numDocumento, dataHora, localApresentacao, levantarDocsDiaUtilLocal, regularSituacaoLocal, camaraMunicipal, tituloConducao, diaPagamento, sancaoAplicada, numeroDocumento, isFichaControlePreenchida, tipoDeFichaControlador, circunstanciaExameAlcool, circunstanciaExameEstupefacientes, recusaTesteEstupifaciente, recusaTesteAlcool, tipoTesteAlcool, anfetaminas, canabis, cocaina, metanfetaminas, opio, tipoTesteEstupifaciente, alcoolimetroMarca, alcoolimetroSerie, alcoolimetroTipoVerificacao, alcoolimetroNumero, alcoolimetroDataHoraInfracao, alcoolimetroNumeroTalao, alcoolimetroValorRegistado, alcoolimetroValorApurado,numeroChassi,combustivel,pesoBruto,taxa,lotacao,cilindrada,pneumaticoFrente,pneumaticoRetaguarda,ateDia,dataGuia,ateLocal,validadeLocal,substituirCartaConducao,documentoCartaConducao,grupo2,dataEmissao,documentoCombo,documentosSubstituirTituloConducao,dataValidadeGuia,ateDiaGuia,localValidadeGuia,observacaoSubstituicaoTituloConducao,ateDiaLocal,substituirCertificadoMatricula,numeroSubstituicaoDocumento,tipoDocumentoSubstituicao,numeroTipoDocumentoSubstituicao])
+        setTimeout(() => {
+            setAccoesComplementaresData(data);
+        })
+
+    }, [moradaProprietario, numeroApresentacaoDocumento, isTituloConducao, isCertificadoMatricula, isDocumentoInspecaoVeiculo, isCertificadoSeguroValidoVeiculo, isBilheteIdentidade, isCartaoCidadao, isPassaporte, isTituloResidencia, isOutro, isInserirEmailEnvioDocumento, isInserirNumeroProcessoReferenteObrigatoriedadeEntregaDocumento, localApresentacaoEntrega, nomeProprietario, moradaProprietario, documentoProprietario, numeroDocumentoProprietario, numeroDocumentoApresentacaoDocumento, notaCobrancaManual, valorTotalBloqueamentoRemocao, valorRemocao, valorBloqueamento, bancoEmissor, numeroCheque, meioPagamento, motivoNaoRemocao, localDestinoRemocao, legislacaoAssociadaRemocao, dataRemocao, houveRemocao, legislacaoAssociadaBloqueamento, houveBloquamento, numeroBloqueamentoRemocaoVeiculo, motivosApreensao, tamanhoMotivoApreensao, documentosApreendidos, numDocumento, dataHora, localApresentacao, levantarDocsDiaUtilLocal, regularSituacaoLocal, camaraMunicipal, tituloConducao, diaPagamento, sancaoAplicada, numeroDocumento, isFichaControlePreenchida, tipoDeFichaControlador, circunstanciaExameAlcool, circunstanciaExameEstupefacientes, recusaTesteEstupifaciente, recusaTesteAlcool, tipoTesteAlcool, anfetaminas, canabis, cocaina, metanfetaminas, opio, tipoTesteEstupifaciente, alcoolimetroMarca, alcoolimetroSerie, alcoolimetroTipoVerificacao, alcoolimetroNumero, alcoolimetroDataHoraInfracao, alcoolimetroNumeroTalao, alcoolimetroValorRegistado, alcoolimetroValorApurado, numeroChassi, combustivel, pesoBruto, taxa, lotacao, cilindrada, pneumaticoFrente, pneumaticoRetaguarda, ateDia, dataGuia, ateLocal, validadeLocal, substituirCartaConducao, documentoCartaConducao, grupo2, dataEmissao, documentoCombo, documentosSubstituirTituloConducao, dataValidadeGuia, ateDiaGuia, localValidadeGuia, observacaoSubstituicaoTituloConducao, ateDiaLocal, substituirCertificadoMatricula, numeroSubstituicaoDocumento, tipoDocumentoSubstituicao, numeroTipoDocumentoSubstituicao])
 
     // CarregarCombosApreensaoDocumento
     React.useEffect(() => {
@@ -772,7 +828,6 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
         })
 
 
-
     }, []);
 
     const on_addFichaControdor = () => {
@@ -811,26 +866,26 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                         via: props.currentDadosInfracaoData?.localInfracaoData?.arruamento
                     }]
             }).then(response_ficha => {
-                dismissOnLoanding();
-                presentAlert({
-                    header: 'Resultado Ficha controlador \n' + response_ficha.resultado,
-                    buttons: [
-                        { text: 'Fechar' },
-                    ]
-                })
-                setIsFichaControlePreenchida(true)
-
-            }).catch(err_ficha => {
-                presentAlert({
-                    header: 'Error!',
-                    message: 'Operação sem sucesso!\n' + err_ficha.message,
-                    buttons: [
-                        { text: 'Fechar' },
-                    ]
-                })
-            }).finally(() => {
-                dismissOnLoanding();
+            dismissOnLoanding();
+            presentAlert({
+                header: 'Resultado Ficha controlador \n' + response_ficha.resultado,
+                buttons: [
+                    {text: 'Fechar'},
+                ]
             })
+            setIsFichaControlePreenchida(true)
+
+        }).catch(err_ficha => {
+            presentAlert({
+                header: 'Error!',
+                message: 'Operação sem sucesso!\n' + err_ficha.message,
+                buttons: [
+                    {text: 'Fechar'},
+                ]
+            })
+        }).finally(() => {
+            dismissOnLoanding();
+        })
     }
 
     const onClick_SaveApreensaoDocumentos = () => {
@@ -852,7 +907,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                 header: 'Error!',
                 message: 'Motivo já adicionado!\n',
                 buttons: [
-                    { text: 'Fechar' },
+                    {text: 'Fechar'},
                 ]
             })
         } else {
@@ -860,7 +915,6 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
             setMotivosApreensaoVeiculo([...motivosApreensaoVeiculo, motivoApreensaoVeiculo])
 
         }
-
 
 
     }
@@ -896,7 +950,6 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
     const onKeyup_numeroDocumentoAccaoAssoc = (e: any) => {
         setNumeroDocumentoAccaoAssoc(e.target.value)
     }
-
 
 
     // end Apreensao Veiculo states and functions
@@ -1040,7 +1093,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                 header: 'Error!',
                 message: 'documento já adicionado!\n',
                 buttons: [
-                    { text: 'Fechar' },
+                    {text: 'Fechar'},
                 ]
             })
         } else {
@@ -1048,7 +1101,6 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
             setDocumentosSubstituirTituloConducao([...documentosSubstituirTituloConducao, documentoCombo])
 
         }
-
 
 
     }
@@ -1061,6 +1113,49 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
 
     }
     // end substituicao de documento  
+
+    const onPrint = async (fileName: string,pagesNumber: number, pages: HTMLElement[]) => {
+
+        await presentLoad({
+            message: 'A imprimir... isto pode demorar!',
+        })
+
+        try {
+            const pdf = await generatePDF_HTML(pagesNumber,pages);
+            pdf.save(fileName);
+        } catch (e) {
+            presentAlert({
+                header: 'Erro!',
+                message: 'Ocorreu um erro ao assinar a contraordenação. Tente novamente mais tarde e se o problema persistir reinicie o aplicativo',
+                buttons: [
+                    {text: 'Fechar'},
+                ]
+            })
+        } finally {
+            dismissLoad();
+        }
+
+
+    }
+
+    // Print => Apreensão de Documentos
+    const onClick_printAprDoc = async (e: any) => {
+        const JR_PAGE_ANCHOR_APREENSAO_DOC_0_1 = document.getElementById('JR_PAGE_ANCHOR_APREENSAO_DOC_0_1');
+
+        if (JR_PAGE_ANCHOR_APREENSAO_DOC_0_1) {
+            const fileName = `APREENSAO-DOC-${(new Date()).toDateString()}.pdf`;
+            await onPrint(fileName, 1, [JR_PAGE_ANCHOR_APREENSAO_DOC_0_1])
+        } else {
+            presentAlert({
+                header: 'Erro!',
+                message: 'Ocorreu um erro ao imprimir o documento de apreensão de documentos. Tente novamente mais tarde e se o problema persistir reinicie o aplicativo',
+                buttons: [
+                    {text: 'Fechar'},
+                ]
+            })
+        }
+
+    }
 
     return (
 
@@ -1082,6 +1177,10 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                 </IonGrid>
             </IonCardContent>
 
+            {/*START: PDF De aprensao de documento*/}
+            <ApreensaoDocumento data={{infracao: props?.currentDadosInfracaoData, intervenientes: props?.currentIntervenientesData, accoesCom: accoesComplementaresData}}/>
+            {/*END: PDF De aprensao de documento*/}
+
             {/*Popover: Apreensão de documentos*/}
             <IonPopover
                 isOpen={openPopoverApreensaoDocumentosData}
@@ -1100,13 +1199,15 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                         </IonLabel>
 
                         <IonButton className="" fill="outline" color="primary" slot="end"
-                            onClick={() => { }}
+                                   onClick={() => {
+                                   }}
                         >
                             EMITIR
                         </IonButton>
 
-                        <IonButton className="btn-catalogo" fill="outline" color="medium" slot="end" onClick={onClick_SaveApreensaoDocumentos}>
-                            IMPRIMIR <IonIcon slot="start" icon={bookOutline} />
+                        <IonButton className="btn-catalogo" fill="outline" color="medium" slot="end"
+                                   onClick={onClick_printAprDoc}>
+                            IMPRIMIR <IonIcon slot="start" icon={bookOutline}/>
                         </IonButton>
 
                         <IonButton className="btn-close" fill="outline" color="danger" slot="end" onClick={() => {
@@ -1121,37 +1222,41 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                 <IonContent>
 
                     {/* Motivos de Apreensão */}
-                    <IonCard style={{ margin: 30 }}>
+                    <IonCard style={{margin: 30}}>
 
                         <IonCardContent>
                             <IonGrid>
                                 <IonRow>
-                                    <IonCol size-sm="9" size-md="10" size-lg="9" style={{ marginTop: 16 }}>
+                                    <IonCol size-sm="9" size-md="10" size-lg="9" style={{marginTop: 16}}>
                                         <IonItem>
                                             <IonLabel>Motivos da Apreensão *</IonLabel>
-                                            <IonSelect interface="popover" value={motivoApreensao} onIonChange={(e) => setMotivoApreensao(e.detail.value)}>
+                                            <IonSelect interface="popover" value={motivoApreensao}
+                                                       onIonChange={(e) => setMotivoApreensao(e.detail.value)}>
                                                 {combos?.map((local: any) => {
                                                     return (
                                                         <IonSelectOption key={`${local.id}`}
-                                                            value={JSON.stringify({ id: local.id, descricao: local.descricao })}>{`${local.descricao}`}</IonSelectOption>
+                                                                         value={JSON.stringify({
+                                                                             id: local.id,
+                                                                             descricao: local.descricao
+                                                                         })}>{`${local.descricao}`}</IonSelectOption>
                                                     )
                                                 })}
                                             </IonSelect>
                                         </IonItem>
                                     </IonCol>
 
-                                    <IonCol size-sm='12' size-md='10' size-lg='3' style={{ marginTop: 16 }}>
+                                    <IonCol size-sm='12' size-md='10' size-lg='3' style={{marginTop: 16}}>
                                         <IonItem lines='none'>
-                                            <IonButton style={{ background: '#084F87', borderRadius: 4 }}
-                                                color="#084F87"
-                                                slot="start"
-                                                size='default'
-                                                onClick={onClick_addAMotivoApreensao}> ADICIONAR </IonButton>
+                                            <IonButton style={{background: '#084F87', borderRadius: 4}}
+                                                       color="#084F87"
+                                                       slot="start"
+                                                       size='default'
+                                                       onClick={onClick_addAMotivoApreensao}> ADICIONAR </IonButton>
 
                                         </IonItem>
                                     </IonCol>
                                 </IonRow>
-                                <IonRow style={{ marginTop: 20 }}>
+                                <IonRow style={{marginTop: 20}}>
                                     <IonCol size-sm='12' size-md='10' size-lg='12'>
                                         <DataTable
                                             columns={columnsMotivosApreensao}
@@ -1160,17 +1265,18 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                     </IonCol>
                                 </IonRow>
 
-                                <IonRow style={{ marginTop: 20 }}>
+                                <IonRow style={{marginTop: 20}}>
 
-                                    <IonCol size-sm='12' size-md='10' size-lg='6' style={{ marginTop: 22 }}>
-                                        <IonHeader style={{ marginBottom: 8 }}>
+                                    <IonCol size-sm='12' size-md='10' size-lg='6' style={{marginTop: 22}}>
+                                        <IonHeader style={{marginBottom: 8}}>
                                             <IonLabel>Presenciada pelo Autuante?</IonLabel>
                                         </IonHeader>
                                         <strong>Não</strong>
                                     </IonCol>
                                     <IonCol size-sm='12' size-md='10' size-lg='6'>
                                         <IonItem>
-                                            <IonLabel position="floating" itemType="text" placeholder="Nome infringida">Nº da Apreensão de Documentos *</IonLabel>
+                                            <IonLabel position="floating" itemType="text" placeholder="Nome infringida">Nº
+                                                da Apreensão de Documentos *</IonLabel>
                                             <IonInput
                                                 disabled
                                                 value={tamanhoMotivoApreensao}></IonInput>
@@ -1184,7 +1290,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                     {/* Motivos de Apreensão */}
 
                     {/* Dados de Apreensão dos Documentos */}
-                    <IonCard style={{ margin: 30 }}>
+                    <IonCard style={{margin: 30}}>
 
                         <IonCardHeader>
                             <IonCardTitle>Dados de Apreensão dos Documentos</IonCardTitle>
@@ -1193,14 +1299,15 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                         <IonCardContent>
                             <IonGrid>
                                 <IonRow>
-                                    <IonCol size-sm="9" size-md="10" size-lg="5" style={{ marginTop: 16 }}>
+                                    <IonCol size-sm="9" size-md="10" size-lg="5" style={{marginTop: 16}}>
                                         <IonItem>
                                             <IonLabel>Documento *</IonLabel>
-                                            <IonSelect interface="popover" value={documento} onIonChange={(e) => setDocumento(e.detail.value)}>
+                                            <IonSelect interface="popover" value={documento}
+                                                       onIonChange={(e) => setDocumento(e.detail.value)}>
                                                 {dadosApreensaoDocumento?.map((local: any) => {
                                                     return (
                                                         <IonSelectOption key={`${local.id}`}
-                                                            value={JSON.stringify(local)}>{`${local.descricao}`}</IonSelectOption>
+                                                                         value={JSON.stringify(local)}>{`${local.descricao}`}</IonSelectOption>
                                                     )
                                                 })}
                                             </IonSelect>
@@ -1208,27 +1315,28 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                     </IonCol>
                                     <IonCol size-sm='12' size-md='10' size-lg='4'>
                                         <IonItem>
-                                            <IonLabel position="floating" itemType="text" placeholder="Nome infringida">Número</IonLabel>
+                                            <IonLabel position="floating" itemType="text"
+                                                      placeholder="Nome infringida">Número</IonLabel>
                                             <IonInput value={numDocumento}
-                                                onKeyUp={keyup_numDocumento}
+                                                      onKeyUp={keyup_numDocumento}
 
                                             ></IonInput>
                                         </IonItem>
                                     </IonCol>
-                                    <IonCol size-sm='12' size-md='10' size-lg='3' style={{ marginTop: 16 }}>
+                                    <IonCol size-sm='12' size-md='10' size-lg='3' style={{marginTop: 16}}>
                                         <IonItem lines='none'>
-                                            <IonButton style={{ background: '#084F87', borderRadius: 4 }}
-                                                color="#084F87"
-                                                slot="start"
+                                            <IonButton style={{background: '#084F87', borderRadius: 4}}
+                                                       color="#084F87"
+                                                       slot="start"
                                                 //    disabled={}
-                                                size='default'
-                                                onClick={onClick_addDadosDocumentoApreensao}> ADICIONAR </IonButton>
+                                                       size='default'
+                                                       onClick={onClick_addDadosDocumentoApreensao}> ADICIONAR </IonButton>
 
                                         </IonItem>
                                     </IonCol>
                                 </IonRow>
 
-                                <IonRow style={{ marginTop: 20 }}>
+                                <IonRow style={{marginTop: 20}}>
                                     <IonCol size-sm='12' size-md='10' size-lg='12'>
                                         <DataTable
                                             columns={columnsDadosApreensaoDocumentos}
@@ -1236,10 +1344,11 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                         />
                                     </IonCol>
                                 </IonRow>
-                                <IonRow style={{ marginTop: 20 }}>
+                                <IonRow style={{marginTop: 20}}>
                                     <IonCol size-sm='12' size-md='10' size-lg='12'>
                                         <IonItem>
-                                            <IonLabel position="floating" itemType="text" placeholder="Nome infringida">Local de Apresentação</IonLabel>
+                                            <IonLabel position="floating" itemType="text" placeholder="Nome infringida">Local
+                                                de Apresentação</IonLabel>
                                             <IonInput
                                                 value={localApresentacao}
                                                 onKeyUp={keyup_localApresentacao}>
@@ -1255,7 +1364,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                     {/* Dados de Apreensão dos Documentos */}
 
                     {/* Acções Associadas */}
-                    <IonCard style={{ margin: 30 }}>
+                    <IonCard style={{margin: 30}}>
 
                         <IonCardHeader>
                             <IonCardTitle>Acções Associadas</IonCardTitle>
@@ -1267,11 +1376,12 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                 {/* radioButton input */}
                                 <IonRow>
 
-                                    <IonCol size-sm='12' size-md='10' size-lg='12' style={{ marginTop: 10 }}>
+                                    <IonCol size-sm='12' size-md='10' size-lg='12' style={{marginTop: 10}}>
 
                                         <IonItem lines='none'>
 
-                                            <IonCheckbox checked={regularSituacaoCheckbox} onIonChange={e => setRegularSituacaoCheckbox(e.detail.checked)} />
+                                            <IonCheckbox checked={regularSituacaoCheckbox}
+                                                         onIonChange={e => setRegularSituacaoCheckbox(e.detail.checked)}/>
                                             <IonLabel class="ion-margin-start">
                                                 A fim de regularizar a situação, o interessado deverá dirigir-se a
                                             </IonLabel>
@@ -1284,7 +1394,8 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                     <IonCol size-sm='12' size-md='10' size-lg='12'>
 
                                         <IonItem>
-                                            <IonLabel position="floating" itemType="text" placeholder="Nome infringida">Descreva aqui o local</IonLabel>
+                                            <IonLabel position="floating" itemType="text" placeholder="Nome infringida">Descreva
+                                                aqui o local</IonLabel>
                                             <IonInput
                                                 disabled={!regularSituacaoCheckbox}
                                                 value={regularSituacaoLocal}
@@ -1302,16 +1413,17 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                 {/* radioButton input */}
                                 <IonRow>
 
-                                    <IonCol size-sm='12' size-md='10' size-lg='12' style={{ marginTop: 10 }}>
+                                    <IonCol size-sm='12' size-md='10' size-lg='12' style={{marginTop: 10}}>
 
                                         <IonItem lines='none'>
 
                                             <IonCheckbox
 
                                                 checked={levantarDocsDiaCheckbox}
-                                                onIonChange={e => setLevantarDocsDiaCheckbox(e.detail.checked)} />
+                                                onIonChange={e => setLevantarDocsDiaCheckbox(e.detail.checked)}/>
                                             <IonLabel class="ion-margin-start">
-                                                os Documentos do Veículo poderão ser levantados nos primeiros cinco dias úteis no
+                                                os Documentos do Veículo poderão ser levantados nos primeiros cinco dias
+                                                úteis no
                                             </IonLabel>
                                         </IonItem>
 
@@ -1322,7 +1434,8 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                     <IonCol size-sm='12' size-md='10' size-lg='12'>
 
                                         <IonItem>
-                                            <IonLabel position="floating" itemType="text" placeholder="Nome infringida">Descreva aqui o local</IonLabel>
+                                            <IonLabel position="floating" itemType="text" placeholder="Nome infringida">Descreva
+                                                aqui o local</IonLabel>
                                             <IonInput
 
                                                 disabled={!levantarDocsDiaCheckbox}
@@ -1337,11 +1450,12 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
 
                                 <IonRow>
 
-                                    <IonCol size-sm='12' size-md='10' size-lg='12' style={{ marginTop: 10 }}>
+                                    <IonCol size-sm='12' size-md='10' size-lg='12' style={{marginTop: 10}}>
 
                                         <IonItem lines='none'>
 
-                                            <IonCheckbox checked={enviaCamaraMunicipal} onIonChange={e => setEnviaCamaraMunicipal(e.detail.checked)} />
+                                            <IonCheckbox checked={enviaCamaraMunicipal}
+                                                         onIonChange={e => setEnviaCamaraMunicipal(e.detail.checked)}/>
                                             <IonLabel class="ion-margin-start">
                                                 ou envio a Câmara Municipal de
                                             </IonLabel>
@@ -1356,11 +1470,13 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                         <IonItem>
                                             <IonLabel></IonLabel>
 
-                                            <IonSelect interface="popover" value={camaraMunicipal} disabled={!enviaCamaraMunicipal} onIonChange={e => setCamaraMunicipal(e.detail.value)}>
+                                            <IonSelect interface="popover" value={camaraMunicipal}
+                                                       disabled={!enviaCamaraMunicipal}
+                                                       onIonChange={e => setCamaraMunicipal(e.detail.value)}>
                                                 {camarasMunicipais?.map((local: any) => {
                                                     return (
                                                         <IonSelectOption key={`${local.id}`}
-                                                            value={JSON.stringify(local)}>{`${local.descricao}`}</IonSelectOption>
+                                                                         value={JSON.stringify(local)}>{`${local.descricao}`}</IonSelectOption>
                                                     )
                                                 })}
                                             </IonSelect>
@@ -1372,13 +1488,15 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
 
                                 <IonRow>
 
-                                    <IonCol size-sm='12' size-md='10' size-lg='12' style={{ marginTop: 10 }}>
+                                    <IonCol size-sm='12' size-md='10' size-lg='12' style={{marginTop: 10}}>
 
                                         <IonItem lines='none'>
 
-                                            <IonCheckbox checked={podeLevantarTituloConducao} onIonChange={e => setPodeLevantarTituloConducao(e.detail.checked)} />
+                                            <IonCheckbox checked={podeLevantarTituloConducao}
+                                                         onIonChange={e => setPodeLevantarTituloConducao(e.detail.checked)}/>
                                             <IonLabel class="ion-margin-start">
-                                                O Título de Condução poderá ser levantado nos primeiros cinco dias úteis no
+                                                O Título de Condução poderá ser levantado nos primeiros cinco dias úteis
+                                                no
                                             </IonLabel>
                                         </IonItem>
 
@@ -1389,10 +1507,11 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                     <IonCol size-sm='12' size-md='10' size-lg='12'>
 
                                         <IonItem>
-                                            <IonLabel position="floating" itemType="text" placeholder="Norma infringida"></IonLabel>
+                                            <IonLabel position="floating" itemType="text"
+                                                      placeholder="Norma infringida"></IonLabel>
                                             <IonInput value={tituloConducao}
-                                                disabled={!podeLevantarTituloConducao}
-                                                onKeyUp={keyup_tituloConducao}
+                                                      disabled={!podeLevantarTituloConducao}
+                                                      onKeyUp={keyup_tituloConducao}
                                             ></IonInput>
                                         </IonItem>
 
@@ -1402,11 +1521,12 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
 
                                 <IonRow>
 
-                                    <IonCol size-sm='12' size-md='10' size-lg='12' style={{ marginTop: 10 }}>
+                                    <IonCol size-sm='12' size-md='10' size-lg='12' style={{marginTop: 10}}>
 
                                         <IonItem lines='none'>
 
-                                            <IonCheckbox checked={isDiaPagamento} onIonChange={e => setIsDiaPagamento(e.detail.checked)} />
+                                            <IonCheckbox checked={isDiaPagamento}
+                                                         onIonChange={e => setIsDiaPagamento(e.detail.checked)}/>
                                             <IonLabel class="ion-margin-start">
                                                 a partir do oitavo dia útil, até ao pagamento integral,
                                             </IonLabel>
@@ -1420,11 +1540,13 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
 
                                         <IonItem>
                                             <IonLabel></IonLabel>
-                                            <IonSelect interface="popover" disabled={!isDiaPagamento} value={diaPagamento} onIonChange={e => setDiaPagamento(e.detail.value)} >
+                                            <IonSelect interface="popover" disabled={!isDiaPagamento}
+                                                       value={diaPagamento}
+                                                       onIonChange={e => setDiaPagamento(e.detail.value)}>
                                                 {camarasMunicipais?.map((local: any) => {
                                                     return (
                                                         <IonSelectOption key={`${local.id}`}
-                                                            value={local}>{`${local.descricao}`}</IonSelectOption>
+                                                                         value={local}>{`${local.descricao}`}</IonSelectOption>
                                                     )
                                                 })}
 
@@ -1438,13 +1560,17 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
 
                                 <IonRow>
 
-                                    <IonCol size-sm='12' size-md='10' size-lg='12' style={{ marginTop: 10 }}>
+                                    <IonCol size-sm='12' size-md='10' size-lg='12' style={{marginTop: 10}}>
 
                                         <IonItem lines='none'>
 
-                                            <IonCheckbox checked={aplicarSansao} onIonChange={e => setAplicarSansao(e.detail.checked)} />
+                                            <IonCheckbox checked={aplicarSansao}
+                                                         onIonChange={e => setAplicarSansao(e.detail.checked)}/>
                                             <IonLabel class="ion-margin-start">
-                                                A condução do veículo com o documento de identificação apreendido é sancionada nos termos do nº8 do art. 161 CE com coima de 300 a 1500 euros, sendo o veículo apreendido nos termos do art. 162º nº1 alínea a) do mesmo diploma.
+                                                A condução do veículo com o documento de identificação apreendido é
+                                                sancionada nos termos do nº8 do art. 161 CE com coima de 300 a 1500
+                                                euros, sendo o veículo apreendido nos termos do art. 162º nº1 alínea a)
+                                                do mesmo diploma.
                                             </IonLabel>
                                         </IonItem>
 
@@ -1455,10 +1581,11 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                     <IonCol size-sm='12' size-md='10' size-lg='12'>
 
                                         <IonItem>
-                                            <IonLabel position="floating" itemType="text" placeholder="Norma infringida"></IonLabel>
+                                            <IonLabel position="floating" itemType="text"
+                                                      placeholder="Norma infringida"></IonLabel>
                                             <IonInput value={sancaoAplicada}
-                                                disabled={!aplicarSansao}
-                                                onKeyUp={keyup_sancaoAplicada}></IonInput>
+                                                      disabled={!aplicarSansao}
+                                                      onKeyUp={keyup_sancaoAplicada}></IonInput>
                                         </IonItem>
 
                                     </IonCol>
@@ -1471,13 +1598,15 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                         </IonCardContent>
                     </IonCard>
 
-                    <IonCard style={{ margin: 30 }}>
+                    <IonCard style={{margin: 30}}>
                         <IonCardContent>
                             <IonGrid>
                                 <IonRow>
 
                                     <IonCol size-sm='12' size-md='10' size-lg='12'>
-                                        <p style={{ color: 'red' }}>Apenas deverá preencher este número caso não tenha sido possível imprimir o documento e o tenha registado manualmente em pré-impresso(Não será gerado o respectivo expediente).</p>
+                                        <p style={{color: 'red'}}>Apenas deverá preencher este número caso não tenha
+                                            sido possível imprimir o documento e o tenha registado manualmente em
+                                            pré-impresso(Não será gerado o respectivo expediente).</p>
                                     </IonCol>
 
                                 </IonRow>
@@ -1486,7 +1615,8 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                     <IonCol size-sm='12' size-md='10' size-lg='4'>
 
                                         <IonItem>
-                                            <IonLabel position="floating" itemType="text" placeholder="Número de Documento">Número de Documento</IonLabel>
+                                            <IonLabel position="floating" itemType="text"
+                                                      placeholder="Número de Documento">Número de Documento</IonLabel>
                                             <IonInput
                                                 value={numeroDocumento}
                                                 onKeyUp={keyup_numeroDocumento}
@@ -1523,13 +1653,13 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                         </IonLabel>
 
                         <IonButton className="" fill="outline" color="primary" slot="end"
-                            onClick={onClick_saveApreensaoVeiculo}
+                                   onClick={onClick_saveApreensaoVeiculo}
                         >
                             EMITIR
                         </IonButton>
 
-                        <IonButton className="btn-catalogo" fill="outline" color="medium" slot="end" >
-                            IMPRIMIR <IonIcon slot="start" icon={bookOutline} />
+                        <IonButton className="btn-catalogo" fill="outline" color="medium" slot="end">
+                            IMPRIMIR <IonIcon slot="start" icon={bookOutline}/>
                         </IonButton>
 
                         <IonButton className="btn-close" fill="outline" color="danger" slot="end" onClick={() => {
@@ -1544,37 +1674,38 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                 <IonContent>
 
                     {/* Motivos de Apreensão */}
-                    <IonCard style={{ margin: 30 }}>
+                    <IonCard style={{margin: 30}}>
 
                         <IonCardContent>
                             <IonGrid>
                                 <IonRow>
-                                    <IonCol size-sm="9" size-md="10" size-lg="9" style={{ marginTop: 16 }}>
+                                    <IonCol size-sm="9" size-md="10" size-lg="9" style={{marginTop: 16}}>
                                         <IonItem>
                                             <IonLabel>Motivos da Apreensão *</IonLabel>
-                                            <IonSelect interface="popover" onIonChange={e => setMotivoApreensaoVeiculo(e.detail.value)}>
+                                            <IonSelect interface="popover"
+                                                       onIonChange={e => setMotivoApreensaoVeiculo(e.detail.value)}>
                                                 {motivosApreensaoVeiculoCombo?.map((local: any) => {
                                                     return (
                                                         <IonSelectOption key={`${local.id}`}
-                                                            value={local}>{`${local.descricao}`}</IonSelectOption>
+                                                                         value={local}>{`${local.descricao}`}</IonSelectOption>
                                                     )
                                                 })}
                                             </IonSelect>
                                         </IonItem>
                                     </IonCol>
 
-                                    <IonCol size-sm='12' size-md='10' size-lg='3' style={{ marginTop: 16 }}>
+                                    <IonCol size-sm='12' size-md='10' size-lg='3' style={{marginTop: 16}}>
                                         <IonItem lines='none'>
-                                            <IonButton style={{ background: '#084F87', borderRadius: 4 }}
-                                                color="#084F87"
-                                                slot="start"
-                                                size='default'
-                                                onClick={onClick_addMotivoApreensaoVeiculo}> ADICIONAR </IonButton>
+                                            <IonButton style={{background: '#084F87', borderRadius: 4}}
+                                                       color="#084F87"
+                                                       slot="start"
+                                                       size='default'
+                                                       onClick={onClick_addMotivoApreensaoVeiculo}> ADICIONAR </IonButton>
 
                                         </IonItem>
                                     </IonCol>
                                 </IonRow>
-                                <IonRow style={{ marginTop: 20 }}>
+                                <IonRow style={{marginTop: 20}}>
                                     <IonCol size-sm='12' size-md='10' size-lg='12'>
                                         <DataTable
                                             columns={columnsMotivosApreensaoVeiculo}
@@ -1589,7 +1720,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                     {/* Motivos de Apreensão */}
 
                     {/* Fiel depositário */}
-                    <IonCard style={{ margin: 30 }}>
+                    <IonCard style={{margin: 30}}>
 
                         <IonCardHeader>
                             <IonCardTitle>Fiel depositário</IonCardTitle>
@@ -1601,14 +1732,14 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                     <IonCol size-sm='12' size-md='12' size-lg='12'>
 
                                         <IonRadioGroup value={fielDepositario}
-                                            onIonChange={e => setFielDepositario(e.detail.value)}>
+                                                       onIonChange={e => setFielDepositario(e.detail.value)}>
 
                                             <IonRow>
                                                 <IonCol size='3'>
                                                     <IonItem
                                                         lines='none'
                                                         className="infoAdicionais-domicilio-radio radio-item">
-                                                        <IonRadio value="Condutor" />
+                                                        <IonRadio value="Condutor"/>
                                                         <IonLabel className="radioBox">Condutor</IonLabel>
                                                     </IonItem>
                                                 </IonCol>
@@ -1616,7 +1747,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                     <IonItem
                                                         lines='none'
                                                         className="infoAdicionais-domicilio-radio radio-item">
-                                                        <IonRadio value="Proprietário" />
+                                                        <IonRadio value="Proprietário"/>
                                                         <IonLabel className="radioBox">Proprietário</IonLabel>
                                                     </IonItem>
                                                 </IonCol>
@@ -1624,7 +1755,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                     <IonItem
                                                         lines='none'
                                                         className="infoAdicionais-domicilio-radio radio-item">
-                                                        <IonRadio value="Terceiro" />
+                                                        <IonRadio value="Terceiro"/>
                                                         <IonLabel className="radioBox">Terceiro</IonLabel>
                                                     </IonItem>
                                                 </IonCol>
@@ -1632,15 +1763,17 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                     <IonItem
                                                         lines='none'
                                                         className="infoAdicionais-domicilio-radio radio-item">
-                                                        <IonRadio value="GNR" />
+                                                        <IonRadio value="GNR"/>
                                                         <IonLabel className="radioBox">GNR</IonLabel>
                                                     </IonItem>
                                                 </IonCol>
                                             </IonRow>
                                         </IonRadioGroup>
                                         <IonItem>
-                                            <IonLabel position="floating" itemType="number" placeholder="Nome">N° da apreensão de veículo</IonLabel>
-                                            <IonInput value={numeroApreensaoVeiculo} onKeyUp={onKeyup_setNumeroApreensaoVeiculo}>
+                                            <IonLabel position="floating" itemType="number" placeholder="Nome">N° da
+                                                apreensão de veículo</IonLabel>
+                                            <IonInput value={numeroApreensaoVeiculo}
+                                                      onKeyUp={onKeyup_setNumeroApreensaoVeiculo}>
 
                                             </IonInput>
                                         </IonItem>
@@ -1650,8 +1783,10 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                 <IonRow>
                                     <IonCol size-sm='12' size-md='10' size-lg='12'>
                                         <IonItem>
-                                            <IonLabel position="floating" itemType="text" placeholder="Nome">Nome</IonLabel>
-                                            <IonInput value={nomefielDepositario} onKeyUp={onKeyup_setNomeFielDepositario}>
+                                            <IonLabel position="floating" itemType="text"
+                                                      placeholder="Nome">Nome</IonLabel>
+                                            <IonInput value={nomefielDepositario}
+                                                      onKeyUp={onKeyup_setNomeFielDepositario}>
 
                                             </IonInput>
                                         </IonItem>
@@ -1660,22 +1795,25 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                 <IonRow>
                                     <IonCol size-sm='12' size-md='10' size-lg='12'>
                                         <IonItem>
-                                            <IonLabel position="floating" itemType="text" placeholder="Morada">Morada</IonLabel>
-                                            <IonInput value={moradafielDepositario} onKeyUp={onKeyup_setMoradaFielDepositario}>
+                                            <IonLabel position="floating" itemType="text"
+                                                      placeholder="Morada">Morada</IonLabel>
+                                            <IonInput value={moradafielDepositario}
+                                                      onKeyUp={onKeyup_setMoradaFielDepositario}>
 
                                             </IonInput>
                                         </IonItem>
                                     </IonCol>
                                 </IonRow>
                                 <IonRow>
-                                    <IonCol size-sm="9" size-md="10" size-lg="8" style={{ marginTop: 16 }}>
+                                    <IonCol size-sm="9" size-md="10" size-lg="8" style={{marginTop: 16}}>
                                         <IonItem>
                                             <IonLabel>Documento *</IonLabel>
-                                            <IonSelect interface="popover" value={documentoDepositario} onIonChange={onChange_documentoDepositario}>
+                                            <IonSelect interface="popover" value={documentoDepositario}
+                                                       onIonChange={onChange_documentoDepositario}>
                                                 {dadosApreensaoDocumento?.map((local: any) => {
                                                     return (
                                                         <IonSelectOption key={`${local.id}`}
-                                                            value={local}>{`${local.descricao}`}</IonSelectOption>
+                                                                         value={local}>{`${local.descricao}`}</IonSelectOption>
                                                     )
                                                 })}
                                             </IonSelect>
@@ -1683,9 +1821,10 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                     </IonCol>
                                     <IonCol size-sm='12' size-md='10' size-lg='4'>
                                         <IonItem>
-                                            <IonLabel position="floating" itemType="text" placeholder="Nome infringida">Número</IonLabel>
+                                            <IonLabel position="floating" itemType="text"
+                                                      placeholder="Nome infringida">Número</IonLabel>
                                             <IonInput value={numeroDocumentoDepositario}
-                                                onKeyUp={onKeyup_numeroDocumentoDepositario}
+                                                      onKeyUp={onKeyup_numeroDocumentoDepositario}
 
                                             ></IonInput>
                                         </IonItem>
@@ -1699,7 +1838,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                     {/* Fiel depositário */}
 
                     {/* Dados de apreensão do veículo */}
-                    <IonCard style={{ margin: 30 }}>
+                    <IonCard style={{margin: 30}}>
 
                         <IonCardHeader>
                             <IonCardTitle>Dados de apreensão do veículo</IonCardTitle>
@@ -1712,14 +1851,17 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
 
                                     <IonCol size-sm='12' size-md='10' size-lg='4'>
                                         <IonItem>
-                                            <IonLabel position="floating" itemType="text" placeholder="kms">kms</IonLabel>
-                                            <IonInput value={kmsApreensaoVeiculo} onKeyUp={onKeyup_kmsApreensaoVeiculo}></IonInput>
+                                            <IonLabel position="floating" itemType="text"
+                                                      placeholder="kms">kms</IonLabel>
+                                            <IonInput value={kmsApreensaoVeiculo}
+                                                      onKeyUp={onKeyup_kmsApreensaoVeiculo}></IonInput>
                                         </IonItem>
                                     </IonCol>
 
                                     <IonCol size-sm='12' size-md='10' size-lg='4'>
                                         <IonItem>
-                                            <IonLabel position="floating" itemType="text" placeholder="kms">Local de depósito</IonLabel>
+                                            <IonLabel position="floating" itemType="text" placeholder="kms">Local de
+                                                depósito</IonLabel>
                                             <IonInput value={localDeposito} onKeyUp={onKeyup_localDeposito}></IonInput>
                                         </IonItem>
                                     </IonCol>
@@ -1732,25 +1874,25 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                     {/* Dados de apreensão do veículo */}
 
                     {/* Acções associadas */}
-                    <IonCard style={{ margin: 30 }}>
+                    <IonCard style={{margin: 30}}>
 
                         <IonCardHeader>
                             <IonCardTitle>Acções associadas</IonCardTitle>
                         </IonCardHeader>
 
-                        <IonCardContent style={{ marginBottom: 300 }}>
+                        <IonCardContent style={{marginBottom: 300}}>
                             <IonGrid>
                                 {/*group1*/}
                                 <IonRow>
 
-                                    <IonCol size-sm='12' size-md='10' size-lg='12' style={{ marginTop: 10 }}>
+                                    <IonCol size-sm='12' size-md='10' size-lg='12' style={{marginTop: 10}}>
 
                                         <IonItem lines='none'>
 
                                             <IonCheckbox
 
                                                 checked={isDocumentoVeiculoVirtudeDe}
-                                                onIonChange={e => setIsDocumentoVeiculoVirtudeDe(e.detail.checked)} />
+                                                onIonChange={e => setIsDocumentoVeiculoVirtudeDe(e.detail.checked)}/>
                                             <IonLabel class="ion-margin-start">
                                                 O documento de identificação do veículo não apreendido em virtude de
                                             </IonLabel>
@@ -1763,7 +1905,8 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                     <IonCol size-sm='12' size-md='10' size-lg='12'>
 
                                         <IonItem>
-                                            <IonLabel position="floating" itemType="text" placeholder="Nome infringida">Descreva aqui o motivo</IonLabel>
+                                            <IonLabel position="floating" itemType="text" placeholder="Nome infringida">Descreva
+                                                aqui o motivo</IonLabel>
                                             <IonInput
 
                                                 disabled={!isDocumentoVeiculoVirtudeDe}
@@ -1781,14 +1924,14 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                 {/*group2*/}
                                 <IonRow>
 
-                                    <IonCol size-sm='12' size-md='10' size-lg='12' style={{ marginTop: 10 }}>
+                                    <IonCol size-sm='12' size-md='10' size-lg='12' style={{marginTop: 10}}>
 
                                         <IonItem lines='none'>
 
                                             <IonCheckbox
 
                                                 checked={isApreendidoDocumentos}
-                                                onIonChange={e => setIsApreendidoDocumentos(e.detail.checked)} />
+                                                onIonChange={e => setIsApreendidoDocumentos(e.detail.checked)}/>
                                             <IonLabel class="ion-margin-start">
                                                 Apreensão de documentos
                                             </IonLabel>
@@ -1798,14 +1941,15 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
 
                                 </IonRow>
                                 <IonRow>
-                                    <IonCol size-sm="9" size-md="10" size-lg="8" style={{ marginTop: 16 }}>
+                                    <IonCol size-sm="9" size-md="10" size-lg="8" style={{marginTop: 16}}>
                                         <IonItem>
                                             <IonLabel>Documento</IonLabel>
-                                            <IonSelect interface="popover" disabled={!isApreendidoDocumentos} onIonChange={e => setDocumentoAccaoAssoc(e.detail.value)}>
+                                            <IonSelect interface="popover" disabled={!isApreendidoDocumentos}
+                                                       onIonChange={e => setDocumentoAccaoAssoc(e.detail.value)}>
                                                 {dadosApreensaoDocumento?.map((local: any) => {
                                                     return (
                                                         <IonSelectOption key={`${local.id}`}
-                                                            value={local}>{`${local.descricao}`}</IonSelectOption>
+                                                                         value={local}>{`${local.descricao}`}</IonSelectOption>
                                                     )
                                                 })}
                                             </IonSelect>
@@ -1813,23 +1957,26 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                     </IonCol>
                                     <IonCol size-sm='12' size-md='10' size-lg='4'>
                                         <IonItem>
-                                            <IonLabel position="floating" itemType="text" placeholder="Nome infringida">Número</IonLabel>
+                                            <IonLabel position="floating" itemType="text"
+                                                      placeholder="Nome infringida">Número</IonLabel>
                                             <IonInput value={numeroDocumentoAccaoAssoc}
-                                                onKeyUp={onKeyup_numeroDocumentoAccaoAssoc}
+                                                      onKeyUp={onKeyup_numeroDocumentoAccaoAssoc}
 
                                             ></IonInput>
                                         </IonItem>
                                     </IonCol>
                                 </IonRow>
                                 <IonRow>
-                                    <IonCol size-sm="9" size-md="10" size-lg="8" style={{ marginTop: 16 }}>
+                                    <IonCol size-sm="9" size-md="10" size-lg="8" style={{marginTop: 16}}>
                                         <IonItem>
-                                            <IonLabel>O arguido poderá levantar o(s) documento(s) provisoriamente apreendido(s), no serviço desconcentrado do IMTT de</IonLabel>
-                                            <IonSelect interface="popover" value={localLevantarIMTT} onIonChange={e => setLocalLevantarIMTT(e.detail.value)}>
+                                            <IonLabel>O arguido poderá levantar o(s) documento(s) provisoriamente
+                                                apreendido(s), no serviço desconcentrado do IMTT de</IonLabel>
+                                            <IonSelect interface="popover" value={localLevantarIMTT}
+                                                       onIonChange={e => setLocalLevantarIMTT(e.detail.value)}>
                                                 {locaisLevantarIMTT?.map((local: any) => {
                                                     return (
                                                         <IonSelectOption key={`${local.id}`}
-                                                            value={local}>{`${local.descricao}`}</IonSelectOption>
+                                                                         value={local}>{`${local.descricao}`}</IonSelectOption>
                                                     )
                                                 })}
                                             </IonSelect>
@@ -1841,14 +1988,14 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                 {/*group3*/}
                                 <IonRow>
 
-                                    <IonCol size-sm='12' size-md='10' size-lg='12' style={{ marginTop: 10 }}>
+                                    <IonCol size-sm='12' size-md='10' size-lg='12' style={{marginTop: 10}}>
 
                                         <IonItem lines='none'>
 
                                             <IonCheckbox
 
                                                 checked={isAvisoApreensaoDocumentoPassado}
-                                                onIonChange={e => setIsAvisoApreensaoDocumentoPassado(e.detail.checked)} />
+                                                onIonChange={e => setIsAvisoApreensaoDocumentoPassado(e.detail.checked)}/>
                                             <IonLabel class="ion-margin-start">
                                                 Foi passado o aviso de apreensão de documentos
                                             </IonLabel>
@@ -1862,22 +2009,27 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                 {/*group4*/}
                                 <IonRow>
 
-                                    <IonCol size-sm='12' size-md='10' size-lg='12' style={{ padding: 21, marginTop: -20 }}>
-
+                                    <IonCol size-sm='12' size-md='10' size-lg='12'
+                                            style={{padding: 21, marginTop: -20}}>
 
 
                                         <IonCheckbox
 
                                             checked={isApreensaoVeiculoProduzEfeito}
-                                            onIonChange={e => setIsApreensaoVeiculoProduzEfeito(e.detail.checked)} />
+                                            onIonChange={e => setIsApreensaoVeiculoProduzEfeito(e.detail.checked)}/>
 
 
                                         <IonLabel class="ion-margin-start">
-                                            Para efeitos do dispositivo no nº5 do art. 174º do CE, a presente apreensão do veículo só produz efeitos a partir da data do dia
+                                            Para efeitos do dispositivo no nº5 do art. 174º do CE, a presente apreensão
+                                            do veículo só produz efeitos a partir da data do dia
 
-                                            <DatePicker inputName={'acoesComplementares-data_hora'} textLabel="Data/Hora *" setSelected={setDataProduzEfeitoApreensao}
-                                                selected={dataProduzEfeitoApreensao} />
-                                            data do termo de validade da Guia de Substituição emitida em substituição dos documentos provisoriamente apreendidos,nos termos do nº3 do art. 174º do CE (Infracções com sanções por cumprir).
+                                            <DatePicker inputName={'acoesComplementares-data_hora'}
+                                                        textLabel="Data/Hora *"
+                                                        setSelected={setDataProduzEfeitoApreensao}
+                                                        selected={dataProduzEfeitoApreensao}/>
+                                            data do termo de validade da Guia de Substituição emitida em substituição
+                                            dos documentos provisoriamente apreendidos,nos termos do nº3 do art. 174º do
+                                            CE (Infracções com sanções por cumprir).
                                         </IonLabel>
                                     </IonCol>
 
@@ -1911,17 +2063,17 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                         </IonLabel>
 
                         <IonButton className="" fill="outline" color="primary" slot="end"
-                            onClick={() => {
-                                setIsSavedBloqueamento(true)
-                                setOpenPopoverBloqueamento_RemocaoVeiculoData(false);
+                                   onClick={() => {
+                                       setIsSavedBloqueamento(true)
+                                       setOpenPopoverBloqueamento_RemocaoVeiculoData(false);
 
-                            }}
+                                   }}
                         >
                             EMITIR
                         </IonButton>
 
                         <IonButton className="btn-catalogo" fill="outline" color="medium" slot="end">
-                            IMPRIMIR <IonIcon slot="start" icon={bookOutline} />
+                            IMPRIMIR <IonIcon slot="start" icon={bookOutline}/>
                         </IonButton>
 
                         <IonButton className="btn-close" fill="outline" color="danger" slot="end" onClick={() => {
@@ -1936,7 +2088,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                 <IonContent>
 
                     {/* Bloqueamento */}
-                    <IonCard style={{ margin: 30 }}>
+                    <IonCard style={{margin: 30}}>
 
                         <IonCardHeader>
                             <IonCardTitle>Elementos identificadores
@@ -1951,7 +2103,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                     <IonCol size-sm='12' size-md='12' size-lg='6'>
 
                                         <IonRadioGroup value={houveBloquamento}
-                                            onIonChange={e => setHouveBloqueamento(e.detail.value)}>
+                                                       onIonChange={e => setHouveBloqueamento(e.detail.value)}>
 
                                             <IonRow>
                                                 <IonCol size='12'>
@@ -1965,7 +2117,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                     <IonItem
                                                         lines='none'
                                                         className="infoAdicionais-domicilio-radio radio-item">
-                                                        <IonRadio value="Sim" />
+                                                        <IonRadio value="Sim"/>
                                                         <IonLabel className="radioBox">Sim</IonLabel>
                                                     </IonItem>
                                                 </IonCol>
@@ -1973,28 +2125,32 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                     <IonItem
                                                         lines='none'
                                                         className="infoAdicionais-domicilio-radio radio-item">
-                                                        <IonRadio value="Não" />
+                                                        <IonRadio value="Não"/>
                                                         <IonLabel className="radioBox">Não</IonLabel>
                                                     </IonItem>
                                                 </IonCol>
                                             </IonRow>
                                         </IonRadioGroup>
                                     </IonCol>
-                                    <IonCol size-sm='12' size-md='12' size-lg='6' style={{ marginTop: 32 }}>
+                                    <IonCol size-sm='12' size-md='12' size-lg='6' style={{marginTop: 32}}>
                                         <IonItem>
-                                            <IonLabel position="floating" itemType="text" placeholder="N° do Bloq./Remoção do veículo">N° do Bloq./Remoção do veículo</IonLabel>
-                                            <IonInput value={numeroBloqueamentoRemocaoVeiculo} onKeyUp={onKeyup_numeroBloqueamentoRemocaoViatura}></IonInput>
+                                            <IonLabel position="floating" itemType="text"
+                                                      placeholder="N° do Bloq./Remoção do veículo">N° do Bloq./Remoção
+                                                do veículo</IonLabel>
+                                            <IonInput value={numeroBloqueamentoRemocaoVeiculo}
+                                                      onKeyUp={onKeyup_numeroBloqueamentoRemocaoViatura}></IonInput>
                                         </IonItem>
                                     </IonCol>
 
                                     <IonCol size-sm='12' size-md='12' size-lg='12'>
                                         <IonItem>
                                             <IonLabel>Legislação associada</IonLabel>
-                                            <IonSelect interface="popover" value={legislacaoAssociadaBloqueamento} onIonChange={e => setLegislacaoAssociadaBloqueamento(e.detail.value)}>
+                                            <IonSelect interface="popover" value={legislacaoAssociadaBloqueamento}
+                                                       onIonChange={e => setLegislacaoAssociadaBloqueamento(e.detail.value)}>
                                                 {legislacoesAssociadas?.map((local: any) => {
                                                     return (
                                                         <IonSelectOption key={`${local.id}`}
-                                                            value={local}>{`${local.descricao}`}</IonSelectOption>
+                                                                         value={local}>{`${local.descricao}`}</IonSelectOption>
                                                     )
                                                 })}
                                             </IonSelect>
@@ -2008,7 +2164,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                     {/* Bloqueamento */}
 
                     {/* Remoção */}
-                    <IonCard style={{ margin: 30 }}>
+                    <IonCard style={{margin: 30}}>
 
                         <IonCardHeader>
                             <IonCardTitle>Remoção
@@ -2023,7 +2179,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                     <IonCol size-sm='12' size-md='12' size-lg='6'>
 
                                         <IonRadioGroup value={houveRemocao}
-                                            onIonChange={e => setHouveRemocao(e.detail.value)}>
+                                                       onIonChange={e => setHouveRemocao(e.detail.value)}>
 
                                             <IonRow>
                                                 <IonCol size='12'>
@@ -2037,7 +2193,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                     <IonItem
                                                         lines='none'
                                                         className="infoAdicionais-domicilio-radio radio-item">
-                                                        <IonRadio value="Sim" />
+                                                        <IonRadio value="Sim"/>
                                                         <IonLabel className="radioBox">Sim</IonLabel>
                                                     </IonItem>
                                                 </IonCol>
@@ -2045,26 +2201,28 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                     <IonItem
                                                         lines='none'
                                                         className="infoAdicionais-domicilio-radio radio-item">
-                                                        <IonRadio value="Não" />
+                                                        <IonRadio value="Não"/>
                                                         <IonLabel className="radioBox">Não</IonLabel>
                                                     </IonItem>
                                                 </IonCol>
                                             </IonRow>
                                         </IonRadioGroup>
                                     </IonCol>
-                                    <IonCol size-sm='12' size-md='12' size-lg='6' style={{ marginTop: 46 }}>
-                                        <DatePicker inputName={'acoesComplementares-data_hora'} textLabel="Data/Hora *" setSelected={setDataRemocao}
-                                            selected={dataRemocao} />
+                                    <IonCol size-sm='12' size-md='12' size-lg='6' style={{marginTop: 46}}>
+                                        <DatePicker inputName={'acoesComplementares-data_hora'} textLabel="Data/Hora *"
+                                                    setSelected={setDataRemocao}
+                                                    selected={dataRemocao}/>
                                     </IonCol>
 
                                     <IonCol size-sm='12' size-md='12' size-lg='12'>
                                         <IonItem>
                                             <IonLabel>Legislação associada</IonLabel>
-                                            <IonSelect interface="popover" value={legislacaoAssociadaRemocao} onIonChange={e => setLegislacaoAssociadaRemocao(e.detail.value)}>
+                                            <IonSelect interface="popover" value={legislacaoAssociadaRemocao}
+                                                       onIonChange={e => setLegislacaoAssociadaRemocao(e.detail.value)}>
                                                 {legislacoesAssociadasRemocao?.map((local: any) => {
                                                     return (
                                                         <IonSelectOption key={`${local.id}`}
-                                                            value={local}>{`${local.descricao}`}</IonSelectOption>
+                                                                         value={local}>{`${local.descricao}`}</IonSelectOption>
                                                     )
                                                 })}
                                             </IonSelect>
@@ -2073,8 +2231,10 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
 
                                     <IonCol size-sm='12' size-md='12' size-lg='12'>
                                         <IonItem>
-                                            <IonLabel position="floating" itemType="text" placeholder="Número">Local de destino</IonLabel>
-                                            <IonInput value={localDestinoRemocao} onKeyUp={onKeyup_localDestinoRemocao} ></IonInput>
+                                            <IonLabel position="floating" itemType="text" placeholder="Número">Local de
+                                                destino</IonLabel>
+                                            <IonInput value={localDestinoRemocao}
+                                                      onKeyUp={onKeyup_localDestinoRemocao}></IonInput>
                                         </IonItem>
                                     </IonCol>
 
@@ -2099,7 +2259,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
 
 
                     {/* Pagamento */}
-                    <IonCard style={{ margin: 30 }}>
+                    <IonCard style={{margin: 30}}>
 
                         <IonCardHeader>
                             <IonCardTitle>Pagamento
@@ -2112,14 +2272,15 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
 
                                 <IonRow>
 
-                                    <IonCol size-sm='12' size-md='12' size-lg='4' style={{ marginTop: 16 }}>
+                                    <IonCol size-sm='12' size-md='12' size-lg='4' style={{marginTop: 16}}>
                                         <IonItem>
                                             <IonLabel>Meio pagamento</IonLabel>
-                                            <IonSelect interface="popover" value={meioPagamento} onIonChange={e => setMeioPagamento(e.detail.value)}>
+                                            <IonSelect interface="popover" value={meioPagamento}
+                                                       onIonChange={e => setMeioPagamento(e.detail.value)}>
                                                 {meiosPagamento?.map((local: any) => {
                                                     return (
                                                         <IonSelectOption key={`${local.id}`}
-                                                            value={local}>{`${local.descricao}`}</IonSelectOption>
+                                                                         value={local}>{`${local.descricao}`}</IonSelectOption>
                                                     )
                                                 })}
                                             </IonSelect>
@@ -2128,19 +2289,21 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
 
                                     <IonCol size-sm='12' size-md='12' size-lg='4'>
                                         <IonItem>
-                                            <IonLabel position="floating" itemType="text" placeholder="Número">Número do cheque</IonLabel>
+                                            <IonLabel position="floating" itemType="text" placeholder="Número">Número do
+                                                cheque</IonLabel>
                                             <IonInput value={numeroCheque} onKeyUp={onKeyup_numeroCheque}></IonInput>
                                         </IonItem>
                                     </IonCol>
 
-                                    <IonCol size-sm='12' size-md='12' size-lg='4' style={{ marginTop: 16 }}>
+                                    <IonCol size-sm='12' size-md='12' size-lg='4' style={{marginTop: 16}}>
                                         <IonItem>
                                             <IonLabel>Banco emissor</IonLabel>
-                                            <IonSelect interface="popover" value={bancoEmissor} onIonChange={e => setBancoEmissor(e.detail.value)}>
+                                            <IonSelect interface="popover" value={bancoEmissor}
+                                                       onIonChange={e => setBancoEmissor(e.detail.value)}>
                                                 {bancosEmissores?.map((local: any) => {
                                                     return (
                                                         <IonSelectOption key={`${local.id}`}
-                                                            value={local}>{`${local.descricao}`}</IonSelectOption>
+                                                                         value={local}>{`${local.descricao}`}</IonSelectOption>
                                                     )
                                                 })}
                                             </IonSelect>
@@ -2152,26 +2315,32 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
 
                                     <IonCol size-sm='12' size-md='12' size-lg='3'>
                                         <IonItem>
-                                            <IonLabel position="floating" itemType="text" placeholder="Valor bloqueamento">Valor bloqueamento</IonLabel>
-                                            <IonInput value={valorBloqueamento} onKeyUp={onkeyup_valorBloqueamento}></IonInput>
+                                            <IonLabel position="floating" itemType="text"
+                                                      placeholder="Valor bloqueamento">Valor bloqueamento</IonLabel>
+                                            <IonInput value={valorBloqueamento}
+                                                      onKeyUp={onkeyup_valorBloqueamento}></IonInput>
                                         </IonItem>
                                     </IonCol>
-                                    <IonCol size-sm='12' size-md='12' size-lg='3' style={{ marginTop: 24 }}>
+                                    <IonCol size-sm='12' size-md='12' size-lg='3' style={{marginTop: 24}}>
                                         <IonItem>
-                                            <IonLabel position="floating" itemType="text" placeholder="Valor remoção">Valor remoção</IonLabel>
+                                            <IonLabel position="floating" itemType="text" placeholder="Valor remoção">Valor
+                                                remoção</IonLabel>
                                             <IonInput value={valorRemocao} onKeyUp={onkeyup_valorRemocao}></IonInput>
                                         </IonItem>
                                     </IonCol>
-                                    <IonCol size-sm='12' size-md='12' size-lg='3' style={{ marginTop: 24 }}>
+                                    <IonCol size-sm='12' size-md='12' size-lg='3' style={{marginTop: 24}}>
                                         <IonItem>
-                                            <IonLabel position="floating" itemType="text" placeholder="Valor total">Valor total</IonLabel>
+                                            <IonLabel position="floating" itemType="text" placeholder="Valor total">Valor
+                                                total</IonLabel>
                                             <IonInput value={valorTotalBloqueamentoRemocao} disabled></IonInput>
                                         </IonItem>
                                     </IonCol>
                                     <IonCol size-sm='12' size-md='12' size-lg='3'>
                                         <IonItem>
-                                            <IonLabel position="floating" itemType="text" placeholder="Número">N° nota de cobrança (Manual)</IonLabel>
-                                            <IonInput value={notaCobrancaManual} onKeyUp={onkeyup_notaCobrancaManual}></IonInput>
+                                            <IonLabel position="floating" itemType="text" placeholder="Número">N° nota
+                                                de cobrança (Manual)</IonLabel>
+                                            <IonInput value={notaCobrancaManual}
+                                                      onKeyUp={onkeyup_notaCobrancaManual}></IonInput>
                                         </IonItem>
                                     </IonCol>
                                 </IonRow>
@@ -2203,17 +2372,17 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                         </IonLabel>
 
                         <IonButton className="" fill="outline" color="primary" slot="end"
-                            onClick={() => {
-                                setIsSubstituicao(true)
-                                setOpenPopoverSubstituicaoDocumentosData(false)
+                                   onClick={() => {
+                                       setIsSubstituicao(true)
+                                       setOpenPopoverSubstituicaoDocumentosData(false)
 
-                            }}
+                                   }}
                         >
                             EMITIR
                         </IonButton>
 
                         <IonButton className="btn-catalogo" fill="outline" color="medium" slot="end">
-                            IMPRIMIR <IonIcon slot="start" icon={bookOutline} />
+                            IMPRIMIR <IonIcon slot="start" icon={bookOutline}/>
                         </IonButton>
 
                         <IonButton className="btn-close" fill="outline" color="danger" slot="end" onClick={() => {
@@ -2228,7 +2397,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                 <IonContent>
 
                     {/* Certificado de matrícula */}
-                    <IonCard style={{ margin: 30 }}>
+                    <IonCard style={{margin: 30}}>
 
                         <IonCardHeader>
                             <IonCardTitle>Certificado de matrícula</IonCardTitle>
@@ -2240,13 +2409,13 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                 <IonRow>
 
                                     <IonCol size-sm='12' size-md='12' size-lg='12' className="ion-margin-start">
-                                        <h2 style={{ fontWeight: 'bold' }}>- N/A</h2>
+                                        <h2 style={{fontWeight: 'bold'}}>- N/A</h2>
                                     </IonCol>
 
                                     <IonCol size-sm='12' size-md='12' size-lg='6'>
 
                                         <IonRadioGroup value={substituirCertificadoMatricula}
-                                            onIonChange={e => setSubstituirCertificadoMatricula(e.detail.value)}>
+                                                       onIonChange={e => setSubstituirCertificadoMatricula(e.detail.value)}>
 
                                             <IonRow>
                                                 <IonCol size='12'>
@@ -2260,7 +2429,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                     <IonItem
                                                         lines='none'
                                                         className="infoAdicionais-domicilio-radio radio-item">
-                                                        <IonRadio value="Sim" />
+                                                        <IonRadio value="Sim"/>
                                                         <IonLabel className="radioBox">Sim</IonLabel>
                                                     </IonItem>
                                                 </IonCol>
@@ -2268,29 +2437,33 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                     <IonItem
                                                         lines='none'
                                                         className="infoAdicionais-domicilio-radio radio-item">
-                                                        <IonRadio value="Não" />
+                                                        <IonRadio value="Não"/>
                                                         <IonLabel className="radioBox">Não</IonLabel>
                                                     </IonItem>
                                                 </IonCol>
                                             </IonRow>
                                         </IonRadioGroup>
                                     </IonCol>
-                                    <IonCol size-sm='12' size-md='12' size-lg='6' style={{ marginTop: 32 }}>
+                                    <IonCol size-sm='12' size-md='12' size-lg='6' style={{marginTop: 32}}>
                                         <IonItem>
-                                            <IonLabel position="floating" itemType="text" placeholder="N° da substituição de documentos">N° da substituição de documentos *</IonLabel>
-                                            <IonInput value={numeroSubstituicaoDocumento} onKeyUp={onkeyup_numeroSubstituicaoDocumento}></IonInput>
+                                            <IonLabel position="floating" itemType="text"
+                                                      placeholder="N° da substituição de documentos">N° da substituição
+                                                de documentos *</IonLabel>
+                                            <IonInput value={numeroSubstituicaoDocumento}
+                                                      onKeyUp={onkeyup_numeroSubstituicaoDocumento}></IonInput>
                                         </IonItem>
                                     </IonCol>
                                 </IonRow>
                                 <IonRow>
-                                    <IonCol size-sm="9" size-md="10" size-lg="6" style={{ marginTop: 16 }}>
+                                    <IonCol size-sm="9" size-md="10" size-lg="6" style={{marginTop: 16}}>
                                         <IonItem>
                                             <IonLabel>Tipo de documento *</IonLabel>
-                                            <IonSelect interface="popover" value={tipoDocumentoSubstituicao} onIonChange={(e) => setTipoDocumentoSubstituicao(e.detail.value)}>
+                                            <IonSelect interface="popover" value={tipoDocumentoSubstituicao}
+                                                       onIonChange={(e) => setTipoDocumentoSubstituicao(e.detail.value)}>
                                                 {tiposDocumentoSubstituicao?.map((local: any) => {
                                                     return (
                                                         <IonSelectOption key={`${local.id}`}
-                                                            value={local}>{`${local.descricao}`}</IonSelectOption>
+                                                                         value={local}>{`${local.descricao}`}</IonSelectOption>
                                                     )
                                                 })}
                                             </IonSelect>
@@ -2298,9 +2471,10 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                     </IonCol>
                                     <IonCol size-sm='12' size-md='10' size-lg='4'>
                                         <IonItem>
-                                            <IonLabel position="floating" itemType="text" placeholder="Nome infringida">Número</IonLabel>
+                                            <IonLabel position="floating" itemType="text"
+                                                      placeholder="Nome infringida">Número</IonLabel>
                                             <IonInput value={numeroTipoDocumentoSubstituicao}
-                                                onKeyUp={onkeyup_numeroTipoDocumentoSubstituicao}
+                                                      onKeyUp={onkeyup_numeroTipoDocumentoSubstituicao}
 
                                             ></IonInput>
                                         </IonItem>
@@ -2311,22 +2485,24 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
 
                                     <IonCol size-sm='12' size-md='10' size-lg='3'>
                                         <IonItem>
-                                            <IonLabel position="floating" itemType="text" placeholder="Número chassi">Número chassi</IonLabel>
+                                            <IonLabel position="floating" itemType="text" placeholder="Número chassi">Número
+                                                chassi</IonLabel>
                                             <IonInput value={numeroChassi}
-                                                onKeyUp={onkeyup_numeroChassi}
+                                                      onKeyUp={onkeyup_numeroChassi}
 
                                             ></IonInput>
                                         </IonItem>
                                     </IonCol>
 
-                                    <IonCol size-sm="9" size-md="10" size-lg="4" style={{ marginTop: 16 }}>
+                                    <IonCol size-sm="9" size-md="10" size-lg="4" style={{marginTop: 16}}>
                                         <IonItem>
                                             <IonLabel>Combustivel</IonLabel>
-                                            <IonSelect interface="popover" value={combustivel} onIonChange={(e) => setCombustivel(e.detail.value)}>
+                                            <IonSelect interface="popover" value={combustivel}
+                                                       onIonChange={(e) => setCombustivel(e.detail.value)}>
                                                 {combustiveis?.map((local: any) => {
                                                     return (
                                                         <IonSelectOption key={`${local.id}`}
-                                                            value={local}>{`${local.descricao}`}</IonSelectOption>
+                                                                         value={local}>{`${local.descricao}`}</IonSelectOption>
                                                     )
                                                 })}
                                             </IonSelect>
@@ -2338,9 +2514,10 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
 
                                     <IonCol size-sm='12' size-md='10' size-lg='3'>
                                         <IonItem>
-                                            <IonLabel position="floating" itemType="text" placeholder="Peso bruto (kg)">Peso bruto (kg)</IonLabel>
+                                            <IonLabel position="floating" itemType="text" placeholder="Peso bruto (kg)">Peso
+                                                bruto (kg)</IonLabel>
                                             <IonInput value={pesoBruto}
-                                                onKeyUp={onkeyup_pesoBruto}
+                                                      onKeyUp={onkeyup_pesoBruto}
 
                                             ></IonInput>
                                         </IonItem>
@@ -2348,9 +2525,10 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
 
                                     <IonCol size-sm='12' size-md='10' size-lg='3'>
                                         <IonItem>
-                                            <IonLabel position="floating" itemType="text" placeholder="Taxa (kg)">Taxa (kg)</IonLabel>
+                                            <IonLabel position="floating" itemType="text" placeholder="Taxa (kg)">Taxa
+                                                (kg)</IonLabel>
                                             <IonInput value={taxa}
-                                                onKeyUp={onkeyup_taxa}
+                                                      onKeyUp={onkeyup_taxa}
 
                                             ></IonInput>
                                         </IonItem>
@@ -2362,9 +2540,10 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
 
                                     <IonCol size-sm='12' size-md='10' size-lg='3'>
                                         <IonItem>
-                                            <IonLabel position="floating" itemType="text" placeholder="Lotação">Lotação</IonLabel>
+                                            <IonLabel position="floating" itemType="text"
+                                                      placeholder="Lotação">Lotação</IonLabel>
                                             <IonInput value={lotacao}
-                                                onKeyUp={onkeyup_lotacao}
+                                                      onKeyUp={onkeyup_lotacao}
 
                                             ></IonInput>
                                         </IonItem>
@@ -2372,9 +2551,10 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
 
                                     <IonCol size-sm='12' size-md='10' size-lg='3'>
                                         <IonItem>
-                                            <IonLabel position="floating" itemType="text" placeholder="Cilindrada">Cilindrada</IonLabel>
+                                            <IonLabel position="floating" itemType="text"
+                                                      placeholder="Cilindrada">Cilindrada</IonLabel>
                                             <IonInput value={cilindrada}
-                                                onKeyUp={onkeyup_cilidranda}
+                                                      onKeyUp={onkeyup_cilidranda}
 
                                             ></IonInput>
                                         </IonItem>
@@ -2385,9 +2565,10 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
 
                                     <IonCol size-sm='12' size-md='10' size-lg='4'>
                                         <IonItem>
-                                            <IonLabel position="floating" itemType="text" placeholder="Pneumáticos frente">Pneumáticos frente</IonLabel>
+                                            <IonLabel position="floating" itemType="text"
+                                                      placeholder="Pneumáticos frente">Pneumáticos frente</IonLabel>
                                             <IonInput value={pneumaticoFrente}
-                                                onKeyUp={onkeyup_pneumaticoFrente}
+                                                      onKeyUp={onkeyup_pneumaticoFrente}
 
                                             ></IonInput>
                                         </IonItem>
@@ -2395,16 +2576,18 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
 
                                     <IonCol size-sm='12' size-md='10' size-lg='4'>
                                         <IonItem>
-                                            <IonLabel position="floating" itemType="text" placeholder="Pneumáticos retaguarda">Pneumáticos retaguarda</IonLabel>
+                                            <IonLabel position="floating" itemType="text"
+                                                      placeholder="Pneumáticos retaguarda">Pneumáticos
+                                                retaguarda</IonLabel>
                                             <IonInput value={pneumaticoRetaguarda}
-                                                onKeyUp={onkeyup_pneumaticoRetaguarda}
+                                                      onKeyUp={onkeyup_pneumaticoRetaguarda}
 
                                             ></IonInput>
                                         </IonItem>
                                     </IonCol>
                                 </IonRow>
 
-                                <IonRow style={{ marginTop: 16 }}>
+                                <IonRow style={{marginTop: 16}}>
                                     <IonCol size='12'>
                                         <IonListHeader>
                                             <IonLabel>
@@ -2416,13 +2599,14 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                         <IonItem
                                             lines='none'
                                             className="infoAdicionais-domicilio-radio radio-item">
-                                            <IonRadio value={ateDia} onChange={onChange_ateDia} />
+                                            <IonRadio value={ateDia} onChange={onChange_ateDia}/>
                                             <IonLabel className="radioBox">até ao dia</IonLabel>
                                         </IonItem>
                                     </IonCol>
                                     <IonCol size='6'>
-                                        <DatePicker inputName={'acoesComplementares-data'} textLabel="Data" setSelected={setDataGuia}
-                                            selected={dataGuia} />
+                                        <DatePicker inputName={'acoesComplementares-data'} textLabel="Data"
+                                                    setSelected={setDataGuia}
+                                                    selected={dataGuia}/>
                                     </IonCol>
                                 </IonRow>
 
@@ -2438,13 +2622,14 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                         <IonItem
                                             lines='none'
                                             className="infoAdicionais-domicilio-radio radio-item">
-                                            <IonRadio value={ateLocal} onChange={onChange_ateLocal} />
+                                            <IonRadio value={ateLocal} onChange={onChange_ateLocal}/>
                                             <IonLabel className="radioBox">até ao local</IonLabel>
                                         </IonItem>
                                     </IonCol>
-                                    <IonCol size='6' style={{ marginTop: -16 }}>
+                                    <IonCol size='6' style={{marginTop: -16}}>
                                         <IonItem>
-                                            <IonLabel position="floating" itemType="text" placeholder="Número">Local</IonLabel>
+                                            <IonLabel position="floating" itemType="text"
+                                                      placeholder="Número">Local</IonLabel>
                                             <IonInput value={validadeLocal} onKeyUp={onkeyup_validadeLocal}></IonInput>
                                         </IonItem>
                                     </IonCol>
@@ -2456,7 +2641,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                     {/* Certificado de matrícula */}
 
                     {/* Título de condução */}
-                    <IonCard style={{ margin: 30 }}>
+                    <IonCard style={{margin: 30}}>
 
                         <IonCardHeader>
                             <IonCardTitle>Título de condução</IonCardTitle>
@@ -2468,13 +2653,13 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                 <IonRow>
 
                                     <IonCol size-sm='12' size-md='12' size-lg='12' className="ion-margin-start">
-                                        <h2 style={{ fontWeight: 'bold' }}>, Carta de condução - -</h2>
+                                        <h2 style={{fontWeight: 'bold'}}>, Carta de condução - -</h2>
                                     </IonCol>
 
                                     <IonCol size-sm='12' size-md='12' size-lg='6'>
 
                                         <IonRadioGroup value={substituirCartaConducao}
-                                            onIonChange={e => setSubstituirCartaConducao(e.detail.value)}>
+                                                       onIonChange={e => setSubstituirCartaConducao(e.detail.value)}>
 
                                             <IonRow>
                                                 <IonCol size='12'>
@@ -2488,7 +2673,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                     <IonItem
                                                         lines='none'
                                                         className="infoAdicionais-domicilio-radio radio-item">
-                                                        <IonRadio value="Sim" />
+                                                        <IonRadio value="Sim"/>
                                                         <IonLabel className="radioBox">Sim</IonLabel>
                                                     </IonItem>
                                                 </IonCol>
@@ -2496,7 +2681,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                     <IonItem
                                                         lines='none'
                                                         className="infoAdicionais-domicilio-radio radio-item">
-                                                        <IonRadio value="Não" />
+                                                        <IonRadio value="Não"/>
                                                         <IonLabel className="radioBox">Não</IonLabel>
                                                     </IonItem>
                                                 </IonCol>
@@ -2505,59 +2690,62 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                     </IonCol>
                                 </IonRow>
                                 <IonRow>
-                                    <IonCol size-sm="9" size-md="10" size-lg="4" style={{ marginTop: 16 }}>
+                                    <IonCol size-sm="9" size-md="10" size-lg="4" style={{marginTop: 16}}>
                                         <IonItem>
                                             <IonLabel>Documento *</IonLabel>
-                                            <IonSelect interface="popover" value={documentoCartaConducao} onIonChange={(e) => setDocumentoCartaConducao(e.detail.value)}>
+                                            <IonSelect interface="popover" value={documentoCartaConducao}
+                                                       onIonChange={(e) => setDocumentoCartaConducao(e.detail.value)}>
                                                 {tiposDocumentoSubstituicao?.map((local: any) => {
                                                     return (
                                                         <IonSelectOption key={`${local.id}`}
-                                                            value={local}>{`${local.descricao}`}</IonSelectOption>
+                                                                         value={local}>{`${local.descricao}`}</IonSelectOption>
                                                     )
                                                 })}
                                             </IonSelect>
                                         </IonItem>
                                     </IonCol>
-                                    <IonCol size-sm='12' size-md='10' size-lg='4' style={{ marginTop: 16 }}>
+                                    <IonCol size-sm='12' size-md='10' size-lg='4' style={{marginTop: 16}}>
                                         <IonItem
                                             lines='none'
                                             className="tituloCondutor-radio radio-item">
-                                            <IonCheckbox value={grupo2} onChange={onChange_grupo2} />
+                                            <IonCheckbox value={grupo2} onChange={onChange_grupo2}/>
                                             <IonLabel className="radioBox">Grupo 2</IonLabel>
                                         </IonItem>
                                     </IonCol>
-                                    <IonCol size-sm='12' size-md='10' size-lg='4' style={{ marginTop: 16 }}>
-                                        <DatePicker inputName={'TituloConducao-dataEmissao'} textLabel="Data emissão" setSelected={setDataEmissao}
-                                            selected={dataEmissao} />
+                                    <IonCol size-sm='12' size-md='10' size-lg='4' style={{marginTop: 16}}>
+                                        <DatePicker inputName={'TituloConducao-dataEmissao'} textLabel="Data emissão"
+                                                    setSelected={setDataEmissao}
+                                                    selected={dataEmissao}/>
                                     </IonCol>
                                 </IonRow>
                                 <IonRow>
-                                    <IonCol size-sm="9" size-md="10" size-lg="9" style={{ marginTop: 16 }}>
+                                    <IonCol size-sm="9" size-md="10" size-lg="9" style={{marginTop: 16}}>
                                         <IonItem>
                                             <IonLabel>Documento *</IonLabel>
-                                            <IonSelect interface="popover" value={documentoCombo} onIonChange={(e) => setDocumentoCombo(e.detail.value)}>
+                                            <IonSelect interface="popover" value={documentoCombo}
+                                                       onIonChange={(e) => setDocumentoCombo(e.detail.value)}>
                                                 {tiposDocumentoSubstituicao?.map((local: any) => {
                                                     return (
                                                         <IonSelectOption key={`${local.id}`}
-                                                            value={local}>{`${local.descricao}`}</IonSelectOption>
+                                                                         value={local}>{`${local.descricao}`}</IonSelectOption>
                                                     )
                                                 })}
                                             </IonSelect>
                                         </IonItem>
                                     </IonCol>
 
-                                    <IonCol size-sm='12' size-md='10' size-lg='3' style={{ marginTop: 16 }}>
+                                    <IonCol size-sm='12' size-md='10' size-lg='3' style={{marginTop: 16}}>
                                         <IonItem lines='none'>
-                                            <IonButton style={{ background: '#084F87', borderRadius: 4 }}
-                                                color="#084F87"
-                                                slot="start"
-                                                size='default'
-                                                onClick={onClick_addDocumentoSubstituicao}> ADICIONAR </IonButton>
+                                            <IonButton style={{background: '#084F87', borderRadius: 4}}
+                                                       color="#084F87"
+                                                       slot="start"
+                                                       size='default'
+                                                       onClick={onClick_addDocumentoSubstituicao}> ADICIONAR </IonButton>
 
                                         </IonItem>
                                     </IonCol>
                                 </IonRow>
-                                <IonRow style={{ marginTop: 16 }}>
+                                <IonRow style={{marginTop: 16}}>
                                     <IonCol size-sm='12' size-md='10' size-lg='12'>
                                         <DataTable
                                             columns={columnsTituloConducao}
@@ -2566,7 +2754,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                     </IonCol>
                                 </IonRow>
 
-                                <IonRow style={{ marginTop: 16 }}>
+                                <IonRow style={{marginTop: 16}}>
                                     <IonCol size='12'>
                                         <IonListHeader>
                                             <IonLabel>
@@ -2578,13 +2766,14 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                         <IonItem
                                             lines='none'
                                             className="infoAdicionais-domicilio-radio radio-item">
-                                            <IonRadio value={ateDiaGuia} onChange={onChange_ateDiaGuia} />
+                                            <IonRadio value={ateDiaGuia} onChange={onChange_ateDiaGuia}/>
                                             <IonLabel className="radioBox">até ao dia</IonLabel>
                                         </IonItem>
                                     </IonCol>
                                     <IonCol size='6'>
-                                        <DatePicker inputName={'acoesComplementares-data'} textLabel="Data" setSelected={setDataValidadeGuia}
-                                            selected={dataValidadeGuia} />
+                                        <DatePicker inputName={'acoesComplementares-data'} textLabel="Data"
+                                                    setSelected={setDataValidadeGuia}
+                                                    selected={dataValidadeGuia}/>
                                     </IonCol>
                                 </IonRow>
 
@@ -2600,14 +2789,16 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                         <IonItem
                                             lines='none'
                                             className="infoAdicionais-domicilio-radio radio-item">
-                                            <IonRadio value={ateDiaLocal} onChange={onChange_ateDiaLocal} />
+                                            <IonRadio value={ateDiaLocal} onChange={onChange_ateDiaLocal}/>
                                             <IonLabel className="radioBox">até ao local</IonLabel>
                                         </IonItem>
                                     </IonCol>
-                                    <IonCol size='6' style={{ marginTop: -16 }}>
+                                    <IonCol size='6' style={{marginTop: -16}}>
                                         <IonItem>
-                                            <IonLabel position="floating" itemType="text" placeholder="Número">Local</IonLabel>
-                                            <IonInput value={localValidadeGuia} onKeyUp={onkeyup_localValidadeGuia}></IonInput>
+                                            <IonLabel position="floating" itemType="text"
+                                                      placeholder="Número">Local</IonLabel>
+                                            <IonInput value={localValidadeGuia}
+                                                      onKeyUp={onkeyup_localValidadeGuia}></IonInput>
                                         </IonItem>
                                     </IonCol>
                                 </IonRow>
@@ -2619,7 +2810,8 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                             <IonTextarea
                                                 rows={6}
                                                 cols={10}
-                                                placeholder="" value={observacaoSubstituicaoTituloConducao} onKeyUp={onkeyup_observacaoSubstituicaoTituloConducao}>
+                                                placeholder="" value={observacaoSubstituicaoTituloConducao}
+                                                onKeyUp={onkeyup_observacaoSubstituicaoTituloConducao}>
                                             </IonTextarea>
                                         </IonItem>
                                     </IonCol>
@@ -2653,16 +2845,16 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                         </IonLabel>
 
                         <IonButton className="" fill="outline" color="primary" slot="end"
-                            onClick={() => {
-                                setOpenPopoverApresentacaoDocumentoData(false);
-                                setIsSavedApresentacaoDocumento(true)
-                            }}
+                                   onClick={() => {
+                                       setOpenPopoverApresentacaoDocumentoData(false);
+                                       setIsSavedApresentacaoDocumento(true)
+                                   }}
                         >
                             EMITIR
                         </IonButton>
 
                         <IonButton className="btn-catalogo" fill="outline" color="medium" slot="end">
-                            IMPRIMIR <IonIcon slot="start" icon={bookOutline} />
+                            IMPRIMIR <IonIcon slot="start" icon={bookOutline}/>
                         </IonButton>
 
                         <IonButton className="btn-close" fill="outline" color="danger" slot="end" onClick={() => {
@@ -2677,7 +2869,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                 <IonContent>
 
                     {/* N° da apresentação de documentos */}
-                    <IonCard style={{ margin: 30 }}>
+                    <IonCard style={{margin: 30}}>
 
                         <IonCardHeader>
                             <IonCardTitle>N° da apresentação de documentos*</IonCardTitle>
@@ -2690,8 +2882,10 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
 
                                     <IonCol size-sm='12' size-md='10' size-lg='6'>
                                         <IonItem>
-                                            <IonLabel position="floating" itemType="text" placeholder="kms">N° da apresentação de documentos *</IonLabel>
-                                            <IonInput value={numeroApresentacaoDocumento} onKeyUp={onkeyup_numeroApresentacaoDocumento}></IonInput>
+                                            <IonLabel position="floating" itemType="text" placeholder="kms">N° da
+                                                apresentação de documentos *</IonLabel>
+                                            <IonInput value={numeroApresentacaoDocumento}
+                                                      onKeyUp={onkeyup_numeroApresentacaoDocumento}></IonInput>
                                         </IonItem>
                                     </IonCol>
                                 </IonRow>
@@ -2704,7 +2898,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
 
 
                     {/* Documentos a apresentar */}
-                    <IonCard style={{ margin: 30 }}>
+                    <IonCard style={{margin: 30}}>
 
                         <IonCardHeader>
                             <IonCardTitle>Documentos a apresentar *</IonCardTitle>
@@ -2715,14 +2909,14 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                 {/*group1*/}
                                 <IonRow>
 
-                                    <IonCol size-sm='12' size-md='10' size-lg='12' style={{ marginTop: 10 }}>
+                                    <IonCol size-sm='12' size-md='10' size-lg='12' style={{marginTop: 10}}>
 
                                         <IonItem lines='none'>
 
                                             <IonCheckbox
 
                                                 checked={isTituloConducao}
-                                                onIonChange={e => setIsTituloConducao(e.detail.checked)} />
+                                                onIonChange={e => setIsTituloConducao(e.detail.checked)}/>
                                             <IonLabel class="ion-margin-start">
                                                 Título de condução
                                             </IonLabel>
@@ -2736,14 +2930,14 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                 {/*group2*/}
                                 <IonRow>
 
-                                    <IonCol size-sm='12' size-md='10' size-lg='12' style={{ marginTop: 10 }}>
+                                    <IonCol size-sm='12' size-md='10' size-lg='12' style={{marginTop: 10}}>
 
                                         <IonItem lines='none'>
 
                                             <IonCheckbox
 
                                                 checked={isCertificadoMatricula}
-                                                onIonChange={e => setIsCertificadoMatricula(e.detail.checked)} />
+                                                onIonChange={e => setIsCertificadoMatricula(e.detail.checked)}/>
                                             <IonLabel class="ion-margin-start">
                                                 Certificado de matrícula
                                             </IonLabel>
@@ -2757,14 +2951,14 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                 {/*group3*/}
                                 <IonRow>
 
-                                    <IonCol size-sm='12' size-md='10' size-lg='12' style={{ marginTop: 10 }}>
+                                    <IonCol size-sm='12' size-md='10' size-lg='12' style={{marginTop: 10}}>
 
                                         <IonItem lines='none'>
 
                                             <IonCheckbox
 
                                                 checked={isDocumentoInspecaoVeiculo}
-                                                onIonChange={e => setIsDocumentoInspecaoVeiculo(e.detail.checked)} />
+                                                onIonChange={e => setIsDocumentoInspecaoVeiculo(e.detail.checked)}/>
                                             <IonLabel class="ion-margin-start">
                                                 Documento de inspecção do veículo
                                             </IonLabel>
@@ -2778,14 +2972,14 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                 {/*group4*/}
                                 <IonRow>
 
-                                    <IonCol size-sm='12' size-md='10' size-lg='12' style={{ marginTop: 10 }}>
+                                    <IonCol size-sm='12' size-md='10' size-lg='12' style={{marginTop: 10}}>
 
                                         <IonItem lines='none'>
 
                                             <IonCheckbox
 
                                                 checked={isCertificadoSeguroValidoVeiculo}
-                                                onIonChange={e => setIsCertificadoSeguroValidoVeiculo(e.detail.checked)} />
+                                                onIonChange={e => setIsCertificadoSeguroValidoVeiculo(e.detail.checked)}/>
                                             <IonLabel class="ion-margin-start">
                                                 Certificado de seguro válido do veículo
                                             </IonLabel>
@@ -2799,14 +2993,14 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                 {/*group5*/}
                                 <IonRow>
 
-                                    <IonCol size-sm='12' size-md='10' size-lg='12' style={{ marginTop: 10 }}>
+                                    <IonCol size-sm='12' size-md='10' size-lg='12' style={{marginTop: 10}}>
 
                                         <IonItem lines='none'>
 
                                             <IonCheckbox
 
                                                 checked={isBilheteIdentidade}
-                                                onIonChange={e => setIsBilheteIdentidade(e.detail.checked)} />
+                                                onIonChange={e => setIsBilheteIdentidade(e.detail.checked)}/>
                                             <IonLabel class="ion-margin-start">
                                                 Bilhete de identidade
                                             </IonLabel>
@@ -2820,14 +3014,14 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                 {/*group6*/}
                                 <IonRow>
 
-                                    <IonCol size-sm='12' size-md='10' size-lg='12' style={{ marginTop: 10 }}>
+                                    <IonCol size-sm='12' size-md='10' size-lg='12' style={{marginTop: 10}}>
 
                                         <IonItem lines='none'>
 
                                             <IonCheckbox
 
                                                 checked={isCartaoCidadao}
-                                                onIonChange={e => setIsCartaoCidadao(e.detail.checked)} />
+                                                onIonChange={e => setIsCartaoCidadao(e.detail.checked)}/>
                                             <IonLabel class="ion-margin-start">
                                                 Cartão de cidadão
                                             </IonLabel>
@@ -2841,14 +3035,14 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                 {/*group7*/}
                                 <IonRow>
 
-                                    <IonCol size-sm='12' size-md='10' size-lg='12' style={{ marginTop: 10 }}>
+                                    <IonCol size-sm='12' size-md='10' size-lg='12' style={{marginTop: 10}}>
 
                                         <IonItem lines='none'>
 
                                             <IonCheckbox
 
                                                 checked={isPassaporte}
-                                                onIonChange={e => setIsPassaporte(e.detail.checked)} />
+                                                onIonChange={e => setIsPassaporte(e.detail.checked)}/>
                                             <IonLabel class="ion-margin-start">
                                                 Passaporte
                                             </IonLabel>
@@ -2862,14 +3056,14 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                 {/*group8*/}
                                 <IonRow>
 
-                                    <IonCol size-sm='12' size-md='10' size-lg='12' style={{ marginTop: 10 }}>
+                                    <IonCol size-sm='12' size-md='10' size-lg='12' style={{marginTop: 10}}>
 
                                         <IonItem lines='none'>
 
                                             <IonCheckbox
 
                                                 checked={isTituloResidencia}
-                                                onIonChange={e => setIsTituloResidencia(e.detail.checked)} />
+                                                onIonChange={e => setIsTituloResidencia(e.detail.checked)}/>
                                             <IonLabel class="ion-margin-start">
                                                 Título de residência
                                             </IonLabel>
@@ -2883,14 +3077,14 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                 {/*group9*/}
                                 <IonRow>
 
-                                    <IonCol size-sm='12' size-md='10' size-lg='12' style={{ marginTop: 10 }}>
+                                    <IonCol size-sm='12' size-md='10' size-lg='12' style={{marginTop: 10}}>
 
                                         <IonItem lines='none'>
 
                                             <IonCheckbox
 
                                                 checked={isOutro}
-                                                onIonChange={e => setIsOutro(e.detail.checked)} />
+                                                onIonChange={e => setIsOutro(e.detail.checked)}/>
                                             <IonLabel class="ion-margin-start">
                                                 Outros
                                             </IonLabel>
@@ -2907,7 +3101,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                     {/* Documentos a apresentar */}
 
                     {/* Local de apresentação/entrega */}
-                    <IonCard style={{ margin: 30 }}>
+                    <IonCard style={{margin: 30}}>
 
                         <IonCardHeader>
                             <IonCardTitle>Local de apresentação/entrega *</IonCardTitle>
@@ -2918,24 +3112,28 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                 <IonRow>
                                     <IonCol size-sm="12" size-md="12" size-lg="12">
                                         <IonItem>
-                                            <IonLabel position="floating" itemType="text" placeholder="Local de apresentação/entrega *">Local de apresentação/entrega *</IonLabel>
-                                            <IonInput value={localApresentacaoEntrega} onKeyUp={onkeyup_localApresentacaoEntrega}></IonInput>
+                                            <IonLabel position="floating" itemType="text"
+                                                      placeholder="Local de apresentação/entrega *">Local de
+                                                apresentação/entrega *</IonLabel>
+                                            <IonInput value={localApresentacaoEntrega}
+                                                      onKeyUp={onkeyup_localApresentacaoEntrega}></IonInput>
                                         </IonItem>
                                     </IonCol>
                                 </IonRow>
                                 {/*group1*/}
                                 <IonRow>
 
-                                    <IonCol size-sm='12' size-md='10' size-lg='12' style={{ marginTop: 10 }}>
+                                    <IonCol size-sm='12' size-md='10' size-lg='12' style={{marginTop: 10}}>
 
                                         <IonItem lines='none'>
 
                                             <IonCheckbox
 
                                                 checked={isInserirNumeroProcessoReferenteObrigatoriedadeEntregaDocumento}
-                                                onIonChange={e => setIsInserirNumeroProcessoReferenteObrigatoriedadeEntregaDocumento(e.detail.checked)} />
+                                                onIonChange={e => setIsInserirNumeroProcessoReferenteObrigatoriedadeEntregaDocumento(e.detail.checked)}/>
                                             <IonLabel class="ion-margin-start">
-                                                Inserir o nº do processo referente à obrigatoriedade de entrega do documento
+                                                Inserir o nº do processo referente à obrigatoriedade de entrega do
+                                                documento
                                             </IonLabel>
                                         </IonItem>
 
@@ -2947,14 +3145,14 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                 {/*group2*/}
                                 <IonRow>
 
-                                    <IonCol size-sm='12' size-md='10' size-lg='12' style={{ marginTop: 10 }}>
+                                    <IonCol size-sm='12' size-md='10' size-lg='12' style={{marginTop: 10}}>
 
                                         <IonItem lines='none'>
 
                                             <IonCheckbox
 
                                                 checked={isInserirEmailEnvioDocumento}
-                                                onIonChange={e => setIsInserirEmailEnvioDocumento(e.detail.checked)} />
+                                                onIonChange={e => setIsInserirEmailEnvioDocumento(e.detail.checked)}/>
                                             <IonLabel class="ion-margin-start">
                                                 Inserir o email para envio do documento retirado da aplicação móvel
                                             </IonLabel>
@@ -2971,7 +3169,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                     {/* Local de apresentação/entrega */}
 
                     {/* Proprietário */}
-                    <IonCard style={{ margin: 30 }}>
+                    <IonCard style={{margin: 30}}>
 
                         <IonCardHeader>
                             <IonCardTitle>Proprietário</IonCardTitle>
@@ -2983,8 +3181,10 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                 <IonRow>
                                     <IonCol size-sm="12" size-md="12" size-lg="12">
                                         <IonItem>
-                                            <IonLabel position="floating" itemType="text" placeholder="Nome">Nome</IonLabel>
-                                            <IonInput value={nomeProprietario} onKeyUp={onkeyup_nomeProprietario}></IonInput>
+                                            <IonLabel position="floating" itemType="text"
+                                                      placeholder="Nome">Nome</IonLabel>
+                                            <IonInput value={nomeProprietario}
+                                                      onKeyUp={onkeyup_nomeProprietario}></IonInput>
                                         </IonItem>
                                     </IonCol>
                                 </IonRow>
@@ -2992,21 +3192,26 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                 <IonRow>
                                     <IonCol size-sm="12" size-md="12" size-lg="12">
                                         <IonItem>
-                                            <IonLabel position="floating" itemType="text" placeholder="Morada">Morada</IonLabel>
-                                            <IonInput value={moradaProprietario} onKeyUp={onkeyup_moradaProprietario}></IonInput>
+                                            <IonLabel position="floating" itemType="text"
+                                                      placeholder="Morada">Morada</IonLabel>
+                                            <IonInput value={moradaProprietario}
+                                                      onKeyUp={onkeyup_moradaProprietario}></IonInput>
                                         </IonItem>
                                     </IonCol>
                                 </IonRow>
 
                                 <IonRow>
-                                    <IonCol size-sm="9" size-md="10" size-lg="8" style={{ marginTop: 16 }}>
+                                    <IonCol size-sm="9" size-md="10" size-lg="8" style={{marginTop: 16}}>
                                         <IonItem>
                                             <IonLabel>Documento *</IonLabel>
-                                            <IonSelect interface="popover" value={documentoProprietario} onIonChange={(e) => { setDocumentoProprietario(e.detail.value) }}>
+                                            <IonSelect interface="popover" value={documentoProprietario}
+                                                       onIonChange={(e) => {
+                                                           setDocumentoProprietario(e.detail.value)
+                                                       }}>
                                                 {documentosApreendidos?.map((local: any) => {
                                                     return (
                                                         <IonSelectOption key={`${local.id}`}
-                                                            value={local}>{`${local.descricao}`}</IonSelectOption>
+                                                                         value={local}>{`${local.descricao}`}</IonSelectOption>
                                                     )
                                                 })}
                                             </IonSelect>
@@ -3014,9 +3219,10 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                     </IonCol>
                                     <IonCol size-sm='12' size-md='10' size-lg='4'>
                                         <IonItem>
-                                            <IonLabel position="floating" itemType="text" placeholder="Nome infringida">Número</IonLabel>
+                                            <IonLabel position="floating" itemType="text"
+                                                      placeholder="Nome infringida">Número</IonLabel>
                                             <IonInput value={numeroDocumentoProprietario}
-                                                onKeyUp={onkeyup_numeroDocumentoProprietario}
+                                                      onKeyUp={onkeyup_numeroDocumentoProprietario}
 
                                             ></IonInput>
                                         </IonItem>
@@ -3029,13 +3235,15 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                     {/* Proprietário */}
 
                     {/* Número de Documentos */}
-                    <IonCard style={{ margin: 30 }}>
+                    <IonCard style={{margin: 30}}>
                         <IonCardContent>
                             <IonGrid>
                                 <IonRow>
 
                                     <IonCol size-sm='12' size-md='10' size-lg='12'>
-                                        <p style={{ color: 'red' }}>Apenas deverá preencher este número caso não tenha sido possível imprimir o documento e o tenha registado manualmente em pré-impresso(Não será gerado o respectivo expediente).</p>
+                                        <p style={{color: 'red'}}>Apenas deverá preencher este número caso não tenha
+                                            sido possível imprimir o documento e o tenha registado manualmente em
+                                            pré-impresso(Não será gerado o respectivo expediente).</p>
                                     </IonCol>
 
                                 </IonRow>
@@ -3044,7 +3252,8 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                     <IonCol size-sm='12' size-md='10' size-lg='4'>
 
                                         <IonItem>
-                                            <IonLabel position="floating" itemType="text" placeholder="Número de Documento">Número de Documento</IonLabel>
+                                            <IonLabel position="floating" itemType="text"
+                                                      placeholder="Número de Documento">Número de Documento</IonLabel>
                                             <IonInput
                                                 value={numeroDocumentoApresentacaoDocumento}
                                                 onKeyUp={onkeyup_numeroDocumentoApresentacaoDocumento}
@@ -3080,7 +3289,8 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                             </h1>
                         </IonLabel>
 
-                        <IonButton className="btn-catalogo" fill="solid" color="primary" slot="end" onClick={on_addFichaControdor}>
+                        <IonButton className="btn-catalogo" fill="solid" color="primary" slot="end"
+                                   onClick={on_addFichaControdor}>
                             ADICIONAR
                         </IonButton>
 
@@ -3097,19 +3307,20 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
 
 
                     {/* START: Ficha de controlador  */}
-                    <IonCard style={{ margin: 30 }}>
+                    <IonCard style={{margin: 30}}>
 
-                        <IonCardHeader style={{ padding: 0 }}>
-                            <IonGrid style={{ padding: 0 }}>
+                        <IonCardHeader style={{padding: 0}}>
+                            <IonGrid style={{padding: 0}}>
                                 <IonRow>
                                     <IonCol size-sm="12" size-md="12" size-lg="8">
                                         <IonToolbar>
                                             <IonSegment slot="start"
-                                                onIonChange={(e: any) => setActiveSegment(e.detail.value)}
-                                                value={activeSegment}>
+                                                        onIonChange={(e: any) => setActiveSegment(e.detail.value)}
+                                                        value={activeSegment}>
                                                 <IonSegmentButton value="dadosGerais">Dados gerais</IonSegmentButton>
                                                 <IonSegmentButton value="alcool">Álcool</IonSegmentButton>
-                                                <IonSegmentButton value="estupefacientes_outrosPsicotropicos">Estupefacientes e/ou outros psictrópicos</IonSegmentButton>
+                                                <IonSegmentButton value="estupefacientes_outrosPsicotropicos">Estupefacientes
+                                                    e/ou outros psictrópicos</IonSegmentButton>
 
                                             </IonSegment>
                                         </IonToolbar>
@@ -3124,18 +3335,21 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                             {/*Dados gerais*/}
                             <IonGrid className={activeSegment == "dadosGerais" ? "" : "ion-hide"}>
                                 <IonRow>
-                                    <IonCol size-sm='12' size-md='12' size-lg='4' style={{ marginTop: 16 }}>
-                                        <DatePicker inputName={'acoesComplementares-data_hora'} textLabel="Data/Hora *" setSelected={setDataHora}
-                                            selected={dataHora} />
+                                    <IonCol size-sm='12' size-md='12' size-lg='4' style={{marginTop: 16}}>
+                                        <DatePicker inputName={'acoesComplementares-data_hora'} textLabel="Data/Hora *"
+                                                    setSelected={setDataHora}
+                                                    selected={dataHora}/>
                                     </IonCol>
-                                    <IonCol size-sm='12' size-md='12' size-lg='4' style={{ marginTop: 16 }}>
-                                        <DatePicker inputName={'acoesComplementares-data_horaUltimaAtualizacao'} textLabel="Data de última atualização" setSelected={setDataUltimaAtualizacao}
-                                            selected={dataUltimaAtualizacao} />
+                                    <IonCol size-sm='12' size-md='12' size-lg='4' style={{marginTop: 16}}>
+                                        <DatePicker inputName={'acoesComplementares-data_horaUltimaAtualizacao'}
+                                                    textLabel="Data de última atualização"
+                                                    setSelected={setDataUltimaAtualizacao}
+                                                    selected={dataUltimaAtualizacao}/>
                                     </IonCol>
-                                    <IonCol size-sm='12' size-md='12' size-lg='4' style={{ marginTop: 16 }}>
+                                    <IonCol size-sm='12' size-md='12' size-lg='4' style={{marginTop: 16}}>
                                         <IonItem lines='none'>
                                             <div>
-                                                <small>ID Terminal</small><br />
+                                                <small>ID Terminal</small><br/>
                                                 <strong>{userTerminal}</strong>
                                             </div>
                                         </IonItem>
@@ -3146,7 +3360,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                     <IonCol size-sm='12' size-md='12' size-lg='6'>
 
                                         <IonRadioGroup value={selectedAutuado_Testemunha}
-                                            onIonChange={e => setSelectedAutuado_Testemunha(e.detail.value)}>
+                                                       onIonChange={e => setSelectedAutuado_Testemunha(e.detail.value)}>
 
                                             <IonRow>
                                                 <IonCol size='12'>
@@ -3160,7 +3374,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                     <IonItem
                                                         lines='none'
                                                         className="infoAdicionais-domicilio-radio radio-item">
-                                                        <IonRadio value="Autuado" />
+                                                        <IonRadio value="Autuado"/>
                                                         <IonLabel className="radioBox">Autuado</IonLabel>
                                                     </IonItem>
                                                 </IonCol>
@@ -3168,7 +3382,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                     <IonItem
                                                         lines='none'
                                                         className="infoAdicionais-domicilio-radio radio-item">
-                                                        <IonRadio value="Testemunha" />
+                                                        <IonRadio value="Testemunha"/>
                                                         <IonLabel className="radioBox">Testemunha</IonLabel>
                                                     </IonItem>
                                                 </IonCol>
@@ -3182,7 +3396,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                     <IonCol size-sm='12' size-md='12' size-lg='12'>
 
                                         <IonRadioGroup value={tipoDeFichaControlador}
-                                            onIonChange={onChange_tipoControlador}>
+                                                       onIonChange={onChange_tipoControlador}>
 
                                             <IonRow>
                                                 <IonCol size='12'>
@@ -3196,7 +3410,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                     <IonItem
                                                         lines='none'
                                                         className="infoAdicionais-domicilio-radio radio-item">
-                                                        <IonCheckbox value="Álcool" />
+                                                        <IonCheckbox value="Álcool"/>
                                                         <IonLabel className="radioBox">Álcool</IonLabel>
                                                     </IonItem>
                                                 </IonCol>
@@ -3204,8 +3418,9 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                     <IonItem
                                                         lines='none'
                                                         className="infoAdicionais-domicilio-radio radio-item">
-                                                        <IonCheckbox value="Estupefacientes" />
-                                                        <IonLabel className="radioBox">Estupefacientes e/ou outros psicotrópicos</IonLabel>
+                                                        <IonCheckbox value="Estupefacientes"/>
+                                                        <IonLabel className="radioBox">Estupefacientes e/ou outros
+                                                            psicotrópicos</IonLabel>
                                                     </IonItem>
                                                 </IonCol>
                                             </IonRow>
@@ -3219,7 +3434,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                     <IonCol size-sm='12' size-md='12' size-lg='12'>
 
                                         <IonRadioGroup value={circunstanciaExameAlcool}
-                                            onIonChange={e => setCircunstanciaExameAlcool(e.detail.value)}>
+                                                       onIonChange={e => setCircunstanciaExameAlcool(e.detail.value)}>
 
                                             <IonRow>
                                                 <IonCol size='12'>
@@ -3233,7 +3448,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                     <IonItem
                                                         lines='none'
                                                         className="infoAdicionais-domicilio-radio radio-item">
-                                                        <IonRadio value="Acidente" />
+                                                        <IonRadio value="Acidente"/>
                                                         <IonLabel className="radioBox">Acidente</IonLabel>
                                                     </IonItem>
                                                 </IonCol>
@@ -3241,7 +3456,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                     <IonItem
                                                         lines='none'
                                                         className="infoAdicionais-domicilio-radio radio-item">
-                                                        <IonRadio value="Aletória" />
+                                                        <IonRadio value="Aletória"/>
                                                         <IonLabel className="radioBox">Aletória</IonLabel>
                                                     </IonItem>
                                                 </IonCol>
@@ -3249,7 +3464,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                     <IonItem
                                                         lines='none'
                                                         className="infoAdicionais-domicilio-radio radio-item">
-                                                        <IonRadio value="Início de coondução" />
+                                                        <IonRadio value="Início de coondução"/>
                                                         <IonLabel className="radioBox">Início de coondução</IonLabel>
                                                     </IonItem>
                                                 </IonCol>
@@ -3257,7 +3472,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                     <IonItem
                                                         lines='none'
                                                         className="infoAdicionais-domicilio-radio radio-item">
-                                                        <IonRadio value="Manobra irregular" />
+                                                        <IonRadio value="Manobra irregular"/>
                                                         <IonLabel className="radioBox">Manobra irregular</IonLabel>
                                                     </IonItem>
                                                 </IonCol>
@@ -3270,13 +3485,14 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                     <IonCol size-sm='12' size-md='12' size-lg='12'>
 
                                         <IonRadioGroup value={circunstanciaExameEstupefacientes}
-                                            onIonChange={e => setCircunstanciaExameEstupefacientes(e.detail.value)}>
+                                                       onIonChange={e => setCircunstanciaExameEstupefacientes(e.detail.value)}>
 
                                             <IonRow>
                                                 <IonCol size='12'>
                                                     <IonListHeader>
                                                         <IonLabel>
-                                                            Circunstância de exame estupefacientes e/ou outros psicotrópicos *
+                                                            Circunstância de exame estupefacientes e/ou outros
+                                                            psicotrópicos *
                                                         </IonLabel>
                                                     </IonListHeader>
                                                 </IonCol>
@@ -3284,7 +3500,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                     <IonItem
                                                         lines='none'
                                                         className="infoAdicionais-domicilio-radio radio-item">
-                                                        <IonRadio value="Acidente" />
+                                                        <IonRadio value="Acidente"/>
                                                         <IonLabel className="radioBox">Acidente</IonLabel>
                                                     </IonItem>
                                                 </IonCol>
@@ -3292,7 +3508,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                     <IonItem
                                                         lines='none'
                                                         className="infoAdicionais-domicilio-radio radio-item">
-                                                        <IonRadio value="Indicios" />
+                                                        <IonRadio value="Indicios"/>
                                                         <IonLabel className="radioBox">Indicios</IonLabel>
                                                     </IonItem>
                                                 </IonCol>
@@ -3302,16 +3518,16 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
 
                                 </IonRow>
                                 <IonRow>
-                                    <IonCol size-sm="12" size-md="12" size-lg="12" style={{ marginTop: 16 }}>
+                                    <IonCol size-sm="12" size-md="12" size-lg="12" style={{marginTop: 16}}>
                                         <IonItem lines='none'>
-                                            <IonButton className="btn-catalogo" fill="solid" color="primary" slot='end' onClick={() => {
-                                                setActiveSegment('alcool');
-                                            }}>
+                                            <IonButton className="btn-catalogo" fill="solid" color="primary" slot='end'
+                                                       onClick={() => {
+                                                           setActiveSegment('alcool');
+                                                       }}>
                                                 Seguinte
                                             </IonButton>
                                         </IonItem>
                                     </IonCol>
-
 
 
                                 </IonRow>
@@ -3325,7 +3541,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                     <IonCol size-sm='12' size-md='12' size-lg='6'>
 
                                         <IonRadioGroup value={recusaTesteAlcool}
-                                            onIonChange={e => setRecusaTesteAlcool(e.detail.value)}>
+                                                       onIonChange={e => setRecusaTesteAlcool(e.detail.value)}>
 
                                             <IonRow>
                                                 <IonCol size='12'>
@@ -3339,7 +3555,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                     <IonItem
                                                         lines='none'
                                                         className="infoAdicionais-domicilio-radio radio-item">
-                                                        <IonRadio value="Não" />
+                                                        <IonRadio value="Não"/>
                                                         <IonLabel className="radioBox">Não</IonLabel>
                                                     </IonItem>
                                                 </IonCol>
@@ -3347,7 +3563,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                     <IonItem
                                                         lines='none'
                                                         className="infoAdicionais-domicilio-radio radio-item">
-                                                        <IonRadio value="Sim" />
+                                                        <IonRadio value="Sim"/>
                                                         <IonLabel className="radioBox">Sim</IonLabel>
                                                     </IonItem>
                                                 </IonCol>
@@ -3360,7 +3576,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                     <IonCol size-sm='12' size-md='12' size-lg='12'>
 
                                         <IonRadioGroup value={tipoTesteAlcool}
-                                            onIonChange={e => setTipoTesteAlcool(e.detail.value)}>
+                                                       onIonChange={e => setTipoTesteAlcool(e.detail.value)}>
 
                                             <IonRow>
                                                 <IonCol size='12'>
@@ -3374,7 +3590,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                     <IonItem
                                                         lines='none'
                                                         className="infoAdicionais-domicilio-radio radio-item">
-                                                        <IonRadio value="Teste de ar expirado" />
+                                                        <IonRadio value="Teste de ar expirado"/>
                                                         <IonLabel className="radioBox">Teste de ar expirado</IonLabel>
                                                     </IonItem>
                                                 </IonCol>
@@ -3382,7 +3598,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                     <IonItem
                                                         lines='none'
                                                         className="infoAdicionais-domicilio-radio radio-item">
-                                                        <IonRadio value="Análise sangue" />
+                                                        <IonRadio value="Análise sangue"/>
                                                         <IonLabel className="radioBox">Análise sangue</IonLabel>
                                                     </IonItem>
                                                 </IonCol>
@@ -3390,7 +3606,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                     <IonItem
                                                         lines='none'
                                                         className="infoAdicionais-domicilio-radio radio-item">
-                                                        <IonRadio value="Exame médico" />
+                                                        <IonRadio value="Exame médico"/>
                                                         <IonLabel className="radioBox">Exame médico</IonLabel>
                                                     </IonItem>
                                                 </IonCol>
@@ -3398,8 +3614,9 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                     <IonItem
                                                         lines='none'
                                                         className="infoAdicionais-domicilio-radio radio-item">
-                                                        <IonRadio value="Punível à TAS 0.200 g/l" />
-                                                        <IonLabel className="radioBox">Punível à TAS 0.200 g/l</IonLabel>
+                                                        <IonRadio value="Punível à TAS 0.200 g/l"/>
+                                                        <IonLabel className="radioBox">Punível à TAS 0.200
+                                                            g/l</IonLabel>
                                                     </IonItem>
                                                 </IonCol>
                                             </IonRow>
@@ -3409,7 +3626,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                 </IonRow>
 
                                 <IonRow>
-                                    <IonCol size-sm="12" size-md="12" size-lg="12" style={{ marginTop: 16 }}>
+                                    <IonCol size-sm="12" size-md="12" size-lg="12" style={{marginTop: 16}}>
                                         <IonLabel>
                                             Alcoolímetro *
                                         </IonLabel>
@@ -3420,11 +3637,15 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                         <IonItem>
 
                                             <IonLabel>Marca / Modela *</IonLabel>
-                                            <IonSelect interface="popover" onIonChange={e => setAlcoolimetroMarca(e.detail.value)} >
+                                            <IonSelect interface="popover"
+                                                       onIonChange={e => setAlcoolimetroMarca(e.detail.value)}>
                                                 {alcoolimetroMarcas?.map((local: any) => {
                                                     return (
                                                         <IonSelectOption key={`${local.id}`}
-                                                            value={JSON.stringify({ id: local.id, descricao: local.descricao })}>{`${local.descricao}`}</IonSelectOption>
+                                                                         value={JSON.stringify({
+                                                                             id: local.id,
+                                                                             descricao: local.descricao
+                                                                         })}>{`${local.descricao}`}</IonSelectOption>
                                                     )
                                                 })}
                                             </IonSelect>
@@ -3437,11 +3658,15 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                         <IonItem>
 
                                             <IonLabel>Série *</IonLabel>
-                                            <IonSelect interface="popover" onIonChange={e => setAlcoolimetroSerie(e.detail.value)} >
+                                            <IonSelect interface="popover"
+                                                       onIonChange={e => setAlcoolimetroSerie(e.detail.value)}>
                                                 {alcoolimetroSeries?.map((local: any) => {
                                                     return (
                                                         <IonSelectOption key={`${local.id}`}
-                                                            value={JSON.stringify({ id: local.id, descricao: local.descricao })}>{`${local.descricao}`}</IonSelectOption>
+                                                                         value={JSON.stringify({
+                                                                             id: local.id,
+                                                                             descricao: local.descricao
+                                                                         })}>{`${local.descricao}`}</IonSelectOption>
                                                     )
                                                 })}
                                             </IonSelect>
@@ -3453,11 +3678,15 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                         <IonItem>
 
                                             <IonLabel>Tipo verificação *</IonLabel>
-                                            <IonSelect interface="popover" onIonChange={e => setAlcoolimetroVerificacao(e.detail.value)} >
+                                            <IonSelect interface="popover"
+                                                       onIonChange={e => setAlcoolimetroVerificacao(e.detail.value)}>
                                                 {alcoolimetroTipoVerificacoes?.map((local: any) => {
                                                     return (
                                                         <IonSelectOption key={`${local.id}`}
-                                                            value={JSON.stringify({ id: local.id, descricao: local.descricao })}>{`${local.descricao}`}</IonSelectOption>
+                                                                         value={JSON.stringify({
+                                                                             id: local.id,
+                                                                             descricao: local.descricao
+                                                                         })}>{`${local.descricao}`}</IonSelectOption>
                                                     )
                                                 })}
                                             </IonSelect>
@@ -3466,32 +3695,38 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                     </IonCol>
 
 
-
                                 </IonRow>
 
                                 <IonRow>
 
                                     <IonCol size-sm="12" size-md="12" size-lg="4">
                                         <IonItem>
-                                            <IonLabel position="floating" itemType="text" placeholder="Número">Número *</IonLabel>
-                                            <IonInput value={alcoolimetroNumero} onKeyUp={onkeyup_alcoolimetroNumero}></IonInput>
+                                            <IonLabel position="floating" itemType="text" placeholder="Número">Número
+                                                *</IonLabel>
+                                            <IonInput value={alcoolimetroNumero}
+                                                      onKeyUp={onkeyup_alcoolimetroNumero}></IonInput>
                                         </IonItem>
                                     </IonCol>
 
-                                    <IonCol size-sm="12" size-md="12" size-lg="4" style={{ marginTop: 16 }}>
-                                        <DatePicker inputName={'acoesComplementares-data_horaInfraccao'} textLabel="Data/Hora da infracção" selected={alcoolimetroDataHoraInfracao} setSelected={setAlcoolimetroDataHoraInfracao} />
+                                    <IonCol size-sm="12" size-md="12" size-lg="4" style={{marginTop: 16}}>
+                                        <DatePicker inputName={'acoesComplementares-data_horaInfraccao'}
+                                                    textLabel="Data/Hora da infracção"
+                                                    selected={alcoolimetroDataHoraInfracao}
+                                                    setSelected={setAlcoolimetroDataHoraInfracao}/>
                                     </IonCol>
 
                                     <IonCol size-sm="12" size-md="12" size-lg="4">
                                         <IonItem>
-                                            <IonLabel position="floating" itemType="text" placeholder="Número de talão">Número de talão *</IonLabel>
-                                            <IonInput value={alcoolimetroNumeroTalao} onKeyUp={onkeyup_alcoolimetroNumeroTalao}></IonInput>
+                                            <IonLabel position="floating" itemType="text" placeholder="Número de talão">Número
+                                                de talão *</IonLabel>
+                                            <IonInput value={alcoolimetroNumeroTalao}
+                                                      onKeyUp={onkeyup_alcoolimetroNumeroTalao}></IonInput>
                                         </IonItem>
                                     </IonCol>
                                 </IonRow>
 
                                 <IonRow>
-                                    <IonCol size-sm="12" size-md="12" size-lg="12" style={{ marginTop: 16 }}>
+                                    <IonCol size-sm="12" size-md="12" size-lg="12" style={{marginTop: 16}}>
                                         <IonLabel>
                                             Teste (g/l) *
                                         </IonLabel>
@@ -3499,15 +3734,19 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
 
                                     <IonCol size-sm="12" size-md="12" size-lg="4">
                                         <IonItem>
-                                            <IonLabel position="floating" itemType="text" placeholder="Valor registado">Valor registado *</IonLabel>
-                                            <IonInput value={alcoolimetroValorRegistado} onKeyUp={onkeyup_alcoolimetroValorRegistado}></IonInput>
+                                            <IonLabel position="floating" itemType="text" placeholder="Valor registado">Valor
+                                                registado *</IonLabel>
+                                            <IonInput value={alcoolimetroValorRegistado}
+                                                      onKeyUp={onkeyup_alcoolimetroValorRegistado}></IonInput>
                                         </IonItem>
                                     </IonCol>
 
                                     <IonCol size-sm="12" size-md="12" size-lg="4">
                                         <IonItem>
-                                            <IonLabel position="floating" itemType="text" placeholder="Valor apurado">Valor apurado *</IonLabel>
-                                            <IonInput value={alcoolimetroValorApurado} onKeyUp={onkeyup_alcoolimetroValorApurado}></IonInput>
+                                            <IonLabel position="floating" itemType="text" placeholder="Valor apurado">Valor
+                                                apurado *</IonLabel>
+                                            <IonInput value={alcoolimetroValorApurado}
+                                                      onKeyUp={onkeyup_alcoolimetroValorApurado}></IonInput>
                                         </IonItem>
                                     </IonCol>
 
@@ -3517,13 +3756,14 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                             {/*Álcool*/}
 
                             {/*Estupefacientes e/ou outros psictrópicos*/}
-                            <IonGrid className={activeSegment == "estupefacientes_outrosPsicotropicos" ? "" : "ion-hide"}>
+                            <IonGrid
+                                className={activeSegment == "estupefacientes_outrosPsicotropicos" ? "" : "ion-hide"}>
 
                                 <IonRow>
                                     <IonCol size-sm='12' size-md='12' size-lg='6'>
 
                                         <IonRadioGroup value={recusaTesteEstupifaciente}
-                                            onIonChange={e => setRecusaTesteEstupifaciente(e.detail.value)}>
+                                                       onIonChange={e => setRecusaTesteEstupifaciente(e.detail.value)}>
 
                                             <IonRow>
                                                 <IonCol size='12'>
@@ -3537,7 +3777,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                     <IonItem
                                                         lines='none'
                                                         className="infoAdicionais-domicilio-radio radio-item">
-                                                        <IonRadio value="Não" />
+                                                        <IonRadio value="Não"/>
                                                         <IonLabel className="radioBox">Não</IonLabel>
                                                     </IonItem>
                                                 </IonCol>
@@ -3545,7 +3785,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                     <IonItem
                                                         lines='none'
                                                         className="infoAdicionais-domicilio-radio radio-item">
-                                                        <IonRadio value="Sim" />
+                                                        <IonRadio value="Sim"/>
                                                         <IonLabel className="radioBox">Sim</IonLabel>
                                                     </IonItem>
                                                 </IonCol>
@@ -3560,7 +3800,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                     <IonCol size-sm='12' size-md='12' size-lg='12'>
 
                                         <IonRadioGroup value={tipoTesteEstupifaciente}
-                                            onIonChange={e => setTipoTesteEstupifaciente(e.detail.value)}>
+                                                       onIonChange={e => setTipoTesteEstupifaciente(e.detail.value)}>
 
                                             <IonRow>
                                                 <IonCol size='12'>
@@ -3574,7 +3814,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                     <IonItem
                                                         lines='none'
                                                         className="infoAdicionais-domicilio-radio radio-item">
-                                                        <IonRadio value="Aci" />
+                                                        <IonRadio value="Aci"/>
                                                         <IonLabel className="radioBox">Aci</IonLabel>
                                                     </IonItem>
                                                 </IonCol>
@@ -3582,7 +3822,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                     <IonItem
                                                         lines='none'
                                                         className="infoAdicionais-domicilio-radio radio-item">
-                                                        <IonRadio value="Análise sangue" />
+                                                        <IonRadio value="Análise sangue"/>
                                                         <IonLabel className="radioBox">Análise sangue</IonLabel>
                                                     </IonItem>
                                                 </IonCol>
@@ -3590,7 +3830,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                     <IonItem
                                                         lines='none'
                                                         className="infoAdicionais-domicilio-radio radio-item">
-                                                        <IonRadio value="Exame médico" />
+                                                        <IonRadio value="Exame médico"/>
                                                         <IonLabel className="radioBox">Exame médico</IonLabel>
                                                     </IonItem>
                                                 </IonCol>
@@ -3601,10 +3841,10 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                 </IonRow>
 
                                 <IonRow>
-                                    <IonCol size-sm='12' size-md='12' size-lg='12' style={{ marginTop: 16 }}>
+                                    <IonCol size-sm='12' size-md='12' size-lg='12' style={{marginTop: 16}}>
 
                                         <IonRadioGroup value={anfetaminas}
-                                            onIonChange={e => setAnfetaminas(e.detail.value)}>
+                                                       onIonChange={e => setAnfetaminas(e.detail.value)}>
 
                                             <IonRow>
                                                 <IonCol size='3'>
@@ -3618,7 +3858,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                     <IonItem
                                                         lines='none'
                                                         className="infoAdicionais-domicilio-radio radio-item">
-                                                        <IonRadio value="Não Anfetaminas" />
+                                                        <IonRadio value="Não Anfetaminas"/>
                                                         <IonLabel className="radioBox">Não</IonLabel>
                                                     </IonItem>
                                                 </IonCol>
@@ -3626,7 +3866,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                     <IonItem
                                                         lines='none'
                                                         className="infoAdicionais-domicilio-radio radio-item">
-                                                        <IonRadio value="Sim Anfetaminas" />
+                                                        <IonRadio value="Sim Anfetaminas"/>
                                                         <IonLabel className="radioBox">Sim</IonLabel>
                                                     </IonItem>
                                                 </IonCol>
@@ -3635,7 +3875,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                         </IonRadioGroup>
 
                                         <IonRadioGroup value={canabis}
-                                            onIonChange={e => setCanabis(e.detail.value)}>
+                                                       onIonChange={e => setCanabis(e.detail.value)}>
 
                                             <IonRow>
                                                 <IonCol size='3'>
@@ -3649,7 +3889,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                     <IonItem
                                                         lines='none'
                                                         className="infoAdicionais-domicilio-radio radio-item">
-                                                        <IonRadio value="Não Canabis" />
+                                                        <IonRadio value="Não Canabis"/>
                                                         <IonLabel className="radioBox">Não</IonLabel>
                                                     </IonItem>
                                                 </IonCol>
@@ -3657,7 +3897,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                     <IonItem
                                                         lines='none'
                                                         className="infoAdicionais-domicilio-radio radio-item">
-                                                        <IonRadio value="Sim Canabis" />
+                                                        <IonRadio value="Sim Canabis"/>
                                                         <IonLabel className="radioBox">Sim</IonLabel>
                                                     </IonItem>
                                                 </IonCol>
@@ -3666,7 +3906,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                         </IonRadioGroup>
 
                                         <IonRadioGroup value={cocaina}
-                                            onIonChange={e => setCocaina(e.detail.value)}>
+                                                       onIonChange={e => setCocaina(e.detail.value)}>
 
                                             <IonRow>
                                                 <IonCol size='3'>
@@ -3680,7 +3920,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                     <IonItem
                                                         lines='none'
                                                         className="infoAdicionais-domicilio-radio radio-item">
-                                                        <IonRadio value="Não Cocaína" />
+                                                        <IonRadio value="Não Cocaína"/>
                                                         <IonLabel className="radioBox">Não</IonLabel>
                                                     </IonItem>
                                                 </IonCol>
@@ -3688,7 +3928,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                     <IonItem
                                                         lines='none'
                                                         className="infoAdicionais-domicilio-radio radio-item">
-                                                        <IonRadio value="Sim Cocaína" />
+                                                        <IonRadio value="Sim Cocaína"/>
                                                         <IonLabel className="radioBox">Sim</IonLabel>
                                                     </IonItem>
                                                 </IonCol>
@@ -3697,7 +3937,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                         </IonRadioGroup>
 
                                         <IonRadioGroup value={metanfetaminas}
-                                            onIonChange={e => setMetanfetaminas(e.detail.value)}>
+                                                       onIonChange={e => setMetanfetaminas(e.detail.value)}>
 
                                             <IonRow>
                                                 <IonCol size='3'>
@@ -3711,7 +3951,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                     <IonItem
                                                         lines='none'
                                                         className="infoAdicionais-domicilio-radio radio-item">
-                                                        <IonRadio value="Não Metanfetaminas" />
+                                                        <IonRadio value="Não Metanfetaminas"/>
                                                         <IonLabel className="radioBox">Não</IonLabel>
                                                     </IonItem>
                                                 </IonCol>
@@ -3719,7 +3959,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                     <IonItem
                                                         lines='none'
                                                         className="infoAdicionais-domicilio-radio radio-item">
-                                                        <IonRadio value="Sim Metanfetaminas" />
+                                                        <IonRadio value="Sim Metanfetaminas"/>
                                                         <IonLabel className="radioBox">Sim</IonLabel>
                                                     </IonItem>
                                                 </IonCol>
@@ -3728,7 +3968,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                         </IonRadioGroup>
 
                                         <IonRadioGroup value={opio}
-                                            onIonChange={e => setOpio(e.detail.value)}>
+                                                       onIonChange={e => setOpio(e.detail.value)}>
 
                                             <IonRow>
                                                 <IonCol size='3'>
@@ -3742,7 +3982,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                     <IonItem
                                                         lines='none'
                                                         className="infoAdicionais-domicilio-radio radio-item">
-                                                        <IonRadio value="Não Ópio" />
+                                                        <IonRadio value="Não Ópio"/>
                                                         <IonLabel className="radioBox">Não</IonLabel>
                                                     </IonItem>
                                                 </IonCol>
@@ -3750,7 +3990,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                                     <IonItem
                                                         lines='none'
                                                         className="infoAdicionais-domicilio-radio radio-item">
-                                                        <IonRadio value="Sim Ópio" />
+                                                        <IonRadio value="Sim Ópio"/>
                                                         <IonLabel className="radioBox">Sim</IonLabel>
                                                     </IonItem>
                                                 </IonCol>
@@ -3767,7 +4007,7 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
 
 
                     {/* Elementos identificadores */}
-                    <IonCard style={{ margin: 30 }}>
+                    <IonCard style={{margin: 30}}>
 
                         <IonCardHeader>
                             <IonCardTitle>Elementos identificadores
@@ -3777,35 +4017,75 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                         <IonCardContent>
 
                             <IonGrid>
-                                <div style={{ fontWeight: 'bold', fontSize: 18 }}>Local de Infração</div>
+                                <div style={{fontWeight: 'bold', fontSize: 18}}>Local de Infração</div>
                                 <CardListItem
-                                    c1={{ titulo: 'Distrito', valor: props.currentDadosInfracaoData?.localInfracaoData?.distrito?.descricao }}
-                                    c2={{ titulo: 'Concelho', valor: props.currentDadosInfracaoData?.localInfracaoData?.concelho?.descricao }}
-                                    c3={{ titulo: 'Freguesia', valor: props.currentDadosInfracaoData?.localInfracaoData?.freguesia?.descricao }}
+                                    c1={{
+                                        titulo: 'Distrito',
+                                        valor: props.currentDadosInfracaoData?.localInfracaoData?.distrito?.descricao
+                                    }}
+                                    c2={{
+                                        titulo: 'Concelho',
+                                        valor: props.currentDadosInfracaoData?.localInfracaoData?.concelho?.descricao
+                                    }}
+                                    c3={{
+                                        titulo: 'Freguesia',
+                                        valor: props.currentDadosInfracaoData?.localInfracaoData?.freguesia?.descricao
+                                    }}
                                 />
 
                                 <CardListItem
-                                    c1={{ titulo: 'Localidade', valor: props.currentDadosInfracaoData?.localInfracaoData?.localidade?.descricao }}
-                                    c2={{ titulo: 'Tipo Local', valor: props.currentDadosInfracaoData?.localInfracaoData?.tipo }}
-                                    c3={{ titulo: 'Zona / Bairro', valor: props.currentDadosInfracaoData?.localInfracaoData?.zona }}
+                                    c1={{
+                                        titulo: 'Localidade',
+                                        valor: props.currentDadosInfracaoData?.localInfracaoData?.localidade?.descricao
+                                    }}
+                                    c2={{
+                                        titulo: 'Tipo Local',
+                                        valor: props.currentDadosInfracaoData?.localInfracaoData?.tipo
+                                    }}
+                                    c3={{
+                                        titulo: 'Zona / Bairro',
+                                        valor: props.currentDadosInfracaoData?.localInfracaoData?.zona
+                                    }}
                                 />
 
                                 <CardListItem
-                                    c1={{ titulo: 'Tipo de Via', valor: props.currentDadosInfracaoData?.localInfracaoData?.tipo }}
-                                    c2={{ titulo: 'Arruamento / Via', valor: props.currentDadosInfracaoData?.localInfracaoData?.arruamento }}
-                                    c3={{ titulo: 'N° Polícia / KM', valor: props.currentDadosInfracaoData?.localInfracaoData?.numeroPolicia }}
+                                    c1={{
+                                        titulo: 'Tipo de Via',
+                                        valor: props.currentDadosInfracaoData?.localInfracaoData?.tipo
+                                    }}
+                                    c2={{
+                                        titulo: 'Arruamento / Via',
+                                        valor: props.currentDadosInfracaoData?.localInfracaoData?.arruamento
+                                    }}
+                                    c3={{
+                                        titulo: 'N° Polícia / KM',
+                                        valor: props.currentDadosInfracaoData?.localInfracaoData?.numeroPolicia
+                                    }}
                                 />
 
-                                <div style={{ fontWeight: 'bold', fontSize: 18, marginTop: 30 }}>Dados de identificação do examinado</div>
+                                <div style={{fontWeight: 'bold', fontSize: 18, marginTop: 30}}>Dados de identificação do
+                                    examinado
+                                </div>
                                 <CardListItem
-                                    c1={{ titulo: 'Data de Nascimento', valor: props.currentIntervenientesData?.arguido?.dataNascimento }}
-                                    c2={{ titulo: 'Sexo', valor: '' }}
+                                    c1={{
+                                        titulo: 'Data de Nascimento',
+                                        valor: props.currentIntervenientesData?.arguido?.dataNascimento
+                                    }}
+                                    c2={{titulo: 'Sexo', valor: ''}}
                                 />
 
-                                <div style={{ fontWeight: 'bold', fontSize: 18, marginTop: 30 }}>Dados de identificação do Veículo</div>
+                                <div style={{fontWeight: 'bold', fontSize: 18, marginTop: 30}}>Dados de identificação do
+                                    Veículo
+                                </div>
                                 <CardListItem
-                                    c1={{ titulo: 'Tipo de Veículo', valor: props.currentIntervenientesData?.veiculo?.tipo }}
-                                    c2={{ titulo: 'Matrícula', valor: props.currentIntervenientesData?.veiculo?.matricula }}
+                                    c1={{
+                                        titulo: 'Tipo de Veículo',
+                                        valor: props.currentIntervenientesData?.veiculo?.tipo
+                                    }}
+                                    c2={{
+                                        titulo: 'Matrícula',
+                                        valor: props.currentIntervenientesData?.veiculo?.matricula
+                                    }}
                                 />
                             </IonGrid>
 
@@ -3814,13 +4094,15 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                     {/* Elementos identificadores */}
 
                     {/* Número de Documentos */}
-                    <IonCard style={{ margin: 30 }}>
+                    <IonCard style={{margin: 30}}>
                         <IonCardContent>
                             <IonGrid>
                                 <IonRow>
 
                                     <IonCol size-sm='12' size-md='10' size-lg='12'>
-                                        <p style={{ color: 'red' }}>Apenas deverá preencher este número caso não tenha sido possível imprimir o documento e o tenha registado manualmente em pré-impresso(Não será gerado o respectivo expediente).</p>
+                                        <p style={{color: 'red'}}>Apenas deverá preencher este número caso não tenha
+                                            sido possível imprimir o documento e o tenha registado manualmente em
+                                            pré-impresso(Não será gerado o respectivo expediente).</p>
                                     </IonCol>
 
                                 </IonRow>
@@ -3829,7 +4111,8 @@ const AcoesComplementares: React.FC<IProps> = (props) => {
                                     <IonCol size-sm='12' size-md='10' size-lg='4'>
 
                                         <IonItem>
-                                            <IonLabel position="floating" itemType="text" placeholder="Número de Documento">Número de Documento</IonLabel>
+                                            <IonLabel position="floating" itemType="text"
+                                                      placeholder="Número de Documento">Número de Documento</IonLabel>
                                             <IonInput
                                                 value={numeroDocumento}
                                                 onKeyUp={keyup_numeroDocumento}

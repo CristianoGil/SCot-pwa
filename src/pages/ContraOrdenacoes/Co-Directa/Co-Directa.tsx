@@ -17,7 +17,6 @@ import {useState} from 'react';
 import './Co-Directa.scss';
 import Menu from '../../../components/Menu/Menu';
 import React from 'react';
-// import ReactPDF, {BlobProvider, pdf, PDFDownloadLink } from '@react-pdf/renderer';
 import Intervenientes from '../../../components/Contra-Ordenacoes/Intervenientes/Intervenientes';
 import {MenuActionsBtnSave} from '../../../components/Contra-Ordenacoes/MenuActionsBtn';
 import DadosInfracao from '../../../components/Contra-Ordenacoes/DadosInfracao/DadosInfracao';
@@ -666,7 +665,7 @@ const CoDirecta: React.FC = () => {
 
                 <DadosInfracao active={activeSegment === 'dados_da_infracao'} setCoDirectaData={setCoDirectaInfracao}/>)
 
-                 <DadosComplementares active={activeSegment === 'dados_complemenatares'} setCoDirectaData={setCoDirectaComplementar} currentdadosInfracao={coDirectaInfracao} currentIntervenientesData={setCoDirectaIntervenientes}/>
+                 <DadosComplementares active={activeSegment === 'dados_complemenatares'} setCoDirectaData={setCoDirectaComplementar} currentdadosInfracao={coDirectaInfracao} currentIntervenientesData={coDirectaIntervenientes}/>
 
 
             </IonContent>

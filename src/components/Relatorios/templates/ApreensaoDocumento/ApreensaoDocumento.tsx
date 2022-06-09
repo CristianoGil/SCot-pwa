@@ -1,15 +1,22 @@
+import {dateFormat} from '../../../../utils/apex-formatters'
+
 interface IProps {
-    assinaturaFeiDepositario?: string
-    assinaturaTestemunha_1?: string
-    assinaturaTestemunha_2?: string
-    assinaturaAgente?: string
     data: any
 }
 
 export const ApreensaoDocumento: React.FC<IProps> = (props) => {
-    const {assinaturaFeiDepositario, assinaturaTestemunha_1, assinaturaTestemunha_2, assinaturaAgente, data} = props;
+    const {data} = props;
+
+    const hiddenCss = {
+        fontWeight: 600,
+        opacity: 0,
+        position: "fixed" as "fixed",
+        left: "-50%"
+    }
+
+    console.log("ApreensaoDocumento: ", data)   
     return (
-        <table width="100%" cellPadding={0} cellSpacing={0}>
+        <table style={hiddenCss} width="100%" cellPadding={0} cellSpacing={0}>
             <tbody>
             <tr>
                 <td width="50%"/>
@@ -164,7 +171,7 @@ export const ApreensaoDocumento: React.FC<IProps> = (props) => {
                                                                 <tbody>
                                                                 <tr
                                                                     role="none"
-                                                                       
+
                                                                     style={{height: 0}}
                                                                 >
                                                                     <td style={{width: 1}}></td>
@@ -204,7 +211,7 @@ export const ApreensaoDocumento: React.FC<IProps> = (props) => {
                                                                 <tbody>
                                                                 <tr
                                                                     role="none"
-                                                                       
+
                                                                     style={{height: 0}}
                                                                 >
                                                                     <td style={{width: 100}}></td>
@@ -265,6 +272,7 @@ export const ApreensaoDocumento: React.FC<IProps> = (props) => {
                                                                         </div>
                                                                     </td>
                                                                 </tr>
+
                                                                 <tr style={{height: 1}}>
                                                                     <td/>
                                                                 </tr>
@@ -333,7 +341,7 @@ export const ApreensaoDocumento: React.FC<IProps> = (props) => {
                                                                 <tbody>
                                                                 <tr
                                                                     role="none"
-                                                                       
+
                                                                     style={{height: 0}}
                                                                 >
                                                                     <td style={{width: 280}}></td>
@@ -388,7 +396,7 @@ export const ApreensaoDocumento: React.FC<IProps> = (props) => {
                                                                 <tbody>
                                                                 <tr
                                                                     role="none"
-                                                                       
+
                                                                     style={{height: 0}}
                                                                 >
                                                                     <td style={{width: 110}}></td>
@@ -403,13 +411,13 @@ export const ApreensaoDocumento: React.FC<IProps> = (props) => {
                                                                             verticalAlign: "middle",
                                                                             pointerEvents: "auto"
                                                                         }}
-                                                                    >          <img style={{
+                                                                    ><img style={{
                                                                         position: "absolute",
                                                                         top: "-14px",
                                                                         width: "auto",
                                                                         height: 59
                                                                     }}
-                                                                                    src={"assets/icon/relatorios/BRASAO.png"}/>
+                                                                          src={"assets/icon/relatorios/BRASAO.png"}/>
                                                                     </td>
                                                                     <td/>
                                                                 </tr>
@@ -448,9 +456,14 @@ export const ApreensaoDocumento: React.FC<IProps> = (props) => {
                                                     style={{
                                                         pointerEvents: "auto",
                                                         textIndent: 0,
-                                                        textAlign: "left"
+                                                        textAlign: "left",
+                                                        fontSize: 12,
+                                                        height: 36,
+                                                        overflow: "hidden"
                                                     }}
-                                                />
+                                                >
+                                                    DIVISÃO DE TRÂNSITO E SEGURANÇA RODOVIÁRIA
+                                                </td>
                                             </tr>
                                             <tr style={{height: 1}}>
                                                 <td/>
@@ -621,7 +634,7 @@ export const ApreensaoDocumento: React.FC<IProps> = (props) => {
                                       lineHeight: "1.1640625"
                                   }}
                               >
-                                Data/Hora
+                                Data/Hora:
                               </span>
                                                 </td>
                                                 <td
@@ -632,7 +645,7 @@ export const ApreensaoDocumento: React.FC<IProps> = (props) => {
                                                         verticalAlign: "middle",
                                                         textAlign: "left"
                                                     }}
-                                                />
+                                                >{dateFormat(data?.infracao?.unidadeData?.dataHoraInfraccao, 'YYYY-MM-DD[/]HH[h]mm')}</td>
                                                 <td
                                                     rowSpan={2}
                                                     style={{
@@ -650,7 +663,7 @@ export const ApreensaoDocumento: React.FC<IProps> = (props) => {
                                       lineHeight: "1.1640625"
                                   }}
                               >
-                                Autuante
+                                Autuante:
                               </span>
                                                 </td>
                                                 <td/>
@@ -663,7 +676,7 @@ export const ApreensaoDocumento: React.FC<IProps> = (props) => {
                                                         verticalAlign: "middle",
                                                         textAlign: "left"
                                                     }}
-                                                />
+                                                >{data?.infracao?.infracaoData?.autuante}</td>
                                             </tr>
                                             </tbody>
                                         </table>
@@ -725,7 +738,7 @@ export const ApreensaoDocumento: React.FC<IProps> = (props) => {
                                 Local:
                               </span>
                                                 </td>
-                                                <td/>
+                                                <td>{data?.infracao?.localInfracaoData?.tipo?.descricao}, {data?.infracao?.localInfracaoData?.arruamento}, {data?.infracao?.localInfracaoData?.numeroPolicia}, {data?.infracao?.localInfracaoData?.localidade}</td>
                                             </tr>
                                             </tbody>
                                         </table>
@@ -925,7 +938,8 @@ export const ApreensaoDocumento: React.FC<IProps> = (props) => {
                                     verticalAlign: "middle",
                                     textAlign: "left"
                                 }}
-                            />
+                            >{data?.accoesCom?.motivosApreensao}
+                            </td>
                             <td/>
                         </tr>
                         <tr style={{height: 1}}>
@@ -1017,7 +1031,7 @@ export const ApreensaoDocumento: React.FC<IProps> = (props) => {
                           lineHeight: "1.1640625"
                       }}
                   >
-                    Matrícula
+                    Matrícula:
                   </span>
                             </td>
                             <td
@@ -1027,7 +1041,7 @@ export const ApreensaoDocumento: React.FC<IProps> = (props) => {
                                     verticalAlign: "middle",
                                     textAlign: "left"
                                 }}
-                            />
+                            >{data?.intervenientes?.veiculo?.matricula}</td>
                             <td/>
                             <td
                                 colSpan={2}
@@ -1045,7 +1059,7 @@ export const ApreensaoDocumento: React.FC<IProps> = (props) => {
                           lineHeight: "1.1640625"
                       }}
                   >
-                    País de
+                    País de origem:
                   </span>
                             </td>
                             <td
@@ -1055,7 +1069,7 @@ export const ApreensaoDocumento: React.FC<IProps> = (props) => {
                                     verticalAlign: "middle",
                                     textAlign: "left"
                                 }}
-                            />
+                            >{data?.intervenientes?.veiculo?.pais?.descricao}</td>
                             <td/>
                             <td
                                 style={{
