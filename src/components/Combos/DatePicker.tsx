@@ -9,6 +9,7 @@ interface IPROPSLocalEmissao {
     textLabel?: string
     selected?: any
     setSelected?: any
+    disabled?: boolean
 }
 
 const formatDate = (value: string) => {
@@ -23,7 +24,7 @@ const DatePicker: React.FC<IPROPSLocalEmissao> =  (props) => {
                 <IonIcon icon={calendar}/>
             </IonButton>
             <IonPopover trigger={`open-${props.inputName}`} showBackdrop={false}>
-                <IonDatetime presentation="date" onIonChange={ev => props.setSelected(dateFormat(`${ev.detail.value}`, 'YYYY/MM/DD'))}
+                <IonDatetime presentation="date" onIonChange={ev => props.setSelected(dateFormat(`${ev.detail.value}`, 'YYYY/MM/DD'))} disabled={props.disabled}
                 />
             </IonPopover>
         </IonItem>

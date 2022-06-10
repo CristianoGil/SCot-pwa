@@ -348,7 +348,7 @@ const LocalInfraccao: React.FC<LocalInfracaoData> = (props) => {
                             <IonItem className="componentError" lines="none" hidden={inputValidations_LocalInfraccao.localidade_isValid}>Campo obrigatório</IonItem>
                         </IonCol>
 
-                        <IonCol size-sm="9" size-md="12" size-lg="4">
+                        <IonCol size-sm="9" size-md="12" size-lg="4" style={{marginTop: 11}}>
                             <IonItem>
                                 <IonLabel position="floating" itemType="number" placeholder="Nº Polícia">Nº Polícia/km</IonLabel>
                                 <IonInput  onKeyUp={keyup_nrPolicia}
@@ -356,7 +356,7 @@ const LocalInfraccao: React.FC<LocalInfracaoData> = (props) => {
                             </IonItem>
                         </IonCol>
 
-                        <IonCol size-sm="9" size-md="12" size-lg="4">
+                        <IonCol size-sm="9" size-md="12" size-lg="4" style={{ marginTop: 11 }}>
                             <IonItem>
                                 <IonLabel position="floating" itemType="text" placeholder="Nº Polícia">Zona/Bairro</IonLabel>
                                 <IonInput   onKeyUp={keyup_zona} value={zona}></IonInput>
@@ -380,7 +380,7 @@ const LocalInfraccao: React.FC<LocalInfracaoData> = (props) => {
                             <IonItem className="componentError" lines="none" hidden={inputValidations_LocalInfraccao.tipo_isValid}>Campo obrigatório</IonItem>
                         </IonCol>
 
-                        <IonCol size-sm='8' size-md='6' size-lg='4'>
+                        <IonCol size-sm='8' size-md='6' size-lg='4' style={{ marginTop: 11 }}>
                             <IonItem>
                                 <IonButton color='medium' fill="clear" id="open-search-input-1">
                                     <IonIcon icon={search} />
@@ -396,7 +396,7 @@ const LocalInfraccao: React.FC<LocalInfracaoData> = (props) => {
                             </IonItem>
                             <IonItem className="componentError" lines="none" hidden={inputValidations_LocalInfraccao.arruamento_isValid}>Campo obrigatório</IonItem>
                         </IonCol>
-                        <IonCol size-sm='4' size-md='6' size-lg='2'>
+                        <IonCol size-sm='4' size-md='6' size-lg='2' style={{ marginTop: 18 }}>
                             <IonItem lines='none'>
                                 <IonButton style={{ background: '#084F87', borderRadius: 4 }}
                                     color="#084F87"

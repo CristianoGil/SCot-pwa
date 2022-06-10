@@ -10,6 +10,7 @@ interface IPROPSLocalEmissao {
     selected?: any
     setSelected?: any
     textLabel?: string
+    disabled?: boolean
 }
 
 interface ILocalEmissao {
@@ -39,7 +40,8 @@ const LocalEmissao: React.FC<IPROPSLocalEmissao> = (props: IPROPSLocalEmissao) =
                        onIonChange={(e) => {
                            let value = (combos || []).find((d )=> d.id === e.detail.value)
                            props.setSelected(value)
-                       }}
+                }}
+                disabled={props.disabled}
             >
 
                 {(combos || []).map((local: any) => {

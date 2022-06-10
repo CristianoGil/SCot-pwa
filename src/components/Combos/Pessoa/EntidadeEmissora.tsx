@@ -10,6 +10,7 @@ interface IPROPSEntidadeEmissora {
     selected?:any
     setSelected?:any
     textLabel?: string
+    disabled?: boolean
 }
 
 interface IEntidadeEmissora {
@@ -37,10 +38,11 @@ const EntidadeEmissora: React.FC<IPROPSEntidadeEmissora> = (props: IPROPSEntidad
         <IonItem>
             <IonLabel position="floating">{props.textLabel}</IonLabel>
             <IonSelect interfaceOptions={customPopoverOptions} name={props.inputName} value={props.selected?.id} interface={props.interface}
-                       onIonChange={(e) => {
-                           let value = (combos || []).find((d )=> d.id === e.detail.value)
-                           props.setSelected(value)
-                       }}
+                onIonChange={(e) => {
+                    let value = (combos || []).find((d) => d.id === e.detail.value)
+                    props.setSelected(value)
+                }}
+                disabled={props.disabled}
             >
 
                 {(combos || []).map((entidade: any) => {

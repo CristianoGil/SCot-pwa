@@ -241,7 +241,7 @@ const InformacoesAdicionais: React.FC<IInformacoesAdicionais> = (props) => {
                             </IonItem>
                         </IonCol>
 
-                        <IonCol size-sm='12' size-md="4" size-lg="3" style={{ marginTop: 16 }}>
+                        <IonCol size-sm='12' size-md="4" size-lg="3" style={{ marginTop: 5 }}>
                             <Pais
                                 selected={paisEmissao}
                                 setSelected={setPaisEmissao}

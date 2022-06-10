@@ -24,7 +24,6 @@ const getTituloConducaoPrincipal = (tituloCo: any): IDocumentoPessoa | undefined
     })
 }
 
-
 const TituloConducao: React.FC<ITituloConducao> = (props) => {
 
     const [isPresentedTituloConducao, setIsPresentedTituloCOnducao] = useState(false);
@@ -47,10 +46,19 @@ const TituloConducao: React.FC<ITituloConducao> = (props) => {
     // Date
     const [dataEmissao, setDataEmissao] = useState<any>();
 
+    // Desabilita componentes
+    const [paisEmissaoIsPortugal, setPaisEmissaoIsPortugal] = useState<boolean>(false);
+
+    React.useEffect(() => {
+        setTimeout(function () {
+            setTituloConducao({ id: 5, descricao: 'Carta de Condução' });
+        }, 2000);
+    }, [])
+
     React.useEffect(() => {
         if (props.currentDocumentosData) {
             const tituloCo = getTituloConducaoPrincipal(props.currentDocumentosData);
-
+            
             if (tituloCo) {
                 setTituloConducao(tituloCo?.tipoDocumento);
                 setNumero(tituloCo?.numero);
@@ -63,14 +71,26 @@ const TituloConducao: React.FC<ITituloConducao> = (props) => {
     }, [props.currentDocumentosData])
 
     React.useEffect(() => {
+
+        if (paisEmissao != undefined) {
+
+            if (paisEmissao.descricao == 'Portugal') {
+                setPaisEmissaoIsPortugal(true);
+            } else {
+                setPaisEmissaoIsPortugal(false);
+            }
+        } else {
+            setPaisEmissaoIsPortugal(false);
+        }
+ 
         const _data = {
             isPresentedTituloConducao,
             tituloConducao: tituloConducao,
             numero,
-            paisEmissao:  paisEmissao,
+            paisEmissao: paisEmissao,
             entidadeEmissora: entidadeEmissora,
             localEmissao: localEmissao,
-            dataEmissao
+            dataEmissao: dataEmissao
         }
 
         if (_.has(props, 'setParentTituloConducaoData')) {
@@ -140,7 +160,9 @@ const TituloConducao: React.FC<ITituloConducao> = (props) => {
                                 setSelected={setEntidadeEmissora}
                                 inputName={'tituloConducao-entidadeEmissora'}
                                 textLabel={'Entidade emissora'}
-                                interface="popover" />
+                                interface="popover"
+                                disabled={paisEmissaoIsPortugal}
+                            />
                         </IonCol>
 
                         <IonCol size-sm='12' size-md='12' size-lg='4'>
@@ -149,7 +171,9 @@ const TituloConducao: React.FC<ITituloConducao> = (props) => {
                                 setSelected={setLocalEmissao}
                                 inputName={'tituloConducao-localEmissao'}
                                 textLabel={'Local de emissão'}
-                                interface="popover" />
+                                interface="popover"
+                                disabled={paisEmissaoIsPortugal}
+                            />
                         </IonCol>
 
                         <IonCol size-sm='12' size-md='12' size-lg='4'>
@@ -157,7 +181,9 @@ const TituloConducao: React.FC<ITituloConducao> = (props) => {
                                 selected={dataEmissao}
                                 setSelected={setDataEmissao}
                                 inputName={'tituloConducao-dataEmissao'}
-                                textLabel="Data de emissão" />
+                                textLabel="Data de emissão"
+                                disabled={paisEmissaoIsPortugal}
+                            />
                         </IonCol>
 
                     </IonRow>

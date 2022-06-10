@@ -18,7 +18,7 @@ const DocumentoIdentificacao: React.FC<IDocumentoIdentificacao> = (props) => {
 
     const [isPresentedDocumentoIdentificacao, setIsPresentedDocumentoIdentificacao] = useState(false);
     // Pais de emissao
-    const [paisDeEmissao, setPaisDeEmissao] = useState<string>();
+    const [paisDeEmissao, setPaisDeEmissao] = useState<any>();
 
     // Docs ID
     const [docIdentificacao, setDocIdentificacao] = useState<any>();
@@ -35,7 +35,22 @@ const DocumentoIdentificacao: React.FC<IDocumentoIdentificacao> = (props) => {
     // Data de emissao
     const [dataEmissao, setDataEmissao] = useState<any>();
 
+    // Desabilita componentes
+    const [paisEmissaoIsPortugal, setPaisEmissaoIsPortugal] = useState<boolean>(false);
+
     React.useEffect(() => {
+
+        if (paisDeEmissao != undefined) {
+
+            if (paisDeEmissao.descricao == 'Portugal') {
+                setPaisEmissaoIsPortugal(true);
+            } else {
+                setPaisEmissaoIsPortugal(false);
+            }
+        } else {
+            setPaisEmissaoIsPortugal(false);
+        }
+
         const _data = {
             isPresentedDocumentoIdentificacao,
             docIdentificacao: docIdentificacao,
@@ -112,7 +127,9 @@ const DocumentoIdentificacao: React.FC<IDocumentoIdentificacao> = (props) => {
                                 setSelected={setEntidadeEmissora}
                                 inputName={'docIdentificacao-entidadeEmissora'}
                                 textLabel={'Entidade de Emissora'}
-                                interface="popover" />
+                                interface="popover"
+                                disabled={paisEmissaoIsPortugal}
+                            />
                         </IonCol>
 
                         <IonCol size-sm='12' size-md='12' size-lg='4'>
@@ -121,7 +138,9 @@ const DocumentoIdentificacao: React.FC<IDocumentoIdentificacao> = (props) => {
                                 setSelected={setLocalEmissao}
                                 inputName={'docIdentificacao-localEmissao'}
                                 textLabel={'Local de Emissão'}
-                                interface="popover" />
+                                interface="popover"
+                                disabled={paisEmissaoIsPortugal}
+                            />
                         </IonCol>
 
                         <IonCol size-sm='12' size-md='12' size-lg='4'>
@@ -129,7 +148,9 @@ const DocumentoIdentificacao: React.FC<IDocumentoIdentificacao> = (props) => {
                                 selected={dataEmissao}
                                 setSelected={setDataEmissao}
                                 inputName={'docIdentificacao-dataEmissao'}
-                                textLabel="Data de Emissão" />
+                                textLabel="Data de Emissão"
+                                disabled={paisEmissaoIsPortugal}
+                            />
                         </IonCol>
 
                     </IonRow>
