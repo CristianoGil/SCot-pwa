@@ -1,6 +1,6 @@
 import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCol, IonGrid, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonListHeader, IonRadio, IonRadioGroup, IonRow, IonSelect, IonSelectOption, IonTextarea } from "@ionic/react";
 import { search, text } from "ionicons/icons";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { useState } from "react";
 import { Contraordenacao } from "../../../../api/Contraordenacao";
 import { useAppSelector } from "../../../../app/hooks";
@@ -56,13 +56,14 @@ const Infraccao: React.FC<InfracaoData> = (props) => {
     const [comarca, setComarca] = useState<number>();
     const [comarcaDto, setComarcaDto] = useState<ComonResult>();
     const [comarcasPadrao, setComarcasPadrao] = useState<ComonResult[]>();
-    const [entidades, setEntidades] = useState<ComonResult[]>();
+    const [entidades, setEntidades] = useState(userContext.user.entidade);
     const [tiposInfracao, setTiposInfracao] = useState<ComonResult[]>();
+    const [tipoInfracao, setTipoInfracao] = useState<ComonResult>();
     const [subtiposInfracao, setSubTiposInfracao] = useState<Subtificacao[]>();
     const [subtiposInfracaoPadrao, setSubtiposInfracaoPadrao] = useState<Subtificacao[]>();
 
     const [autuante, setAutuante] = useState(userContext.user.nomeUsuario);
-    const [codigoDgv, setCodigoDgv] = useState();
+    const [codigoDgv, setCodigoDgv] = useState<number | undefined>();
     const [descricaoSumaria, setDescricaoSumaria] = useState<string | undefined | null>();
     const [normaQuePreveContraOrdenacao, setNormaQuePreveContraOrdenacao] = useState<string | undefined | null>();
     const [entidade, setEntidade] = useState<ComonResult>();
@@ -104,8 +105,25 @@ const Infraccao: React.FC<InfracaoData> = (props) => {
 
     const getInfracao = async (): Promise<InfracaoResponse> => await new Contraordenacao().carregarCombosInfracao()
     React.useEffect(() => {
+       
+        if (props.currentComarca) {
+            const comarcaSelecionada = comarcasPadrao?.find(c =>{ return c.id === props.currentComarca})
+            setComarca(comarcaSelecionada?.id)
+            setComarcaDto(comarcaSelecionada)
+        }
+        
+        // entidade
+
+    }, [props.currentComarca]);
+
+    useEffect(()=>{
+         
         getInfracao().then((response_infracao) => {
             setEntidades(response_infracao?.entidades)
+          
+            let entidadeDoUtilizadorLogado = userContext.user.entidade;
+            entidadeDoUtilizadorLogado = entidades?.find((e: { descricao: any; })=> e?.descricao ===entidadeDoUtilizadorLogado?.descricao)
+            setEntidade(entidadeDoUtilizadorLogado)
             setComarcas(response_infracao?.comarcas)
             setComarcasPadrao(response_infracao?.comarcas)
             setTiposInfracao(response_infracao?.tipificacoes)
@@ -115,44 +133,58 @@ const Infraccao: React.FC<InfracaoData> = (props) => {
             console.error("Load infracao combos: \n", error);
         })
 
-        if (props.currentComarca) {
-            const comarcaSelecionada = comarcasPadrao?.find(c => { return c.id === props.currentComarca })
-            setComarca(comarcaSelecionada?.id)
-            setComarcaDto(comarcaSelecionada)
-        }
+    },[])
 
-    }, [props.currentComarca]);
-
-
-
+   const fillInfracaoData = (subtificacao:Subtificacao | undefined)=>{
+    setDescricao(subtificacao?.observacoes)
+    setMinValor(subtificacao?.montanteDaCoimaMinima)
+    setMaxValor(subtificacao?.montanteDaCoimaMaxima)
+    setNormaInfrigida(subtificacao?.normaInfringida)
+    setNormaPrevista(subtificacao?.normaPrevista)
+    setSancaoAcessoria(subtificacao?.sancaoAcessoria)
+    setNormaSancaoAcessoria(subtificacao?.normaQuePreveSancaoAcessoria)
+    setObservacao(subtificacao?.observacoes)
+    setNormaQuePreveContraOrdenacao(subtificacao?.normaQuePreveContraOrdenacao)
+    setDescricaoSumaria(subtificacao?.descricaoSumaria)
+    setSubTipoInfracao(subtificacao)
+    setCodigoDgv(subtificacao?.codigoDgv)
+   }
     const onchange_subtificacao = (e: any) => {
-        const subtificaoId = e.target.value
-        let subtificacao: Subtificacao | undefined = subtiposInfracao?.find(subtipo => subtipo.id === subtificaoId)
-        setDescricao(subtificacao?.observacoes)
-        setMinValor(subtificacao?.montanteDaCoimaMinima)
-        setMaxValor(subtificacao?.montanteDaCoimaMaxima)
-        setNormaInfrigida(subtificacao?.normaInfringida)
-        setNormaPrevista(subtificacao?.normaPrevista)
-        setSancaoAcessoria(subtificacao?.sancaoAcessoria)
-        setNormaSancaoAcessoria(subtificacao?.normaQuePreveSancaoAcessoria)
-        setObservacao(subtificacao?.observacoes)
-        setNormaQuePreveContraOrdenacao(subtificacao?.normaQuePreveContraOrdenacao)
-        setDescricaoSumaria(subtificacao?.descricaoSumaria)
-        setSubTipoInfracao(subtificacao)
+        const subtificacaoSelected = e.target.value;
+        setSubTipoInfracao(subtificacaoSelected)
+        fillInfracaoData(subtificacaoSelected)
     }
+
+    const onChange_comarca =(e:any)=>{
+        setComarcaDto(e.target.value)
+
+    }
+    const onChange_entidade =(e:any)=>{
+        setEntidade(e.target.value)
 
     const onKeyUp_autuante = (e: any) => {
         setAutuante(autuante)
     }
     const onKeyUp_codigoDgv = (e: any) => {
         setCodigoDgv(e.target.value)
-    }
+        console.log(codigoDgv)
+      }
 
+      const onClick_pesquisarTipificacao=()=>{
+         const subtificacao = subtiposInfracaoPadrao?.filter(s=> {return String(s?.codigoDgv)=== String(codigoDgv)})[0]
+         setSubtipoInfracao(subtificacao)
+         setTipificacao(subtificacao?.tipificacao)
+         fillInfracaoData(subtificacao)
+ 
+        }
+
+   
     const onchange_filtrarSubtificacaoPorTipificacao = (e: any) => {
         const infracaoId = e.target.value
         const subTipos = subtiposInfracaoPadrao?.filter(sub => { return sub.tipificacao.id === infracaoId })
         setTipificacao(tiposInfracao?.find(t => t.id === infracaoId))
         setSubTiposInfracao(subTipos)
+    
     }
 
     return (
@@ -198,9 +230,16 @@ const Infraccao: React.FC<InfracaoData> = (props) => {
 
                         <IonCol size-sm='12' size-md='10' size-lg='3' style={{ marginTop: 5 }}>
                             <IonItem>
-                                <IonLabel position="floating">Comarca *</IonLabel>
-                                <IonSelect interfaceOptions={customPopoverOptions} interface="popover" selectedText={comarcaDto?.descricao}>
-                                    <IonSelectOption value={comarcaDto?.id}>{comarcaDto?.descricao}</IonSelectOption>
+                            <IonLabel>Comarca *</IonLabel>
+                                <IonSelect interface="popover" selectedText={comarcaDto?.descricao} onIonChange={onChange_comarca} >
+                                            {/* <IonSelectOption value={comarcaDto}>{comarcaDto?.descricao}</IonSelectOption> */}
+                                            {comarcas?.map((local: any) => {
+                                        return (
+                                            <IonSelectOption key={`${local.id}`}
+                                                value={local}>{`${local.descricao}`}</IonSelectOption>
+                                        )
+                                    })}
+
                                 </IonSelect>
                             </IonItem>
                             <IonItem className="componentError" lines="none" hidden={inputValidations_LocalInfraccao.comarca_isValid}>Campo obrigatório</IonItem>
@@ -208,12 +247,12 @@ const Infraccao: React.FC<InfracaoData> = (props) => {
 
                         <IonCol size-sm='12' size-md='10' size-lg='3' style={{ marginTop: 4 }}>
                             <IonItem>
-                                <IonLabel position="floating">Entidade</IonLabel>
-                                <IonSelect interfaceOptions={customPopoverOptions} interface="popover" onIonChange={(e) => setEntidade(e.detail.value)}>
+                                <IonLabel>Entidade</IonLabel>
+                                <IonSelect interface="popover" value={entidade} onIonChange={onChange_entidade} selectedText={entidade?.descricao}>
                                     {entidades?.map((local: any) => {
                                         return (
                                             <IonSelectOption key={`${local.id}`}
-                                                value={JSON.stringify({ id: local.id, descricao: local.descricao })}>{`${local.descricao}`}</IonSelectOption>
+                                                value={local}>{`${local.descricao}`}</IonSelectOption>
                                         )
                                     })}
                                 </IonSelect>
@@ -228,12 +267,11 @@ const Infraccao: React.FC<InfracaoData> = (props) => {
                                 <IonButton color='medium' fill="clear" id="open-search-input-1">
                                     <IonIcon icon={search} />
                                 </IonButton>
-                                <IonInput maxlength={9}
+                                <IonInput maxlength={15}
                                     minlength={9}
                                     required={true}
-                                    clearInput={true}
-                                    name='arguido-nif'
-                                    value={arguidoNif}
+                                    name='codigo-dgv'
+                                    value={codigoDgv}
                                     onKeyUp={onKeyUp_codigoDgv}
                                     placeholder='Código' />
                             </IonItem>
@@ -245,18 +283,18 @@ const Infraccao: React.FC<InfracaoData> = (props) => {
                                     slot="start"
                                     //    disabled={}
                                     size='default'
-                                    onClick={() => { }}> Pesquisar </IonButton>
+                                    onClick={onClick_pesquisarTipificacao}> Pesquisar </IonButton>
 
                             </IonItem>
                         </IonCol>
                         <IonCol size-sm='12' size-md='10' size-lg='6' style={{ marginTop: -12 }}>
                             <IonItem>
-                                <IonLabel position="floating">Tipificação da Infracção *</IonLabel>
-                                <IonSelect interfaceOptions={customPopoverOptions} interface="popover" onIonChange={onchange_filtrarSubtificacaoPorTipificacao}>
+                                <IonLabel>Tipificação da Infracção *</IonLabel>
+                                <IonSelect interface="popover"  value={tipificacao} onIonChange={onchange_filtrarSubtificacaoPorTipificacao} selectedText={tipificacao?.descricao}>
                                     {tiposInfracao?.map((local: any) => {
                                         return (
                                             <IonSelectOption key={`${local.id}`}
-                                                value={local.id}>{`${local.descricao}`}</IonSelectOption>
+                                                value={local}>{`${local.descricao}`}</IonSelectOption>
                                         )
                                     })}                                  </IonSelect>
                             </IonItem>
@@ -264,12 +302,12 @@ const Infraccao: React.FC<InfracaoData> = (props) => {
                         </IonCol>
                         <IonCol size-sm='12' size-md='10' size-lg='6' offset="6">
                             <IonItem>
-                                <IonLabel position="floating">Subtipificação da Infracção *</IonLabel>
-                                <IonSelect interfaceOptions={customPopoverOptions} interface="popover" onIonChange={onchange_subtificacao}>
+                                <IonLabel>Subtipificação da Infracção *</IonLabel>
+                                <IonSelect interface="popover" value={subTipoInfracao} onIonChange={onchange_subtificacao} selectedText={subTipoInfracao?.descricao}>
                                     {subtiposInfracao?.map((local: any) => {
                                         return (
                                             <IonSelectOption key={`${local.id}`}
-                                                value={local.id}>{`${local.descricao}`}</IonSelectOption>
+                                                value={local}>{`${local.descricao}`}</IonSelectOption>
                                         )
                                     })}                                  </IonSelect>
                             </IonItem>
