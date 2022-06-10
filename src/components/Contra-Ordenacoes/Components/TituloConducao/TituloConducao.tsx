@@ -52,7 +52,7 @@ const TituloConducao: React.FC<ITituloConducao> = (props) => {
     React.useEffect(() => {
         setTimeout(function () {
             setTituloConducao({ id: 5, descricao: 'Carta de Condução' });
-        }, 2000);
+        }, 4000);
     }, [])
 
     React.useEffect(() => {
